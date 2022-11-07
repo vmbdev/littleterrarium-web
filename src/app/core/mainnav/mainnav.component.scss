@@ -1,0 +1,54 @@
+@use 'src/styles/theming.scss' as t;
+@use 'src/styles/media.scss' as m;
+
+.mainnav {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid darken(#82b04d, 25%);
+  margin-bottom: 25px;
+  background-color: #82b04d;
+  width: 100vw;
+
+  &__left, &__right {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+  }
+
+  &__left {
+    flex: 1;
+  }
+
+  &__right {
+    margin-right: 20px;
+  }
+
+  &__item {
+    font-size: 14pt;
+    font-weight: 500;
+
+    a {
+      @include t.themify {
+        color: t.theme(nav_link_color);
+      }
+      text-decoration: none;
+    }
+  }
+
+  &__brand {
+
+    img {
+      max-height: 80px;
+    }
+  }
+
+  @include m.media('mobile') {
+    & {
+      flex-direction: column;
+    }
+    &__right {
+      flex-direction: column;
+    }
+  }
+}

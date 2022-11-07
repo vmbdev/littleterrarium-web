@@ -1,0 +1,20 @@
+<div class="file-uploader"
+  (dragenter)="dragEnter($event)"
+  (dragover)="dragEnter($event)"
+  (dragleave)="dragLeave($event)"
+  (dragend)="dragLeave($event)"
+  (drop)="dropFile($event)"
+  (dragstart)="$event.preventDefault()"
+  [ngClass]="{ 'file-uploader__over': dragOver }"
+>
+  <div *ngIf="files.length === 0"><b>Select a file or drag it here</b></div>
+  <div *ngIf="files.length > 0">
+    <div *ngFor="let file of files; let i = index" class="file-uploader__file">
+      <span class="file-uploader__filename">{{ file.name }} </span>
+      <span class="file-uploader__removelink" (click)="removeFile(i)">(&ndash;)</span>
+    </div>
+  </div>
+
+  <label for="file-input" class="file-uploader__label">Upload</label>
+  <input type="file" (change)="fileInputChange($event)" id="file-input" [multiple]="amount > 1">
+</div>

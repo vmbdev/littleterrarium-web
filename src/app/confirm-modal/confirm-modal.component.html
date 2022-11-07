@@ -1,0 +1,11 @@
+<div class="confirm-modal">
+  <div class="confirm-modal__container">
+    <div class="confirm-modal__text">
+      <ng-content></ng-content>
+    </div>
+    <div class="confirm-modal__buttons form__button">
+      <button type="button" (click)="acceptEvent()">Accept</button>
+      <button type="button" (click)="cancelEvent()">Cancel</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<form [formGroup]="plantForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
+  <wizard [form]="plantForm">
+    <wizard-header *ngIf="location">
+      Adding photos to <b>{{ location.name }}</b>
+    </wizard-header>
+
+    <page title="Name">
+      <page-description>
+        <p>This is the happy moment when we add our beloved plants. First things first, identify! Want to give it a <b> name</b>?</p>
+        <div class="form__textinput">
+          <input type="text" formControlName="customName" placeholder="Big Fluffy Smelly Geranium">
+        </div>
+      </page-description>
+
+    </page>
+    
+    <page title="Specie">
+      <page-description>
+        <p>Have you identified its specie? Search and select it from the list. You can use <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a> to identify it.</p>
+      </page-description>
+      <specie-finder (selectSpecieId)="selectSpecieId($event)"></specie-finder>
+    </page>
+
+    <page title="Pictures">
+      <page-description>
+        <p>Time to brag about our well-cared, personal jungle.</p>
+        <p>Up to <b>10 pictures</b> at once! Once they're up, you can edit their description and if you need them in a specific order you can define when they were taken.</p>
+      </page-description>
+      <file-uploader [amount]="10" (fileChange)="fileChange($event)"></file-uploader>
+    </page>
+
+    <page title="Public visibility">
+      <page-description>
+        <p>When your plant is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
+        <p>
+          <strong>Note</strong> that your locations has its own privacy settings, and it supersedes the picture's privacy setting, so users can't see the location plant list, but you can share a direct link to this plant.
+        </p>
+      </page-description>
+      <div class="form__checkbox">
+        <input type="checkbox" formControlName="public" id="public-checkbox">
+        <label for="public-checkbox">Publicly visible</label>
+      </div>
+    </page>
+  </wizard>
+</form>

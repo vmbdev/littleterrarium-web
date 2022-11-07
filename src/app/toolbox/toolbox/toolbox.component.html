@@ -1,0 +1,13 @@
+<div class="toolbox">
+  <div class="toolbox__divider">
+    <div class="toolbox__title">
+      <h1 *ngIf="title">{{ title | capitalize }}</h1>
+      <h2 *ngIf="subtitle">{{ subtitle | capitalize }}</h2>
+    </div>
+    <div class="toolbox__buttons">
+      <div *ngFor="let button of buttons">
+        <ng-template [ngTemplateOutlet]="button.buttonTemplate"></ng-template>
+      </div>
+    </div>
+  </div>
+</div>

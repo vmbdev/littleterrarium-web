@@ -1,0 +1,19 @@
+<form [formGroup]="waterForm" method="post" (submit)="submit()">
+  <modal-text>
+    <p>So, first thing first: <strong>NEVER</strong> water your plants on a schedule! <b>Know your plants</b>, check the soil, learn about their necessities, and <b>act accordingly</b>.</p>
+    <p>Many plants are extremely sensitive to overwatering, and many to drought.</p>
+    <p>The watering frequency reminder should be used to remind yourself that your plant exists, and to check whether it requires your attention or not.</p>
+  </modal-text>
+  
+  <div class="form__date">
+    <p>Do you remember <b>when was the last time</b> you watered it?</p>
+    <input type="date" formControlName="waterLast">
+  </div>
+  <div class="form__number">
+    <p><b>How many days</b> should you wait to check your plant again?</p>
+    <input type="number" formControlName="waterFreq">
+  </div>
+  <div class="form__submit">
+    <button>Update</button>
+  </div>
+</form>

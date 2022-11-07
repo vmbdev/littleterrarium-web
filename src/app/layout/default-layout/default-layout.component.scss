@@ -1,0 +1,26 @@
+@use 'src/styles/theming.scss' as t;
+
+.body-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100%;
+  align-items: center;
+
+  font-family: 'Montserrat', sans-serif;
+
+  @include t.themify {
+    background-color: t.theme(main_background);
+    color: t.theme(main_font_color);
+
+    a {
+      color: t.theme(link_color) !important;
+    }
+  }
+
+}
+
+.content-wrapper {
+  width: 80vw;
+  flex: 1;
+}

@@ -1,0 +1,19 @@
+<ng-container *ngIf="plantService.plant$ | async as plant">
+  <confirm-modal *ngIf="confirmFertilizing" (accept)="addFertilizer()" (cancel)="confirmFertilizing = false">
+    This will update your <b>last time fertilized</b> to today.
+  </confirm-modal>
+
+  <widget-box image="/assets/fertilizer.png">
+    <div>
+      <p *ngIf="plant.fertLast">Last time: {{ plant.fertLast | date }}</p>
+      <p *ngIf="plant.fertFreq">Fertilize every {{ plant.fertFreq }} days</p>
+      <p *ngIf="plant.fertType">{{ plant.fertType }}</p>
+    </div>
+    <div bottom>
+      <p *ngIf="nextFertilizing() as nextF">
+        Next time: <span [ngStyle]="{ 'color' : nextF.due ? 'red' : null }">{{ nextF.text }}</span>
+      </p>
+      <plus-button *ngIf="this.plantService.owned" type="add" title="Fertilize" (click)="confirmFertilizing = true"></plus-button>
+    </div>
+  </widget-box>
+</ng-container>

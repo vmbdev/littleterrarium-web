@@ -1,0 +1,57 @@
+@use 'src/styles/media.scss' as m;
+@use 'src/styles/theming.scss' as t;
+
+.toolbox {
+  margin: 10px;
+  padding: 10px 10px;
+  box-sizing: border-box;
+
+  @include t.themify {
+    border-bottom: 1px solid t.theme(main_font_color);
+  }
+
+  &__divider {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__title {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    color: darken(gray, 15%);
+
+    h1 {
+      margin: 0;
+    }
+
+    h2 {
+      margin: 6px 0 0 0;
+      font-weight: 400;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @include m.media('mobile') {
+    &__divider {
+      flex-direction: column;
+    }
+
+    &__title {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    &__buttons {
+      justify-content: center;
+    }
+  }
+}

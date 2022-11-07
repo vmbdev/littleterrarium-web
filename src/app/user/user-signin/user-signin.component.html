@@ -1,0 +1,31 @@
+<form #signinForm="ngForm" (ngSubmit)="onSubmit(signinForm)" class="form" novalidate>
+  <div class="signinForm">
+    <div class="signinForm__container">
+      <div class="signinForm__center">
+        <h1>Welcome back!</h1>
+      </div>
+      <div class="form__textinput">
+        <p>Username or email</p>
+        <input type="text" name="username" placeholder="Username or email" [ngClass]="{ 'form__error': controls.usernameEmpty }" required ngModel>
+      </div>
+      <div class="form__textinput">
+        <p>Password</p>
+        <input type="password" name="password" placeholder="Password" [ngClass]="{ 'form__error': controls.passwordEmpty }" required ngModel>
+      </div>
+      <div *ngIf="authInvalid" class="signinForm__center form__errormsg">
+        Sorry, the credentials are not valid.
+      </div>
+      <div class="form__submit">
+        <button [disabled]="!signinForm.valid">Sign in</button>
+      </div>
+      <div class="signinForm__center">
+        <p>
+          <a routerLink="/register">Don't have an account? <b>Sign up!</b></a>
+        </p>
+        <p>
+          <a routerLink="/user/retrievepwd">Forgot your password?</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</form>

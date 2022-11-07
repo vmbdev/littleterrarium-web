@@ -1,0 +1,13 @@
+@use 'src/styles/variables.scss' as var;
+@use 'src/styles/media.scss' as m;
+
+.plant {
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 350px);
+    grid-auto-rows: minmax(min-content, max-content);
+    gap: 15px;
+    justify-content: center;
+    padding-top: 10px;
+  }
+}

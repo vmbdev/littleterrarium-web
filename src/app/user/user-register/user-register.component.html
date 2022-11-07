@@ -1,0 +1,61 @@
+<form [formGroup]="userForm" (ngSubmit)="submit()" method="post">
+  <wizard [form]="userForm" [moveTo]="wizardPage" (indexChange)="indexChange()">
+    <page title="Username" control="username">
+      <page-description>
+        <p>We are looking forward to welcoming you to our family!</p>
+        <p>First of all, let's decide on your <b>username</b>. It may be the moniker you've been using for the last 20 years or something like your Instagram username</p>
+      </page-description>
+
+      <div class="form__textinput">
+        <input type="textinput" formControlName="username">
+        <p *ngIf="errors.username" class="form__errormsg">Sorry, your username already exists. Please choose another.</p>
+      </div>
+    </page>
+
+    <page title="E-mail" control="email">
+      <page-description>
+        <p>This is how we identify you uniquely, and it's needed to receive notifications and to reset your password in case you forget it.</p>
+      </page-description>
+
+      <div class="form__textinput">
+        <input type="email" formControlName="email">
+        <p *ngIf="errors.email" class="form__errormsg">Sorry, your e-mail already exists in our system. Are you sure you don't have an account already?</p>
+      </div>
+    </page>
+
+    <page title="Password" control="password">
+      <page-description>
+        <p><b>We're almost there</b>. Last but not least, a <b>password</b> to protect your access</p>
+        <p>
+          <ng-container *ngIf="havePasswordConditions()">
+            Password must contain:
+            <ul>
+
+              <li [ngClass]="{ 'form__errormsg': userForm.get('passwordCheck')?.get('password')?.hasError('minLength') }">
+                Password must be at least <b>{{ pwdReq?.minLength }} characters</b> long
+              </li>
+              <li [ngClass]="{ 'form__errormsg': userForm.get('passwordCheck')?.get('password')?.hasError('missingUppercase') }">
+                {{ pwdReq.requireUppercase ? 'One uppercase' : '' }}
+              </li>
+              <li [ngClass]="{ 'form__errormsg': userForm.get('passwordCheck')?.get('password')?.hasError('missingNumber') }">
+                {{ pwdReq.requireNumber ? 'One number' : '' }}
+              </li>
+              <li [ngClass]="{ 'form__errormsg': userForm.get('passwordCheck')?.get('password')?.hasError('missingNonAlphanumeric') }">
+                {{ pwdReq.requireUppercase ? 'One non-alphanumeric character' : '' }}
+              </li>
+            </ul>
+          </ng-container>
+        </p>
+      </page-description>
+
+      <ng-container formGroupName="passwordCheck">
+        <div class="form__textinput">
+          <input type="password" formControlName="password" placeholder="Your password">
+        </div>
+        <div class="form__textinput">
+          <input type="password" formControlName="password2" placeholder="Again, your password">
+        </div>
+      </ng-container>
+    </page>
+  </wizard>
+</form>

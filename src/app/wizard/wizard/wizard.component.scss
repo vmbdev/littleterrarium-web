@@ -1,0 +1,62 @@
+@use 'src/styles/media.scss' as m;
+@use 'src/styles/form.scss';
+
+.multiform {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    border-top: 4px solid #3D8361;
+    border-right: 1px solid #3D8361;
+    padding: 20px 30px;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+  }
+  
+  &__content {
+    flex: 1;
+    // overflow-y: auto;
+  }
+
+  &__navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
+  }
+
+  &__pagination {
+    text-align: center;
+  }
+
+  &__hidden {
+    visibility: hidden;
+    display: none;
+  }
+
+  &__visible {
+    visibility: visible;
+    display: block;
+  }
+
+  &__preview {
+    &-hidden {
+      visibility: hidden;
+    }
+  }
+
+  @include m.media('mobile') {
+    & {
+      height: 100%;
+
+      &__container {
+        width: 100%;
+      }
+    }
+  }
+}

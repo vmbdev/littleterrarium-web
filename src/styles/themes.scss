@@ -1,0 +1,31 @@
+$themes: (
+  light: (
+    main_color: #4D96FF,
+    main_font_color: #3c6478,
+    secondary_color: #82b04d,
+    main_background: white,
+    footer_background: rgb(27 120 194),
+    footer_text: white,
+    footer_link: #A7C6E5,
+    brand_color: #200045,
+    link_color: black,
+    nav_link_color: black,
+    picturebox_cover: rgba(0, 0, 0, 0.7),
+    picturebox_content: white,
+  ),
+  dark: (
+    main_color: #610094,
+    main_font_color: white,
+    secondary_color: #82b04d,
+    main_background: #131313,
+    main_textcolor: white,
+    footer_background: #150050,
+    footer_text: white,
+    footer_link: #bea14f,
+    brand_color: white,
+    link_color: white,
+    nav_link_color: black,
+    picturebox_cover: rgba(0, 0, 0, 0.6),
+    picturebox_content: white,
+  )
+);

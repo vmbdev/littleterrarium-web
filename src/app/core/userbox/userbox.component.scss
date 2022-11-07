@@ -1,0 +1,60 @@
+@use 'src/styles/theming.scss' as t;
+
+.userbox {
+  position: relative;
+
+  &__user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    background-image: url('/assets/user.png');
+    background-size: contain;
+  }
+
+  &__link, &__menulink {
+    a {
+      text-decoration: none;
+
+      @include t.themify {
+        color: t.theme(link_color);
+      }
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    width: 100%;
+
+    @include t.themify {
+      background-color: t.theme(main_background);
+      border: 1px solid darken(t.theme(secondary_color), 25%);
+    }
+
+    &-hidden {
+      visibility: hidden;
+    }
+  }
+
+  &__menulink {
+    text-align: center;
+    padding: 5px 0;
+
+    &:not(:last-child) {
+      @include t.themify {
+        border-bottom: 1px solid darken(t.theme(secondary_color), 25%);
+      }
+    }
+
+    &:hover {
+      @include t.themify {
+        background-color: lighten(t.theme(secondary_color), 25%);
+      }
+    }
+  }
+}

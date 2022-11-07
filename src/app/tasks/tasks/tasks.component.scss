@@ -1,0 +1,19 @@
+@use 'src/styles/theming.scss';
+
+.tasks {
+  &__plant {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin: 5px;
+    padding: 5px;
+
+    border: 1px solid black;
+  }
+
+  &__pic {
+    width: 42px;
+    height: 42px;
+  }
+}

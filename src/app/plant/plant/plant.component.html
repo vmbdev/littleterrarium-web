@@ -1,0 +1,53 @@
+<ng-container *ngIf="plantService.plant$ | async as plant">
+  <quick-modal *ngIf="enableWaterEditing" (close)="enableWaterEditing = false" title="Watering">
+    <plant-edit-watering
+    [plantId]="id"
+    [waterFreq]="plant.waterFreq"
+    [waterLast]="plant.waterLast"
+    (updated)="enableWaterEditing = false">
+    </plant-edit-watering>
+  </quick-modal>
+
+  <quick-modal *ngIf="enableFertilizerEditing" (close)="enableFertilizerEditing = false" title="Fertilizer">
+    <plant-edit-fertilizer
+      [plantId]="id"
+      [fertFreq]="plant.fertFreq"
+      [fertLast]="plant.fertLast"
+      [fertType]="plant.fertType"
+      (updated)="enableFertilizerEditing = false">
+    </plant-edit-fertilizer>
+  </quick-modal>
+
+  <confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
+    <p>This will remove this plant and all of its photos. Are you sure?</p>
+    <p><strong>This decision is irreversible.</strong></p>
+  </confirm-modal>
+
+  <div class="plant">
+    <toolbox [title]="plantTitle" [subtitle]="plantSubtitle">
+      <ng-container *ngIf="this.plantService.owned">
+        <toolbox-button image="/assets/water.png" (click)="enableWaterEditing = true"></toolbox-button>
+        <toolbox-button image="/assets/fertilizer.png" (click)="enableFertilizerEditing = true"></toolbox-button>
+        <toolbox-button image="/assets/pot.png" (click)="editSoil()"></toolbox-button>
+        <toolbox-button image="/assets/edit.png" (click)="toggleEditing('all')"></toolbox-button>
+        <toolbox-button image="/assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
+      </ng-container>
+    </toolbox>
+
+    <div class="plant__description" *ngIf="plant.description">
+      {{ plant.description }}
+    </div>
+
+    <div class="plant__row">
+      <plant-widget-water *ngIf="plant.waterFreq || plant.waterLast"></plant-widget-water>
+      <plant-widget-fertilizer *ngIf="plant.fertFreq || plant.fertLast || plant.fertType"></plant-widget-fertilizer>
+      <plant-widget-soil *ngIf="plant.potSize || plant.potType || plant.soil"></plant-widget-soil>
+    </div>
+
+    <p *ngIf="plant.condition">{{ plantCondition[plant.condition] }}</p>
+    <p *ngIf="plant.public">{{ plant.public ? 'Public' : 'Private' }}</p>
+
+    <photo-list *ngIf="plant.photos" [owned]="this.plantService.owned" [plantId]="plant.id" [list]="plant.photos"></photo-list>
+  </div>
+
+</ng-container>

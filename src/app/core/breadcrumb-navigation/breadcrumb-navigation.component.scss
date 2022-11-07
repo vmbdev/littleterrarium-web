@@ -1,0 +1,20 @@
+@use 'src/styles/theming.scss' as t;
+
+.breadcrumb {
+  margin: 0 20px 10px 20px;
+
+  .breadcrumb__link {
+    display: inline-block;
+    
+    a {
+      @include t.themify {
+        color: t.theme(link_color);
+      }
+    }
+
+    &:not(:last-child)::after {
+      content: '>';
+      margin-right: 3px;
+    }
+  }
+}

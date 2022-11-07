@@ -1,0 +1,7 @@
+<ng-container *ngIf="authService.signedIn$ | async; else notSignedIn">
+  <location-list></location-list>
+</ng-container>
+
+<ng-template #notSignedIn>
+  nope
+</ng-template>

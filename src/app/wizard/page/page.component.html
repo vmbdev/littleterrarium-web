@@ -1,0 +1,9 @@
+<ng-template #pageTemplate>
+  <div class="page">
+    <div class="page__title">{{ title }}</div>
+    <ng-template *ngIf="description" [ngTemplateOutlet]="description.pageDescTemplate"></ng-template>
+    <div class="page__content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>

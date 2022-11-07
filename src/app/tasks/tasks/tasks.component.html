@@ -1,0 +1,16 @@
+<div class="tasks" *ngIf="tasks; else noTasks">
+  <div class="tasks__plant" *ngFor="let plant of tasks">
+    <div class="tasks__picbox">
+      <img class="tasks__pic" [src]="plant.photos?.at(0)?.images.thumb">
+    </div>
+    <div class="tasks__list">
+      <div class="tasks__task" *ngIf="plant.waterNext">{{ getPlantName(plant) }} requires watering</div>
+      <div class="tasks__task" *ngIf="plant.fertNext">{{ getPlantName(plant) }} requires fertilizing</div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #noTasks>
+  <p>Hooray! Nothing left to do!</p>
+</ng-template>

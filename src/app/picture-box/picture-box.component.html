@@ -1,0 +1,20 @@
+<a class="picturebox-wrapper" [routerLink]="link">
+
+  <div *ngIf="add" class="picturebox">
+    <div class="picturebox__content picturebox__add">
+      +
+    </div>
+  </div>
+
+  <div *ngIf="!add" class="picturebox" [ngStyle]="{ 'background-image': image ? 'url(' + image + ')' : null }">
+    <div *ngIf="!contentBelow" [ngClass]="{ 'picturebox__content': !contentBelow }">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </div>
+  </div>
+  <div *ngIf="contentBelow" class="picturebox__contentbelow">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+
+</a>
+
+<ng-template #content><ng-content></ng-content></ng-template>

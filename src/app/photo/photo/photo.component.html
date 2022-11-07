@@ -1,0 +1,19 @@
+<div *ngIf="isValidId && photo" class="photo">
+  <toolbox>
+    <ng-container *ngIf="owned">
+      <toolbox-button image="/assets/edit.png"></toolbox-button>
+      <toolbox-button image="/assets/delete.png"></toolbox-button>
+    </ng-container>
+  </toolbox>
+
+  <div class="photo__image">
+    <a [href]="photo.images.full" target="_blank">
+      <img [src]="photo.images.mid">
+    </a>
+  </div>
+  <div class="photo__info">
+    <p>Description: {{ photo.description }}</p>
+    <p>Visibility: {{ (photo.public) ? 'Public' : 'Private' }}</p>
+    <p>Photo taken on {{ photo.takenAt | date }}</p>
+  </div>
+</div>

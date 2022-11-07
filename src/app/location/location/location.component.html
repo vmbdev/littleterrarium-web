@@ -1,0 +1,37 @@
+<confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
+  <p>This will remove this location along with its plants and photos. Are you sure?</p>
+  <p><strong>This decision is irreversible.</strong></p>
+</confirm-modal>
+
+<div class="location" *ngIf="location; else invalidId">
+  <toolbox [title]="location.name">
+    <ng-container *ngIf="owned">
+      <toolbox-button image="/assets/edit.png" (click)="edit()"></toolbox-button>
+      <toolbox-button image="/assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
+    </ng-container>
+  </toolbox>
+
+  <div class="location__container">
+    <div *ngIf="location.pictures" class="location__picturebox">
+      <img class="location__picture" [src]="location.pictures.mid">
+    </div>
+    <div class="location__info">
+      <div class="location__property" [ngClass]="getLightClass()">{{ getLightName() }}</div>
+      <div class="location__property" [ngClass]="getVisibilityClass()">{{ location.public ? 'Public' : 'Private'}}</div>
+      <div class="location__property" [ngClass]="getPlantsClass()">
+        <ng-container *ngIf="(location.plants && (location.plants.length > 0)); else noPlants">
+          {{ location.plants.length }} plants here
+        </ng-container>
+        <ng-template #noPlants>
+          No plants yet!
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  
+  <plant-list *ngIf="location.plants" [owned]="owned" [locationId]="location.id" [list]="location.plants"></plant-list>
+</div>
+
+<ng-template #invalidId>
+  Location invalid or not found
+</ng-template>

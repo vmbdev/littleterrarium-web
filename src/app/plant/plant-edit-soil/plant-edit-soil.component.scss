@@ -1,0 +1,26 @@
+@use 'src/styles/form.scss';
+@use 'src/styles/theming.scss' as t;
+
+.pot-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  text-align: center;
+  gap: 10px;
+
+  &__material {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+
+    img {
+      max-width: 100%;
+    }
+
+    &-selected {
+      @include t.themify {
+        background-color: t.theme(main_color);
+      }
+    }
+  }
+}
