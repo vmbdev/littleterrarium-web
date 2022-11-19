@@ -9,7 +9,7 @@ export interface Location {
   plants?: Plant[]
   _count?: any
   pictureFile: File
-  pictures: any
+  pictures?: any
 }
 
 export interface Plant {

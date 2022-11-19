@@ -1,8 +1,13 @@
 <div *ngIf="isValidId && photo" class="photo">
+  <confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
+    <p>This will remove this photo. Are you sure?</p>
+    <p><strong>This action is irreversible.</strong></p>
+  </confirm-modal>
+
   <toolbox>
     <ng-container *ngIf="owned">
       <toolbox-button image="/assets/edit.png"></toolbox-button>
-      <toolbox-button image="/assets/delete.png"></toolbox-button>
+      <toolbox-button image="/assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
     </ng-container>
   </toolbox>
 

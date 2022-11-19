@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
   ],
   exports: [
     SpecieFinderComponent,
+    HighlightPipe
   ]
 })
 export class SpecieFinderModule { }

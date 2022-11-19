@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
@@ -15,10 +15,12 @@ import { ApiService } from 'src/app/shared/api/api.service';
 export class LocationAddEditComponent implements OnInit {
   lightOptions = Light;
   locationForm: FormGroup;
+  location?: Location;
   id?: number;
   createNew: boolean = false;
   created: boolean = false;
   edited: boolean = false;
+  removePicture: boolean = false;
   
   constructor(
     private fb: FormBuilder,
@@ -45,6 +47,8 @@ export class LocationAddEditComponent implements OnInit {
 
       this.api.getLocation(this.id).subscribe({
         next: (location: Location) => {
+          this.location = location;
+
           Object.keys(this.locationForm.value).forEach((key) => {
             this.locationForm.controls[key].setValue(location[key as keyof Location]);
           });
@@ -77,7 +81,7 @@ export class LocationAddEditComponent implements OnInit {
     if (this.createNew) insert = this.api.createLocation(data);
     else if (this.id) {
       data.id = this.id;
-      insert = this.api.updateLocation(data);
+      insert = this.api.updateLocation(data, this.removePicture);
     }
 
     if (insert) {
@@ -106,6 +110,10 @@ export class LocationAddEditComponent implements OnInit {
         }
       })
     }
+  }
+
+  toggleRemovePicture(event: Event) {
+    this.removePicture = (event.target as HTMLInputElement).checked;
   }
 
 }

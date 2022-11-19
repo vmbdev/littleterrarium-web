@@ -17,7 +17,13 @@
     background-size: contain;
   }
 
-  &__link, &__menulink {
+  &__link {
+    @include t.themify {
+      color: t.theme(nav_link_color);
+    }
+  }
+
+  &__menulink {
     a {
       text-decoration: none;
 

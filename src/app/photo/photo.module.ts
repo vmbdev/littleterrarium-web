@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FileUploaderModule } from '../file-uploader/file-uploader.module';
 import { ToolboxModule } from '../toolbox/toolbox.module';
 import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
-
+import { ConfirmModalModule } from '../confirm-modal/confirm-modal.module';
 
 
 @NgModule({
@@ -29,7 +29,8 @@ import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
     WizardModule,
     FileUploaderModule,
     ToolboxModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    ConfirmModalModule
   ],
   exports: [
     PhotoComponent,

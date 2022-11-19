@@ -1,1 +1,17 @@
 @use 'src/styles/form.scss';
+
+.location {
+  &__pic {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__currentpic {
+    text-align: center;
+  }
+
+  &__disablepic {
+    pointer-events: none;
+    background-color: lightgray;
+  }
+}

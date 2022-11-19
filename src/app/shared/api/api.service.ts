@@ -81,14 +81,17 @@ export class ApiService {
    * @param update Whether we're creating (false/null) or updating (true) an existing one.
    * @returns An observable with the server response.
    */
-  upsertLocation(location: Location, update?: boolean): Observable<any> {
+  upsertLocation(location: Location, update?: boolean, removePicture?: boolean): Observable<any> {
     let observable;
     const form = new FormData();
 
     form.append('name', location.name);
     form.append('light', location.light);
     form.append('public', location.public.toString());
-    if (location.pictureFile) form.append('picture', location.pictureFile);
+
+    if (removePicture) form.append('removePicture', 'true');
+    else if (location.pictureFile) form.append('picture', location.pictureFile);
+
     if (location.id && update) form.append('id', location.id.toString());
 
     if (update) observable = this.http.put<Location>(this.endpoint('location'), form);
@@ -117,8 +120,8 @@ export class ApiService {
     return this.upsertLocation(location);
   }
 
-  updateLocation(location: Location): Observable<any> {
-    return this.upsertLocation(location, true);
+  updateLocation(location: Location, removePicture = false): Observable<any> {
+    return this.upsertLocation(location, true, removePicture);
   }
 
   deleteLocation(id: number): Observable<any> {
@@ -225,6 +228,10 @@ export class ApiService {
         ));
       })
     )
+  }
+
+  deletePhoto(id: number): Observable<any> {
+    return this.http.delete(this.endpoint(`photo/${id}`));
   }
 
   /**

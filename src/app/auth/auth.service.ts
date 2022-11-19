@@ -9,15 +9,20 @@ import { ApiService } from '../shared/api/api.service';
 })
 export class AuthService {
   signedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  checked$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   user?: User;
 
   constructor(private api: ApiService) {
     this.api.getCurrentUser().subscribe({
       next: (user: User) => {
         this.user = user;
-        this.signedIn$.next(true)
+        this.signedIn$.next(true);
+        this.checked$.next(true);
       },
-      error: () => { this.signedIn$.next(false) }
+      error: () => {
+        this.signedIn$.next(false)
+        this.checked$.next(true);
+      }
     });
   }
 
@@ -38,12 +43,6 @@ export class AuthService {
     this.signedIn$.next(false);
   
     return this.api.logOut().pipe(catchError(() => of(null)));
-  }
-
-  isSignedIn(): boolean {
-    const val = this.signedIn$.getValue();
-
-    return val;
   }
 
   getUser(): User | undefined {

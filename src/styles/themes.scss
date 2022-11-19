@@ -12,6 +12,12 @@ $themes: (
     nav_link_color: black,
     picturebox_cover: rgba(0, 0, 0, 0.7),
     picturebox_content: white,
+    input_background: #F9F9F9,
+    input_accent: #4E9F3D,
+    search_results_background: white,
+    search_results_text: black,
+    search_results_highlight: #4D96FF,
+    error: #CC3636
   ),
   dark: (
     main_color: #610094,
@@ -27,5 +33,11 @@ $themes: (
     nav_link_color: black,
     picturebox_cover: rgba(0, 0, 0, 0.6),
     picturebox_content: white,
+    input_background: #F9F9F9,
+    input_accent: #4E9F3D,
+    search_results_background: white,
+    search_results_text: black,
+    search_results_highlight: #4D96FF,
+    error: #CC3636
   )
 );

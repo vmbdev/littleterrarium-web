@@ -21,6 +21,10 @@
     right: 0;
 
     margin-bottom: 0 !important;
+
+    @include t.themify {
+      background-color: t.theme(search_results_background);
+    }
   }
   
   &__search {
@@ -37,8 +41,11 @@
   }
 
   &__results {
+    @include t.themify {
+      background-color: t.theme(search_results_background);
+      color: t.theme(search_results_text);
+    }
     position: absolute;
-    background-color: white;
     border: 1px solid black;
     width: 400px;
     margin-left: auto;
@@ -60,7 +67,7 @@
 
     &:hover {
       @include t.themify {
-        background-color: t.theme(main_color);
+        background-color: t.theme(search_results_highlight);
       }
     }
   }

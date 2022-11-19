@@ -3,23 +3,24 @@
 
 .widget-box {
   position: relative;
-  border-radius: 20px;
-  padding: 25px;
+  padding: 25px 20px 10px 20px;
   margin: 10px;
   height: 100%;
   box-sizing: border-box;
+  border-width: 5px 1px 1px 1px;
+  border-style: solid;
 
   @include t.themify {
-    border: 1px solid t.theme(main_font_color);
+    border-color: t.theme(main_font_color);
   }
-  
+
   &__image {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
-    top: -20px;
+    top: -25px;
     width: 48px;
     height: 48px;
     background-size: cover;

@@ -1,5 +1,8 @@
 <form [formGroup]="locationForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
   <wizard [form]="locationForm">
+    <wizard-header *ngIf="!createNew && location">
+      Editing location <b>{{ location.name }}</b>
+    </wizard-header>
     <page title="Name" control="name">
       <page-description>
         <p>The name of a new location where your plants will live. Choose a <b>recognisable name</b>: <i>window, balcony, coffee table</i>...</p>
@@ -15,7 +18,17 @@
         <p>Choose a nice, beautiful picture to showcase your nice, beautiful window/balcony/kitchen drawer/whatever!</p>
         <p>Or, well, don't. Up to you.</p>
       </page-description>
-      <file-uploader [amount]="1" (fileChange)="fileChange($event)"></file-uploader>
+      <div class="location__pic" [ngClass]="{ 'location__disablepic': removePicture }">
+        <file-uploader [amount]="1" (fileChange)="fileChange($event)"></file-uploader>
+        <div class="location__currentpic" *ngIf="!createNew && location && location.pictures">
+          <p>Your current picture</p>
+          <img [src]="location.pictures.thumb">
+        </div>
+      </div>
+      <div class="location__removepic form__checkbox" *ngIf="!createNew && location">
+        <input type="checkbox" id="removepic" (change)="toggleRemovePicture($event)">
+        <label for="removepic">Remove picture</label>
+      </div>
     </page>
 
     <page title="Light" control="light">

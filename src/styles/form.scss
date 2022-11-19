@@ -15,8 +15,10 @@
       height: 1.5em;
 
       content: '';
-      background-color: map-get(var.$form, input-bg);
-      border: 1px solid darken(map-get(var.$form, input-bg), 25%);
+      @include t.themify {
+        background-color: t.theme(input_background);
+        border: 1px solid darken(t.theme(input_accent), 25%);
+      }
       border-radius: #{$radius};
       margin-right: 5px;
       cursor: pointer;
@@ -25,14 +27,18 @@
 
     &:checked {
       +label:before {
-        box-shadow: inset 0 0 0 4px map-get(var.$form, input-bg);
-        background-color: map-get(var.$form, input-accent);
+        @include t.themify {
+          box-shadow: inset 0 0 0 4px t.theme(input_background);
+          background-color: t.theme(input_accent);
+        }
       }
     }
 
     &:focus {
       +label:before {
-        border-color: map-get(var.$form, input-accent);
+        @include t.themify {
+          border-color: t.theme(input_accent);
+        }
       }
     }
   }
@@ -124,7 +130,9 @@
   }
 
   &-error input {
-    box-shadow: 0 0 5px var.$error;
-    border: 1px solid var.$error;
+    @include t.themify {
+      box-shadow: 0 0 5px t.theme(error);
+      border: 1px solid t.theme(error);
+    }
   }
 }
