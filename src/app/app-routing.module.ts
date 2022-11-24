@@ -18,6 +18,7 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { TasksComponent } from './tasks/tasks/tasks.component';
 import { AuthGuard } from './auth/auth.guard';
 import { TerrariumComponent } from './terrarium/terrarium/terrarium.component';
+import { PlantEditComponent } from './plant/plant-edit/plant-edit.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -44,7 +45,7 @@ const routes: Routes = [
     children: [
       { path: 'all', component: PlantAllComponent, canActivate: [AuthGuard] },
       { path: 'create/:locationId', component: PlantAddComponent, canActivate: [AuthGuard] },
-      { path: 'edit/:plantId', component: PlantAddComponent, canActivate: [AuthGuard] },
+      { path: 'edit/:plantId', component: PlantEditComponent, canActivate: [AuthGuard] },
       { path: 'edit/:plantId/soil', component: PlantEditSoilComponent, canActivate: [AuthGuard] },
       { path: ':plantId', component: PlantComponent },
     ]

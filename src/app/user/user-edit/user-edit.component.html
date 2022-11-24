@@ -1,1 +1,62 @@
-<p>user-edit works!</p>
+<form *ngIf="auth.signedIn$ | async" [formGroup]="userForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
+  <wizard [form]="userForm" [singlePage]="true">
+    <wizard-header>
+
+    </wizard-header>
+
+    <page title="User name">
+      <page-description>
+        <p>This is how you'll be known around here, and how your profile will be accesed. Short, no spaces, no weird things.</p>
+      </page-description>
+      <div class="form__textinput">
+        <input type="text" formControlName="username" placeholder="PlantLover95">
+      </div>
+    </page>
+
+    <page title="First and last name">
+      <page-description>
+        <p>In case you want to present yourself more professionally.</p>
+      </page-description>
+      <div class="form__textinput">
+        <input type="text" formControlName="firstname" placeholder="Greta">
+      </div>
+      <div class="form__textinput">
+        <input type="text" formControlName="lastname" placeholder="Plantberg">
+      </div>
+    </page>
+
+    <page title="E-mail">
+      <page-description>
+        <p>This is <strong>important</strong>! This is how you can recover your account in case you forget your password.</p>
+      </page-description>
+      <div class="form__textinput">
+        <input type="email" formControlName="email" placeholder="john@lovingplants.com">
+      </div>
+    </page>
+
+    <page title="Bio">
+      <page-description>
+        <p>Tell us something about yourself! How did you get in the green world, what kind of plants do you like, where are you based, etc.</p>
+      </page-description>
+      <div class="form__textarea">
+        <textarea formControlName="bio" rows="4"></textarea>
+      </div>
+    </page>
+
+    
+    <page title="Privacy">
+      <page-description>
+        <p>
+          If your profile is public, you will be able to share it to whomever you want to, and brag about your plants.
+          If your profile is private, you won't be able to share it, but you'll still enjoy of all of the features of Little Terrarium.
+        </p>
+      </page-description>
+      <div class="form__checkbox">
+        <input type="checkbox" formControlName="public" id="public-checkbox">
+        <label for="public-checkbox">Publicly visible</label>
+      </div>
+    </page>
+
+
+  </wizard>
+</form>

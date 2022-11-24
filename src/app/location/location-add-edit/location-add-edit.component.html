@@ -1,5 +1,5 @@
 <form [formGroup]="locationForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
-  <wizard [form]="locationForm">
+  <wizard [form]="locationForm" [singlePage]="!createNew">
     <wizard-header *ngIf="!createNew && location">
       Editing location <b>{{ location.name }}</b>
     </wizard-header>

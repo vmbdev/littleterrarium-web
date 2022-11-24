@@ -15,7 +15,6 @@ export class TasksComponent implements OnInit {
   ngOnInit(): void {
     this.api.getTasks().subscribe((data: Plant[]) => {
       this.tasks = data;
-      console.log(this.tasks);
     });
   }
 

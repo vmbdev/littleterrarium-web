@@ -1,5 +1,10 @@
 @use 'src/styles/theming.scss' as t;
 
+.pb__wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .plus-button {
   display: flex;
   flex-direction: row;

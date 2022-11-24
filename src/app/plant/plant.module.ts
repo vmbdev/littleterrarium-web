@@ -28,6 +28,7 @@ import { PlantService } from './plant.service';
 import { PlantWidgetWaterComponent } from './plant-widget-water/plant-widget-water.component';
 import { PlantWidgetFertilizerComponent } from './plant-widget-fertilizer/plant-widget-fertilizer.component';
 import { PlantWidgetSoilComponent } from './plant-widget-soil/plant-widget-soil.component';
+import { PlantEditComponent } from './plant-edit/plant-edit.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PlantWidgetSoilComponent } from './plant-widget-soil/plant-widget-soil.
     PlantAllComponent,
     PlantWidgetWaterComponent,
     PlantWidgetFertilizerComponent,
-    PlantWidgetSoilComponent
+    PlantWidgetSoilComponent,
+    PlantEditComponent
   ],
   imports: [
     CommonModule,
@@ -63,7 +65,8 @@ import { PlantWidgetSoilComponent } from './plant-widget-soil/plant-widget-soil.
   exports: [
     PlantListComponent,
     PlantAddComponent,
-    PlantAllComponent
+    PlantAllComponent,
+    PlantEditComponent
   ],
   providers: [
     PlantService

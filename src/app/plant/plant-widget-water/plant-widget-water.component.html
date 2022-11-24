@@ -4,7 +4,7 @@
     <p>If you haven't watered it yet, please check your soil. Never water your plants on a schedule!</p>
   </confirm-modal>
 
-  <widget-box image="/assets/water.png">
+  <widget-box image="/assets/water.png" title="Watering">
     <div>
       <p *ngIf="plant.waterLast">Last time: {{ plant.waterLast | date }}</p>
       <p *ngIf="plant.waterFreq">Water every {{ plant.waterFreq }} days</p>

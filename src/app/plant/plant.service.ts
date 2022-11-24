@@ -20,7 +20,7 @@ export class PlantService {
   get(id: number): Observable<any> {
     return this.api.getPlant(id).pipe(
       map((plant: Plant) => {
-        this.owned = (this.auth.getUser()?.id === plant.ownerId) ? true : false;
+        this.owned = (this.auth.getUser()?.id === plant.ownerId);
         this.plant$.next(plant);
 
         return plant;
@@ -31,6 +31,17 @@ export class PlantService {
         return throwError(() => HttpError.error);
       })
     );
+  }
+
+  getPlantName(): string {
+    const plant = this.plant$.getValue();
+    let title: string;
+
+    if (plant.customName) title = plant.customName;
+    else if (plant.specie) title = plant.specie.name;
+    else title = `Plant ${plant.id}`;
+
+    return title;
   }
 
   update(plant: Plant): Observable<any> {

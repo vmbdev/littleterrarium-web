@@ -238,6 +238,10 @@ export class ApiService {
    * Specie related calls
    */
 
+  getSpecie(id: number): Observable<Specie> {
+    return this.http.get<Specie>(this.endpoint(`specie/${id}`));
+  }
+
   findSpecie(name: string): Observable<Specie[]> {
     return this.http.get<Specie[]>(this.endpoint(`specie/name/${name}`));
   }

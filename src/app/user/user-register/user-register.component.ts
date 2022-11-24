@@ -68,9 +68,9 @@ export class UserRegisterComponent implements OnInit {
 
     if (this.pwdReq) {
       if (value.length < this.pwdReq.minLength) errorObj['minLength'] = true;
-      if (this.pwdReq.requireUppercase && !value.match(/.*([A-Z]).*/)) errorObj['missingUppercase'] = true;
-      if (this.pwdReq.requireNumber && !value.match(/.*(\d).*/)) errorObj['missingNumber'] = true;
-      if (this.pwdReq.requireNonAlphanumeric && value.match(/^([a-zA-Z0-9]+)?$/)) {
+      if (this.pwdReq.requireUppercase && !(/.*([A-Z]).*/).test(value)) errorObj['missingUppercase'] = true;
+      if (this.pwdReq.requireNumber && !(/.*(\d).*/).test(value)) errorObj['missingNumber'] = true;
+      if (this.pwdReq.requireNonAlphanumeric && !(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/).test(value)) {
         errorObj['missingNonAlphanumeric'] = true;
       }
     }
@@ -121,7 +121,7 @@ export class UserRegisterComponent implements OnInit {
           }
         }
 
-        else if (error.msg === 'PASSWD_INVALID') {
+        else if (error.msg === 'USER_PASSWD_INVALID') {
           this.moveWizardPage(2);
 
           if (!error.data.comp.minLength) this.errors.pwd.length = true;

@@ -41,7 +41,7 @@
                 {{ pwdReq.requireNumber ? 'One number' : '' }}
               </li>
               <li [ngClass]="{ 'form__errormsg': userForm.get('passwordCheck')?.get('password')?.hasError('missingNonAlphanumeric') }">
-                {{ pwdReq.requireUppercase ? 'One non-alphanumeric character' : '' }}
+                {{ pwdReq.requireUppercase ? 'One non-alphanumeric character: !@#$%^&*()_+-=[]{};\':"\|,.\<>/?' : '' }}
               </li>
             </ul>
           </ng-container>

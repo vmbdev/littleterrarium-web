@@ -63,22 +63,12 @@ export class PlantComponent implements OnInit {
     })
   }
 
-  editSoil(): void {
-    this.router.navigate(['/plant/edit', this.id, 'soil']);
+  edit(): void {
+    this.router.navigate(['/plant/edit', this.id]);
   }
 
-  toggleEditing(modal: string): void {
-    switch (modal) {
-      case 'water':
-        this.enableWaterEditing = !this.enableWaterEditing;
-        break;
-      case 'fertilizer':
-        this.enableFertilizerEditing = !this.enableFertilizerEditing;
-        break;
-      case 'all':
-        this.enableEditing = !this.enableEditing;
-        break;
-    }
+  editSoil(): void {
+    this.router.navigate(['/plant/edit', this.id, 'soil']);
   }
 
   delete(): void {

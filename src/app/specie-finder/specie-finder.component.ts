@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Specie } from '../interfaces';
 import { ApiService } from '../shared/api/api.service';
 
@@ -8,6 +8,7 @@ import { ApiService } from '../shared/api/api.service';
   styleUrls: ['./specie-finder.component.scss']
 })
 export class SpecieFinderComponent implements OnInit {
+  @Input() selected?: number;
   @Output() selectSpecieId = new EventEmitter<number | null>();
   results: Specie[] = [];
   currentSearch: string = '';
@@ -19,6 +20,14 @@ export class SpecieFinderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['selected'].currentValue) {
+      this.api.getSpecie(changes['selected'].currentValue).subscribe((specie: Specie) => {
+        this.selectSpecie(specie.id, specie.name);
+      });
+    }
   }
 
   keyPress(event: KeyboardEvent): void {

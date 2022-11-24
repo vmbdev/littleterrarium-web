@@ -97,8 +97,7 @@ export const NotificationType: { [key: string]: string } = {
   WATER: 'WATER',
   FERTILIZER: 'FERTILIZER',
   COMMENT: 'COMMENT'
-};
-
+}
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
 
 export const Light: { [key: string]: any } = {
@@ -118,11 +117,11 @@ export const Light: { [key: string]: any } = {
 export type Light = (typeof Light)[keyof typeof Light];
 
 export const Condition: { [key: string]: string } = {
-  BAD: 'On the line',
-  POOR: 'Holding on to life',
-  GOOD: 'Looks good',
-  VERYGOO: 'Looking dapper',
-  EXCELLENT: 'Prime example of its specie',
+  BAD: 'On the line', // red
+  POOR: 'Holding on to life', // yellow
+  GOOD: 'Looks good', // grey
+  GREAT: 'Looks great', // light green
+  EXCELLENT: 'Prime example of its specie', // vibrant green
 }
 export type Condition = (typeof Condition)[keyof typeof Condition];
 

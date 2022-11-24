@@ -58,7 +58,6 @@ export class PhotoComponent implements OnInit {
 
   delete(): void {
     this.api.deletePhoto(this.id).subscribe(() => {
-      console.log(this.photo);
       this.router.navigate(['/plant', this.photo?.plantId])
     })
   }

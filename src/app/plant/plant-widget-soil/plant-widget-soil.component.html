@@ -1,4 +1,4 @@
-<widget-box *ngIf="plantService.plant$ | async as plant" image="/assets/pot.png">
+<widget-box *ngIf="plantService.plant$ | async as plant" image="/assets/pot.png" title="Soil and Pot">
   <div>
     <p *ngIf="plant.potType">Your pot is made of <b>{{ getPotName() }}</b>&nbsp;<span *ngIf="plant.potSize">with a size of <b>{{ plant.potSize | unit:'cm' }}</b></span>.</p>
     <p *ngIf="plant.soil">Your plant has a nice soil made up of <b>{{ plant.soil }}</b>.</p>

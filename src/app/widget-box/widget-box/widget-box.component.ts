@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class WidgetBoxComponent implements OnInit {
   @Input() image?: string;
+  @Input() title?: string;
 
   constructor() { }
 
