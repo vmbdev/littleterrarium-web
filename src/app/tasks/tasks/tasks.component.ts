@@ -8,7 +8,7 @@ import { ApiService } from 'src/app/shared/api/api.service';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
-  tasks?: Plant[];
+  tasks: Plant[] = [];
   
   constructor(private api: ApiService) { }
 

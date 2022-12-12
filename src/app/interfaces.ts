@@ -44,6 +44,7 @@ export interface User {
   lastname: string | null
   password: string
   avatar: any
+  avatarFile: File
   preferences: any
   email: string
   bio: string | null

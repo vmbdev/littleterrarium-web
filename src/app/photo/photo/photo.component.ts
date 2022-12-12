@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/shared/api/api.service';
 import * as dayjs from 'dayjs';
 import * as LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { AuthService } from 'src/app/auth/auth.service';
+import { PhotoService } from '../photo.service';
 
 
 @Component({
@@ -15,19 +16,19 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class PhotoComponent implements OnInit {
   @Input() id!: number;
-  isValidId!: boolean;
-  photo?: Photo;
-  owned?: boolean;
 
   // Confirm modals
   confirmDelete: boolean = false;
+
+  enablePhotoEditing: boolean = false;
+  isValidId?: boolean;
 
   constructor(
     private api: ApiService,
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
-    private auth: AuthService
+    public photoService: PhotoService
   ) { }
 
   ngOnInit(): void {
@@ -35,16 +36,13 @@ export class PhotoComponent implements OnInit {
     this.id = paramId ? +paramId : NaN;
 
     if (this.id) {
-      this.isValidId = true;
-
-      this.api.getPhoto(this.id).subscribe({
-        next: (data) => {
-          this.photo = data;
-          this.owned = (this.auth.getUser()?.id === this.photo.ownerId) ? true : false;
+      this.photoService.get(this.id).subscribe({
+        next: (photo: Photo) => {
+          this.isValidId = true;
 
           dayjs.extend(LocalizedFormat);
           this.breadcrumb.setNavigation([
-            { id: 'photo', name: dayjs(this.photo.takenAt).format('LL'), link: ['/photo', this.id] }
+            { id: 'photo', name: dayjs(photo.takenAt).format('LL'), link: ['/photo', this.id] }
           ], { attachTo: 'plant' })
 
         },
@@ -57,8 +55,14 @@ export class PhotoComponent implements OnInit {
   }
 
   delete(): void {
-    this.api.deletePhoto(this.id).subscribe(() => {
-      this.router.navigate(['/plant', this.photo?.plantId])
+    this.photoService.delete().subscribe({
+      next: (res: any) => {
+        if ((res.msg === 'PHOTO_REMOVED') && (res.data.photo.plantId))
+          this.router.navigate(['/plant', res.data.photo.plantId]);
+      },
+      error: (err) => {
+        console.error(err);
+      }
     })
   }
 }

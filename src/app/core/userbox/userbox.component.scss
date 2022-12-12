@@ -11,10 +11,10 @@
   }
 
   &__avatar {
-    width: 32px;
-    height: 32px;
-    background-image: url('/assets/user.png');
+    width: 44px;
+    height: 44px;
     background-size: contain;
+    border: 1px solid black;
   }
 
   &__link {

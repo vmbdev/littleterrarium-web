@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { UserSigninComponent } from './user-signin/user-signin.component';
 import { UserLogoutComponent } from './user-logout/user-logout.component';
+import { FileUploaderModule } from '../file-uploader/file-uploader.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UserLogoutComponent } from './user-logout/user-logout.component';
     WizardModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    FileUploaderModule
   ],
   exports: [
     UserRegisterComponent,

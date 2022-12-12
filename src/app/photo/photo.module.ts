@@ -12,13 +12,16 @@ import { FileUploaderModule } from '../file-uploader/file-uploader.module';
 import { ToolboxModule } from '../toolbox/toolbox.module';
 import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { ConfirmModalModule } from '../confirm-modal/confirm-modal.module';
+import { QuickModalModule } from '../quick-modal/quick-modal.module';
+import { PhotoEditComponent } from './photo-edit/photo-edit.component';
 
 
 @NgModule({
   declarations: [
     PhotoComponent,
     PhotoAddComponent,
-    PhotoListComponent
+    PhotoListComponent,
+    PhotoEditComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,8 @@ import { ConfirmModalModule } from '../confirm-modal/confirm-modal.module';
     FileUploaderModule,
     ToolboxModule,
     BreadcrumbModule,
-    ConfirmModalModule
+    ConfirmModalModule,
+    QuickModalModule
   ],
   exports: [
     PhotoComponent,

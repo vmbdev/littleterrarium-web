@@ -39,6 +39,9 @@
       <div *ngIf="plant.condition" class="plant__condition plant__condition-{{ plant.condition.toLowerCase() }}">
         <b>Condition:</b> &nbsp; {{ plantCondition[plant.condition] }}
       </div>
+      <div class="plant__visibility" [class]="getVisibilityClass()">
+        <b>Visibility:</b> &nbsp; {{ plant.public ? 'Public' : 'Private'}}
+      </div>
     </widget-box>
 
     <div class="plant__row">
@@ -46,8 +49,6 @@
       <plant-widget-fertilizer *ngIf="plant.fertFreq || plant.fertLast || plant.fertType"></plant-widget-fertilizer>
       <plant-widget-soil *ngIf="plant.potSize || plant.potType || plant.soil"></plant-widget-soil>
     </div>
-
-    <p *ngIf="plant.public">{{ plant.public ? 'Public' : 'Private' }}</p>
 
     <photo-list *ngIf="plant.photos" [owned]="this.plantService.owned" [plantId]="plant.id" [list]="plant.photos"></photo-list>
   </div>

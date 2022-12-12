@@ -1,4 +1,4 @@
-<form *ngIf="auth.signedIn$ | async" [formGroup]="userForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
+<form *ngIf="auth.signedIn$ | async" [formGroup]="userForm" (ngSubmit)="submit()" method="put" enctype="multipart/form-data">
   <wizard [form]="userForm" [singlePage]="true">
     <wizard-header>
 
@@ -32,6 +32,13 @@
       <div class="form__textinput">
         <input type="email" formControlName="email" placeholder="john@lovingplants.com">
       </div>
+    </page>
+
+    <page title="Avatar">
+      <page-description>
+        <p>Also known as profile picture. Just an image to present yourself.</p>
+      </page-description>
+      <file-uploader [amount]="1" (fileChange)="fileChange($event)"></file-uploader>
     </page>
 
     <page title="Bio">

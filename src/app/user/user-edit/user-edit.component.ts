@@ -27,7 +27,7 @@ export class UserEditComponent implements OnInit {
       lastname: [''],
       email: ['', [Validators.required, Validators.email]],
       bio: [''],
-      avatar: [''],
+      avatarFile: [''],
       public: [''],
     })
   }
@@ -36,27 +36,40 @@ export class UserEditComponent implements OnInit {
     this.auth.checked$.pipe(
       skipWhile(val => val === false),
       map(() => {
-        if (this.auth.signedIn$.getValue()) {
-          const user = this.auth.getUser();
+        const user = this.auth.user$.getValue();
 
-          if (user) {
-            this.userForm.patchValue({
-              username: user.username,
-              firstname: user.firstname,
-              lastname: user.lastname,
-              email: user.email,
-              bio: user.bio,
-              avatar: user.avatar,
-              public: user.public
-            });
-          }
+        if (user) {
+          this.userForm.patchValue({
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            bio: user.bio,
+            public: user.public
+          });
         }
       })
     ).subscribe();
   }
 
-  submit(): void {
+  fileChange(files: File[]) {
+    this.userForm.patchValue({
+      avatarFile: files[0]
+    });
+  }
 
+  submit(): void {
+    const user: User = this.userForm.value;
+
+    this.api.editUser(user).subscribe({
+      next: (updatedUser: User) => {
+        this.auth.updateUser(updatedUser);
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 
 }

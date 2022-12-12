@@ -10,6 +10,7 @@ import { PlantService } from '../plant.service';
   styleUrls: ['./plant-edit-watering.component.scss']
 })
 export class PlantEditWateringComponent implements OnInit {
+  // TODO: use PlantService rather than inputs
   @Input() plantId!: number;
   @Input() waterFreq?: number | null;
   @Input() waterLast?: any;

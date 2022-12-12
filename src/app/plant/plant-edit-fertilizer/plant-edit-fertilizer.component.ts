@@ -10,6 +10,7 @@ import { PlantService } from '../plant.service';
   styleUrls: ['./plant-edit-fertilizer.component.scss']
 })
 export class PlantEditFertilizerComponent implements OnInit {
+  // TODO: use PlantService rather than inputs
   @Input() plantId!: number;
   @Input() fertFreq?: number | null;
   @Input() fertLast?: any;

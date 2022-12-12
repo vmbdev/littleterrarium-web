@@ -1,5 +1,5 @@
 <form *ngIf="plantService.plant$ | async as plant" [formGroup]="potForm" method="post" (submit)="submit()">
-  <wizard [form]="potForm">
+  <wizard [form]="potForm" [singlePage]="true">
     <wizard-header *ngIf="plant">
       Editing soil and pot options for <b>{{ plant.customName ? plant.customName : plant.specie?.name }}</b>
     </wizard-header>

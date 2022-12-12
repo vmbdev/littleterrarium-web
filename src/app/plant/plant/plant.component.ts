@@ -16,6 +16,7 @@ export class PlantComponent implements OnInit {
   plantTitle?: string;
   plantSubtitle?: string;
   plantCondition = Condition;
+  plantVisibility?: boolean;
 
   // Quick modals
   enableWaterEditing: boolean = false;
@@ -45,11 +46,12 @@ export class PlantComponent implements OnInit {
       next: (plant: Plant) => {
         if (plant.customName) {
           this.plantTitle = plant.customName;
+          this.plantVisibility = plant.public;
 
           if (plant.specie) this.plantSubtitle = plant.specie.name;
         }
         else if (plant.specie) this.plantTitle = plant.specie.name
-        else this.plantTitle = 'Unidentified plant';
+        else this.plantTitle = `Unidentified plant ${plant.id}`;
 
         this.breadcrumb.setNavigation([
           { id: 'plant', name: this.plantTitle, link: ['/plant', this.id] }
@@ -76,6 +78,12 @@ export class PlantComponent implements OnInit {
     this.plantService.delete().subscribe(() => {
       this.router.navigate(['/location', locationId])
     })
+  }
+
+  getVisibilityClass(): string {
+    const modifier = this.plantVisibility ? 'public' : 'private';
+    
+    return `plant__visibility-${modifier}`;
   }
 
 }

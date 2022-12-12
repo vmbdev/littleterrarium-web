@@ -1,0 +1,18 @@
+<form *ngIf="photoService.photo$ | async as photo" [formGroup]="photoForm" method="post" (submit)="submit()">
+  <div class="form__textarea">
+    <p>Tell us a little bit about this photo. Does it represent a special moment in the growth of your plant?</p>
+    <textarea formControlName="description" maxlength="300" rows="4">{{ photo.description }}</textarea>
+  </div>
+
+  <div class="form__date">
+    <p>When was the photo taken? The gallery will be displayed in chronological order.</p>
+    <input type="date" formControlName="takenAt">
+  </div>
+  <div class="form__checkbox">
+    <input type="checkbox" formControlName="public" id="public-checkbox">
+    <label for="public-checkbox">Publicly visible</label>
+  </div>
+  <div class="form__submit">
+    <button>Update</button>
+  </div>
+</form>

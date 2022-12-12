@@ -8,19 +8,20 @@ import { ApiService } from '../shared/api/api.service';
   providedIn: 'root'
 })
 export class AuthService {
+  // signedIn$ exists just for convenience.
+  // We can achieve the same checking if user$ is null
   signedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   checked$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  user?: User;
+  user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
   constructor(private api: ApiService) {
     this.api.getCurrentUser().subscribe({
       next: (user: User) => {
-        this.user = user;
         this.signedIn$.next(true);
+        this.user$.next(user);
         this.checked$.next(true);
       },
       error: () => {
-        this.signedIn$.next(false)
         this.checked$.next(true);
       }
     });
@@ -29,7 +30,7 @@ export class AuthService {
   signIn(username: string, password: string): Observable<any> {
     return this.api.signIn(username, password).pipe(
       map((user: User) => {
-        this.user = user;
+        this.user$.next(user);
         this.signedIn$.next(true);
       }),
       catchError((HttpError: HttpErrorResponse) => {
@@ -41,11 +42,16 @@ export class AuthService {
 
   logOut(): Observable<any> {
     this.signedIn$.next(false);
+    this.user$.next(null);
   
     return this.api.logOut().pipe(catchError(() => of(null)));
   }
 
-  getUser(): User | undefined {
-    return this.user;
+  getUser(): User | null {
+    return this.user$.getValue();
+  }
+
+  updateUser(user: User): void {
+    this.user$.next(user);
   }
 }

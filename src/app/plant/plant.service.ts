@@ -20,7 +20,7 @@ export class PlantService {
   get(id: number): Observable<any> {
     return this.api.getPlant(id).pipe(
       map((plant: Plant) => {
-        this.owned = (this.auth.getUser()?.id === plant.ownerId);
+        this.owned = (this.auth.user$.getValue()?.id === plant.ownerId);
         this.plant$.next(plant);
 
         return plant;

@@ -20,7 +20,7 @@
       <div class="location__property" [ngClass]="getVisibilityClass()">{{ location.public ? 'Public' : 'Private'}}</div>
       <div class="location__property" [ngClass]="getPlantsClass()">
         <ng-container *ngIf="(location.plants && (location.plants.length > 0)); else noPlants">
-          {{ location.plants.length }} plants here
+          {{ location.plants.length }} plants
         </ng-container>
         <ng-template #noPlants>
           No plants yet!

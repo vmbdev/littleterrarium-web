@@ -47,6 +47,23 @@ export class ApiService {
     return this.http.post<User>(this.endpoint('user'), user);
   }
 
+  editUser(user: User, removeAvatar?: boolean): Observable<any> {
+    const form = new FormData();
+
+    form.append('username', user.username);
+    form.append('email', user.email);
+
+    if (user.firstname) form.append('firstname', user.firstname);
+    if (user.lastname) form.append('lastname', user.lastname);
+    if (user.bio) form.append('bio', user.bio);
+    if (user.public) form.append('public', user.public.toString());
+
+    if (removeAvatar) form.append('removeAvatar', 'true');
+    else if (user.avatarFile) form.append('avatar', user.avatarFile);
+
+    return this.http.put<User>(this.endpoint('user'), form);
+  }
+
   /**
    * Location related calls
    */
@@ -170,8 +187,8 @@ export class ApiService {
 
   updatePlant(plant: Plant): Observable<Plant> {
     return this.http.put<Plant>(this.endpoint('plant'), plant).pipe(
-      map((data: any) => {
-        if (data.msg === 'PLANT_UPDATED') return data.plant;
+      map((res: any) => {
+        if (res.msg === 'PLANT_UPDATED') return res.data.plant;
         else return throwError(() => 'Server error');
       }),
       catchError(err => {
@@ -228,6 +245,24 @@ export class ApiService {
         ));
       })
     )
+  }
+
+  updatePhoto(photo: Photo): Observable<any> {
+    return this.http.put<Photo>(this.endpoint(`photo`), photo).pipe(
+      map((res: any) => {
+        if (res.msg === 'PHOTO_UPDATED') return res.data.photo;
+        else return throwError(() => 'Server error');
+      }),
+      catchError(err => {
+        return throwError(() => (
+          {
+            msg: err.error.msg,
+            data: err.error.data ? err.error.data : undefined,
+            code: err.status.code ? err.status.code : undefined
+          }
+        ));
+      })
+    );
   }
 
   deletePhoto(id: number): Observable<any> {

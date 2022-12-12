@@ -1,12 +1,16 @@
-<div *ngIf="isValidId && photo" class="photo">
+<div *ngIf="photoService.photo$ | async as photo" class="photo">
+  <quick-modal *ngIf="enablePhotoEditing" (close)="enablePhotoEditing = false" title="Edit photo">
+    <photo-edit (updated)="enablePhotoEditing = false"></photo-edit>
+  </quick-modal>
+
   <confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
     <p>This will remove this photo. Are you sure?</p>
     <p><strong>This action is irreversible.</strong></p>
   </confirm-modal>
 
   <toolbox>
-    <ng-container *ngIf="owned">
-      <toolbox-button image="/assets/edit.png"></toolbox-button>
+    <ng-container *ngIf="photoService.owned">
+      <toolbox-button image="/assets/edit.png" (click)="enablePhotoEditing = true"></toolbox-button>
       <toolbox-button image="/assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
     </ng-container>
   </toolbox>

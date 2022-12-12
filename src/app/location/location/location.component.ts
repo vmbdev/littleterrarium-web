@@ -39,7 +39,7 @@ export class LocationComponent implements OnInit {
             { id: 'location', name: this.location.name, link: ['/location', this.id] },
           ])
 
-          this.owned = (this.auth.getUser()?.id === this.location.ownerId) ? true : false;
+          this.owned = (this.auth.user$.getValue()?.id === this.location.ownerId) ? true : false;
         },
         error: (error) => {
           if (error.msg === 'LOCATION_NOT_FOUND') this.isValidId = false;
@@ -79,15 +79,13 @@ export class LocationComponent implements OnInit {
   }
 
   getVisibilityClass(): string {
-    let modifier: string;
-    modifier = this.location.public ? 'public' : 'private';
+    const modifier = this.location.public ? 'public' : 'private';
     
     return `location__visibility-${modifier}`;
   }
 
   getPlantsClass(): string {
-    let modifier: string;
-    modifier = (this.location.plants && (this.location.plants.length > 0)) ? 'exists' : 'empty';
+    const modifier = (this.location.plants && (this.location.plants.length > 0)) ? 'exists' : 'empty';
 
     return `location__plants-${modifier}`;
   }

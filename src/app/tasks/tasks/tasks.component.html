@@ -1,4 +1,4 @@
-<div class="tasks" *ngIf="tasks; else noTasks">
+<div class="tasks" *ngIf="tasks.length > 0; else noTasks">
   <div class="tasks__plant" *ngFor="let plant of tasks">
     <div class="tasks__picbox">
       <img class="tasks__pic" [src]="plant.photos?.at(0)?.images.thumb">

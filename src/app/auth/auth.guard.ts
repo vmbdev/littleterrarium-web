@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     return this.auth.checked$.pipe(
       skipWhile(val => val === false),
       map(() => {
-        const isSignedIn = this.auth.signedIn$.getValue();
+        const isSignedIn = !!this.auth.user$.getValue();
 
         if (!isSignedIn) this.router.navigate(['/signin']);
 
