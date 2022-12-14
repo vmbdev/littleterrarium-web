@@ -1,5 +1,5 @@
 <div class="picture-list" [ngClass]="{ 'picture-list-center': center }">
-  <picturebox *ngIf="locationId && owned" [add]="true" [link]="['/plant','create', locationId]"></picturebox>
+  <picturebox *ngIf="locationId && owned" [add]="true" [link]="['/plant','create', locationId]">New plant</picturebox>
 
   <div *ngFor="let pic of pictures">
     <a routerLink="/plant/{{ pic.id }}">

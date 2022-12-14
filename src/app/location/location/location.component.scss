@@ -2,12 +2,12 @@
 @use 'src/styles/media.scss' as m;
 
 .location {
-  &__container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 35px;
-  }
+  // &__container {
+  //   display: flex;
+  //   flex-direction: row;
+  //   justify-content: center;
+  //   gap: 35px;
+  // }
 
   &__picturebox {
     text-align: center;
@@ -17,18 +17,17 @@
     max-width: 400px;
     height: auto;
     border-radius: 5px;
-    border: 1px solid #1E5128;
   }
 
-  &__info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: 20px;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  // &__info {
+  //   display: flex;
+  //   flex-direction: row;
+  //   justify-content: space-evenly;
+  //   gap: 20px;
+  //   width: 80%;
+  //   margin-left: auto;
+  //   margin-right: auto;
+  // }
 
   &__property {
     display: flex;
@@ -79,20 +78,20 @@
   }
 
   @include m.media('mobile') {
-    &__container {
-      flex-direction: column;
-    }
+    // &__container {
+    //   flex-direction: column;
+    // }
 
     &__picture {
       max-width: 100%;
     }
 
-    &__info {
-      flex-direction: column;
-      padding: 0 5px;
-      width: 100%;
-      border-right: none !important;
-    }
+    // &__info {
+    //   flex-direction: column;
+    //   padding: 0 5px;
+    //   width: 100%;
+    //   border-right: none !important;
+    // }
   }
 
 }

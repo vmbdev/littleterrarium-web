@@ -1,8 +1,9 @@
 <a class="picturebox-wrapper" [routerLink]="link">
 
   <div *ngIf="add" class="picturebox">
-    <div class="picturebox__content picturebox__add">
-      +
+    <div class="picturebox__content picturebox__black">
+      <div class="picturebox__add">+</div>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
     </div>
   </div>
 

@@ -34,15 +34,17 @@
       </ng-container>
     </toolbox>
 
-    <widget-box *ngIf="plant.description || plant.condition" image="/assets/info.png" title="Plant information">
-      <div class="plant__description" *ngIf="plant.description">{{ plant.description }}</div>
-      <div *ngIf="plant.condition" class="plant__condition plant__condition-{{ plant.condition.toLowerCase() }}">
-        <b>Condition:</b> &nbsp; {{ plantCondition[plant.condition] }}
-      </div>
-      <div class="plant__visibility" [class]="getVisibilityClass()">
-        <b>Visibility:</b> &nbsp; {{ plant.public ? 'Public' : 'Private'}}
-      </div>
-    </widget-box>
+    <info-box title="Plant information">
+      <div *ngIf="plant.description" class="plant__description">{{ plant.description }}</div>
+      <ng-container properties>
+        <div *ngIf="plant.condition" class="plant__condition plant__condition-{{ plant.condition.toLowerCase() }}">
+          <b>Condition:</b> &nbsp; {{ plantCondition[plant.condition] }}
+        </div>
+        <div class="plant__visibility" [class]="getVisibilityClass()">
+          <b>Visibility:</b> &nbsp; {{ plant.public ? 'Public' : 'Private'}}
+        </div>
+      </ng-container>
+    </info-box>
 
     <div class="plant__row">
       <plant-widget-water *ngIf="plant.waterFreq || plant.waterLast"></plant-widget-water>

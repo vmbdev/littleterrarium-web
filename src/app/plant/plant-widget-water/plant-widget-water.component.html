@@ -6,12 +6,12 @@
 
   <widget-box image="/assets/water.png" title="Watering">
     <div>
-      <p *ngIf="plant.waterLast">Last time: {{ plant.waterLast | date }}</p>
-      <p *ngIf="plant.waterFreq">Water every {{ plant.waterFreq }} days</p>
+      <p *ngIf="plant.waterLast"><b>Last time:</b> {{ plant.waterLast | date }}</p>
     </div>
     <div bottom>
+      <p *ngIf="plant.waterFreq">Water every <b>{{ plant.waterFreq }} days</b></p>
       <p *ngIf="nextWatering() as nextW">
-        Next time: <span [ngStyle]="{ 'color' : nextW.due ? 'red' : null }">{{ nextW.text }}</span>
+        <b>Next time:</b>&nbsp;<span [ngStyle]="{ 'color' : nextW.due ? 'red' : null }">{{ nextW.text }}</span>
       </p>
       <plus-button *ngIf="this.plantService.owned" type="add" title="Water" (click)="confirmWatering = true"></plus-button>
     </div>

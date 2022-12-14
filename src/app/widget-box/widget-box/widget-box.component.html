@@ -1,5 +1,9 @@
 <div class="widget-box">
-  <div class="widget-box__image" [ngStyle]="{ 'background-image': 'url(' + image + ')' }"></div>
+  <div 
+    class="widget-box__image"
+    [ngStyle]="{ 'background-image': 'url(' + image + ')' }"
+    [ngClass]="{ 'widget-box__image-center': center === true }">
+  </div>
 
   <div class="widget-box__content">
     <div class="widget-box__content-top">

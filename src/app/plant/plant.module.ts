@@ -29,6 +29,7 @@ import { PlantWidgetWaterComponent } from './plant-widget-water/plant-widget-wat
 import { PlantWidgetFertilizerComponent } from './plant-widget-fertilizer/plant-widget-fertilizer.component';
 import { PlantWidgetSoilComponent } from './plant-widget-soil/plant-widget-soil.component';
 import { PlantEditComponent } from './plant-edit/plant-edit.component';
+import { InfoBoxModule } from '../info-box/info-box.module';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { PlantEditComponent } from './plant-edit/plant-edit.component';
     BreadcrumbModule,
     PlusButtonModule,
     ConfirmModalModule,
-    WidgetBoxModule
+    WidgetBoxModule,
+    InfoBoxModule
   ],
   exports: [
     PlantListComponent,

@@ -11,11 +11,11 @@
     </ng-container>
   </toolbox>
 
-  <div class="location__container">
+  <info-box title="Location information">
     <div *ngIf="location.pictures" class="location__picturebox">
       <img class="location__picture" [src]="location.pictures.mid">
     </div>
-    <div class="location__info">
+    <ng-container properties>
       <div class="location__property" [ngClass]="getLightClass()">{{ getLightName() }}</div>
       <div class="location__property" [ngClass]="getVisibilityClass()">{{ location.public ? 'Public' : 'Private'}}</div>
       <div class="location__property" [ngClass]="getPlantsClass()">
@@ -26,9 +26,9 @@
           No plants yet!
         </ng-template>
       </div>
-    </div>
-  </div>
-  
+    </ng-container>
+  </info-box>
+
   <plant-list *ngIf="location.plants" [owned]="owned" [locationId]="location.id" [list]="location.plants"></plant-list>
 </div>
 

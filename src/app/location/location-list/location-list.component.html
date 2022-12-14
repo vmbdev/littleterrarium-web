@@ -1,5 +1,5 @@
 <div class="picture-list picture-list-center">
-  <picturebox [add]="true" [link]="['/location','create']"></picturebox>
+  <picturebox [add]="true" [link]="['/location','create']">Create location</picturebox>
 
   <picturebox *ngFor="let location of list" [image]="location.pictures?.thumb" [link]="['/location', location.id]">
     <div>{{ location.name }}</div>

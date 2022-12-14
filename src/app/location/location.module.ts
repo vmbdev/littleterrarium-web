@@ -13,6 +13,7 @@ import { WizardModule } from '../wizard/wizard.module';
 import { ToolboxModule } from '../toolbox/toolbox.module';
 import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { ConfirmModalModule } from '../confirm-modal/confirm-modal.module';
+import { InfoBoxModule } from '../info-box/info-box.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ConfirmModalModule } from '../confirm-modal/confirm-modal.module';
     WizardModule,
     ToolboxModule,
     BreadcrumbModule,
-    ConfirmModalModule
+    ConfirmModalModule,
+    InfoBoxModule
   ],
   exports: [
     LocationListComponent,

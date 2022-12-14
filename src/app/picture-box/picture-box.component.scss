@@ -40,8 +40,11 @@
     }
   }
 
+  &__black {
+    background-color: black !important;
+  }
+
   &__add {
     font-size: 150px;
-    background-color: black !important;
   }
 }
