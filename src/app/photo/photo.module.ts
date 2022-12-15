@@ -14,6 +14,7 @@ import { BreadcrumbModule } from '../breadcrumb/breadcrumb.module';
 import { ConfirmModalModule } from '../confirm-modal/confirm-modal.module';
 import { QuickModalModule } from '../quick-modal/quick-modal.module';
 import { PhotoEditComponent } from './photo-edit/photo-edit.component';
+import { InfoBoxModule } from '../info-box/info-box.module';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { PhotoEditComponent } from './photo-edit/photo-edit.component';
     ToolboxModule,
     BreadcrumbModule,
     ConfirmModalModule,
-    QuickModalModule
+    QuickModalModule,
+    InfoBoxModule
   ],
   exports: [
     PhotoComponent,

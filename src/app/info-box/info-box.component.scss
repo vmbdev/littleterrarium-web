@@ -50,6 +50,11 @@
     flex-direction: column;
     padding: 20px;
     height: 100%;
+
+    &-horizontal {
+      gap: 30px;
+      flex-direction: row !important;
+    }
     
     &-top {
       flex: 1;
@@ -60,6 +65,7 @@
       grid-auto-flow: column;
       justify-content: center;
       gap: 60px;
+      width: 100%;
 
     }
   }

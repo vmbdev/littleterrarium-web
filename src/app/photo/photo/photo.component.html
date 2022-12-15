@@ -8,7 +8,7 @@
     <p><strong>This action is irreversible.</strong></p>
   </confirm-modal>
 
-  <toolbox>
+  <toolbox title="{{ photo.takenAt | date }}">
     <ng-container *ngIf="photoService.owned">
       <toolbox-button image="/assets/edit.png" (click)="enablePhotoEditing = true"></toolbox-button>
       <toolbox-button image="/assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
@@ -20,9 +20,16 @@
       <img [src]="photo.images.mid">
     </a>
   </div>
-  <div class="photo__info">
-    <p>Description: {{ photo.description }}</p>
-    <p>Visibility: {{ (photo.public) ? 'Public' : 'Private' }}</p>
-    <p>Photo taken on {{ photo.takenAt | date }}</p>
-  </div>
+
+  <info-box title="Photo information">
+    <div *ngIf="photo.description" class="photo__description">{{ photo.description }}</div>
+    <ng-container properties>
+      <div class="photo__property photo__property-takendate">
+        <b>Taken at:</b> &nbsp; {{ photo.takenAt | date }}
+      </div>
+      <div class="photo__property" [ngClass]="photo.public ? 'photo__property-public' : 'photo__property-private'">
+        <b>Visibility:</b> &nbsp; {{ photo.public ? 'Public' : 'Private' }}
+      </div>
+    </ng-container>
+  </info-box>
 </div>

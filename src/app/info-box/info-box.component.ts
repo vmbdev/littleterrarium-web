@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class InfoBoxComponent implements OnInit {
   @Input() image?: string;
   @Input() title?: string;
-  @Input() center: boolean = true;
+  @Input() vertical: boolean = true;
 
   constructor() { }
 

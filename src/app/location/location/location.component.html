@@ -11,10 +11,7 @@
     </ng-container>
   </toolbox>
 
-  <info-box title="Location information">
-    <div *ngIf="location.pictures" class="location__picturebox">
-      <img class="location__picture" [src]="location.pictures.mid">
-    </div>
+  <info-box title="Location information" [vertical]="false">
     <ng-container properties>
       <div class="location__property" [ngClass]="getLightClass()">{{ getLightName() }}</div>
       <div class="location__property" [ngClass]="getVisibilityClass()">{{ location.public ? 'Public' : 'Private'}}</div>

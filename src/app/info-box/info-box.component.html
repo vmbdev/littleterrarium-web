@@ -5,8 +5,8 @@
       <h1 *ngIf="title">{{ title }}</h1>
     </div>
   </div>
-  <div class="info-box__content">
-    <div class="info-box__content-top">
+  <div class="info-box__content" [ngClass]="{ 'info-box__content-horizontal': !vertical }">
+    <div [ngClass]="{ 'info-box__content-top': vertical }">
       <ng-content></ng-content>
     </div>
     <div class="info-box__content-bottom">
