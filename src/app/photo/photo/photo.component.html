@@ -25,10 +25,10 @@
     <div *ngIf="photo.description" class="photo__description">{{ photo.description }}</div>
     <ng-container properties>
       <div class="photo__property photo__property-takendate">
-        <b>Taken at:</b> &nbsp; {{ photo.takenAt | date }}
+        <b>Taken at:</b> {{ photo.takenAt | date }}
       </div>
       <div class="photo__property" [ngClass]="photo.public ? 'photo__property-public' : 'photo__property-private'">
-        <b>Visibility:</b> &nbsp; {{ photo.public ? 'Public' : 'Private' }}
+        <b>Visibility:</b> {{ photo.public ? 'Public' : 'Private' }}
       </div>
     </ng-container>
   </info-box>
