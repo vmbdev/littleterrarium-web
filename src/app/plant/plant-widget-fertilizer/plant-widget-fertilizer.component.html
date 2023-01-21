@@ -1,19 +1,25 @@
 <ng-container *ngIf="plantService.plant$ | async as plant">
   <confirm-modal *ngIf="confirmFertilizing" (accept)="addFertilizer()" (cancel)="confirmFertilizing = false">
-    This will update your <b>last time fertilized</b> to today.
+    <span i18n="@@plant-widget-fertilizer.confirm">This will update your <b>last time fertilized</b> to today.</span>
   </confirm-modal>
 
-  <widget-box image="/assets/fertilizer.png" title="Fertilizing">
+  <widget-box image="/assets/fertilizer.png" title="Fertilising" i18n-title="@@plant-widget-fertilizer.title">
     <div>
-      <p *ngIf="plant.fertLast"><b>Last time:</b> {{ plant.fertLast | date }}</p>
-      <p *ngIf="plant.fertType"><b>Fertilizant:</b> {{ plant.fertType }}</p>
+      <p *ngIf="plant.fertLast"><b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}</p>
+      <p *ngIf="plant.fertType"><b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}</p>
     </div>
     <div bottom>
-      <p *ngIf="plant.fertFreq">Fertilize every <b>{{ plant.fertFreq }} days</b></p>
+      <p *ngIf="plant.fertFreq" i18n="@@plant-widget-fertilizer.freq">Fertilise every <b>{{ plant.fertFreq }} days</b></p>
       <p *ngIf="nextFertilizing() as nextF">
-        <b>Next time:</b>&nbsp;<span [ngStyle]="{ 'color' : nextF.due ? 'red' : null }">{{ nextF.text }}</span>
+        <b i18n="@@general.nextTime">Next time:</b>&nbsp;<span [ngStyle]="{ 'color' : nextF.due ? 'red' : null }">{{ nextF.text }}</span>
       </p>
-      <plus-button *ngIf="this.plantService.owned" type="add" title="Fertilize" (click)="confirmFertilizing = true"></plus-button>
+      <plus-button
+        *ngIf="this.plantService.owned"
+        type="add"
+        title="Fertilize"
+        (click)="confirmFertilizing = true"
+        i18n-title="@@plant-widget-fertilizer.button">
+      </plus-button>
     </div>
   </widget-box>
 </ng-container>

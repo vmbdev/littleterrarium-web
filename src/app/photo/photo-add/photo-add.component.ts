@@ -13,6 +13,8 @@ export class PhotoAddComponent implements OnInit {
   photoForm: FormGroup;
   plantId!: number;
   plant!: Plant;
+  plantName?: string;
+  plantSpecie?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +34,17 @@ export class PhotoAddComponent implements OnInit {
     if (!this.plantId) console.error('Plant invalid');
     else {
       this.api.getPlant(this.plantId).subscribe({
-        next: (plant: Plant) => { this.plant = plant },
+        next: (plant: Plant) => {
+          this.plant = plant;
+
+          if (plant.customName) {
+            this.plantName = plant.customName;
+
+            if (plant.specie?.name) this.plantSpecie = plant.specie.name;
+          }
+          else if (plant.specie?.name) this.plantName = plant.specie.name;
+          else this.plantName = $localize `:@@general.unnamedPlant:Unnamed plant ${plant.id}:plantId:`;
+        },
         error: () => { console.error('Plant not found') }
       });
     }

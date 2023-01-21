@@ -16,6 +16,7 @@ export class UserRegisterComponent implements OnInit {
   pwdReq?: any = null;
   wizardPage: number | undefined = undefined;
   errors: any = {};
+  nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"\|,.\<>/?';
 
   constructor(
     private api: ApiService,
@@ -91,6 +92,10 @@ export class UserRegisterComponent implements OnInit {
 
   moveWizardPage(value: number | undefined): void {
     this.wizardPage = value;
+  }
+
+  hasPasswordError(control: string): boolean | undefined {
+    return this.userForm.get('passwordCheck')?.get('password')?.hasError(control);
   }
 
   submit(): void {

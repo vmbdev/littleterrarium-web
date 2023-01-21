@@ -1,21 +1,19 @@
 <div class="userbox" (mouseover)="enableMenu()" (mouseout)="disableMenu()" *ngIf="auth.user$ | async as user; else notSignedIn">
   <div class="userbox__user">
     <div class="userbox__avatar" [ngStyle]="{ 'background-image': 'url(' + (user.avatar ? user.avatar.thumb : '/assets/user.png') + ')' }"></div>
-    <div class="userbox__link">
-      Hi <b>{{ user.username }}</b>
-    </div>
+    <div class="userbox__link" i18n="@@userbox.username">Hi <b>{{ user.username }}</b></div>
   </div>
   <div class="userbox__menu" [ngClass]="{ 'userbox__menu-hidden' : !menuVisible }">
     <div class="userbox__menulink">
-      <a routerLink="/user/edit">Your profile</a>
+      <a routerLink="/user/edit" i18n="@@userbox.profile">Your profile</a>
     </div>
     <div class="userbox__menulink">
-      <a routerLink="/logout">Log out</a>
+      <a routerLink="/logout" i18n="@@general.logout">Log out</a>
     </div>
   </div>
 </div>
 <ng-template #notSignedIn>
   <div class="userbox__link">
-    <a routerLink="/signin">Sign in</a>
+    <a routerLink="/signin" i18n="@@general.signin">Sign in</a>
   </div>
 </ng-template>

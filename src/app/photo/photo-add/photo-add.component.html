@@ -1,31 +1,31 @@
 <form [formGroup]="photoForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
   <wizard [form]="photoForm">
     <wizard-header *ngIf="plant">
-      Adding photos to <b>{{ plant.customName ? plant.customName: plant.specie?.name }}</b>&nbsp;
-      <ng-container *ngIf="plant.customName && plant.specie?.name">
-        <i>({{plant.specie?.name}})</i>
+      <span i18n="@@photo-add.header">Adding photos to <b>{{ plantName }}</b></span>&nbsp;
+
+      <ng-container *ngIf="plantSpecie">
+        <i>({{plantSpecie}})</i>
       </ng-container>
     </wizard-header>
 
-    <page title="Pictures">
+    <page title="Pictures" i18n-title="@@general.pictures">
       <page-description>
-        <p>Time to brag about our well-cared, personal jungle.</p>
-        <p>Up to <b>10 pictures</b> at once! Once they're up, you can edit their description and if you need them in a specific order you can define when they were taken.</p>
+        <p i18n="@@photo-add.addMsg">Time to brag about our well-cared, personal jungle.</p>
+        <p i18n="@@photo-add.addMsgLimit">Up to <b>10 pictures</b> at once! Once they're up, you can edit their description and if you need them in a specific order you can define when they were taken.</p>
       </page-description>
       <file-uploader [amount]="10" (fileChange)="fileChange($event)"></file-uploader>
     </page>
 
-    <page title="Public visibility">
+    <page title="Privacy" i18n-title="@@general.privacy">
       <page-description>
-        <p>When your picture is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
-        <p>
-          <strong>Note</strong> that your locations and plants have their own privacy settings, and they supersedes the picture's privacy setting
-          (i.e. you can't share this picture if the plant is private).
+        <p i18n="@@photo-add.visibility">When your picture is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
+        <p i18n="@@photo-add.visibilityNote">
+          <strong>Note</strong> that your locations and plants have their own privacy settings, and they supersedes the picture's privacy setting (i.e. you can't share this picture if the plant is private).
         </p>
       </page-description>
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
-        <label for="public-checkbox">Publicly visible</label>
+        <label for="public-checkbox" i18n="@@general.visibilityPublic">Publicly visible</label>
       </div>
     </page>
   </wizard>

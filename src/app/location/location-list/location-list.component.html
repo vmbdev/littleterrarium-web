@@ -1,8 +1,8 @@
 <div class="picture-list picture-list-center">
-  <picturebox [add]="true" [link]="['/location','create']">Create location</picturebox>
+  <picturebox [add]="true" [link]="['/location','create']" i18n="@@location-list.create">Create location</picturebox>
 
   <picturebox *ngFor="let location of list" [image]="location.pictures?.thumb" [link]="['/location', location.id]">
     <div>{{ location.name }}</div>
-    <div>{{ location._count.plants > 0 ? location._count.plants : 'No' }} plants here</div>
+    <div i18n="@@location-list.amount">{{ location._count.plants > 0 ? location._count.plants : 'No' }} plants here</div>
   </picturebox>
 </div>

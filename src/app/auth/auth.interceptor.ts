@@ -17,6 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status === 403) {
+          // TODO: to error manager
           return throwError(() => new Error('Forbidden'))
         }
 

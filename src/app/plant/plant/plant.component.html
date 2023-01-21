@@ -19,8 +19,8 @@
   </quick-modal>
 
   <confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
-    <p>This will remove this plant and all of its photos. Are you sure?</p>
-    <p><strong>This decision is irreversible.</strong></p>
+    <p i18n="@@plant.remove">This will remove this plant and all of its photos. Are you sure?</p>
+    <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
   </confirm-modal>
 
   <div class="plant">
@@ -39,10 +39,12 @@
 
       <ng-container properties>
         <div *ngIf="plant.condition" class="plant__condition plant__condition-{{ plant.condition.toLowerCase() }}">
-          <b>Condition:</b> {{ plantCondition[plant.condition] }}
+          <b i18n="@@plant.condition">Condition:</b>&nbsp;{{ plantCondition[plant.condition] }}
         </div>
         <div class="plant__visibility" [class]="getVisibilityClass()">
-          <b>Visibility:</b> {{ plant.public ? 'Public' : 'Private'}}
+          <b i18n="@@general.visibility">Visibility:</b>
+          <ng-container *ngIf="plant.public; else plantPrivate" i18n="@@general.public">Public</ng-container>
+          <ng-template #plantPrivate i18n="@@general.private">Private</ng-template>
         </div>
       </ng-container>
     </info-box>

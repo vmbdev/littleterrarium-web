@@ -4,18 +4,18 @@
 
     </wizard-header>
 
-    <page title="User name">
+    <page title="Username" i18n-title="@@general.username">
       <page-description>
-        <p>This is how you'll be known around here, and how your profile will be accesed. Short, no spaces, no weird things.</p>
+        <p i18n="@@user-edit.usernameDesc">This is how you'll be known around here, and how your profile will be accesed. Short, no spaces, no weird things.</p>
       </page-description>
       <div class="form__textinput">
         <input type="text" formControlName="username" placeholder="PlantLover95">
       </div>
     </page>
 
-    <page title="First and last name">
+    <page title="First and last name" i18n-title="@@general.fullname">
       <page-description>
-        <p>In case you want to present yourself more professionally.</p>
+        <p i18n="@@user-edit.fullnameDesc">In case you want to present yourself more professionally.</p>
       </page-description>
       <div class="form__textinput">
         <input type="text" formControlName="firstname" placeholder="Greta">
@@ -25,25 +25,25 @@
       </div>
     </page>
 
-    <page title="E-mail">
+    <page title="E-mail" i18n-title="@@general.email">
       <page-description>
-        <p>This is <strong>important</strong>! This is how you can recover your account in case you forget your password.</p>
+        <p i18n="@@user-edit.emailDesc">This is <strong>important</strong>! This is how you can recover your account in case you forget your password.</p>
       </page-description>
       <div class="form__textinput">
         <input type="email" formControlName="email" placeholder="john@lovingplants.com">
       </div>
     </page>
 
-    <page title="Avatar">
+    <page title="Avatar" i18n-title="@@general.avatar">
       <page-description>
-        <p>Also known as profile picture. Just an image to present yourself.</p>
+        <p i18n="@@user-edit.avatarDesc">Also known as profile picture. Just an image to present yourself.</p>
       </page-description>
       <file-uploader [amount]="1" (fileChange)="fileChange($event)"></file-uploader>
     </page>
 
-    <page title="Bio">
+    <page title="Bio" i18n-title="@@general.bio">
       <page-description>
-        <p>Tell us something about yourself! How did you get in the green world, what kind of plants do you like, where are you based, etc.</p>
+        <p i18n="@@user-edit.bioDesc">Tell us something about yourself! How did you get in the green world, what kind of plants do you like, where are you based, etc.</p>
       </page-description>
       <div class="form__textarea">
         <textarea formControlName="bio" rows="4"></textarea>
@@ -51,16 +51,14 @@
     </page>
 
     
-    <page title="Privacy">
+    <page title="Privacy" i18n-title="@@general.privacy">
       <page-description>
-        <p>
-          If your profile is public, you will be able to share it to whomever you want to, and brag about your plants.
-          If your profile is private, you won't be able to share it, but you'll still enjoy of all of the features of Little Terrarium.
-        </p>
+        <p i18n="@@user-edit.publicProfile">If your profile is public, you will be able to share it to whomever you want to, and brag about your plants.</p>
+        <p i18n="@@user-edit.privateProfile">If your profile is private, you won't be able to share it, but you'll still enjoy of all of the features of Little Terrarium.</p>
       </page-description>
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
-        <label for="public-checkbox">Publicly visible</label>
+        <label for="public-checkbox" i18n="@@general.visibilityPublic">Publicly visible</label>
       </div>
     </page>
 

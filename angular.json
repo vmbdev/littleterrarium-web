@@ -13,10 +13,19 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-GB",
+        "locales": {
+          "es": {
+            "translation": "src/i18n/es.json"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
             "outputPath": "dist/littleterrarium",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -33,6 +42,9 @@
             "scripts": []
           },
           "configurations": {
+            "es": {
+              "localize": ["es"]
+            },
             "production": {
               "budgets": [
                 {
@@ -43,7 +55,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "8kb"
                 }
               ],
               "fileReplacements": [
@@ -68,6 +80,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
+            "es": {
+              "browserTarget": "littleterrarium:build:es"
+            },
             "production": {
               "browserTarget": "littleterrarium:build:production"
             },

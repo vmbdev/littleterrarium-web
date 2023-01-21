@@ -21,6 +21,12 @@ export class PlantService {
     return this.api.getPlant(id).pipe(
       map((plant: Plant) => {
         this.owned = (this.auth.user$.getValue()?.id === plant.ownerId);
+
+        // FIXME: do it in ApiService?
+        if (plant.customName) plant.visibleName = plant.customName;
+        else if (plant.specie?.name) plant.visibleName = plant.specie.name;
+        else plant.visibleName = $localize `:@@general.unnamedPlant:Unnamed plant ${plant.id}:plantId:`;
+
         this.plant$.next(plant);
 
         return plant;
@@ -31,17 +37,6 @@ export class PlantService {
         return throwError(() => HttpError.error);
       })
     );
-  }
-
-  getPlantName(): string {
-    const plant = this.plant$.getValue();
-    let title: string;
-
-    if (plant.customName) title = plant.customName;
-    else if (plant.specie) title = plant.specie.name;
-    else title = `Plant ${plant.id}`;
-
-    return title;
   }
 
   update(plant: Plant): Observable<any> {

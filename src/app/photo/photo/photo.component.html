@@ -4,8 +4,8 @@
   </quick-modal>
 
   <confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
-    <p>This will remove this photo. Are you sure?</p>
-    <p><strong>This action is irreversible.</strong></p>
+    <p i18n="@@photo.remove">This will remove this photo. Are you sure?</p>
+    <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
   </confirm-modal>
 
   <toolbox title="{{ photo.takenAt | date }}">
@@ -25,10 +25,10 @@
     <div *ngIf="photo.description" class="photo__description">{{ photo.description }}</div>
     <ng-container properties>
       <div class="photo__property photo__property-takendate">
-        <b>Taken at:</b> {{ photo.takenAt | date }}
+        <b i18n="@@photo.takenAt">Taken at:</b> {{ photo.takenAt | date }}
       </div>
       <div class="photo__property" [ngClass]="photo.public ? 'photo__property-public' : 'photo__property-private'">
-        <b>Visibility:</b> {{ photo.public ? 'Public' : 'Private' }}
+        <b i18n="@@general.visibility">Visibility:</b> {{ photo.public ? 'Public' : 'Private' }}
       </div>
     </ng-container>
   </info-box>

@@ -1,60 +1,59 @@
 <form [formGroup]="locationForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
   <wizard [form]="locationForm" [singlePage]="!createNew">
-    <wizard-header *ngIf="!createNew && location">
-      Editing location <b>{{ location.name }}</b>
-    </wizard-header>
-    <page title="Name" control="name">
+    <wizard-header *ngIf="!createNew && location" i18n="@@location-add-edit.header">Editing location <b>{{ location.name }}</b></wizard-header>
+
+    <page title="Name" control="name" i18n-title="@@general.name">
       <page-description>
-        <p>The name of a new location where your plants will live. Choose a <b>recognisable name</b>: <i>window, balcony, coffee table</i>...</p>
-        <p><b>Think</b>: when talking to your friends about the plants here, how do you usually call it?</p>
+        <p i18n="@@location-add-edit.name">The name of a new location where your plants will live. Choose a <b>recognisable name</b>: <i>window, balcony, coffee table</i>...</p>
+        <p i18n="@@location-add-edit.nameTip"><b>Think</b>: when talking to your friends about the plants here, how do you usually call it?</p>
       </page-description>
       <div class="form__textinput" [ngClass]="{ 'form-error': control('name').errors?.['required'] && control('name').dirty }">
-        <input type="text" formControlName="name" placeholder="Lovely green window">
+        <input type="text" formControlName="name" placeholder="Lovely green window" i18n-placeholder="@@location-add-edit.namePlaceholder">
       </div>
     </page>
 
-    <page title="Picture">
+    <page title="Picture" i18n-title="@@general.picture">
       <page-description>
-        <p>Choose a nice, beautiful picture to showcase your nice, beautiful window/balcony/kitchen drawer/whatever!</p>
-        <p>Or, well, don't. Up to you.</p>
+        <p i18n="@@location-add-edit.choose">Choose a nice, beautiful picture to showcase your nice, beautiful window/balcony/kitchen drawer/whatever!</p>
+        <p i18n="@@location-add-edit.ornot">Or, well, don't. Up to you.</p>
       </page-description>
       <div class="location__pic" [ngClass]="{ 'location__disablepic': removePicture }">
         <file-uploader [amount]="1" (fileChange)="fileChange($event)"></file-uploader>
         <div class="location__currentpic" *ngIf="!createNew && location && location.pictures">
-          <p>Your current picture</p>
+          <p i18n="@@location-add-edit.currentPic">Your current picture</p>
           <img [src]="location.pictures.thumb">
         </div>
       </div>
       <div class="location__removepic form__checkbox" *ngIf="!createNew && location">
         <input type="checkbox" id="removepic" (change)="toggleRemovePicture($event)">
-        <label for="removepic">Remove picture</label>
+        <label for="removepic" i18n="@@location-add-edit.removePic">Remove picture</label>
       </div>
     </page>
 
-    <page title="Light" control="light">
+    <page title="Light" control="light" i18n-title="@@general.light">
       <page-description>
-        <p>Probably there's nothing as important for a plant than the sunlight (or the lack of).</p>
-        <p>How's the light over here?</p>
+        <p i18n="@@location-add-edit.lightInfo">Probably there's nothing as important for a plant than the sunlight (or the lack of).</p>
+        <p i18n="@@location-add-edit.lightAmount">How's the light over here?</p>
       </page-description>
       <div class="form__radio" *ngFor="let option of lightOptions | keyvalue; let i = index">
         <input type="radio" formControlName="light" [id]="'light' + i" [value]="option.key">
         <label [for]="'light' + i"><b>{{ option.value.desc }}</b>: {{ option.value.verbose }}</label>
       </div>
-
     </page>
 
-    <page title="Public visibility">
+    <page title="Privacy" i18n-title="@@general.privacy">
       <page-description>
-        <p>When your location is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
-        <p>
+        <p i18n="@@location-add-edit.visibility">When your location is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
+        <p i18n="@@location-add-edit.visibilityNote">
           <strong>Note</strong> that your plants and pictures have their own privacy settings, so if you don't want to show some of your dying plants or blurry photos
           you can hide them individually even though your location is public.
         </p>
       </page-description>
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
-        <label for="public-checkbox">Publicly visible</label>
+        <label for="public-checkbox" i18n="@@general.visibilityPublic">Publicly visible</label>
       </div>
     </page>
+
   </wizard>
 </form>

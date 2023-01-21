@@ -30,7 +30,8 @@ export class PlantEditComponent implements OnInit {
       specieId: [],
       description: [],
       condition: [],
-      locationId: [Validators.required]
+      locationId: [Validators.required],
+      public: []
     })
   }
 
@@ -49,7 +50,8 @@ export class PlantEditComponent implements OnInit {
             specieId: plant.specieId,
             description: plant.description,
             condition: plant.condition,
-            locationId: plant.locationId
+            locationId: plant.locationId,
+            public: plant.public
           });
 
 
@@ -74,7 +76,6 @@ export class PlantEditComponent implements OnInit {
 
     const plant: Plant = this.plantForm.value;
     plant.id = this.id;
-    console.log(plant);
     
     this.plantService.update(plant).subscribe(() => {
       this.router.navigate(['/plant', this.id]);

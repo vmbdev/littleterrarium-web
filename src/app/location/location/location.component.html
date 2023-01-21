@@ -1,6 +1,6 @@
 <confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
-  <p>This will remove this location along with its plants and photos. Are you sure?</p>
-  <p><strong>This decision is irreversible.</strong></p>
+  <p i18n="@@location.remove">This will remove this location along with its plants and photos. Are you sure?</p>
+  <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
 </confirm-modal>
 
 <div class="location" *ngIf="location; else invalidId">
@@ -14,13 +14,16 @@
   <info-box title="Location information" [vertical]="false">
     <ng-container properties>
       <div class="location__property" [ngClass]="getLightClass()">{{ getLightName() }}</div>
-      <div class="location__property" [ngClass]="getVisibilityClass()">{{ location.public ? 'Public' : 'Private'}}</div>
+      <div class="location__property" [ngClass]="getVisibilityClass()">
+        <ng-container *ngIf="location.public; else locationPrivate" i18n="@@general.public">Public</ng-container>
+        <ng-template #locationPrivate i18n="@@general.private">Private</ng-template>
+      </div>
       <div class="location__property" [ngClass]="getPlantsClass()">
         <ng-container *ngIf="(location.plants && (location.plants.length > 0)); else noPlants">
-          {{ location.plants.length }} plants
+          <span i18n="@@location.plants">{{ location.plants.length }} plants</span>
         </ng-container>
         <ng-template #noPlants>
-          No plants yet!
+          <span i18n="@@location.noPlants">No plants yet!</span>
         </ng-template>
       </div>
     </ng-container>
@@ -29,6 +32,4 @@
   <plant-list *ngIf="location.plants" [owned]="owned" [locationId]="location.id" [list]="location.plants"></plant-list>
 </div>
 
-<ng-template #invalidId>
-  Location invalid or not found
-</ng-template>
+<ng-template #invalidId i18n="@@location.invalid">Location invalid or not found</ng-template>

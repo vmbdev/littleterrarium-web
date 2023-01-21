@@ -35,6 +35,7 @@ export interface Plant {
   updatedAt: Date
   photos?: Photo[]
   specie?: Specie
+  visibleName?: string
 }
 
 export interface User {
@@ -103,39 +104,39 @@ export type NotificationType = (typeof NotificationType)[keyof typeof Notificati
 
 export const Light: { [key: string]: any } = {
   FULLSUN: {
-    desc: 'Full sun',
-    verbose: 'Sun shines over the whole day',
+    desc: $localize `:@@interfaces.light.fullsunDesc:Full sun`,
+    verbose: $localize `:@@interfaces.light.fullsunVerbose:Sun shines over the whole day`,
   },
   PARTIALSUN: {
-    desc: 'Partial sun',
-    verbose: 'Sun is here for a few hours each day',
+    desc: $localize `:@@interfaces.light.partialsunDesc:Partial sun`,
+    verbose: $localize `:@@interfaces.light.partialsunVerbose:Sun is here for a few hours each day`,
   },
   SHADE: {
-    desc: 'Shade',
-    verbose: 'Sun is not allowed here',
+    desc: $localize `:@@interfaces.light.shadeDesc:Shade`,
+    verbose: $localize `:@@interfaces.light.shadeVerbose:Sun is not allowed here`,
   },
 }
 export type Light = (typeof Light)[keyof typeof Light];
 
 export const Condition: { [key: string]: string } = {
-  BAD: 'On the line', // red
-  POOR: 'Holding on to life', // yellow
-  GOOD: 'Looks good', // grey
-  GREAT: 'Looks great', // light green
-  EXCELLENT: 'Prime example of its specie', // vibrant green
+  BAD: $localize `:@@interfaces.condition.bad:On the line`, // red
+  POOR: $localize `:@@interfaces.condition.poor:Holding on to life`, // yellow
+  GOOD: $localize `:@@interfaces.condition.good:Looks good`, // grey
+  GREAT: $localize `:@@interfaces.condition.great:Looks great`, // light green
+  EXCELLENT: $localize `:@@interfaces.condition.excellent:Prime example of its specie`, // vibrant green
 }
 export type Condition = (typeof Condition)[keyof typeof Condition];
 
 // client-side only
 export const potChoices: { [key: string]: any } = {
-  LT_POT_TERRACOTTA: { name: 'Terracotta', image: '/assets/pot-terracotta.jpg' },
-  LT_POT_PLASTIC: { name: 'Plastic', image: '/assets/pot-plastic.jpg' },
-  LT_POT_CERAMIC: { name: 'Ceramic', image: '/assets/pot-ceramic.jpg' },
-  LT_POT_METAL: { name: 'Metal', image: '/assets/pot-metal.jpg' },
-  LT_POT_GLASS: { name: 'Glass', image: '/assets/pot-glass.jpg' },
-  LT_POT_WOOD: { name: 'Wood', image: '/assets/pot-wood.jpg' },
-  LT_POT_CONCRETE: { name: 'Concrete', image: '/assets/pot-concrete.jpg' },
-  LT_POT_OTHER: { name: 'Other', image: '/assets/pot-other.jpg' },
+  LT_POT_TERRACOTTA: { name: $localize `:@@interfaces.potMaterial.terracotta:Terracotta`, image: '/assets/pot-terracotta.jpg' },
+  LT_POT_PLASTIC: { name: $localize `:@@interfaces.potMaterial.plastic:Plastic`, image: '/assets/pot-plastic.jpg' },
+  LT_POT_CERAMIC: { name: $localize `:@@interfaces.potMaterial.ceramic:Ceramic`, image: '/assets/pot-ceramic.jpg' },
+  LT_POT_METAL: { name: $localize `:@@interfaces.potMaterial.metal:Metal`, image: '/assets/pot-metal.jpg' },
+  LT_POT_GLASS: { name: $localize `:@@interfaces.potMaterial.glass:Glass`, image: '/assets/pot-glass.jpg' },
+  LT_POT_WOOD: { name: $localize `:@@interfaces.potMaterial.wood:Wood`, image: '/assets/pot-wood.jpg' },
+  LT_POT_CONCRETE: { name: $localize `:@@interfaces.potMaterial.concrete:Concrete`, image: '/assets/pot-concrete.jpg' },
+  LT_POT_OTHER: { name: $localize `:@@interfaces.potMaterial.other:Other`, image: '/assets/pot-other.jpg' },
 };
 
 export const Role: { [key: string]: string } = {

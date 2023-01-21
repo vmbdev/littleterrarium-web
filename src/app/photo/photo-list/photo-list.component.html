@@ -1,5 +1,5 @@
 <div class="picture-list">
-  <picturebox *ngIf="owned" [add]="true" [link]="['/photo', 'create', plantId]">Add photo</picturebox>
+  <picturebox *ngIf="owned" [add]="true" [link]="['/photo', 'create', plantId]" i18n="@@photo-list.add">Add photo</picturebox>
   <picturebox *ngFor="let photo of list" [image]="photo.images.thumb" [contentBelow]="true" [link]="['/photo', photo.id]">
     {{ photo.takenAt | date }}
   </picturebox>

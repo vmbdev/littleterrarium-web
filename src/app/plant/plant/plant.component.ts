@@ -44,14 +44,15 @@ export class PlantComponent implements OnInit {
   fetchPlantData(): void {
     this.plantService.get(this.id).subscribe({
       next: (plant: Plant) => {
+        this.plantVisibility = plant.public;
+
         if (plant.customName) {
           this.plantTitle = plant.customName;
-          this.plantVisibility = plant.public;
 
           if (plant.specie) this.plantSubtitle = plant.specie.name;
         }
         else if (plant.specie) this.plantTitle = plant.specie.name
-        else this.plantTitle = `Unidentified plant ${plant.id}`;
+        else this.plantTitle = plant.visibleName;
 
         this.breadcrumb.setNavigation([
           { id: 'plant', name: this.plantTitle, link: ['/plant', this.id] }

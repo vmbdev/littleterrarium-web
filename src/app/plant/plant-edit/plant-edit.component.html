@@ -1,28 +1,26 @@
 <form *ngIf="plantService.plant$ | async as plant" [formGroup]="plantForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
   <wizard [form]="plantForm" [singlePage]="true">
-    <wizard-header>
-      Editing {{ plantService.getPlantName() }}
-    </wizard-header>
+    <wizard-header i18n="@@plant-edit.header">Editing {{ plant.visibleName }}</wizard-header>
 
-    <page title="Name">
+    <page title="Name" i18n-title="@@general.name">
       <page-description>
-        <p>This is the happy moment when we add our beloved plants. First things first, identify! Want to give it a <b> name</b>?</p>
+        <p i18n="@@plant-add.nameDesc">This is the happy moment when we add our beloved plants. First things first, identify! Want to give it a <b> name</b>?</p>
       </page-description>
       <div class="form__textinput">
-        <input type="text" formControlName="customName" placeholder="Big Fluffy Smelly Geranium">
+        <input type="text" formControlName="customName" placeholder="Big Fluffy Smelly Geranium" i18n-placeholder="@@plant-add.namePlaceholder">
       </div>
     </page>
 
-    <page title="Specie">
+    <page title="Specie" i18n-title="@@general.specie">
       <page-description>
-        <p>Do you know which species your plant belongs to?</p>
+        <p i18n="@@plant-add.specieDesc">Have you identified its specie? Search and select it from the list. You can use <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a> to identify it.</p>
       </page-description>
       <specie-finder [selected]="plant.specieId ? plant.specieId : undefined" (selectSpecieId)="selectSpecieId($event)"></specie-finder>
     </page>
 
-    <page title="Location">
+    <page title="Location" i18n-title="@@general.location">
       <page-description>
-        <p>Did you move your plant?</p>
+        <p i18n="@@plant-edit.moved">Did you move your plant?</p>
       </page-description>
       <div class="form__select">
         <select formControlName="locationId">
@@ -33,25 +31,37 @@
       </div>
     </page>
 
-    <page title="Description">
+    <page title="Description" i18n-title="@@general.description">
       <page-description>
-        <p>Tell us something about your green friend.</p>
+        <p i18n="@@plant-edit.description">Tell us something about your green friend: Where did you get it? When? How? Is it a variation of the common species? Is there an interesting story behind it?</p>
       </page-description>
       <div class="form__textarea">
         <textarea formControlName="description" maxlength="300" rows="4">{{ plant.description }}</textarea>
       </div>
-      
     </page>
 
-    <page title="Plant condition">
+    <page title="Plant condition" i18n-title="@@plant-edit.condition">
       <page-description>
-        <p>Let's keep track of its health, would you?</p>
+        <p i18n="@@plant-edit.health">Let's keep track of its health, would you?</p>
       </page-description>
       <div class="plantedit__conditions">
         <div class="form__radio" *ngFor="let cond of plantConditions | keyvalue : noSort">
           <input type="radio" formControlName="condition" [id]="'cond' + cond.key" [value]="cond.key">
           <label [for]="'cond' + cond.key">{{ cond.value }}</label>
         </div>
+      </div>
+    </page>
+
+    <page title="Privacy" i18n-title="@@general.privacy">
+      <page-description>
+        <p i18n="@@plant-add.privacy">When your plant is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
+        <p i18n="@@plant-add.privacyTip">
+          <strong>Note</strong> that your locations has its own privacy settings, and it supersedes the picture's privacy setting, so users can't see the location plant list, but you can share a direct link to this plant.
+        </p>
+      </page-description>
+      <div class="form__checkbox">
+        <input type="checkbox" formControlName="public" id="public-checkbox">
+        <label for="public-checkbox" i18n="@@general.visibilityPublic">Publicly visible</label>
       </div>
     </page>
   </wizard>

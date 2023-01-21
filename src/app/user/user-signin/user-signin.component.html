@@ -2,28 +2,28 @@
   <div class="signinForm">
     <div class="signinForm__container">
       <div class="signinForm__center">
-        <h1>Welcome back!</h1>
+        <h1 i18n="@@user-signin.welcomeBack">Welcome back!</h1>
       </div>
       <div class="form__textinput">
-        <p>Username or email</p>
-        <input type="text" name="username" placeholder="Username or email" [ngClass]="{ 'form__error': controls.usernameEmpty }" required ngModel>
+        <p i18n="@@user-signin.identification">Username or email</p>
+        <input type="text" name="username" placeholder="PlantLover95" [ngClass]="{ 'form__error': controls.usernameEmpty }" required ngModel>
       </div>
       <div class="form__textinput">
-        <p>Password</p>
-        <input type="password" name="password" placeholder="Password" [ngClass]="{ 'form__error': controls.passwordEmpty }" required ngModel>
+        <p i18n="@@general.password">Password</p>
+        <input type="password" name="password" placeholder="Password" [ngClass]="{ 'form__error': controls.passwordEmpty }" required ngModel i18n-placeholder="@@general.password">
       </div>
       <div *ngIf="authInvalid" class="signinForm__center form__errormsg">
-        Sorry, the credentials are not valid.
+        <p i18n="@@user-signin.invalidCredentials">Sorry, the credentials are not valid.</p>
       </div>
       <div class="form__submit">
-        <button [disabled]="!signinForm.valid">Sign in</button>
+        <button [disabled]="!signinForm.valid" i18n="@@general.signin">Sign in</button>
       </div>
       <div class="signinForm__center">
         <p>
-          <a routerLink="/register">Don't have an account? <b>Sign up!</b></a>
+          <a routerLink="/register" i18n="@@user-signin.createAccount">Don't have an account? <b>Sign up!</b></a>
         </p>
         <p>
-          <a routerLink="/user/retrievepwd">Forgot your password?</a>
+          <a routerLink="/user/retrievepwd" i18n="@@user-signin.forgottenPassword">Forgot your password?</a>
         </p>
       </div>
     </div>
