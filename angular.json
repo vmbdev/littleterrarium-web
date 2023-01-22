@@ -42,9 +42,6 @@
             "scripts": []
           },
           "configurations": {
-            "es": {
-              "localize": ["es"]
-            },
             "production": {
               "budgets": [
                 {
