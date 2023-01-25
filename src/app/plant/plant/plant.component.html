@@ -26,11 +26,11 @@
   <div class="plant">
     <toolbox [title]="plantTitle" [subtitle]="plantSubtitle">
       <ng-container *ngIf="this.plantService.owned">
-        <toolbox-button image="/assets/water.png" (click)="enableWaterEditing = true"></toolbox-button>
-        <toolbox-button image="/assets/fertilizer.png" (click)="enableFertilizerEditing = true"></toolbox-button>
-        <toolbox-button image="/assets/pot.png" (click)="editSoil()"></toolbox-button>
-        <toolbox-button image="/assets/edit.png" (click)="edit()"></toolbox-button>
-        <toolbox-button image="/assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
+        <toolbox-button image="assets/water.png" (click)="enableWaterEditing = true"></toolbox-button>
+        <toolbox-button image="assets/fertilizer.png" (click)="enableFertilizerEditing = true"></toolbox-button>
+        <toolbox-button image="assets/pot.png" (click)="editSoil()"></toolbox-button>
+        <toolbox-button image="assets/edit.png" (click)="edit()"></toolbox-button>
+        <toolbox-button image="assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
       </ng-container>
     </toolbox>
 

@@ -18,35 +18,35 @@
 
   &__light {
     &-sun::before {
-      background-image: url('/assets/light-fullsun.png');
+      background-image: url('../../../assets/light-fullsun.png');
     }
 
     &-partial::before {
-      background-image: url('/assets/light-partial.png');
+      background-image: url('../../../assets/light-partial.png');
     }
 
     &-shade::before {
-      background-image: url('/assets/light-shade.png');
+      background-image: url('../../../assets/light-shade.png');
     }
   }
 
   &__visibility {
     &-public::before {
-      background-image: url('/assets/visibility-public.png');
+      background-image: url('../../../assets/visibility-public.png');
     }
 
     &-private::before {
-      background-image: url('/assets/visibility-private.png');
+      background-image: url('../../../assets/visibility-private.png');
     }
   }
 
   &__plants {
     &-exists::before {
-      background-image: url('/assets/plants-exists.png');
+      background-image: url('../../../assets/plants-exists.png');
     }
 
     &-empty::before {
-      background-image: url('/assets/plants-empty.png');
+      background-image: url('../../../assets/plants-empty.png');
     }
   }
 }

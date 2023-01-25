@@ -129,14 +129,14 @@ export type Condition = (typeof Condition)[keyof typeof Condition];
 
 // client-side only
 export const potChoices: { [key: string]: any } = {
-  LT_POT_TERRACOTTA: { name: $localize `:@@interfaces.potMaterial.terracotta:Terracotta`, image: '/assets/pot-terracotta.jpg' },
-  LT_POT_PLASTIC: { name: $localize `:@@interfaces.potMaterial.plastic:Plastic`, image: '/assets/pot-plastic.jpg' },
-  LT_POT_CERAMIC: { name: $localize `:@@interfaces.potMaterial.ceramic:Ceramic`, image: '/assets/pot-ceramic.jpg' },
-  LT_POT_METAL: { name: $localize `:@@interfaces.potMaterial.metal:Metal`, image: '/assets/pot-metal.jpg' },
-  LT_POT_GLASS: { name: $localize `:@@interfaces.potMaterial.glass:Glass`, image: '/assets/pot-glass.jpg' },
-  LT_POT_WOOD: { name: $localize `:@@interfaces.potMaterial.wood:Wood`, image: '/assets/pot-wood.jpg' },
-  LT_POT_CONCRETE: { name: $localize `:@@interfaces.potMaterial.concrete:Concrete`, image: '/assets/pot-concrete.jpg' },
-  LT_POT_OTHER: { name: $localize `:@@interfaces.potMaterial.other:Other`, image: '/assets/pot-other.jpg' },
+  LT_POT_TERRACOTTA: { name: $localize `:@@interfaces.potMaterial.terracotta:Terracotta`, image: 'assets/pot-terracotta.jpg' },
+  LT_POT_PLASTIC: { name: $localize `:@@interfaces.potMaterial.plastic:Plastic`, image: 'assets/pot-plastic.jpg' },
+  LT_POT_CERAMIC: { name: $localize `:@@interfaces.potMaterial.ceramic:Ceramic`, image: 'assets/pot-ceramic.jpg' },
+  LT_POT_METAL: { name: $localize `:@@interfaces.potMaterial.metal:Metal`, image: 'assets/pot-metal.jpg' },
+  LT_POT_GLASS: { name: $localize `:@@interfaces.potMaterial.glass:Glass`, image: 'assets/pot-glass.jpg' },
+  LT_POT_WOOD: { name: $localize `:@@interfaces.potMaterial.wood:Wood`, image: 'assets/pot-wood.jpg' },
+  LT_POT_CONCRETE: { name: $localize `:@@interfaces.potMaterial.concrete:Concrete`, image: 'assets/pot-concrete.jpg' },
+  LT_POT_OTHER: { name: $localize `:@@interfaces.potMaterial.other:Other`, image: 'assets/pot-other.jpg' },
 };
 
 export const Role: { [key: string]: string } = {

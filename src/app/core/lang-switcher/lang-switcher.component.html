@@ -1,1 +1,14 @@
-<p>lang-switcher works!</p>
+<div *ngIf="availableLocales" class="ls">
+  <div class="ls__lang ls__current" (click)="toggleList()">
+    <img class="ls__flag" src="/assets/flags/{{ currentLocale }}.png">
+  </div>
+  <div class="ls__list" [ngClass]="{ 'ls__list-hidden': listHidden }">
+    <div
+      *ngFor="let locale of getFullLocaleList()"
+      class="ls__lang"
+      (click)="changeLocale(locale)"
+    >
+      <img class="ls__flag" src="/assets/flags/{{ locale }}.png">
+    </div>
+  </div>
+</div>

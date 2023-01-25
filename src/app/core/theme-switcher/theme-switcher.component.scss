@@ -28,11 +28,11 @@
     }
 
     &-on {
-      background-image: url('/assets/light-on.png');
+      background-image: url('../../../assets/light-on.png');
     }
 
     &-off {
-      background-image: url('/assets/light-off.png');
+      background-image: url('../../../assets/light-off.png');
       transform: rotateY(180deg);
     }
   }

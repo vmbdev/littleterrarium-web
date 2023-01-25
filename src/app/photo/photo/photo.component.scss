@@ -30,15 +30,15 @@
     }
 
     &-public::before {
-      background-image: url('/assets/visibility-public.png');
+      background-image: url('../../../assets/visibility-public.png');
     }
 
     &-private::before {
-      background-image: url('/assets/visibility-private.png');
+      background-image: url('../../../assets/visibility-private.png');
     }
 
     &-takendate::before {
-      background-image: url('/assets/clock.png');
+      background-image: url('../../../assets/clock.png');
     }
   }
 }

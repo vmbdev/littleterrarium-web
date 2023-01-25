@@ -19,6 +19,10 @@ export class ApiService {
     return `${endpoint}/${path}`;
   }
 
+  getLocales(): Observable<any> {
+    return this.http.get<any>(this.endpoint('angular/locales'));
+  }
+
   /**
    * Auth and user API functions
    */

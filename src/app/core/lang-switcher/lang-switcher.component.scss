@@ -1,0 +1,32 @@
+@use 'src/styles/theming.scss' as t;
+
+.ls {
+  &__lang {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  &__current {
+    position: relative;
+  }
+
+  &__flag {
+    width: 32px;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 100%;
+  }
+
+  &__list {
+    position: absolute;
+
+    @include t.themify {
+      background-color: t.theme(main_background);
+      border: 1px solid darken(t.theme(secondary_color), 25%);
+    }
+
+    &-hidden {
+      visibility: hidden;
+    }
+  }
+}

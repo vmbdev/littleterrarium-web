@@ -10,8 +10,8 @@
 
   <toolbox title="{{ photo.takenAt | date }}">
     <ng-container *ngIf="photoService.owned">
-      <toolbox-button image="/assets/edit.png" (click)="enablePhotoEditing = true"></toolbox-button>
-      <toolbox-button image="/assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
+      <toolbox-button image="assets/edit.png" (click)="enablePhotoEditing = true"></toolbox-button>
+      <toolbox-button image="assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
     </ng-container>
   </toolbox>
 

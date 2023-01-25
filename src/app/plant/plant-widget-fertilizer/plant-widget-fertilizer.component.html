@@ -3,7 +3,7 @@
     <span i18n="@@plant-widget-fertilizer.confirm">This will update your <b>last time fertilized</b> to today.</span>
   </confirm-modal>
 
-  <widget-box image="/assets/fertilizer.png" title="Fertilising" i18n-title="@@plant-widget-fertilizer.title">
+  <widget-box image="assets/fertilizer.png" title="Fertilising" i18n-title="@@plant-widget-fertilizer.title">
     <div>
       <p *ngIf="plant.fertLast"><b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}</p>
       <p *ngIf="plant.fertType"><b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}</p>

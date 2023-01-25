@@ -53,11 +53,11 @@
     }
 
     &-public::before {
-      background-image: url('/assets/visibility-public.png');
+      background-image: url('../../../assets/visibility-public.png');
     }
 
     &-private::before {
-      background-image: url('/assets/visibility-private.png');
+      background-image: url('../../../assets/visibility-private.png');
     }
   }
 }
