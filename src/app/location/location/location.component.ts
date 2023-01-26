@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location, Light } from 'src/app/interfaces';
+import { Location, Light, Plant } from 'src/app/interfaces';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { ApiService } from 'src/app/shared/api/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -33,8 +33,8 @@ export class LocationComponent implements OnInit {
       this.isValidId = true;
 
       this.api.getLocation(this.id, true).subscribe({
-        next: (data) => {
-          this.location = data;
+        next: (location) => {
+          this.location = location;
           this.breadcrumb.setNavigation([
             { id: 'location', name: this.location.name, link: ['/location', this.id] },
           ])

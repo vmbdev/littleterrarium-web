@@ -61,7 +61,7 @@ const routes: Routes = [
   {
     path: 'terrarium',
     children: [
-      { path: '', component: TerrariumComponent }
+      { path: ':username', component: TerrariumComponent }
     ]
   },
   { path: 'tasks', component: TasksComponent, canActivate: [AuthGuard] },

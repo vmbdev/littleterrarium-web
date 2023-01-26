@@ -11,7 +11,7 @@
     </ng-container>
   </toolbox>
 
-  <info-box title="Location information" [vertical]="false">
+  <info-box title="Location information" [vertical]="false" i18n-title="@@location.locationInformation">
     <ng-container properties>
       <div class="location__property" [ngClass]="getLightClass()">{{ getLightName() }}</div>
       <div class="location__property" [ngClass]="getVisibilityClass()">
@@ -29,7 +29,7 @@
     </ng-container>
   </info-box>
 
-  <plant-list *ngIf="location.plants" [owned]="owned" [locationId]="location.id" [list]="location.plants"></plant-list>
+  <plant-list [owned]="owned" [list]="location.plants" [locationId]="location.id"></plant-list>
 </div>
 
 <ng-template #invalidId i18n="@@location.invalid">Location invalid or not found</ng-template>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 export class BreadcrumbNavigationComponent implements OnInit {
 
   constructor(
+    public router: Router,
     public breadcrumb: BreadcrumbService,
   ) { }
 

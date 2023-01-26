@@ -21,6 +21,13 @@
     @include t.themify {
       color: t.theme(nav_link_color);
     }
+
+    a {
+      @include t.themify {
+        color: t.theme(nav_link_color);
+      }
+      text-decoration: none;
+    }
   }
 
   &__menulink {

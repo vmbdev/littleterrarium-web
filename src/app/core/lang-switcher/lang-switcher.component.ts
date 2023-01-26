@@ -2,7 +2,7 @@ import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ApiService } from 'src/app/shared/api/api.service';
-import { filter, first, map, switchMap } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'lang-switcher',
@@ -61,15 +61,6 @@ export class LangSwitcherComponent implements OnInit {
   navigateTo(url: string) {
     window.location.href = window.location.protocol + '//' + window.location.host + url;
   }
-
-  // removeLocaleFromUrl(url: string): string {
-  //   console.log('pe', url);
-  //   if (this.availableLocales && (this.availableLocales.default !== this.currentLocale)) {
-  //     // FIXME: this could do with better checks
-  //     return url.substring(3);
-  //   }
-  //   else return url;
-  // }
 
   getFullLocaleList(): string[] {
     return [...this.availableLocales.locales, this.availableLocales.default];

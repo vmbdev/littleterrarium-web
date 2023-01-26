@@ -31,6 +31,10 @@ export class ApiService {
     return this.http.get<User>(this.endpoint('user'))
   }
 
+  getUserByName(username: string): Observable<User> {
+    return this.http.get<User>(this.endpoint(`user/${username}`));
+  }
+
   signIn(username: string, password: string): Observable<any> {
     return this.http.post<any>(this.endpoint('user/signin'), { username, password });
   }
@@ -89,8 +93,10 @@ export class ApiService {
     let url = 'location';
 
     if (options) {
-      if (options.plantCount) url += `?plantcount=true`;
-      else url += `?plants=${(options.plants ? 'true' : 'false')}&limit=${(options.limit ? options.limit : 3)}`;
+      if (options.userId && +options.userId) url += `/user/${+options.userId}`;
+
+      if (options.plantCount) url += '?plantcount=true';
+      else if (options.plants) url += `?plants=${(options.plants ? 'true' : 'false')}&limit=${(options.limit ? options.limit : 3)}`;
     }
 
     return this.http.get<Location[]>(this.endpoint(url));
@@ -153,8 +159,19 @@ export class ApiService {
    * Plant related calls
    */
 
-  getPlants(): Observable<Plant[]> {
-    return this.http.get<Plant[]>(this.endpoint('plant'));
+  getPlants(options?: any): Observable<Plant[]> {
+    let url = 'plant';
+
+    if (options) {
+      if (options.userId && +options.userId) {
+        url += `/user/${+options.userId}`;
+      }
+      if (options.locationId && +options.locationId) {
+        url += `/location/${+options.locationId}`;
+      }
+    }
+
+    return this.http.get<Plant[]>(this.endpoint(url));
   }
 
   getPlant(id: number): Observable<Plant> {

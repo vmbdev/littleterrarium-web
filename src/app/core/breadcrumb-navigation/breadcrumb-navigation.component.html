@@ -1,5 +1,5 @@
 <nav class="breadcrumb" *ngIf="breadcrumb.links$ | async">
-  <div class="breadcrumb__link"><a routerLink="/">Home</a></div>
+  <div *ngIf="router.url !== '/'" class="breadcrumb__link"><a routerLink="/" i18n="@@mainnav.home">Home</a></div>
 
   <div *ngFor="let link of breadcrumb.links$ | async" class="breadcrumb__link">
     <a [routerLink]="link.link">

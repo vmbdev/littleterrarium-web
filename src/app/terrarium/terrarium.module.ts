@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TerrariumComponent } from './terrarium/terrarium.component';
+import { LocationModule } from '../location/location.module';
+import { PlantModule } from '../plant/plant.module';
 
 
 
@@ -9,7 +11,9 @@ import { TerrariumComponent } from './terrarium/terrarium.component';
     TerrariumComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    LocationModule,
+    PlantModule
   ]
 })
 export class TerrariumModule { }

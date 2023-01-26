@@ -1,1 +1,4 @@
-<p>terrarium works!</p>
+<div *ngIf="user" class="terrarium">
+  <location-list [owned]="false" [userId]="user.id"></location-list>
+  <plant-list [userId]="user.id"></plant-list>
+</div>

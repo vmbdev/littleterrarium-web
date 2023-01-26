@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Plant } from 'src/app/interfaces';
+import { ApiService } from 'src/app/shared/api/api.service';
 
 @Component({
   selector: 'plant-list',
@@ -7,16 +8,35 @@ import { Plant } from 'src/app/interfaces';
   styleUrls: ['./plant-list.component.scss']
 })
 export class PlantListComponent implements OnInit {
-  @Input() list!: Plant[];
+  @Input() list?: Plant[];
   @Input() locationId?: number;
+  @Input() userId?: number;
   @Input() center?: boolean = false;
   @Input() owned: boolean = true;
   pictures: any[] = [];
 
-  constructor() { }
+  constructor(
+    private api: ApiService
+  ) { }
 
   ngOnInit(): void {
-    for (const plant of this.list) {
+    if (this.list) {
+      this.setPictureList(this.list);
+    }
+    else {
+      const options = {
+        locationId: this.locationId,
+        userId: this.userId
+      };
+  
+      this.api.getPlants(options).subscribe((plants: Plant[]) => {
+        this.setPictureList(plants);
+      })
+    }
+  }
+
+  setPictureList(plants: Plant[]) {
+    for (const plant of plants) {
       const pic = {
         id: plant.id,
         name: plant.customName,
@@ -26,5 +46,4 @@ export class PlantListComponent implements OnInit {
       this.pictures.push(pic);
     }
   }
-
 }

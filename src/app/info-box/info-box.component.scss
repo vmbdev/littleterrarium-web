@@ -11,7 +11,7 @@
   border-style: solid;
 
   @include t.themify {
-    border-color: t.theme(main_font_color);
+    border-color: t.theme(infobox_background);
   }
 
   &__header { 
@@ -22,7 +22,7 @@
     padding: 10px;
 
     @include t.themify {
-      background-color: t.theme(main_font_color);
+      background-color: t.theme(infobox_background);
     }
 
   }
@@ -40,34 +40,25 @@
       font-size: 16pt;
   
       @include t.themify {
-        color: t.theme(main_background)
+        color: t.theme(infobox_text)
       }
     }
+  }
+
+  &__oneliner {
+    flex: 1;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-items: end;
+    gap: 30px;
   }
 
   &__content {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    // padding: 20px;
     height: 100%;
-
-    &-horizontal {
-      gap: 30px;
-      flex-direction: row !important;
-    }
-    
-    &-top {
-      flex: 1;
-    }
-
-    &-bottom {
-      display: grid;
-      grid-auto-flow: column;
-      justify-content: center;
-      gap: 60px;
-      width: 100%;
-
-    }
   }
 }
 

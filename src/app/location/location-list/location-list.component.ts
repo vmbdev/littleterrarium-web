@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Location } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
 
@@ -8,6 +8,8 @@ import { ApiService } from 'src/app/shared/api/api.service';
   styleUrls: ['./location-list.component.scss']
 })
 export class LocationListComponent implements OnInit {
+  @Input() userId?: number;
+  @Input() owned: boolean = true;
   list!: Location[];
 
   constructor(
@@ -15,7 +17,11 @@ export class LocationListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.apiService.getLocationList({ plantCount: true }).subscribe((list) => { this.list = list });
+    const options = {
+      plantCount: true,
+      userId: this.userId ? this.userId : null
+    }
+    this.apiService.getLocationList(options).subscribe((list) => { this.list = list });
   }
 
 }
