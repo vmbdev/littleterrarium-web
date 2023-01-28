@@ -12,6 +12,7 @@ import { LayoutModule } from './layout/layout.module';
 import { UserModule } from './user/user.module';
 import { TasksModule } from './tasks/tasks.module';
 import { TerrariumModule } from './terrarium/terrarium.module';
+import { SigninModule } from './signin/signin.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TerrariumModule } from './terrarium/terrarium.module';
     AuthModule,
     UserModule,
     TasksModule,
-    TerrariumModule
+    TerrariumModule,
+    SigninModule
   ],
   bootstrap: [AppComponent]
 })

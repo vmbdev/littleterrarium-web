@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
 import { UserLogoutComponent } from './user/user-logout/user-logout.component';
-import { UserSigninComponent } from './user/user-signin/user-signin.component';
 import { LocationComponent } from './location/location/location.component';
 import { LocationAddEditComponent } from './location/location-add-edit/location-add-edit.component';
 import { LocationListComponent } from './location/location-list/location-list.component';
@@ -19,10 +18,11 @@ import { TasksComponent } from './tasks/tasks/tasks.component';
 import { AuthGuard } from './auth/auth.guard';
 import { TerrariumComponent } from './terrarium/terrarium/terrarium.component';
 import { PlantEditComponent } from './plant/plant-edit/plant-edit.component';
+import { SigninComponent } from './signin/signin.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'signin', component: UserSigninComponent },
+  { path: 'signin', component: SigninComponent },
   { path: 'logout', component: UserLogoutComponent },
   { path: 'register', component: UserRegisterComponent },
   {

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { HomeComponent } from './home.component';
 import { LocationModule } from '../location/location.module';
-import { RouterModule } from '@angular/router';
+import { SigninModule } from '../signin/signin.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     BrowserModule,
     LocationModule,
-    RouterModule
+    SigninModule
   ]
 })
 export class HomeModule { }

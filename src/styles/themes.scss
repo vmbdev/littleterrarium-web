@@ -19,7 +19,9 @@ $themes: (
     search_results_highlight: #4D96FF,
     error: #CC3636,
     infobox_background: #DBE2EF,
-    infobox_text: #3c6478
+    infobox_text: #3c6478,
+    signin_background: rgba(256, 256, 256, 90%),
+    signin_text: #3c6478,
   ),
   dark: (
     main_color: #610094,
@@ -42,6 +44,8 @@ $themes: (
     search_results_highlight: #4D96FF,
     error: #CC3636,
     infobox_background: #DBE2EF,
-    infobox_text: #3c6478
+    infobox_text: #3c6478,
+    signin_background: rgba(31, 31, 31, 0.9),
+    signin_text: white,
   )
 );

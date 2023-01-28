@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'user-signin',
-  templateUrl: './user-signin.component.html',
-  styleUrls: ['./user-signin.component.scss']
+  selector: 'signin',
+  templateUrl: './signin.component.html',
+  styleUrls: ['./signin.component.scss']
 })
-export class UserSigninComponent implements OnInit {
+export class SigninComponent {
+  @Input() homepage?: boolean;
   authInvalid: boolean = false;
   controls = {
     usernameEmpty: false,

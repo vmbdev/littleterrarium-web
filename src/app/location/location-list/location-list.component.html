@@ -1,4 +1,4 @@
-<div class="picture-list picture-list-center">
+<div class="picture-list">
   <picturebox *ngIf="owned" [add]="true" [link]="['/location','create']" i18n="@@location-list.create">Create location</picturebox>
 
   <picturebox *ngFor="let location of list" [image]="location.pictures?.thumb" [link]="['/location', location.id]">

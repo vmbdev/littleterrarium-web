@@ -29,6 +29,9 @@
     </ng-container>
   </info-box>
 
+  <div class="section-header">
+    <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
+  </div>
   <plant-list [owned]="owned" [list]="location.plants" [locationId]="location.id"></plant-list>
 </div>
 
