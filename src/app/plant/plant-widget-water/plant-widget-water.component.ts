@@ -25,7 +25,8 @@ export class PlantWidgetWaterComponent implements OnInit {
   }
 
   nextWatering(): any {
-    const { waterNext } = this.plantService.plant$.getValue();
+    const waterNext = this.plantService.plant$.getValue()?.waterNext;
+
     if (waterNext) {
       return {
         text: dayjs(waterNext).fromNow(),

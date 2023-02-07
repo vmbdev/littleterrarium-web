@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Event, NavigationEnd, Router, RouterEvent, RoutesRecognized } from '@angular/router';
-import { BehaviorSubject, filter, map } from 'rxjs';
+import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
+import { BehaviorSubject, filter } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

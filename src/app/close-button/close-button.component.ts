@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'close-button',
@@ -6,6 +6,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./close-button.component.scss']
 })
 export class CloseButtonComponent implements OnInit {
+  @Input() small: boolean = false;
   @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }

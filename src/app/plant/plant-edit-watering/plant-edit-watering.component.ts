@@ -10,11 +10,9 @@ import { PlantService } from '../plant.service';
   styleUrls: ['./plant-edit-watering.component.scss']
 })
 export class PlantEditWateringComponent implements OnInit {
-  // TODO: use PlantService rather than inputs
-  @Input() plantId!: number;
-  @Input() waterFreq?: number | null;
-  @Input() waterLast?: any;
+  @Input() plantId?: number; // it can receive a specific plantId rather than get what's in PlantService
   @Output() updated: EventEmitter<any> = new EventEmitter<any>();
+  id?: number;
   waterForm: FormGroup;
 
   constructor(
@@ -28,18 +26,32 @@ export class PlantEditWateringComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.plantId) {
+      this.plantService.get(this.plantId).subscribe((plant: Plant) => { this.updateForm(plant) });
+    }
+    else {
+      const plant = this.plantService.plant$.getValue();
+
+      if (plant) this.updateForm(plant);
+    }
+  }
+
+  updateForm(plant: Plant): void {
+    this.id = plant.id;
     this.waterForm.setValue({
-      waterFreq: this.waterFreq,
-      waterLast: dayjs(this.waterLast).format('YYYY-MM-DD')
+      waterFreq: plant.waterFreq,
+      waterLast: dayjs(plant.waterLast).format('YYYY-MM-DD')
     })
   }
 
   submit(): void {
-    const plant: Plant = this.waterForm.value;
-    plant.id = this.plantId;
-    
-    this.plantService.update(plant).subscribe(() => {
-      this.updated.emit();
-    });
+    if (this.id) {
+      const plant: Plant = this.waterForm.value;
+
+      plant.id = this.id;
+      this.plantService.update(plant).subscribe(() => {
+        this.updated.emit();
+      });
+    }
   }
 }

@@ -3,7 +3,7 @@
   <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
 </confirm-modal>
 
-<div class="location" *ngIf="location; else invalidId">
+<div class="location" *ngIf="location">
   <toolbox [title]="location.name">
     <ng-container *ngIf="owned">
       <toolbox-button image="assets/edit.png" (click)="edit()"></toolbox-button>
@@ -34,5 +34,3 @@
   </div>
   <plant-list [owned]="owned" [list]="location.plants" [locationId]="location.id"></plant-list>
 </div>
-
-<ng-template #invalidId i18n="@@location.invalid">Location invalid or not found</ng-template>

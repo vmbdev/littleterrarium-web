@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
+import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 
 import { Location, Light } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
@@ -27,7 +28,8 @@ export class LocationAddEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private api: ApiService,
-    private breadcrumb: BreadcrumbService
+    private breadcrumb: BreadcrumbService,
+    private errorHandler: ErrorHandlerService
   ) {
     this.locationForm = this.fb.group({
       name: ['', Validators.required],
@@ -58,7 +60,7 @@ export class LocationAddEditComponent implements OnInit {
           ], { attachTo: 'location' });
         },
         error: () => {
-          // FIXME: handle error
+          this.errorHandler.push($localize `:@@location-add-edit.invalid:Invalid location.`);
         }
       })
     }
@@ -85,30 +87,12 @@ export class LocationAddEditComponent implements OnInit {
     }
 
     if (insert) {
-      insert.subscribe({
-        next: (res: any) => {
+      insert.pipe(
+        map((res: any) => {
           if (res.msg === 'LOCATION_CREATED') this.router.navigate([`location/${res.location.id}`]);
           else if (res.msg === 'LOCATION_UPDATED') this.router.navigate([`location/${data.id}`]);
-        },
-        error: (err) => {
-          switch (err.msg) {
-            case 'IMG_NOT_VALID': {
-              console.log('Image not valid');
-              break;
-            }
-            case 'INCORRECT_FIELD': {
-              console.log(`Incorrect field: ${err.data.field}.`);
-
-              if (err.data.values) console.log(`Possible values: ${err.data.values.join(',')}`);
-              break;
-            }
-            case 'MISSING_FIELD': {
-              console.log(`Missing field: ${err.data.field}.`);
-              break;
-            }
-          }
-        }
-      })
+        })
+      ).subscribe();
     }
   }
 

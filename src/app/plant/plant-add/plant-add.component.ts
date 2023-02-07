@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of, switchMap } from 'rxjs';
+import { catchError, EMPTY, of, switchMap } from 'rxjs';
+import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 import { Location, Photo, Plant } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
 
@@ -21,7 +23,8 @@ export class PlantAddComponent implements OnInit {
     private api: ApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private errorHandler: ErrorHandlerService
   ) {
     this.plantForm = this.fb.group({
       specieId: [],
@@ -36,7 +39,7 @@ export class PlantAddComponent implements OnInit {
     if (this.locationId) {
       this.api.getLocation(this.locationId).subscribe({
         next: (location: Location) => { this.location = location },
-        error: (err) => { console.error(err) }
+        error: () => { this.errorHandler.push($localize `:@@plant-add.location:Invalid location provided.`) }
       });
     }
   }
@@ -54,11 +57,10 @@ export class PlantAddComponent implements OnInit {
   submit() {
     const plant: Plant = this.plantForm.value;
     plant.locationId = this.locationId;
-
-    this.api.createPlant(plant)
-    .pipe(
-      switchMap((data: any) => {
-        const plant: Plant = data.plant;
+    // FIXME: if pictures fail to upload, redirect anyway
+    this.api.createPlant(plant).pipe(
+      switchMap((res: any) => {
+        const plant: Plant = res.plant;
         this.newPlantId = plant.id;
 
         if (this.photos.length === 0) return of(true);
@@ -71,12 +73,14 @@ export class PlantAddComponent implements OnInit {
           
           return this.api.createPhoto(photos);
         }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.errorHandler.push($localize `:@@plant-add.create:Error when creating the plant.`);
+
+        return EMPTY;
       })
-    )
-    .subscribe(() => {
+    ).subscribe(() => {
       this.router.navigate(['/plant', this.newPlantId])
     });
-
   }
-
 }

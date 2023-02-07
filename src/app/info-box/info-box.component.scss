@@ -52,6 +52,10 @@
     justify-content: center;
     align-items: end;
     gap: 30px;
+
+    @include t.themify {
+      color: t.theme(infobox_text)
+    }
   }
 
   &__content {

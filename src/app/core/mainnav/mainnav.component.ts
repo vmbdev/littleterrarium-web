@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigateBackService } from 'src/app/shared/navigateback/navigateback.service';
 
 @Component({
   selector: 'mainnav',
@@ -8,13 +7,8 @@ import { NavigateBackService } from 'src/app/shared/navigateback/navigateback.se
 })
 export class MainnavComponent implements OnInit {
 
-  constructor(private nbService: NavigateBackService) {}
+  constructor() {}
 
   ngOnInit(): void {
   }
-
-  navigateBack() {
-    this.nbService.navigateBack();
-  }
-
 }

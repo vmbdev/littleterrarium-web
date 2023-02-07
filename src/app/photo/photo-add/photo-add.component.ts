@@ -1,8 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, EMPTY, map, throwError } from 'rxjs';
+import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 import { Plant, Photo } from 'src/app/interfaces';
-import { ApiService } from 'src/app/shared/api/api.service';
+import { PlantService } from 'src/app/plant/plant.service';
+import { PhotoService } from '../photo.service';
 
 @Component({
   selector: 'photo-add',
@@ -11,16 +15,16 @@ import { ApiService } from 'src/app/shared/api/api.service';
 })
 export class PhotoAddComponent implements OnInit {
   photoForm: FormGroup;
-  plantId!: number;
-  plant!: Plant;
-  plantName?: string;
-  plantSpecie?: string;
+  plantId?: number;
+  plant?: Plant;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private api: ApiService
+    private photoService: PhotoService,
+    private plantService: PlantService,
+    private errorHandler: ErrorHandlerService
   ) {
     this.photoForm = this.fb.group({
       public: [true, Validators.required],
@@ -31,22 +35,21 @@ export class PhotoAddComponent implements OnInit {
   ngOnInit(): void {
     this.plantId = +this.route.snapshot.params['plantId'];
 
-    if (!this.plantId) console.error('Plant invalid');
-    else {
-      this.api.getPlant(this.plantId).subscribe({
-        next: (plant: Plant) => {
-          this.plant = plant;
-
-          if (plant.customName) {
-            this.plantName = plant.customName;
-
-            if (plant.specie?.name) this.plantSpecie = plant.specie.name;
+    if (this.plantId) {
+      this.plantService.get(this.plantId).pipe(
+        map((plant: Plant) => { this.plant = plant }),
+        catchError((err: HttpErrorResponse) => {
+          this.router.navigateByUrl('/');
+          if (err.error?.msg === 'PLANT_NOT_FOUND') {
+            this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
+            return EMPTY;
           }
-          else if (plant.specie?.name) this.plantName = plant.specie.name;
-          else this.plantName = $localize `:@@general.unnamedPlant:Unnamed plant ${plant.id}:plantId:`;
-        },
-        error: () => { console.error('Plant not found') }
-      });
+          else return throwError(() => err);  
+        })
+      ).subscribe();
+    }
+    else {
+      this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
     }
   }
 
@@ -57,17 +60,15 @@ export class PhotoAddComponent implements OnInit {
   }
 
   submit(): void {
-    const data: Photo = this.photoForm.value;
-    data.plantId = this.plantId;
+    if (this.plantId) {
+      const newPhoto: Photo = this.photoForm.value;
 
-    this.api.createPhoto(data).subscribe({
-      next: () => {
+      newPhoto.plantId = this.plantId;
+
+      this.photoService.create(newPhoto).subscribe(() => {
         this.router.navigate(['plant', this.plantId])
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
+      });
+    }
   }
 
 }

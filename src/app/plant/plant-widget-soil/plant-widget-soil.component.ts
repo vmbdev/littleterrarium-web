@@ -14,13 +14,13 @@ export class PlantWidgetSoilComponent implements OnInit {
 
   getPotName(): string {
     let potName;
-    const { potType } = this.plantService.plant$.getValue();
+    const potType = this.plantService.plant$.getValue()?.potType;
 
     if (potType) {
       if (potChoices.hasOwnProperty(potType)) potName = potChoices[potType].name;
       else potName = potType;
     }
-    else potName = 'Unknown';
+    else potName = $localize `:@@general.unknown:Unknown`;
 
     return potName;
   }

@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import { ApiService } from './api/api.service';
 import { SafeUrlPipe } from './safeurl/safeurl.pipe';
-import { NavigateBackService } from './navigateback/navigateback.service';
 import { UnitPipe } from './unit/unit.pipe';
 import { FloatingButtonComponent } from './floating-button/floating-button.component';
 import { CapitalizePipe } from './capitalize/capitalize.pipe';
@@ -21,8 +20,7 @@ import { CapitalizePipe } from './capitalize/capitalize.pipe';
     RouterModule
   ],
   providers: [
-    ApiService,
-    NavigateBackService
+    ApiService
   ],
   exports: [
     FloatingButtonComponent,

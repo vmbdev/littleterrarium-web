@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -13,6 +13,8 @@ import { UserModule } from './user/user.module';
 import { TasksModule } from './tasks/tasks.module';
 import { TerrariumModule } from './terrarium/terrarium.module';
 import { SigninModule } from './signin/signin.module';
+import { ErrorHandlerService } from './error-handler/error-handler.service';
+import { ErrorHandlerModule } from './error-handler/error-handler.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,14 @@ import { SigninModule } from './signin/signin.module';
     UserModule,
     TasksModule,
     TerrariumModule,
-    SigninModule
+    SigninModule,
+    ErrorHandlerModule
+  ],
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: ErrorHandlerService
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map, skipWhile } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { User } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
 
@@ -65,9 +64,6 @@ export class UserEditComponent implements OnInit {
       next: (updatedUser: User) => {
         this.auth.updateUser(updatedUser);
         this.router.navigate(['/']);
-      },
-      error: (err) => {
-        console.error(err);
       }
     });
   }

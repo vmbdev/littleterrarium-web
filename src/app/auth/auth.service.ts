@@ -29,14 +29,27 @@ export class AuthService {
 
   signIn(username: string, password: string): Observable<any> {
     return this.api.signIn(username, password).pipe(
-      map((user: User) => {
-        this.user$.next(user);
-        this.signedIn$.next(true);
+      map(res => {
+        if (res.msg && (res.msg === 'USER_SIGNEDIN') && res.data.user) {
+          this.user$.next(res.data.user);
+          this.signedIn$.next(true);
+        }
       }),
       catchError((HttpError: HttpErrorResponse) => {
         this.signedIn$.next(false);
         return throwError(() => HttpError.error);
       }),
+    );
+  }
+
+  register(user: User): Observable<any> {
+    return this.api.createUser(user).pipe(
+      map(res => {
+        if (res.msg && (res.msg === 'USER_CREATED') && res.data.user) {
+          this.user$.next(res.data.user);
+          this.signedIn$.next(true);
+        }
+      })
     );
   }
 

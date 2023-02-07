@@ -42,7 +42,6 @@ export class SigninComponent {
     }
 
     else {
-
       this.auth.signIn(signinForm.value.username, signinForm.value.password).subscribe({
         next: () => {
           this.router.navigate(['/']);

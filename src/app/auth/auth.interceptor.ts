@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { catchError, EMPTY, Observable, throwError } from 'rxjs';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
 
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor(private errorHandler: ErrorHandlerService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
@@ -15,13 +15,12 @@ export class AuthInterceptor implements HttpInterceptor {
     });
 
     return next.handle(request).pipe(
-      catchError((err) => {
-        if (err.status === 403) {
-          // TODO: to error manager
-          return throwError(() => new Error('Forbidden'))
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.errorHandler.push($localize `:@@auth-interceptor.forbidden:Insufficient permissions.`);
+          return EMPTY;
         }
-
-        return throwError(() => err);
+        else return throwError(() => error);
       })
     );
   }

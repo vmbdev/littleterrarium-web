@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, EMPTY, map } from 'rxjs';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
+import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 import { Plant, Condition } from 'src/app/interfaces';
 import { PlantService } from '../plant.service';
 
@@ -11,7 +14,6 @@ import { PlantService } from '../plant.service';
 })
 export class PlantComponent implements OnInit {
   id!: number;
-  valid: boolean = false;
 
   plantTitle?: string;
   plantSubtitle?: string;
@@ -30,7 +32,8 @@ export class PlantComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
-    public plantService: PlantService
+    public plantService: PlantService,
+    private errorHandler: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {
@@ -38,12 +41,11 @@ export class PlantComponent implements OnInit {
     this.id = paramId ? +paramId : NaN;
 
     if (this.id) this.fetchPlantData();
-    else this.valid = false;
   }
 
   fetchPlantData(): void {
-    this.plantService.get(this.id).subscribe({
-      next: (plant: Plant) => {
+    this.plantService.get(this.id).pipe(
+      map((plant: Plant) => {
         this.plantVisibility = plant.public;
 
         if (plant.customName) {
@@ -57,13 +59,17 @@ export class PlantComponent implements OnInit {
         this.breadcrumb.setNavigation([
           { id: 'plant', name: this.plantTitle, link: ['/plant', this.id] }
         ], { attachTo: 'location' });
+      }),
+      catchError((err: HttpErrorResponse) => {
+        if (err.error?.msg === 'PLANT_NOT_FOUND') this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
+        else this.errorHandler.push($localize `:@@errors.server:Server error`);
 
-        this.valid = true;
-      },
-      error: (error) => {
-        if (error.msg === 'PLANT_NOT_VALID') this.valid = false;
-      }
-    })
+        this.router.navigateByUrl('/');
+
+        return EMPTY;
+      })
+    ).subscribe();
+
   }
 
   edit(): void {
@@ -75,15 +81,18 @@ export class PlantComponent implements OnInit {
   }
 
   delete(): void {
-    const { locationId } = this.plantService.plant$.getValue();
-    this.plantService.delete().subscribe(() => {
-      this.router.navigate(['/location', locationId])
-    })
+    const plant = this.plantService.plant$.getValue();
+
+    if (plant) {
+      this.plantService.delete().subscribe(() => {
+        this.router.navigate(['/location', plant.locationId])
+      })
+    }
   }
 
   getVisibilityClass(): string {
     const modifier = this.plantVisibility ? 'public' : 'private';
-    
+
     return `plant__visibility-${modifier}`;
   }
 

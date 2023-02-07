@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { Location, Plant, Condition} from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
@@ -16,6 +17,7 @@ export class PlantEditComponent implements OnInit {
   locations!: Location[];
   plantForm: FormGroup;
   plantConditions = Condition;
+  removeSpecie: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +66,8 @@ export class PlantEditComponent implements OnInit {
   }
 
   selectSpecieId(id: any): void {
+    this.removeSpecie = (id === null);
+
     this.plantForm.patchValue({
       specieId: id
     });
@@ -77,9 +81,9 @@ export class PlantEditComponent implements OnInit {
     const plant: Plant = this.plantForm.value;
     plant.id = this.id;
     
-    this.plantService.update(plant).subscribe(() => {
-      this.router.navigate(['/plant', this.id]);
-    });
+    this.plantService.update(plant, { removeSpecie: this.removeSpecie }).pipe(
+      map(() => { this.router.navigate(['/plant', this.id]) }),
+    ).subscribe();
   }
 
   /**

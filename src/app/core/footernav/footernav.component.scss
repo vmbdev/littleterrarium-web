@@ -18,8 +18,15 @@
   }
 
   a {
+    text-decoration: none;
     @include t.themify {
       color: t.theme(footer_link);
+    }
+
+    :visited {
+      @include t.themify {
+        color: t.theme(footer_link);
+      }
     }
   }
 }

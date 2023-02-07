@@ -1,11 +1,7 @@
 <form [formGroup]="photoForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
   <wizard [form]="photoForm">
     <wizard-header *ngIf="plant">
-      <span i18n="@@photo-add.header">Adding photos to <b>{{ plantName }}</b></span>&nbsp;
-
-      <ng-container *ngIf="plantSpecie">
-        <i>({{plantSpecie}})</i>
-      </ng-container>
+      <span i18n="@@photo-add.header">Adding photos to <b>{{ plant.visibleName }}</b></span>&nbsp;
     </wizard-header>
 
     <page title="Pictures" i18n-title="@@general.pictures">

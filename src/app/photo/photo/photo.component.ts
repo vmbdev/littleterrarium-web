@@ -7,6 +7,9 @@ import * as dayjs from 'dayjs';
 import * as LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PhotoService } from '../photo.service';
+import { catchError, EMPTY, map } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 
 
 @Component({
@@ -16,19 +19,15 @@ import { PhotoService } from '../photo.service';
 })
 export class PhotoComponent implements OnInit {
   @Input() id!: number;
-
-  // Confirm modals
   confirmDelete: boolean = false;
-
   enablePhotoEditing: boolean = false;
-  isValidId?: boolean;
 
   constructor(
-    private api: ApiService,
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
-    public photoService: PhotoService
+    public photoService: PhotoService,
+    private errorHandler: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {
@@ -36,22 +35,24 @@ export class PhotoComponent implements OnInit {
     this.id = paramId ? +paramId : NaN;
 
     if (this.id) {
-      this.photoService.get(this.id).subscribe({
-        next: (photo: Photo) => {
-          this.isValidId = true;
-
+      this.photoService.get(this.id).pipe(
+        map((photo: Photo) => {
           dayjs.extend(LocalizedFormat);
           this.breadcrumb.setNavigation([
             { id: 'photo', name: dayjs(photo.takenAt).format('LL'), link: ['/photo', this.id] }
           ], { attachTo: 'plant' })
 
-        },
-        error: (error) => {
-          if (error.msg === 'PLANT_NOT_FOUND') this.isValidId = false;
-        }
-      });
+        }),
+        catchError((err: HttpErrorResponse) => {
+          if (err.error?.msg === 'PHOTO_NOT_FOUND') this.errorHandler.push($localize `:@@photo.invalid:Photo not found.`);
+          else this.errorHandler.push($localize `:@@errors.server:Server error`);
+          
+          this.router.navigateByUrl('/');
+  
+          return EMPTY;
+        })
+      ).subscribe();
     }
-    else this.isValidId = false;
   }
 
   delete(): void {
@@ -61,7 +62,7 @@ export class PhotoComponent implements OnInit {
           this.router.navigate(['/plant', res.data.photo.plantId]);
       },
       error: (err) => {
-        console.error(err);
+        this.errorHandler.push($localize `:@@photo.deleteError:Error while deleting the photo.`);
       }
     })
   }

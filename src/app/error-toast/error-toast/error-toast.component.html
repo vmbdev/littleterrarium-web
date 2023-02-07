@@ -1,0 +1,6 @@
+<div class="error-toast">
+  <div *ngFor="let error of errorList; let i = index" class="error-toast__box">
+    <close-button [small]="true" (close)="removeError(i)"></close-button>
+    {{ error }}
+  </div>
+</div>

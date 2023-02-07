@@ -1,21 +1,10 @@
 <ng-container *ngIf="plantService.plant$ | async as plant">
-  <quick-modal *ngIf="enableWaterEditing" (close)="enableWaterEditing = false" title="Watering">
-    <plant-edit-watering
-    [plantId]="id"
-    [waterFreq]="plant.waterFreq"
-    [waterLast]="plant.waterLast"
-    (updated)="enableWaterEditing = false">
-    </plant-edit-watering>
+  <quick-modal *ngIf="enableWaterEditing" (close)="enableWaterEditing = false" title="Watering" i18n-title="@@general.watering">
+    <plant-edit-watering (updated)="enableWaterEditing = false"></plant-edit-watering>
   </quick-modal>
 
-  <quick-modal *ngIf="enableFertilizerEditing" (close)="enableFertilizerEditing = false" title="Fertilizer">
-    <plant-edit-fertilizer
-      [plantId]="id"
-      [fertFreq]="plant.fertFreq"
-      [fertLast]="plant.fertLast"
-      [fertType]="plant.fertType"
-      (updated)="enableFertilizerEditing = false">
-    </plant-edit-fertilizer>
+  <quick-modal *ngIf="enableFertilizerEditing" (close)="enableFertilizerEditing = false" title="Fertiliser" i18n-title="@@general.fertilizer">
+    <plant-edit-fertilizer (updated)="enableFertilizerEditing = false"></plant-edit-fertilizer>
   </quick-modal>
 
   <confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">

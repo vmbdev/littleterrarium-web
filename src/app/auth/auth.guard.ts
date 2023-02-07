@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.auth.checked$.pipe(
-      skipWhile(val => val === false),
+      skipWhile(isChecked => isChecked === false),
       map(() => {
         const isSignedIn = !!this.auth.user$.getValue();
 

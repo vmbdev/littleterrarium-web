@@ -9,7 +9,6 @@ import { ApiService } from '../shared/api/api.service';
   providedIn: 'root'
 })
 export class PhotoService {
-  // FIXME: or Photo | null ?
   photo$: BehaviorSubject<Photo | null> = new BehaviorSubject<Photo | null>(null);
   owned: boolean = false;
 
@@ -29,9 +28,13 @@ export class PhotoService {
       catchError((HttpError: HttpErrorResponse) => {
         this.photo$.next(null);
 
-        return throwError(() => HttpError.error);
+        return throwError(() => HttpError);
       })
     );
+  }
+
+  create(photo: Photo): Observable<any> {
+    return this.api.createPhoto(photo);
   }
 
   update(photo: Photo): Observable<any> {
@@ -42,7 +45,7 @@ export class PhotoService {
       catchError((HttpError: HttpErrorResponse) => {
         this.photo$.next(null);
 
-        return throwError(() => HttpError.error);
+        return throwError(() => HttpError);
       })
     );
   }
@@ -57,9 +60,6 @@ export class PhotoService {
         map((data: any) => {
           this.photo$.next(null);
           return data;
-        }),
-        catchError((HttpError: HttpErrorResponse) => {
-          return throwError(() => HttpError.error);
         })
       );
     }

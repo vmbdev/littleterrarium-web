@@ -10,12 +10,9 @@ import { PlantService } from '../plant.service';
   styleUrls: ['./plant-edit-fertilizer.component.scss']
 })
 export class PlantEditFertilizerComponent implements OnInit {
-  // TODO: use PlantService rather than inputs
-  @Input() plantId!: number;
-  @Input() fertFreq?: number | null;
-  @Input() fertLast?: any;
-  @Input() fertType?: string | null;
+  @Input() plantId?: number;
   @Output() updated: EventEmitter<any> = new EventEmitter<any>();
+  id?: number;
   fertForm: FormGroup;
 
   constructor(
@@ -30,19 +27,33 @@ export class PlantEditFertilizerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.plantId) {
+      this.plantService.get(this.plantId).subscribe((plant: Plant) => { this.updateForm(plant) });
+    }
+    else {
+      const plant = this.plantService.plant$.getValue();
+
+      if (plant) this.updateForm(plant);
+    }
+  }
+
+  updateForm(plant: Plant): void {
+    this.id = plant.id;
     this.fertForm.setValue({
-      fertFreq: this.fertFreq,
-      fertLast: dayjs(this.fertLast).format('YYYY-MM-DD'),
-      fertType: this.fertType
+      fertFreq: plant.fertFreq,
+      fertLast: dayjs(plant.fertLast).format('YYYY-MM-DD'),
+      fertType: plant.fertType
     })
   }
 
   submit(): void {
-    const plant: Plant = this.fertForm.value;
-    plant.id = this.plantId;
-    
-    this.plantService.update(plant).subscribe(() => {
-      this.updated.emit();
-    });
+    if (this.id) {
+      const plant: Plant = this.fertForm.value;
+
+      plant.id = this.id;
+      this.plantService.update(plant).subscribe(() => {
+        this.updated.emit();
+      });
+    }
   }
 }

@@ -25,7 +25,8 @@ export class PlantWidgetFertilizerComponent implements OnInit {
   }
 
   nextFertilizing(): any {
-    const { fertNext } = this.plantService.plant$.getValue();
+    const fertNext = this.plantService.plant$.getValue()?.fertNext;
+
     if (fertNext) {
       return {
         text: dayjs(fertNext).fromNow(),

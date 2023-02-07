@@ -1,23 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { QuickModalComponent } from './quick-modal/quick-modal.component';
-import { ModalTextComponent } from './modal-text/modal-text.component';
+import { ErrorToastComponent } from './error-toast/error-toast.component';
 import { CloseButtonModule } from '../close-button/close-button.module';
 
 
 
 @NgModule({
   declarations: [
-    QuickModalComponent,
-    ModalTextComponent
+    ErrorToastComponent
   ],
   imports: [
     CommonModule,
     CloseButtonModule
   ],
   exports: [
-    QuickModalComponent,
-    ModalTextComponent
+    ErrorToastComponent
   ]
 })
-export class QuickModalModule { }
+export class ErrorToastModule { }

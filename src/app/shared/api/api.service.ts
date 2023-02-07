@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError, map, Observable, of, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable, throwError } from 'rxjs';
 
 import { User, Location, Plant, Photo, Specie } from 'src/app/interfaces';
 import { endpoint } from 'src/config';
@@ -79,13 +79,7 @@ export class ApiService {
   getLocation(id: number, plants?: boolean, limit?: number): Observable<Location> {
     const url = `location/${id}?plants=${plants ? 'true' : 'false'}&limit=${limit ? limit : 0}`;
 
-    return this.http.get<Location>(this.endpoint(url)).pipe(
-      map(data => data),
-      catchError((HttpError: HttpErrorResponse) => {
-        if (HttpError.error.msg) return throwError(() => { return { msg: HttpError.error.msg, code: HttpError.status } })
-        else return throwError(() => undefined);
-      })
-    );
+    return this.http.get<Location>(this.endpoint(url));
   }
 
   // retrieve location list for current user
@@ -130,15 +124,6 @@ export class ApiService {
           return data;
         }
         else return throwError(() => 'Server error');
-      }),
-      catchError(err => {
-        return throwError(() => (
-          {
-            msg: err.error.msg,
-            data: err.error.data ? err.error.data : undefined,
-            code: err.status.code ? err.status.code : undefined
-          }
-        ));
       })
     )
   }
@@ -175,51 +160,22 @@ export class ApiService {
   }
 
   getPlant(id: number): Observable<Plant> {
-    return this.http.get<Plant>(this.endpoint(`plant/${id}`)).pipe(
-      map(data => data),
-      catchError((HttpError: HttpErrorResponse) => {
-        if (HttpError.error.msg) {
-          return throwError(() => {
-            return { msg: HttpError.error.msg, code: HttpError.status }
-          });
-        }
-        else return throwError(() => undefined);
-      })
-    );
+    return this.http.get<Plant>(this.endpoint(`plant/${id}`));
   }
 
   createPlant(plant: Plant): Observable<any> {
-    return this.http.post<Plant>(this.endpoint('plant'), plant).pipe(
-      map((data: any) => {
-        if (data.msg === 'PLANT_CREATED') return data;
-        else return throwError(() => 'Server error');
-      }),
-      catchError(err => {
-        return throwError(() => (
-          {
-            msg: err.error.msg,
-            data: err.error.data ? err.error.data : undefined,
-            code: err.status.code ? err.status.code : undefined
-          }
-        ));
-      })
-    )
+    return this.http.post<Plant>(this.endpoint('plant'), plant);
   }
 
-  updatePlant(plant: Plant): Observable<Plant> {
-    return this.http.put<Plant>(this.endpoint('plant'), plant).pipe(
+  updatePlant(plant: Plant, options?: any): Observable<Plant> {
+    const data = plant as any;
+
+    if (options.removeSpecie) data.removeSpecie = true;
+
+    return this.http.put<any>(this.endpoint('plant'), data).pipe(
       map((res: any) => {
         if (res.msg === 'PLANT_UPDATED') return res.data.plant;
         else return throwError(() => 'Server error');
-      }),
-      catchError(err => {
-        return throwError(() => (
-          {
-            msg: err.error.msg,
-            data: err.error.data ? err.error.data : undefined,
-            code: err.status.code ? err.status.code : undefined
-          }
-        ));
       })
     )
   }
@@ -233,13 +189,7 @@ export class ApiService {
    */
 
   getPhoto(id: number): Observable<Photo> {
-    return this.http.get<Photo>(this.endpoint(`photo/${id}`)).pipe(
-      map(data => data),
-      catchError((HttpError: HttpErrorResponse) => {
-        if (HttpError.error.msg) return throwError(() => { return { msg: HttpError.error.msg, code: HttpError.status } })
-        else return throwError(() => undefined);
-      })
-    );
+    return this.http.get<Photo>(this.endpoint(`photo/${id}`));
   }
 
   createPhoto(photo: Photo): Observable<any> {
@@ -251,39 +201,11 @@ export class ApiService {
       form.append('photo', photo);
     });
 
-    return this.http.post<Photo>(this.endpoint('photo'), form).pipe(
-      map((data: any) => {
-        if (data.msg === 'PHOTOS_CREATED') return data;
-        else return throwError(() => 'Server error');
-      }),
-      catchError(err => {
-        return throwError(() => (
-          {
-            msg: err.error.msg,
-            data: err.error.data ? err.error.data : undefined,
-            code: err.status.code ? err.status.code : undefined
-          }
-        ));
-      })
-    )
+    return this.http.post<Photo>(this.endpoint('photo'), form);
   }
 
   updatePhoto(photo: Photo): Observable<any> {
-    return this.http.put<Photo>(this.endpoint(`photo`), photo).pipe(
-      map((res: any) => {
-        if (res.msg === 'PHOTO_UPDATED') return res.data.photo;
-        else return throwError(() => 'Server error');
-      }),
-      catchError(err => {
-        return throwError(() => (
-          {
-            msg: err.error.msg,
-            data: err.error.data ? err.error.data : undefined,
-            code: err.status.code ? err.status.code : undefined
-          }
-        ));
-      })
-    );
+    return this.http.put<Photo>(this.endpoint(`photo`), photo);
   }
 
   deletePhoto(id: number): Observable<any> {

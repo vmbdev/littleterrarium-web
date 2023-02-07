@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
 
@@ -21,7 +22,9 @@ export class UserRegisterComponent implements OnInit {
   constructor(
     private api: ApiService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef,
+    private auth: AuthService
   ) {
     this.userForm = this.fb.group({
       username: ['', Validators.required],
@@ -39,6 +42,10 @@ export class UserRegisterComponent implements OnInit {
     this.api.getPasswordRequirements().subscribe((data: any) => {
       this.pwdReq = data;
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.cd.detectChanges();
   }
 
   resetErrors(): void {
@@ -110,8 +117,9 @@ export class UserRegisterComponent implements OnInit {
         const user: User = this.userForm.value;
         user.password = pwd;
 
-        return this.api.createUser(user);
+        return this.auth.register(user);
       }),
+      map(() => { this.router.navigateByUrl('/') }),
       catchError((err: HttpErrorResponse) => {
         const error = err.error;
 
@@ -137,9 +145,6 @@ export class UserRegisterComponent implements OnInit {
 
         return of(false);
       })
-    )
-    .subscribe((data: any) => {
-      if (data) this.router.navigate(['/']);
-    });
+    ).subscribe();
   }
 }
