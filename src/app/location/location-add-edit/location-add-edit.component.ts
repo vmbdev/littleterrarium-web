@@ -60,7 +60,7 @@ export class LocationAddEditComponent implements OnInit {
           ], { attachTo: 'location' });
         },
         error: () => {
-          this.errorHandler.push($localize `:@@location-add-edit.invalid:Invalid location.`);
+          this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
         }
       })
     }

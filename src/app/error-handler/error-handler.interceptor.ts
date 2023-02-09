@@ -34,7 +34,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
               break;
             }
             case 'MISSING_FIELD': {
-              errorMsg = $localize `:@@errors.missingField:Missing field (${error.error.data.field}:field)`;
+              errorMsg = $localize `:@@errors.missingField:Missing field (${error.error.data.field}:field:)`;
               break;
             }
           }

@@ -10,9 +10,11 @@
     <div class="mainnav__item"><a routerLink="/" i18n="@@mainnav.home">Home</a></div>
     <div class="mainnav__item"><a routerLink="/plant/all" i18n="@@mainnav.plants">Plants</a></div>
     <div class="mainnav__item"><a routerLink="/tasks" i18n="@@mainnav.tasks">Pending Tasks</a></div>
-    <div class="mainnav__item"><theme-switcher></theme-switcher></div>
-    <div class="mainnav__item"><lang-switcher></lang-switcher></div>
-    <div class="mainnav__item"><userbox></userbox></div>
+    <div class="mainnav__collapsable">
+      <div class="mainnav__item"><theme-switcher></theme-switcher></div>
+      <div class="mainnav__item"><lang-switcher></lang-switcher></div>
+      <div class="mainnav__item"><userbox></userbox></div>
+    </div>
   </div>
 </nav>
 <breadcrumb-navigation></breadcrumb-navigation>

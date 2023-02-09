@@ -44,7 +44,7 @@ export class LocationComponent implements OnInit {
           this.owned = (this.auth.user$.getValue()?.id === this.location.ownerId) ? true : false;
         }),
         catchError((err: HttpErrorResponse) => {
-          if (err.error?.msg === 'LOCATION_NOT_FOUND') this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found.`);
+          if (err.error?.msg === 'LOCATION_NOT_FOUND') this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
           else this.errorHandler.push($localize `:@@errors.server:Server error`);
           
           this.router.navigateByUrl('/');

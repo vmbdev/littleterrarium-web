@@ -22,7 +22,9 @@
         <b i18n="@@photo.takenAt">Taken at:</b> {{ photo.takenAt | date }}
       </div>
       <div class="photo__property" [ngClass]="photo.public ? 'photo__property-public' : 'photo__property-private'">
-        <b i18n="@@general.visibility">Visibility:</b> {{ photo.public ? 'Public' : 'Private' }}
+        <b i18n="@@general.visibility">Visibility:</b>
+        <ng-container *ngIf="photo.public; else photoPrivate" i18n="@@general.public">Public</ng-container>
+        <ng-template #photoPrivate i18n="@@general.private">Private</ng-template>
       </div>
     </ng-container>
   </info-box>

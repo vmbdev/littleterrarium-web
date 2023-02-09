@@ -1,5 +1,6 @@
 @use 'src/styles/form.scss';
 @use 'src/styles/theming.scss' as t;
+@use 'src/styles/media.scss' as m;
 
 .sf {
   position: relative;
@@ -96,5 +97,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+}
+
+@include m.media('mobile') {
+  .sf {
+    &__searchbox {
+      width: 15em;
+    }
+
+    &__results {
+      width: 15em;
+    }
   }
 }

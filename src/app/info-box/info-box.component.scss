@@ -68,11 +68,26 @@
 
 @include m.media('mobile') {
   .info-box {
-    &__content {
-      &-bottom {
-        grid-auto-flow: row;
-        gap: 0;
-      }
+    &__header {
+      flex-direction: column;
+    }
+
+    &__oneliner {
+      grid-auto-flow: row;
+      gap: 0;
+    }
+  }
+}
+
+@include m.media('tablet') {
+  .info-box {
+    &__header {
+      flex-direction: column;
+    }
+
+    &__oneliner {
+      grid-auto-flow: row;
+      gap: 0;
     }
   }
 }

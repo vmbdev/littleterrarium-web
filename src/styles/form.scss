@@ -1,5 +1,6 @@
 @use 'src/styles/variables.scss' as var;
 @use 'src/styles/theming.scss' as t;
+@use 'src/styles/media.scss' as m;
 
 @mixin styledInput($type, $radius: 0) {
   input[type=#{$type}] {
@@ -160,6 +161,16 @@
     @include t.themify {
       box-shadow: 0 0 5px t.theme(error);
       border: 1px solid t.theme(error);
+    }
+  }
+}
+
+@include m.media('mobile') {
+  .form {
+    &__textinput, &__number, &__select, &__textarea {
+      input, select, textarea {
+        width: 15em;
+      }
     }
   }
 }

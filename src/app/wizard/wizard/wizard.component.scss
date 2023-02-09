@@ -58,4 +58,14 @@
       }
     }
   }
+
+  @include m.media('tablet') {
+    & {
+      height: 100%;
+
+      &__container {
+        width: 100%;
+      }
+    }
+  }
 }

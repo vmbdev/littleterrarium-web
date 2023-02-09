@@ -170,7 +170,9 @@ export class ApiService {
   updatePlant(plant: Plant, options?: any): Observable<Plant> {
     const data = plant as any;
 
-    if (options.removeSpecie) data.removeSpecie = true;
+    if (options) {
+      if (options.removeSpecie) data.removeSpecie = true;
+    }
 
     return this.http.put<any>(this.endpoint('plant'), data).pipe(
       map((res: any) => {

@@ -2,10 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { Photo } from 'src/app/interfaces';
-import { ApiService } from 'src/app/shared/api/api.service';
 import * as dayjs from 'dayjs';
 import * as LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import { AuthService } from 'src/app/auth/auth.service';
 import { PhotoService } from '../photo.service';
 import { catchError, EMPTY, map } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -61,7 +59,7 @@ export class PhotoComponent implements OnInit {
         if ((res.msg === 'PHOTO_REMOVED') && (res.data.photo.plantId))
           this.router.navigate(['/plant', res.data.photo.plantId]);
       },
-      error: (err) => {
+      error: () => {
         this.errorHandler.push($localize `:@@photo.deleteError:Error while deleting the photo.`);
       }
     })

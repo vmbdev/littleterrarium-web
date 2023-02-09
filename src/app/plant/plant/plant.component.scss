@@ -19,7 +19,7 @@
 
   &__condition {
     display: flex;
-    // justify-content: center;
+    align-items: center;
     margin-top: 5px;
 
     &-bad:before { background-color: red; }
@@ -31,8 +31,9 @@
     &:before {
       display: inline-block;
       content: '';
-      height: 24px;
-      width: 24px;
+      border: 1px solid black;
+      height: 48px;
+      width: 48px;
       margin-right: 5px;
       border-radius: 100%;
     }
@@ -47,9 +48,9 @@
     &::before {
       content: '';
       display: inline-block;
-      width: 24px;
-      height: 24px;
-      background-size: 24px 24px;
+      width: 48px;
+      height: 48px;
+      background-size: 48px 48px;
     }
 
     &-public::before {

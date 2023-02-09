@@ -72,9 +72,10 @@ export class PlantEditSoilComponent implements OnInit {
     if (plant.potSize) {
       plant.potSize = this.potForm.value.potSizeUnits === 'in' ? plant.potSize * 2.54 : plant.potSize;
     }
-    
-    this.plantService.update(plant).subscribe(() => {
-      this.router.navigate(['/plant', this.id]);
+
+    this.plantService.update(plant).subscribe({
+      next: () => { this.router.navigate(['/plant', this.id]) },
+      error: (err) => { console.log(err) }
     });
   }
 }
