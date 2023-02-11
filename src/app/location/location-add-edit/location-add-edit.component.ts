@@ -1,7 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { catchError, EMPTY, map, Observable } from 'rxjs';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 
@@ -91,6 +92,11 @@ export class LocationAddEditComponent implements OnInit {
         map((res: any) => {
           if (res.msg === 'LOCATION_CREATED') this.router.navigate([`location/${res.location.id}`]);
           else if (res.msg === 'LOCATION_UPDATED') this.router.navigate([`location/${data.id}`]);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+
+          return EMPTY;
         })
       ).subscribe();
     }

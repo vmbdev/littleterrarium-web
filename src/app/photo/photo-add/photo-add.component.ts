@@ -40,6 +40,7 @@ export class PhotoAddComponent implements OnInit {
         map((plant: Plant) => { this.plant = plant }),
         catchError((err: HttpErrorResponse) => {
           this.router.navigateByUrl('/');
+
           if (err.error?.msg === 'PLANT_NOT_FOUND') {
             this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
             return EMPTY;
@@ -65,7 +66,13 @@ export class PhotoAddComponent implements OnInit {
 
       newPhoto.plantId = this.plantId;
 
-      this.photoService.create(newPhoto).subscribe(() => {
+      this.photoService.create(newPhoto).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+
+          return EMPTY;
+        })
+      ).subscribe(() => {
         this.router.navigate(['plant', this.plantId])
       });
     }

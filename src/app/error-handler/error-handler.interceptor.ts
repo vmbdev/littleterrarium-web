@@ -21,10 +21,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
         if (error.status === 400) {
           switch (error.error.msg) {
-            case 'IMG_NOT_VALID': {
-              errorMsg = $localize `:@@errors.invalidImg:Invalid image.`;
-              break;
-            }
             case 'INCORRECT_FIELD': {
               errorMsg = $localize `:@@errors.field:Incorrect field (${error.error.data.field}:field:).`;
       

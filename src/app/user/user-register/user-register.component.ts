@@ -122,7 +122,7 @@ export class UserRegisterComponent implements OnInit {
       map(() => { this.router.navigateByUrl('/') }),
       catchError((err: HttpErrorResponse) => {
         const error = err.error;
-
+        // TODO detect when fields are invalid
         if (error.msg === 'USER_FIELD') {
           if (error.data.field === 'username') {
             this.errors.username = true;

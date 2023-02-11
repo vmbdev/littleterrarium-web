@@ -1,8 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map, skipWhile } from 'rxjs';
+import { catchError, EMPTY, map, skipWhile } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 import { User } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
 
@@ -18,7 +20,8 @@ export class UserEditComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private api: ApiService,
-    public auth: AuthService
+    public auth: AuthService,
+    private errorHandler: ErrorHandlerService
   ) {
     this.userForm = this.fb.group({
       username: ['', Validators.required],
@@ -60,11 +63,15 @@ export class UserEditComponent implements OnInit {
   submit(): void {
     const user: User = this.userForm.value;
 
-    this.api.editUser(user).subscribe({
-      next: (updatedUser: User) => {
+    this.api.editUser(user).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+
+        return EMPTY;
+      })
+    ).subscribe((updatedUser: User) => {
         this.auth.updateUser(updatedUser);
         this.router.navigate(['/']);
-      }
     });
   }
 

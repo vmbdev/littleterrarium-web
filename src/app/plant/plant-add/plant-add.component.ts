@@ -14,9 +14,9 @@ import { ApiService } from 'src/app/shared/api/api.service';
 })
 export class PlantAddComponent implements OnInit {
   plantForm: FormGroup;
-  locationId!: number;
+  locationId?: number;
   newPlantId?: number;
-  location!: Location;
+  location?: Location;
   photos: File[] = [];
 
   constructor(
@@ -55,9 +55,11 @@ export class PlantAddComponent implements OnInit {
   }
 
   submit() {
+    if (!this.locationId) return;
+
     const plant: Plant = this.plantForm.value;
     plant.locationId = this.locationId;
-    // FIXME: if pictures fail to upload, redirect anyway
+
     this.api.createPlant(plant).pipe(
       switchMap((res: any) => {
         const plant: Plant = res.plant;
@@ -75,7 +77,11 @@ export class PlantAddComponent implements OnInit {
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        this.errorHandler.push($localize `:@@plant-add.create:Error when creating the plant.`);
+        if (error.error?.msg === 'IMG_NOT_VALID') {
+          this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+          this.router.navigate(['/plant', this.newPlantId]);
+        }
+        else this.errorHandler.push($localize `:@@plant-add.create:Error when creating the plant.`);
 
         return EMPTY;
       })
