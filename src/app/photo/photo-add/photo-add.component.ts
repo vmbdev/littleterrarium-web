@@ -37,7 +37,6 @@ export class PhotoAddComponent implements OnInit {
 
     if (this.plantId) {
       this.plantService.get(this.plantId).pipe(
-        map((plant: Plant) => { this.plant = plant }),
         catchError((err: HttpErrorResponse) => {
           this.router.navigateByUrl('/');
 
@@ -47,7 +46,9 @@ export class PhotoAddComponent implements OnInit {
           }
           else return throwError(() => err);  
         })
-      ).subscribe();
+      ).subscribe((plant: Plant) => {
+        this.plant = plant
+      });
     }
     else {
       this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);

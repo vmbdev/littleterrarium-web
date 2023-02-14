@@ -81,9 +81,9 @@ export class PlantEditComponent implements OnInit {
     const plant: Plant = this.plantForm.value;
     plant.id = this.id;
     
-    this.plantService.update(plant, { removeSpecie: this.removeSpecie }).pipe(
-      map(() => { this.router.navigate(['/plant', this.id]) }),
-    ).subscribe();
+    this.plantService.update(plant, { removeSpecie: this.removeSpecie }).subscribe(() => {
+      this.router.navigate(['/plant', this.id])
+    });
   }
 
   /**

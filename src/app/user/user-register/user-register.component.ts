@@ -119,16 +119,15 @@ export class UserRegisterComponent implements OnInit {
 
         return this.auth.register(user);
       }),
-      map(() => { this.router.navigateByUrl('/') }),
       catchError((err: HttpErrorResponse) => {
         const error = err.error;
         // TODO detect when fields are invalid
         if (error.msg === 'USER_FIELD') {
-          if (error.data.field === 'username') {
+          if (error.errorData.field === 'username') {
             this.errors.username = true;
             this.moveWizardPage(0);
           }
-          else if (error.data.field === 'email') {
+          else if (error.errorData.field === 'email') {
             this.errors.email = true;
             this.moveWizardPage(1);
           }
@@ -137,14 +136,16 @@ export class UserRegisterComponent implements OnInit {
         else if (error.msg === 'USER_PASSWD_INVALID') {
           this.moveWizardPage(2);
 
-          if (!error.data.comp.minLength) this.errors.pwd.length = true;
-          if (!error.data.comp.hasUppercase) this.errors.pwd.uppercase = true;
-          if (!error.data.comp.hasNumber) this.errors.pwd.numbers = true;
-          if (!error.data.comp.hasNonAlphanumeric) this.errors.pwd.nonAlphanumeric = true;
+          if (!error.errorData.comp.minLength) this.errors.pwd.length = true;
+          if (!error.errorData.comp.hasUppercase) this.errors.pwd.uppercase = true;
+          if (!error.errorData.comp.hasNumber) this.errors.pwd.numbers = true;
+          if (!error.errorData.comp.hasNonAlphanumeric) this.errors.pwd.nonAlphanumeric = true;
         }
 
         return of(false);
       })
-    ).subscribe();
+    ).subscribe(() => {
+      this.router.navigateByUrl('/')
+    });
   }
 }

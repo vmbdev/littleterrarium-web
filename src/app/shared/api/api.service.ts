@@ -177,7 +177,6 @@ export class ApiService {
     return this.http.put<any>(this.endpoint('plant'), data).pipe(
       map((res: any) => {
         if (res.msg === 'PLANT_UPDATED') return res.data.plant;
-        else return throwError(() => 'Server error');
       })
     )
   }
@@ -207,7 +206,11 @@ export class ApiService {
   }
 
   updatePhoto(photo: Photo): Observable<any> {
-    return this.http.put<Photo>(this.endpoint(`photo`), photo);
+    return this.http.put<Photo>(this.endpoint('photo'), photo).pipe(
+      map((res: any) => {
+        if (res.msg === 'PHOTO_UPDATED') return res.data.photo;
+      })
+    )
   }
 
   deletePhoto(id: number): Observable<any> {

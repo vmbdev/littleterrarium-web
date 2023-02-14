@@ -45,21 +45,6 @@ export class PlantComponent implements OnInit {
 
   fetchPlantData(): void {
     this.plantService.get(this.id).pipe(
-      map((plant: Plant) => {
-        this.plantVisibility = plant.public;
-
-        if (plant.customName) {
-          this.plantTitle = plant.customName;
-
-          if (plant.specie) this.plantSubtitle = plant.specie.name;
-        }
-        else if (plant.specie) this.plantTitle = plant.specie.name
-        else this.plantTitle = plant.visibleName;
-
-        this.breadcrumb.setNavigation([
-          { id: 'plant', name: this.plantTitle, link: ['/plant', this.id] }
-        ], { attachTo: 'location' });
-      }),
       catchError((err: HttpErrorResponse) => {
         if (err.error?.msg === 'PLANT_NOT_FOUND') this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
         else this.errorHandler.push($localize `:@@errors.server:Server error`);
@@ -68,7 +53,21 @@ export class PlantComponent implements OnInit {
 
         return EMPTY;
       })
-    ).subscribe();
+    ).subscribe((plant: Plant) => {
+      this.plantVisibility = plant.public;
+
+      if (plant.customName) {
+        this.plantTitle = plant.customName;
+
+        if (plant.specie) this.plantSubtitle = plant.specie.name;
+      }
+      else if (plant.specie) this.plantTitle = plant.specie.name
+      else this.plantTitle = plant.visibleName;
+
+      this.breadcrumb.setNavigation([
+        { id: 'plant', name: this.plantTitle, link: ['/plant', this.id] }
+      ], { attachTo: 'location' });
+    });
 
   }
 

@@ -36,22 +36,21 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.checked$.pipe(
-      skipWhile(val => val === false),
-      map(() => {
-        const user = this.auth.user$.getValue();
+      skipWhile(val => val === false)
+    ).subscribe(() => {
+      const user = this.auth.user$.getValue();
 
-        if (user) {
-          this.userForm.patchValue({
-            username: user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email,
-            bio: user.bio,
-            public: user.public
-          });
-        }
-      })
-    ).subscribe();
+      if (user) {
+        this.userForm.patchValue({
+          username: user.username,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email,
+          bio: user.bio,
+          public: user.public
+        });
+      }
+    });
   }
 
   fileChange(files: File[]) {
@@ -69,9 +68,11 @@ export class UserEditComponent implements OnInit {
 
         return EMPTY;
       })
-    ).subscribe((updatedUser: User) => {
-        this.auth.updateUser(updatedUser);
+    ).subscribe((res: any) => {
+      if (res.msg === 'USER_UPDATED') {
+        this.auth.updateUser(res.data.user);
         this.router.navigate(['/']);
+      }
     });
   }
 

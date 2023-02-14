@@ -34,13 +34,6 @@ export class PhotoComponent implements OnInit {
 
     if (this.id) {
       this.photoService.get(this.id).pipe(
-        map((photo: Photo) => {
-          dayjs.extend(LocalizedFormat);
-          this.breadcrumb.setNavigation([
-            { id: 'photo', name: dayjs(photo.takenAt).format('LL'), link: ['/photo', this.id] }
-          ], { attachTo: 'plant' })
-
-        }),
         catchError((err: HttpErrorResponse) => {
           if (err.error?.msg === 'PHOTO_NOT_FOUND') this.errorHandler.push($localize `:@@photo.invalid:Photo not found.`);
           else this.errorHandler.push($localize `:@@errors.server:Server error`);
@@ -49,7 +42,13 @@ export class PhotoComponent implements OnInit {
   
           return EMPTY;
         })
-      ).subscribe();
+      ).subscribe((photo: Photo) => {
+        dayjs.extend(LocalizedFormat);
+        this.breadcrumb.setNavigation([
+          { id: 'photo', name: dayjs(photo.takenAt).format('LL'), link: ['/photo', this.id] }
+        ], { attachTo: 'plant' })
+
+      });
     }
   }
 

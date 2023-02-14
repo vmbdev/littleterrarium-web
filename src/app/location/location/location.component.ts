@@ -35,14 +35,6 @@ export class LocationComponent implements OnInit {
     if (this.id) {
 
       this.api.getLocation(this.id, true).pipe(
-        map((location: Location) => {
-          this.location = location;
-          this.breadcrumb.setNavigation([
-            { id: 'location', name: this.location.name, link: ['/location', this.id] },
-          ])
-
-          this.owned = (this.auth.user$.getValue()?.id === this.location.ownerId) ? true : false;
-        }),
         catchError((err: HttpErrorResponse) => {
           if (err.error?.msg === 'LOCATION_NOT_FOUND') this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
           else this.errorHandler.push($localize `:@@errors.server:Server error`);
@@ -51,7 +43,14 @@ export class LocationComponent implements OnInit {
   
           return EMPTY;
         })
-      ).subscribe();
+      ).subscribe((location: Location) => {
+        this.location = location;
+        this.breadcrumb.setNavigation([
+          { id: 'location', name: this.location.name, link: ['/location', this.id] },
+        ])
+
+        this.owned = (this.auth.user$.getValue()?.id === this.location.ownerId) ? true : false;
+      });
     }
   }
 

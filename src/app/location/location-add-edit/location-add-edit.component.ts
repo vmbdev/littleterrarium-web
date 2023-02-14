@@ -89,16 +89,15 @@ export class LocationAddEditComponent implements OnInit {
 
     if (insert) {
       insert.pipe(
-        map((res: any) => {
-          if (res.msg === 'LOCATION_CREATED') this.router.navigate([`location/${res.location.id}`]);
-          else if (res.msg === 'LOCATION_UPDATED') this.router.navigate([`location/${data.id}`]);
-        }),
         catchError((error: HttpErrorResponse) => {
           if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
 
           return EMPTY;
         })
-      ).subscribe();
+      ).subscribe((res: any) => {
+        if (res.msg === 'LOCATION_CREATED') this.router.navigate([`location/${res.data.location.id}`]);
+        else if (res.msg === 'LOCATION_UPDATED') this.router.navigate([`location/${data.id}`]);
+      });
     }
   }
 

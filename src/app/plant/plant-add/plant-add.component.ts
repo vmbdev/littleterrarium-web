@@ -61,8 +61,11 @@ export class PlantAddComponent implements OnInit {
     plant.locationId = this.locationId;
 
     this.api.createPlant(plant).pipe(
+      // FIXME: catch here?
       switchMap((res: any) => {
-        const plant: Plant = res.plant;
+        if (res.msg !== 'PLANT_CREATED') return EMPTY;
+
+        const plant: Plant = res.data.plant;
         this.newPlantId = plant.id;
 
         if (this.photos.length === 0) return of(true);

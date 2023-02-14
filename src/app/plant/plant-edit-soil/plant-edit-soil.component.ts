@@ -74,8 +74,7 @@ export class PlantEditSoilComponent implements OnInit {
     }
 
     this.plantService.update(plant).subscribe({
-      next: () => { this.router.navigate(['/plant', this.id]) },
-      error: (err) => { console.log(err) }
+      next: () => { this.router.navigate(['/plant', this.id]) }
     });
   }
 }
