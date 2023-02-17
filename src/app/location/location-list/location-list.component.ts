@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Location } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
 
@@ -10,18 +11,16 @@ import { ApiService } from 'src/app/shared/api/api.service';
 export class LocationListComponent implements OnInit {
   @Input() userId?: number;
   @Input() owned: boolean = true;
-  list!: Location[];
+  list?: Observable<Location[]>;
 
-  constructor(
-    private apiService: ApiService
-  ) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     const options = {
       plantCount: true,
       userId: this.userId ? this.userId : null
     }
-    this.apiService.getLocationList(options).subscribe((list) => { this.list = list });
+    this.list = this.apiService.getLocationList(options);
   }
 
 }

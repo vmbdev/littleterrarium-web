@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Plant } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
+import { PlantService } from '../plant.service';
 
 @Component({
   selector: 'plant-list',
@@ -16,20 +17,19 @@ export class PlantListComponent implements OnInit {
   pictures: any[] = [];
 
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    private plantService: PlantService
   ) { }
 
   ngOnInit(): void {
-    if (this.list) {
-      this.setPictureList(this.list);
-    }
+    if (this.list) this.setPictureList(this.list);
     else {
       const options = {
         locationId: this.locationId,
         userId: this.userId
       };
   
-      this.api.getPlants(options).subscribe((plants: Plant[]) => {
+      this.plantService.getMany(options).subscribe((plants: Plant[]) => {
         this.setPictureList(plants);
       })
     }
@@ -37,9 +37,11 @@ export class PlantListComponent implements OnInit {
 
   setPictureList(plants: Plant[]) {
     for (const plant of plants) {
+      if (!plant.visibleName) plant.visibleName = this.plantService.getVisibleName(plant);
+
       const pic = {
         id: plant.id,
-        name: plant.customName,
+        name: plant.visibleName,
         image: plant.photos?.at(0)?.images.thumb
       };
 

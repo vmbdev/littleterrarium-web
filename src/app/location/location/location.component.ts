@@ -15,7 +15,7 @@ import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service
 })
 export class LocationComponent implements OnInit {
   private id?: number;
-  location!: Location;
+  location?: Location;
   confirmDelete: boolean = false;
   owned: boolean = false;
 
@@ -72,27 +72,27 @@ export class LocationComponent implements OnInit {
   }
 
   getLightName(): string {
-    return Light[this.location.light].desc;
+    return Light[this.location?.light].desc;
   }
 
   getLightClass(): string {
     let modifier: string;
 
-    if (this.location.light === 'FULLSUN') modifier = 'sun';
-    else if (this.location.light === 'PARTIALSUN') modifier = 'partial';
+    if (this.location?.light === 'FULLSUN') modifier = 'sun';
+    else if (this.location?.light === 'PARTIALSUN') modifier = 'partial';
     else modifier = 'shade';
 
     return `location__light-${modifier}`;
   }
 
   getVisibilityClass(): string {
-    const modifier = this.location.public ? 'public' : 'private';
+    const modifier = this.location?.public ? 'public' : 'private';
     
     return `location__visibility-${modifier}`;
   }
 
   getPlantsClass(): string {
-    const modifier = (this.location.plants && (this.location.plants.length > 0)) ? 'exists' : 'empty';
+    const modifier = (this.location?.plants && (this.location.plants.length > 0)) ? 'exists' : 'empty';
 
     return `location__plants-${modifier}`;
   }

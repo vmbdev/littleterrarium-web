@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, of, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Plant } from '../interfaces';
 import { ApiService } from '../shared/api/api.service';
+import { CapitalizePipe } from '../shared/capitalize/capitalize.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,15 @@ export class PlantService {
 
   constructor(
     private api: ApiService,
-    private auth: AuthService
+    private auth: AuthService,
+    private capitalizePipe: CapitalizePipe
   ) { }
 
   get(id: number): Observable<any> {
     return this.api.getPlant(id).pipe(
       map((plant: Plant) => {
         this.owned = (this.auth.user$.getValue()?.id === plant.ownerId);
-
-        if (plant.customName) plant.visibleName = plant.customName;
-        else if (plant.specie?.name) plant.visibleName = plant.specie.name;
-        else plant.visibleName = $localize `:@@general.unnamedPlant:Unnamed plant ${plant.id}:plantId:`;
+        plant.visibleName = this.getVisibleName(plant);
 
         this.plant$.next(plant);
 
@@ -36,6 +35,28 @@ export class PlantService {
         return throwError(() => HttpError);
       })
     );
+  }
+
+  getMany(options: any): Observable<Plant[]> {
+    return this.api.getPlants(options).pipe(
+      map((plants: Plant[]) => {
+        for (const plant of plants) {
+          plant.visibleName = this.getVisibleName(plant);
+        }
+
+        return plants;
+      })
+    );
+  }
+
+  getVisibleName(plant: Plant): string {
+    let name;
+
+    if (plant.customName) name = plant.customName;
+    else if (plant.specie?.name) name = this.capitalizePipe.transform(plant.specie.name);
+    else name = $localize `:@@general.unnamedPlant:Unnamed plant ${plant.id}:plantId:`;
+
+    return name;
   }
 
   update(plant: Plant, options?: any): Observable<any> {

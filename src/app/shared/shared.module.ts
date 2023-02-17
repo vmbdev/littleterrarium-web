@@ -20,7 +20,8 @@ import { CapitalizePipe } from './capitalize/capitalize.pipe';
     RouterModule
   ],
   providers: [
-    ApiService
+    ApiService,
+    CapitalizePipe
   ],
   exports: [
     FloatingButtonComponent,

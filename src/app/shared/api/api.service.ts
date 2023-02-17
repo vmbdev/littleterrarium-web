@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, throwError } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { User, Location, Plant, Photo, Specie } from 'src/app/interfaces';
 import { endpoint } from 'src/config';
@@ -123,8 +123,6 @@ export class ApiService {
         if ((data.msg === 'LOCATION_CREATED') || (data.msg === 'LOCATION_UPDATED')) {
           return data;
         }
-        // TODO: process to the new API
-        else return throwError(() => 'Server error');
       })
     )
   }
