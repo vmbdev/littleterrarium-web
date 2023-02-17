@@ -23,6 +23,9 @@ $themes: (
     infobox_text: #3c6478,
     signin_background: rgba(256, 256, 256, 90%),
     signin_text: #3c6478,
+    progressbar_background: #BFBFC1,
+    progressbar_progress: #4E9F3D,
+    progressbar_color: white,
   ),
   dark: (
     main_color: #610094,
@@ -49,5 +52,7 @@ $themes: (
     infobox_text: #3c6478,
     signin_background: rgba(31, 31, 31, 0.9),
     signin_text: white,
+    progressbar: #4E9F3D,
+    progressbar_color: white,
   )
 );

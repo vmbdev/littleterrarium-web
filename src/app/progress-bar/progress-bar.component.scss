@@ -1,0 +1,23 @@
+@use 'src/styles/theming.scss' as t;
+
+.progress-bar {
+  width: 25em;
+  border-radius: 3px;
+
+  @include t.themify {
+    background-color: t.theme(progressbar_background);
+  }
+  
+  &__progress {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    padding: 5px;
+    
+    @include t.themify {
+      background-color: t.theme(progressbar_progress);
+      color: t.theme(progressbar_color);
+    }
+  }
+}

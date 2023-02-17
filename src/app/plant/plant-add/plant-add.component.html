@@ -37,6 +37,11 @@
         <input type="checkbox" formControlName="public" id="public-checkbox">
         <label for="public-checkbox" i18n="@@general.visibilityPublic">Publicly visible</label>
       </div>
+
+      <div class="plant-add__progress">
+        <progress-bar *ngIf="uploadProgress > 0" [progress]="uploadProgress"></progress-bar>
+        <div *ngIf="uploadProgress === 100" class="plant-add__finished" i18n="@@general.uploadFinished">Upload finished. Processing your photos, please wait.</div>
+      </div>
     </page>
   </wizard>
 </form>

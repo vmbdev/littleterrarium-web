@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,6 +17,7 @@ export class PhotoAddComponent implements OnInit {
   photoForm: FormGroup;
   plantId?: number;
   plant?: Plant;
+  uploadProgress: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -67,14 +68,22 @@ export class PhotoAddComponent implements OnInit {
 
       newPhoto.plantId = this.plantId;
 
-      this.photoService.create(newPhoto).pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+      this.photoService.create(newPhoto).subscribe((event) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress: {
+            const eventTotal = event.total ? event.total : 0;
+            this.uploadProgress = Math.round(event.loaded / eventTotal * 100);
+            break;
+          }
+          case HttpEventType.Response: {
+            if (event.body.msg === 'PHOTOS_CREATED') {
+              this.uploadProgress = 0;
+              this.router.navigate(['plant', this.plantId])
+            }
+            break;
+          }
 
-          return EMPTY;
-        })
-      ).subscribe(() => {
-        this.router.navigate(['plant', this.plantId])
+        }
       });
     }
   }

@@ -1,6 +1,6 @@
 {
-	"locale": "en",
-	"translations": {
+  "locale": "en",
+  "translations": {
     "auth-interceptor.forbidden": "Insufficient permissions.",
     "errors.field": "Incorrect field ({$field}).",
     "errors.fieldValues": "Possible values are {$values}",
@@ -46,6 +46,7 @@
     "general.unknown": "Unknown",
     "general.unnamedPlant": "Unnamed plant {$plantId}",
     "general.update": "Update",
+    "general.uploadFinished": "Upload finished. Processing your photos, please wait.",
     "general.username": "Username",
     "general.visibility": "Visibility:",
     "general.visibilityPublic": "Publicly visible",
@@ -151,6 +152,7 @@
     "plant.plantInformation": "Plant information",
     "plant.remove": "This will remove this plant and all of its photos. Are you sure?",
     "plants-all.msg": "Here's a list of all the plants in your collection.",
+    "progress-bar.uploading": "Uploading...",
     "signin.createAccount": "Don't have an account? {$START_BOLD_TEXT}Sign up!{$CLOSE_BOLD_TEXT}",
     "signin.forgottenPassword": "Forgot your password?",
     "signin.homepageMsg": "We are really happy to have you here. {$START_BOLD_TEXT}Sign in{$CLOSE_BOLD_TEXT} or {$START_BOLD_TEXT}{$START_LINK}sign up{$CLOSE_LINK}{$CLOSE_BOLD_TEXT} and start taking care of your plants!",

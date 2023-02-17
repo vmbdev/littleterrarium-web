@@ -15,6 +15,7 @@ import { ConfirmModalModule } from '../confirm-modal/confirm-modal.module';
 import { QuickModalModule } from '../quick-modal/quick-modal.module';
 import { PhotoEditComponent } from './photo-edit/photo-edit.component';
 import { InfoBoxModule } from '../info-box/info-box.module';
+import { ProgressBarModule } from '../progress-bar/progress-bar.module';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { InfoBoxModule } from '../info-box/info-box.module';
     BreadcrumbModule,
     ConfirmModalModule,
     QuickModalModule,
-    InfoBoxModule
+    InfoBoxModule,
+    ProgressBarModule
   ],
   exports: [
     PhotoComponent,

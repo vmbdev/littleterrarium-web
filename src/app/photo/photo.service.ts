@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, of, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
 import { Photo } from '../interfaces';
 import { ApiService } from '../shared/api/api.service';
 
@@ -14,7 +15,8 @@ export class PhotoService {
 
   constructor(
     private api: ApiService,
-    private auth: AuthService
+    private auth: AuthService,
+    private errorHandler: ErrorHandlerService
   ) { }
 
   get(id: number): Observable<any> {
@@ -34,7 +36,13 @@ export class PhotoService {
   }
 
   create(photo: Photo): Observable<any> {
-    return this.api.createPhoto(photo);
+    return this.api.createPhoto(photo).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+
+        return EMPTY;
+      })
+    );
   }
 
   update(photo: Photo): Observable<any> {

@@ -123,6 +123,7 @@ export class ApiService {
         if ((data.msg === 'LOCATION_CREATED') || (data.msg === 'LOCATION_UPDATED')) {
           return data;
         }
+        // TODO: process to the new API
         else return throwError(() => 'Server error');
       })
     )
@@ -202,7 +203,7 @@ export class ApiService {
       form.append('photo', photo);
     });
 
-    return this.http.post<Photo>(this.endpoint('photo'), form);
+    return this.http.post<Photo>(this.endpoint('photo'), form, { reportProgress: true, observe: 'events' });
   }
 
   updatePhoto(photo: Photo): Observable<any> {

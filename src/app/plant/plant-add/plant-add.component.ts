@@ -1,10 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY, of, switchMap } from 'rxjs';
 import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 import { Location, Photo, Plant } from 'src/app/interfaces';
+import { PhotoService } from 'src/app/photo/photo.service';
 import { ApiService } from 'src/app/shared/api/api.service';
 
 @Component({
@@ -18,9 +19,12 @@ export class PlantAddComponent implements OnInit {
   newPlantId?: number;
   location?: Location;
   photos: File[] = [];
+  uploadProgress: number = 0;
 
   constructor(
+    // FIXME: use PlantService
     private api: ApiService,
+    private photoService: PhotoService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -68,7 +72,7 @@ export class PlantAddComponent implements OnInit {
         const plant: Plant = res.data.plant;
         this.newPlantId = plant.id;
 
-        if (this.photos.length === 0) return of(true);
+        if (this.photos.length === 0) return of(res.msg);
         else {
           const photos = {
             plantId: plant.id,
@@ -76,10 +80,11 @@ export class PlantAddComponent implements OnInit {
             pictureFiles: this.photos
           } as Photo;
           
-          return this.api.createPhoto(photos);
+          return this.photoService.create(photos);
         }
       }),
       catchError((error: HttpErrorResponse) => {
+        // FIXME: not catched due to PhotoService catching it first
         if (error.error?.msg === 'IMG_NOT_VALID') {
           this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
           this.router.navigate(['/plant', this.newPlantId]);
@@ -88,8 +93,25 @@ export class PlantAddComponent implements OnInit {
 
         return EMPTY;
       })
-    ).subscribe(() => {
-      this.router.navigate(['/plant', this.newPlantId])
+    ).subscribe((event) => {
+      if (event === 'PLANT_CREATED') this.router.navigate(['/plant', this.newPlantId]);
+      else {
+        switch (event.type) {
+          case HttpEventType.UploadProgress: {
+            const eventTotal = event.total ? event.total : 0;
+            this.uploadProgress = Math.round(event.loaded / eventTotal * 100);
+            break;
+          }
+          case HttpEventType.Response: {
+            if (event.body.msg === 'PHOTOS_CREATED') {
+              this.uploadProgress = 0;
+            }
+
+            this.router.navigate(['/plant', this.newPlantId])
+            break;
+          }
+        }
+      }
     });
   }
 }

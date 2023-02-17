@@ -30,6 +30,7 @@ import { PlantWidgetFertilizerComponent } from './plant-widget-fertilizer/plant-
 import { PlantWidgetSoilComponent } from './plant-widget-soil/plant-widget-soil.component';
 import { PlantEditComponent } from './plant-edit/plant-edit.component';
 import { InfoBoxModule } from '../info-box/info-box.module';
+import { ProgressBarModule } from '../progress-bar/progress-bar.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { InfoBoxModule } from '../info-box/info-box.module';
     PlusButtonModule,
     ConfirmModalModule,
     WidgetBoxModule,
-    InfoBoxModule
+    InfoBoxModule,
+    ProgressBarModule
   ],
   exports: [
     PlantListComponent,
