@@ -173,6 +173,7 @@
     "user-edit.usernameDesc": "Así es como te vamos a conocer por aquí, y cómo podrán acceder a tu perfil. Corto, sin espacios ni cosas raras.",
     "user-logout.msg": "Desconectando, por favor, espera...",
     "user-register.emailDesc": "Así te identificamos de forma única, y es necesario para recibir notificaciones y recuperar tu cuenta si olvidas tu contraseña.",
+    "user-register.emailInvalid": "Lo sentimos, tu dirección de correo no tiene el formato adecuado.",
     "user-register.emailTaken": "Lo sentimos, tu correo electrónico ya está en nuestro sistema. ¿Seguro que no tienes ya una cuenta?",
     "user-register.lookingForward": "¡Estamos deseando darte la bienvenida a nuestra familia!",
     "user-register.passwordAlphanum": "Un carácter no alfanumérico: {$INTERPOLATION}",
@@ -184,6 +185,8 @@
     "user-register.passwordReq": "La contraseña debe tener:",
     "user-register.passwordUppercase": "Una mayúscula",
     "user-register.usernameDesc": "Lo primero de todo, necesitamos un {$START_BOLD_TEXT}nombre de usuario{$CLOSE_BOLD_TEXT}. Puede ser el alias que llevas usando desde hace 20 años o algo como tu usuario de Instagram.",
+    "user-register.usernameInvalid": "Tu nombre de usuario no es correcto. Por favor, revisa el formato.",
+    "user-register.usernameReq": "Debe tener entre {{ usernameReq.minLength }} y {{ usernameReq.maxLength }} caracteres, y contener solo letras, números, puntos (.), guiones (-) y barras bajas (_).",
     "user-register.usernameTaken": "Lo sentimos, este usuario ya está en uso. Por favor, elige otro.",
     "userbox.profile": "Tu perfil",
     "userbox.username": "Hola {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}"

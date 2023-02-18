@@ -3,12 +3,14 @@
     <page title="Username" control="username" i18n-title="@@general.username">
       <page-description>
         <p i18n="@@user-register.lookingForward">We are looking forward to welcoming you to our family!</p>
-        <p i18n="@@user-register.usernameDesc">First of all, let's decide on your <b>username</b>. It may be the moniker you've been using for the last 20 years or something like your Instagram username</p>
+        <p i18n="@@user-register.usernameDesc">First of all, let's decide on your <b>username</b>. It may be the moniker you've been using for the last 20 years or something like your Instagram username.</p>
+        <p *ngIf="usernameReq" i18n="@@user-register.usernameReq">It must be {{ usernameReq.minLength }} to {{ usernameReq.maxLength }} characters long, and contain only alphanumeric characters, dot (.), dash (-) and underscore (_).</p>
       </page-description>
 
       <div class="form__textinput">
         <input type="textinput" formControlName="username">
-        <p *ngIf="errors.username" class="form__errormsg" i18n="@@user-register.usernameTaken">Sorry, your username already exists. Please choose another.</p>
+        <p *ngIf="errors.usernameExists" class="form__errormsg" i18n="@@user-register.usernameTaken">Sorry, your username already exists. Please choose another.</p>
+        <p *ngIf="errors.usernameInvalid" class="form__errormsg" i18n="@@user-register.usernameInvalid">Sorry, your username is not valid. Please, check the formatting.</p>
       </div>
     </page>
 
@@ -19,7 +21,8 @@
 
       <div class="form__textinput">
         <input type="email" formControlName="email">
-        <p *ngIf="errors.email" class="form__errormsg" i18n="@@user-register.emailTaken">Sorry, your e-mail already exists in our system. Are you sure you don't have an account already?</p>
+        <p *ngIf="errors.emailExists" class="form__errormsg" i18n="@@user-register.emailTaken">Sorry, your e-mail already exists in our system. Are you sure you don't have an account already?</p>
+        <p *ngIf="errors.emailInvalid" class="form__errormsg" i18n="@@user-register.emailInvalid">Sorry, your e-mail is not formatted correctly.</p>
       </div>
     </page>
 

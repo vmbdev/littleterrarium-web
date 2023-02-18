@@ -47,6 +47,10 @@ export class ApiService {
     return this.http.get<any>(this.endpoint('user/password/requirements'));
   }
 
+  getUsernameRequirements(): Observable<any> {
+    return this.http.get<any>(this.endpoint('user/username/requirements'));
+  }
+
   checkPassword(password: string): Observable<any> {
     return this.http.post<any>(this.endpoint('user/password/check'), { password });
   }

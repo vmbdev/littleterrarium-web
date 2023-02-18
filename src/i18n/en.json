@@ -173,6 +173,7 @@
     "user-edit.usernameDesc": "This is how you'll be known around here, and how your profile will be accesed. Short, no spaces, no weird things.",
     "user-logout.msg": "Logging out, please wait...",
     "user-register.emailDesc": "This is how we identify you uniquely, and it's needed to receive notifications and to reset your password in case you forget it.",
+    "user-register.emailInvalid": "Sorry, your e-mail is not formatted correctly.",
     "user-register.emailTaken": "Sorry, your e-mail already exists in our system. Are you sure you don't have an account already?",
     "user-register.lookingForward": "We are looking forward to welcoming you to our family!",
     "user-register.passwordAlphanum": "One non-alphanumeric character: {$INTERPOLATION}",
@@ -183,7 +184,9 @@
     "user-register.passwordNumber": "One number",
     "user-register.passwordReq": "Password must contain:",
     "user-register.passwordUppercase": "One uppercase",
-    "user-register.usernameDesc": "First of all, let's decide on your {$START_BOLD_TEXT}username{$CLOSE_BOLD_TEXT}. It may be the moniker you've been using for the last 20 years or something like your Instagram username",
+    "user-register.usernameDesc": "First of all, let's decide on your {$START_BOLD_TEXT}username{$CLOSE_BOLD_TEXT}. It may be the moniker you've been using for the last 20 years or something like your Instagram username.",
+    "user-register.usernameInvalid": "Sorry, your username is not valid. Please, check the formatting.",
+    "user-register.usernameReq": "It must be {$INTERPOLATION} to {$INTERPOLATION_1} characters long, and contain only alphanumeric characters, dot (.), dash (-) and underscore (_).",
     "user-register.usernameTaken": "Sorry, your username already exists. Please choose another.",
     "userbox.profile": "Your profile",
     "userbox.username": "Hi {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}"

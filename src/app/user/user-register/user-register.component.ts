@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, EMPTY, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
@@ -15,6 +15,7 @@ import { ApiService } from 'src/app/shared/api/api.service';
 export class UserRegisterComponent implements OnInit {
   userForm: FormGroup;
   pwdReq?: any = null;
+  usernameReq?: any = null;
   wizardPage: number | undefined = undefined;
   errors: any = {};
   nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"\|,.\<>/?';
@@ -39,9 +40,8 @@ export class UserRegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.api.getPasswordRequirements().subscribe((data: any) => {
-      this.pwdReq = data;
-    });
+    this.api.getPasswordRequirements().subscribe((requirements: any) => { this.pwdReq = requirements });
+    this.api.getUsernameRequirements().subscribe((requirements: any) => { this.usernameReq = requirements });
   }
 
   ngAfterViewChecked(): void {
@@ -50,8 +50,10 @@ export class UserRegisterComponent implements OnInit {
 
   resetErrors(): void {
     this.errors = {
-      username: false,
-      email: false,
+      usernameExists: false,
+      usernameInvalid: false,
+      emailExists: false,
+      emailInvalid: false,
       pwd: {
         length: false,
         uppercase: false,
@@ -121,14 +123,25 @@ export class UserRegisterComponent implements OnInit {
       }),
       catchError((err: HttpErrorResponse) => {
         const error = err.error;
-        // TODO detect when fields are invalid
-        if (error.msg === 'USER_FIELD') {
+
+        if (error.msg === 'USER_FIELD_EXISTS') {
           if (error.errorData.field === 'username') {
-            this.errors.username = true;
+            this.errors.usernameExists = true;
             this.moveWizardPage(0);
           }
           else if (error.errorData.field === 'email') {
-            this.errors.email = true;
+            this.errors.emailExists = true;
+            this.moveWizardPage(1);
+          }
+        }
+
+        else if (error.msg === 'USER_FIELD_INVALID') {
+          if (error.errorData.field === 'username') {
+            this.errors.usernameInvalid = true;
+            this.moveWizardPage(0);
+          }
+          else if (error.errorData.field === 'email') {
+            this.errors.emailInvalid = true;
             this.moveWizardPage(1);
           }
         }
@@ -142,7 +155,7 @@ export class UserRegisterComponent implements OnInit {
           if (!error.errorData.comp.hasNonAlphanumeric) this.errors.pwd.nonAlphanumeric = true;
         }
 
-        return of(false);
+        return EMPTY;
       })
     ).subscribe(() => {
       this.router.navigateByUrl('/')
