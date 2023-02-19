@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { potChoices } from 'src/app/interfaces';
-import { PlantService } from '../plant.service';
+import { PlantService } from '../../plant-service/plant.service';
 
 @Component({
   selector: 'plant-widget-soil',

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Plant } from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
-import { PlantService } from '../plant.service';
+import { PlantService } from '../../plant-service/plant.service';
 
 @Component({
   selector: 'plant-list',

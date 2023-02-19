@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Plant } from 'src/app/interfaces';
+import { PlantService } from 'src/app/plant-service/plant.service';
 import { ApiService } from 'src/app/shared/api/api.service';
 
 @Component({
@@ -10,7 +11,10 @@ import { ApiService } from 'src/app/shared/api/api.service';
 export class TasksComponent implements OnInit {
   tasks: Plant[] = [];
   
-  constructor(private api: ApiService) { }
+  constructor(
+    private api: ApiService,
+    private plantService: PlantService
+  ) { }
 
   ngOnInit(): void {
     this.api.getTasks().subscribe((data: Plant[]) => {
@@ -19,13 +23,7 @@ export class TasksComponent implements OnInit {
   }
 
   getPlantName(plant: Plant): string {
-    let title: string;
-
-    if (plant.customName) title = plant.customName;
-    else if (plant.specie) title = plant.specie.name;
-    else title = `Plant ${plant.id}`;
-
-    return title;
+    return this.plantService.getVisibleName(plant);
   }
 
 }

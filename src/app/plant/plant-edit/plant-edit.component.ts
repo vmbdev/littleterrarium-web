@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { Location, Plant, Condition} from 'src/app/interfaces';
 import { ApiService } from 'src/app/shared/api/api.service';
-import { PlantService } from '../plant.service';
+import { PlantService } from '../../plant-service/plant.service';
 
 @Component({
   selector: 'plant-edit',

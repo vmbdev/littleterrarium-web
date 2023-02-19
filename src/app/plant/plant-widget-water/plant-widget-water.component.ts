@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { PlantService } from '../plant.service';
+import { PlantService } from '../../plant-service/plant.service';
 import * as relativeTime from 'dayjs/plugin/relativeTime'
 import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import * as dayjs from 'dayjs';

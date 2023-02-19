@@ -1,9 +1,10 @@
 @use 'src/styles/media.scss' as m;
 @use 'src/styles/form.scss';
 
-.multiform {
+.wizard {
   width: 100%;
-  min-height: 70vh;
+  height: 70vh;
+  overflow-y: auto;
   display: flex;
   justify-content: center;
 
@@ -12,7 +13,6 @@
     border-right: 1px solid #3D8361;
     padding: 20px 30px;
     width: 50%;
-    height: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -52,6 +52,7 @@
   @include m.media('mobile') {
     & {
       height: 100%;
+      overflow-y: initial;
 
       &__container {
         width: 100%;
@@ -62,6 +63,7 @@
   @include m.media('tablet') {
     & {
       height: 100%;
+      overflow-y: initial;
 
       &__container {
         width: 100%;

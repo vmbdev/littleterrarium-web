@@ -186,7 +186,7 @@
     "user-register.passwordUppercase": "Una mayúscula",
     "user-register.usernameDesc": "Lo primero de todo, necesitamos un {$START_BOLD_TEXT}nombre de usuario{$CLOSE_BOLD_TEXT}. Puede ser el alias que llevas usando desde hace 20 años o algo como tu usuario de Instagram.",
     "user-register.usernameInvalid": "Tu nombre de usuario no es correcto. Por favor, revisa el formato.",
-    "user-register.usernameReq": "Debe tener entre {{ usernameReq.minLength }} y {{ usernameReq.maxLength }} caracteres, y contener solo letras, números, puntos (.), guiones (-) y barras bajas (_).",
+    "user-register.usernameReq": "Debe tener entre {$INTERPOLATION} y {$INTERPOLATION_1} caracteres, y contener solo letras, números, puntos (.), guiones (-) y barras bajas (_).",
     "user-register.usernameTaken": "Lo sentimos, este usuario ya está en uso. Por favor, elige otro.",
     "userbox.profile": "Tu perfil",
     "userbox.username": "Hola {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}"

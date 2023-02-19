@@ -3,6 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { WizardHeaderComponent } from '../wizard-header/wizard-header.component';
 import { PageComponent } from '../page/page.component';
 
+// TODO: focus input on page change
+
 @Component({
   selector: 'wizard',
   templateUrl: './wizard.component.html',

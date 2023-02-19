@@ -1,17 +1,17 @@
-<div class="multiform">
-  <div class="multiform__container">
+<div class="wizard">
+  <div class="wizard__container">
     <ng-template *ngIf="wizardHeader" [ngTemplateOutlet]="wizardHeader.wizardHeaderTemplate"></ng-template>
-    <div class="multiform__content">
+    <div class="wizard__content">
       <div *ngFor="let page of pageList; let i = index" [ngClass]="{
-        'multiform__visible': !singlePage && (currentIndex === i),
-        'multiform__hidden': !singlePage && (currentIndex != i)
+        'wizard__visible': !singlePage && (currentIndex === i),
+        'wizard__hidden': !singlePage && (currentIndex != i)
       }">
         <ng-template [ngTemplateOutlet]="page.pageTemplate"></ng-template>
       </div>
     </div>
-    <div class="multiform__navigation form__button">
+    <div class="wizard__navigation form__button">
       <ng-container *ngIf="!singlePage">
-        <button type="button" (click)="navigateBack()" [ngClass]="{ 'multiform__preview-hidden': currentIndex == 0 }" i18n="@@general.previous">Previous</button>
+        <button type="button" (click)="navigateBack()" [ngClass]="{ 'wizard__preview-hidden': currentIndex == 0 }" i18n="@@general.previous">Previous</button>
         <button type="button" *ngIf="currentIndex != (pageList.length - 1)" (click)="navigateNext()" i18n="@@general.next">Next</button>
       </ng-container>
       <button type="submit" *ngIf="singlePage || (currentIndex === (pageList.length - 1))" i18n="@@general.finish">Finish</button>

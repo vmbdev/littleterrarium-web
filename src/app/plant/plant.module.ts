@@ -24,7 +24,7 @@ import { PlantEditFertilizerComponent } from './plant-edit-fertilizer/plant-edit
 import { PlantEditSoilComponent } from './plant-edit-soil/plant-edit-soil.component';
 import { PlantAllComponent } from './plant-all/plant-all.component';
 
-import { PlantService } from './plant.service';
+import { PlantService } from '../plant-service/plant.service';
 import { PlantWidgetWaterComponent } from './plant-widget-water/plant-widget-water.component';
 import { PlantWidgetFertilizerComponent } from './plant-widget-fertilizer/plant-widget-fertilizer.component';
 import { PlantWidgetSoilComponent } from './plant-widget-soil/plant-widget-soil.component';

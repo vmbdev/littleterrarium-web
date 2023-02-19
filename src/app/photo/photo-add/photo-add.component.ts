@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY, map, throwError } from 'rxjs';
 import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 import { Plant, Photo } from 'src/app/interfaces';
-import { PlantService } from 'src/app/plant/plant.service';
+import { PlantService } from 'src/app/plant-service/plant.service';
 import { PhotoService } from '../photo.service';
 
 @Component({

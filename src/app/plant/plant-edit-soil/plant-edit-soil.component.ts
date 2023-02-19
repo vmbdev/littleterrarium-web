@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { Plant, potChoices } from 'src/app/interfaces';
-import { PlantService } from '../plant.service';
+import { PlantService } from '../../plant-service/plant.service';
 
 @Component({
   selector: 'plant-edit-soil',

@@ -5,7 +5,7 @@ import { catchError, EMPTY, map } from 'rxjs';
 import { BreadcrumbService } from 'src/app/breadcrumb/breadcrumb.service';
 import { ErrorHandlerService } from 'src/app/error-handler/error-handler.service';
 import { Plant, Condition } from 'src/app/interfaces';
-import { PlantService } from '../plant.service';
+import { PlantService } from '../../plant-service/plant.service';
 
 @Component({
   selector: 'plant',
