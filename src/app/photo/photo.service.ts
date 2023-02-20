@@ -35,12 +35,13 @@ export class PhotoService {
     );
   }
 
-  create(photo: Photo): Observable<any> {
+  create(photo: Photo, propagateError: boolean = false): Observable<any> {
     return this.api.createPhoto(photo).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
 
-        return EMPTY;
+        if (propagateError) return throwError(() => error);
+        else return EMPTY;
       })
     );
   }

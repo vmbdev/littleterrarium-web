@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { Plant } from '../interfaces';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
+import { Photo, Plant } from '../interfaces';
+import { PhotoService } from '../photo/photo.service';
 import { ApiService } from '../shared/api/api.service';
 import { CapitalizePipe } from '../shared/capitalize/capitalize.pipe';
 
@@ -16,8 +19,40 @@ export class PlantService {
   constructor(
     private api: ApiService,
     private auth: AuthService,
-    private capitalizePipe: CapitalizePipe
+    private capitalizePipe: CapitalizePipe,
+    private photoService: PhotoService,
+    private router: Router,
+    private errorHandler: ErrorHandlerService
   ) { }
+
+  create(plant: Plant, photoFiles: File[]): Observable<any> {
+    let newPlantId: number;
+
+    return this.api.createPlant(plant).pipe(
+      switchMap((res: any) => {
+        const plant: Plant = res.data.plant;
+        newPlantId = plant.id;
+
+        if (photoFiles.length === 0) return of(res);
+        else {
+          const photos = {
+            plantId: plant.id,
+            public: plant.public,
+            pictureFiles: photoFiles
+          } as Photo;
+
+          return this.photoService.create(photos, true).pipe(
+            catchError(() => {
+              // Plant is created even though photo upload may have failed - we redirect to Plant
+              // FIXME: move it to the component?
+              this.router.navigate(['/plant', newPlantId]);
+      
+              return EMPTY;
+            }))
+        }
+      })
+    );
+  }
 
   get(id: number): Observable<any> {
     return this.api.getPlant(id).pipe(
