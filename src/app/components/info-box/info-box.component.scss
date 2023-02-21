@@ -1,0 +1,93 @@
+@use 'src/styles/theming.scss' as t;
+@use 'src/styles/media.scss' as m;
+
+.info-box {
+  margin: 10px auto;
+  height: 100%;
+  left: 0;
+  right: 0;
+  width: 90%;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+
+  @include t.themify {
+    border-color: t.theme(infobox_background);
+  }
+
+  &__header { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+
+    @include t.themify {
+      background-color: t.theme(infobox_background);
+    }
+
+  }
+  &__logo {
+    content: '';
+    display: block;
+    width: 64px;
+    height: 64px;
+    background-image: url('../../../assets/info.png');
+  }
+
+  &__title {
+    h1 {
+      text-align: center;
+      font-size: 16pt;
+  
+      @include t.themify {
+        color: t.theme(infobox_text)
+      }
+    }
+  }
+
+  &__oneliner {
+    flex: 1;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-items: end;
+    gap: 30px;
+
+    @include t.themify {
+      color: t.theme(infobox_text)
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    // padding: 20px;
+    height: 100%;
+  }
+}
+
+@include m.media('mobile') {
+  .info-box {
+    &__header {
+      flex-direction: column;
+    }
+
+    &__oneliner {
+      grid-auto-flow: row;
+      gap: 0;
+    }
+  }
+}
+
+@include m.media('tablet') {
+  .info-box {
+    &__header {
+      flex-direction: column;
+    }
+
+    &__oneliner {
+      grid-auto-flow: row;
+      gap: 0;
+    }
+  }
+}

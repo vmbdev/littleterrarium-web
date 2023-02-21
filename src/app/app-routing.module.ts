@@ -1,24 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { UserLogoutComponent } from './user/user-logout/user-logout.component';
-import { LocationComponent } from './location/location/location.component';
-import { LocationAddEditComponent } from './location/location-add-edit/location-add-edit.component';
-import { LocationListComponent } from './location/location-list/location-list.component';
-import { PlantComponent } from './plant/plant/plant.component';
-import { PhotoComponent } from './photo/photo/photo.component';
-import { PhotoAddComponent } from './photo/photo-add/photo-add.component';
-import { UserRegisterComponent } from './user/user-register/user-register.component';
-import { PlantAddComponent } from './plant/plant-add/plant-add.component';
-import { PlantEditSoilComponent } from './plant/plant-edit-soil/plant-edit-soil.component';
-import { PlantAllComponent } from './plant/plant-all/plant-all.component';
-import { UserEditComponent } from './user/user-edit/user-edit.component';
-import { TasksComponent } from './tasks/tasks/tasks.component';
-import { AuthGuard } from './auth/auth.guard';
-import { TerrariumComponent } from './terrarium/terrarium/terrarium.component';
-import { PlantEditComponent } from './plant/plant-edit/plant-edit.component';
-import { SigninComponent } from './signin/signin.component';
+import { HomeComponent } from './components/home/home.component';
+
+import { SigninComponent } from '@components/user/signin/signin.component';
+import { UserEditComponent } from '@components/user/user-edit/user-edit.component';
+import { UserLogoutComponent } from '@components/user/user-logout/user-logout.component';
+import { UserRegisterComponent } from '@components/user/user-register/user-register.component';
+
+import { LocationComponent } from '@components/location/location/location.component';
+import { LocationAddEditComponent } from '@components/location/location-add-edit/location-add-edit.component';
+import { LocationListComponent } from '@components/location/location-list/location-list.component';
+
+import { PlantComponent } from './components/plant/plant/plant.component';
+import { PlantAddComponent } from '@components/plant/plant-add/plant-add.component';
+import { PlantEditComponent } from '@components/plant/plant-edit/plant-edit.component';
+import { PlantEditSoilComponent } from '@components/plant/plant-edit-soil/plant-edit-soil.component';
+import { PlantAllComponent } from '@components/plant/plant-all/plant-all.component';
+
+import { PhotoAddComponent } from '@components/photo/photo-add/photo-add.component';
+import { PhotoComponent } from '@components/photo/photo/photo.component';
+
+import { TasksComponent } from '@components/tasks/tasks.component';
+import { TerrariumComponent } from '@components/terrarium/terrarium.component';
+import { AuthGuard } from '@guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

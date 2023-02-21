@@ -1,0 +1,44 @@
+.photo {
+  &__image {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    img {
+      max-width: 50vw;
+      max-height: 70vh;
+    }
+  }
+
+  &__description {
+    padding: 20px;
+    font-style: italic;
+    text-align: center;
+  }
+
+  &__property {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      background-size: 48px 48px;
+    }
+
+    &-public::before {
+      background-image: url('../../../../assets/visibility-public.png');
+    }
+
+    &-private::before {
+      background-image: url('../../../../assets/visibility-private.png');
+    }
+
+    &-takendate::before {
+      background-image: url('../../../../assets/clock.png');
+    }
+  }
+}

@@ -1,0 +1,52 @@
+@use 'src/styles/theming.scss' as t;
+@use 'src/styles/media.scss' as m;
+
+.location {
+  &__property {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      background-size: 48px 48px;
+    }
+  }
+
+  &__light {
+    &-sun::before {
+      background-image: url('../../../../assets/light-fullsun.png');
+    }
+
+    &-partial::before {
+      background-image: url('../../../../assets/light-partial.png');
+    }
+
+    &-shade::before {
+      background-image: url('../../../../assets/light-shade.png');
+    }
+  }
+
+  &__visibility {
+    &-public::before {
+      background-image: url('../../../../assets/visibility-public.png');
+    }
+
+    &-private::before {
+      background-image: url('../../../../assets/visibility-private.png');
+    }
+  }
+
+  &__plants {
+    &-exists::before {
+      background-image: url('../../../../assets/plants-exists.png');
+    }
+
+    &-empty::before {
+      background-image: url('../../../../assets/plants-empty.png');
+    }
+  }
+}

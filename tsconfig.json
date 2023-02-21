@@ -23,7 +23,15 @@
     ],
     "types": [
       "@angular/localize"
-    ]
+    ],
+    "paths": {
+      "@components/*": ["./src/app/components/*"],
+      "@modules/*": ["./src/app/modules/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@pipes/*": ["./src/app/pipes/*"],
+      "@guards/*": ["./src/app/guards/*"],
+      "@interfaces": ["./src/app/interfaces"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
