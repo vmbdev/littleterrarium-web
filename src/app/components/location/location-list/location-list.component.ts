@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Location } from '../../../interfaces';
+import { Location } from '@models/location.model';
 import { ApiService } from '@services/api.service';
 import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
 

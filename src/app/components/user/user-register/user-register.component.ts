@@ -5,9 +5,9 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 import { AuthService } from '@services/auth.service';
-import { User } from '@interfaces';
 import { ApiService } from '@services/api.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
+import { User } from '@models/user.model';
 
 @Component({
   standalone: true,

@@ -4,10 +4,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ErrorHandlerService } from './services/error-handler.service';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { ErrorHandlerInterceptor } from './interceptors/error-handler.interceptor';
-import { DefaultLayoutComponent } from './components/default-layout/default-layout.component';
+
+import { ErrorHandlerService } from '@services/error-handler.service';
+import { AuthInterceptor } from '@interceptors/auth.interceptor';
+import { ErrorHandlerInterceptor } from '@interceptors/error-handler.interceptor';
+import { DefaultLayoutComponent } from '@components/default-layout/default-layout.component';
 
 @NgModule({
   declarations: [

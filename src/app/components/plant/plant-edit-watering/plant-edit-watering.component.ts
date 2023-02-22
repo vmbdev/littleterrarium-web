@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as dayjs from 'dayjs';
-import { Plant } from '@interfaces';
 import { PlantService } from '@services/plant.service';
+import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,

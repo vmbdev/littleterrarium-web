@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Plant } from '../../interfaces';
-import { PlantService } from '../../services/plant.service';
-import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { PlantService } from '@services/plant.service';
+import { ApiService } from '@services/api.service';
+import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,

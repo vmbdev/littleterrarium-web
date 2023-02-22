@@ -7,7 +7,8 @@ import { ApiService } from '@services/api.service';
 import { PlantService } from '@services/plant.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
 import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
-import { Location, Plant, Condition} from '@interfaces';
+import { Location } from '@models/location.model';
+import { Plant, Condition } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -67,7 +68,7 @@ export class PlantEditComponent implements OnInit {
 
 
           this.breadcrumb.setNavigation([
-            { id: 'plant-edit', name: 'Edit' }
+            { selector: 'plant-edit', name: 'Edit' }
           ], { attachTo: 'plant' });
         }
       })

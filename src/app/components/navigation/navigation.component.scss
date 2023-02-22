@@ -1,0 +1,39 @@
+@use 'src/styles/media.scss' as m;
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+
+  &__arrow {
+    padding: 5px;
+    width: 64px;
+
+    &:hover {
+      filter: grayscale(80%);
+    }
+  }
+
+  &__img {
+    height: 64px;
+    width: 100%;
+  }
+
+  &__prev {
+    transform: scaleX(-1);
+  }
+
+  @include m.media(mobile) {
+    &__arrow {
+      width: auto;
+    }
+
+    &__img {
+      height: auto;
+    }
+  }
+}

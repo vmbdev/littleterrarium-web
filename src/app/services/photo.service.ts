@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, EMPTY, map, Observable, of, throwError } from 'rxjs';
-import { AuthService } from './auth.service';
-import { ErrorHandlerService } from './error-handler.service';
-import { Photo } from '../interfaces';
-import { ApiService } from './api.service';
+import { AuthService } from '@services/auth.service';
+import { ErrorHandlerService } from '@services/error-handler.service';
+import { ApiService } from '@services/api.service';
+import { Photo } from '@models/photo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,13 @@ export class PhotoService {
     private errorHandler: ErrorHandlerService
   ) { }
 
-  get(id: number): Observable<any> {
-    return this.api.getPhoto(id).pipe(
-      map((photo: Photo) => {
-        this.owned = (this.auth.user$.getValue()?.id === photo.ownerId);
-        this.photo$.next(photo);
+  get(id: number, navigation: boolean = false): Observable<any> {
+    return this.api.getPhoto(id, navigation).pipe(
+      map((res: any) => {
+        this.owned = (this.auth.user$.getValue()?.id === res.data.photo.ownerId);
+        this.photo$.next(res.data.photo);
 
-        return photo;
+        return res;
       }),
       catchError((HttpError: HttpErrorResponse) => {
         this.photo$.next(null);

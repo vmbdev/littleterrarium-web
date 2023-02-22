@@ -9,7 +9,7 @@ import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { WizardModule } from '@modules/wizard/wizard.module';
-import { Location, Light } from '@interfaces';
+import { Location, Light } from '@models/location.model';
 
 @Component({
   standalone: true,
@@ -67,7 +67,7 @@ export class LocationAddEditComponent implements OnInit {
           });
 
           this.breadcrumb.setNavigation([
-            { id: 'location-edit', name: 'Edit location' }
+            { selector: 'location-edit', name: 'Edit location' }
           ], { attachTo: 'location' });
         },
         error: () => {

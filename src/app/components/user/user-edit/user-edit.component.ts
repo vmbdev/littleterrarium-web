@@ -9,7 +9,7 @@ import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
-import { User } from '@interfaces';
+import { User } from '@models/user.model';
 
 @Component({
   standalone: true,

@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import * as dayjs from 'dayjs';
-import { Photo } from '@interfaces';
+import { Photo } from '@models/photo.model';
 import { PhotoService } from '@services/photo.service';
 
 @Component({

@@ -1,13 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, EMPTY } from 'rxjs';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Location, Light } from '@interfaces';
+import { Location, Light } from '@models/location.model';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ApiService } from '@services/api.service';
 import { AuthService } from '@services/auth.service';
-import { catchError, EMPTY } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlerService } from '@services/error-handler.service';
-import { CommonModule } from '@angular/common';
 import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
 import { InfoBoxComponent } from '@components//info-box/info-box.component';
@@ -60,7 +60,7 @@ export class LocationComponent implements OnInit {
       ).subscribe((location: Location) => {
           this.location = location;
           this.breadcrumb.setNavigation([
-            { id: 'location', name: this.location.name, link: ['/location', this.id] },
+            { selector: 'location', name: this.location.name, link: ['/location', this.id] },
           ])
           
           this.owned = (this.auth.user$.getValue()?.id === this.location.ownerId) ? true : false;

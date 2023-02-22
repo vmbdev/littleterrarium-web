@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, map, catchError, throwError, BehaviorSubject } from 'rxjs';
-import { User } from '../interfaces';
-import { ApiService } from './api.service';
+import { ApiService } from '@services/api.service';
+import { User } from '@models/user.model';
 
 @Injectable({
   providedIn: 'root'

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
-import { Plant, potChoices } from '@interfaces';
+import { Plant, potChoices } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -52,7 +52,7 @@ export class PlantEditSoilComponent implements OnInit {
           });
 
           this.breadcrumb.setNavigation([
-            { id: 'plant-edit-soil', name: 'Edit pot and soil' }
+            { selector: 'plant-edit-soil', name: 'Edit pot and soil' }
           ], { attachTo: 'plant' });
         }
       })

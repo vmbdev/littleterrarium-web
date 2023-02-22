@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location, Plant, User } from '@interfaces';
 import { ApiService } from '@services/api.service';
 import { LocationListComponent } from '@components/location/location-list/location-list.component';
 import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
+import { Location } from '@models/location.model';
+import { Plant } from '@models/plant.model';
+import { User } from '@models/user.model';
 
 @Component({
   standalone: true,

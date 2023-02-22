@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { potChoices } from '@interfaces';
 import { UnitPipe } from '@pipes/unit/unit.pipe';
 import { PlantService } from '@services/plant.service';
 import { WidgetBoxComponent } from '@components/widget-box/widget-box.component';
+import { potChoices } from '@models/plant.model';
 
 @Component({
   standalone: true,

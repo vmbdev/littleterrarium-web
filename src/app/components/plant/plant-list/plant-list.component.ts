@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Plant } from '../../../interfaces';
 import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
 import { PlantService } from '@services/plant.service';
+import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,

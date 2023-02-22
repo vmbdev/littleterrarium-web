@@ -10,7 +10,8 @@ import { WizardModule } from '@modules/wizard/wizard.module';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
 import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
-import { Location, Plant } from '@interfaces';
+import { Plant } from '@models/plant.model';
+import { Location } from '@models/location.model';
 
 @Component({
   standalone: true,

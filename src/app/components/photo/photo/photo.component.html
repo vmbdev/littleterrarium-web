@@ -29,9 +29,16 @@
     </ng-container>
   </info-box>
 
-  <div class="photo__image">
-    <a [href]="photo.images.full" target="_blank">
-      <img [src]="photo.images.mid">
-    </a>
+  <div class="photo__imagebox">
+    <navigation
+      [previousLink]="navigation.prev ? ['/photo', navigation.prev?.id] : undefined"
+      [nextLink]="navigation.next ? ['/photo', navigation.next?.id] : undefined"
+    >
+      <div class="photo__image">
+        <a [href]="photo.images.full" target="_blank">
+          <img [src]="photo.images.mid">
+        </a>
+      </div>
+    </navigation>
   </div>
 </div>

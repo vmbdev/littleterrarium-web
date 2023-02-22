@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Specie } from '@interfaces';
 import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
 import { ApiService } from '@services/api.service';
+import { Specie } from '@models/specie.model';
 
 @Component({
   standalone: true,

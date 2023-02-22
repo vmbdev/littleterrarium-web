@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
-import { Plant, Condition } from '@interfaces';
 import { PlantService } from '@services/plant.service';
 import { CommonModule } from '@angular/common';
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
@@ -17,6 +16,7 @@ import { PlantWidgetFertilizerComponent } from '@components/plant/plant-widget-f
 import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/plant-widget-soil.component';
 import { PlantWidgetWaterComponent } from '@components/plant/plant-widget-water/plant-widget-water.component';
 import { PhotoListComponent } from '@components/photo/photo-list/photo-list.component';
+import { Plant, Condition } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -90,7 +90,7 @@ export class PlantComponent implements OnInit {
       else this.plantTitle = plant.visibleName;
 
       this.breadcrumb.setNavigation([
-        { id: 'plant', name: this.plantTitle, link: ['/plant', this.id] }
+        { selector: 'plant', name: this.plantTitle, link: ['/plant', this.id] }
       ], { attachTo: 'location' });
     });
 

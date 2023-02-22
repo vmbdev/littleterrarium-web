@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, filter } from 'rxjs';
+import { BreadcrumbLink } from '../models/breadcrumb-link.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BreadcrumbService {
-  links$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  prev: any[] = [];
+  links$: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<BreadcrumbLink[]>([]);
+  prev: BreadcrumbLink[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-    this.router.events
-    .pipe(filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd))
-    .subscribe(() => {
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe(() => {
       this.prev = this.links$.getValue();
       this.links$.next([]);
     })
@@ -28,9 +26,13 @@ export class BreadcrumbService {
       let i = 0;
 
       while ((i < this.prev.length) && !found) {
-        newLinks.push(this.prev[i]);
+        // if there's already an id with the one inserting, stop searching and attach there
+        if (this.prev[i].selector === links[0].selector) found = true;
+        else {
+          newLinks.push(this.prev[i]);
 
-        if (this.prev[i].id === options.attachTo) found = true;
+          if (this.prev[i].selector === options.attachTo) found = true;
+        }
 
         i++;
       }

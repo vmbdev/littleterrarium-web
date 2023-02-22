@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
-import { User, Location, Plant, Photo, Specie } from '../interfaces';
+import { Location } from '@models/location.model';
+import { Photo } from '@models/photo.model';
+import { Plant } from '@models/plant.model';
+import { Specie } from '@models/specie.model';
+import { User } from '@models/user.model';
 import { endpoint } from '../../config';
 
 @Injectable({
@@ -192,8 +196,10 @@ export class ApiService {
    * Photo related calls
    */
 
-  getPhoto(id: number): Observable<Photo> {
-    return this.http.get<Photo>(this.endpoint(`photo/${id}`));
+  getPhoto(id: number, navigation: boolean = false): Observable<Photo> {
+    const url = `photo/${id}?navigation=${navigation ? 'true' : 'false' }`;
+
+    return this.http.get<Photo>(this.endpoint(url));
   }
 
   createPhoto(photo: Photo): Observable<any> {

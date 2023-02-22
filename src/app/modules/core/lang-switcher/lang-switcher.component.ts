@@ -1,8 +1,8 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ApiService } from '@services/api.service';
 import { filter, map, switchMap } from 'rxjs';
+import { ApiService } from '@services/api.service';
 
 @Component({
   selector: 'lang-switcher',

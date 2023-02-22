@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-
-import { Photo } from '@interfaces';
 import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
+import { Photo } from '@models/photo.model';
 
 @Component({
   standalone: true,

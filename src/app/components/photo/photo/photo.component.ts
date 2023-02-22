@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, map } from 'rxjs';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
+import { catchError, EMPTY } from 'rxjs';
 import * as dayjs from 'dayjs';
-import { BreadcrumbService } from '@services/breadcrumb.service';
-import { Photo } from '@interfaces';
 import * as LocalizedFormat from 'dayjs/plugin/localizedFormat';
+
+import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PhotoService } from '@services/photo.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ToolboxModule } from '@modules/toolbox/toolbox.module';
@@ -14,6 +14,7 @@ import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import { PhotoEditComponent } from '@components/photo/photo-edit/photo-edit.component';
+import { NavigationComponent } from '@components/navigation/navigation.component';
 
 
 @Component({
@@ -26,15 +27,17 @@ import { PhotoEditComponent } from '@components/photo/photo-edit/photo-edit.comp
     ToolboxModule,
     ConfirmModalComponent,
     QuickModalComponent,
-    InfoBoxComponent
+    InfoBoxComponent,
+    NavigationComponent
   ],
   templateUrl: './photo.component.html',
   styleUrls: ['./photo.component.scss']
 })
 export class PhotoComponent implements OnInit {
-  @Input() id!: number;
+  id?: number;
   confirmDelete: boolean = false;
   enablePhotoEditing: boolean = false;
+  navigation: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,11 +48,17 @@ export class PhotoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const paramId = this.route.snapshot.paramMap.get('photoId');
-    this.id = paramId ? +paramId : NaN;
+    // Angular doesn't update a component when the route only changes its parameters, so...
+    this.route.params.subscribe((param: Params) => {
+      this.id = param['photoId'];
+      this.loadPhoto();
+    })
 
+  }
+
+  loadPhoto(): void {
     if (this.id) {
-      this.photoService.get(this.id).pipe(
+      this.photoService.get(this.id, true).pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.error?.msg === 'PHOTO_NOT_FOUND') this.errorHandler.push($localize `:@@photo.invalid:Photo not found.`);
           else this.errorHandler.push($localize `:@@errors.server:Server error`);
@@ -58,12 +67,17 @@ export class PhotoComponent implements OnInit {
   
           return EMPTY;
         })
-      ).subscribe((photo: Photo) => {
+      ).subscribe((res) => {
         dayjs.extend(LocalizedFormat);
-        this.breadcrumb.setNavigation([
-          { id: 'photo', name: dayjs(photo.takenAt).format('LL'), link: ['/photo', this.id] }
-        ], { attachTo: 'plant' })
 
+        if (res.data.navigation) this.navigation = res.data.navigation;
+
+        this.breadcrumb.setNavigation(
+          [{
+            selector: 'photo',
+            name: dayjs(this.photoService.photo$?.getValue()?.takenAt).format('LL'),
+            link: ['/photo', this.id]
+          }], { attachTo: 'plant' })
       });
     }
   }

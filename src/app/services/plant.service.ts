@@ -2,10 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap, throwError } from 'rxjs';
-import { AuthService } from './auth.service';
-import { ApiService } from './api.service';
-import { PhotoService } from './photo.service';
-import { Photo, Plant } from '../interfaces';
+import { AuthService } from '@services/auth.service';
+import { ApiService } from '@services/api.service';
+import { PhotoService } from '@services/photo.service';
+import { Photo } from '@models/photo.model';
+import { Plant } from '@models/plant.model';
 
 @Injectable({
   providedIn: 'root'

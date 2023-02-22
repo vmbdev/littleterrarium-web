@@ -10,7 +10,8 @@ import { PhotoService } from '@services/photo.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
-import { Plant, Photo } from '@interfaces';
+import { Photo } from '@models/photo.model';
+import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,
