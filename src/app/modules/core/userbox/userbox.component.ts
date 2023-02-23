@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@services/auth.service';
+import { ImagePathService } from '@services/image-path.service';
 
 @Component({
   selector: 'userbox',
@@ -9,7 +10,10 @@ import { AuthService } from '@services/auth.service';
 export class UserboxComponent implements OnInit {
   menuVisible: boolean = false;
 
-  constructor(public auth: AuthService) {}
+  constructor(
+    public auth: AuthService,
+    public imagePath: ImagePathService
+  ) {}
 
   ngOnInit(): void {
   }

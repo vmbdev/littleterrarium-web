@@ -10,6 +10,7 @@ import { ApiService } from '@services/api.service';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { WizardModule } from '@modules/wizard/wizard.module';
 import { Location, Light } from '@models/location.model';
+import { ImagePathService } from '@services/image-path.service';
 
 @Component({
   standalone: true,
@@ -40,7 +41,8 @@ export class LocationAddEditComponent implements OnInit {
     private router: Router,
     private api: ApiService,
     private breadcrumb: BreadcrumbService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    public imagePath: ImagePathService
   ) {
     this.locationForm = this.fb.group({
       name: ['', Validators.required],

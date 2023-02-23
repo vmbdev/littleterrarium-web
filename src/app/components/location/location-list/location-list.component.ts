@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Location } from '@models/location.model';
 import { ApiService } from '@services/api.service';
 import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
+import { ImagePathService } from '@services/image-path.service';
 
 @Component({
   standalone: true,
@@ -22,7 +23,10 @@ export class LocationListComponent implements OnInit {
   @Input() owned: boolean = true;
   list$?: Observable<Location[]>;
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    public imagePath: ImagePathService
+  ) { }
 
   ngOnInit(): void {
     const options = {

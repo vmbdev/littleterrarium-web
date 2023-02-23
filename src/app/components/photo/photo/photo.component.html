@@ -35,8 +35,8 @@
       [nextLink]="navigation.next ? ['/photo', navigation.next?.id] : undefined"
     >
       <div class="photo__image">
-        <a [href]="photo.images.full" target="_blank">
-          <img [src]="photo.images.mid">
+        <a [href]="imagePath.get(photo.images, 'full')" target="_blank">
+          <img [src]="imagePath.get(photo.images, 'mid')">
         </a>
       </div>
     </navigation>

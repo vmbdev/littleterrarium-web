@@ -15,6 +15,7 @@ import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import { PhotoEditComponent } from '@components/photo/photo-edit/photo-edit.component';
 import { NavigationComponent } from '@components/navigation/navigation.component';
+import { ImagePathService } from '@services/image-path.service';
 
 
 @Component({
@@ -44,7 +45,8 @@ export class PhotoComponent implements OnInit {
     private router: Router,
     private breadcrumb: BreadcrumbService,
     public photoService: PhotoService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    public imagePath: ImagePathService
   ) { }
 
   ngOnInit(): void {

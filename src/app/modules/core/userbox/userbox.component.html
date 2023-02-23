@@ -1,6 +1,6 @@
 <div class="userbox" (mouseover)="enableMenu()" (mouseout)="disableMenu()" *ngIf="auth.user$ | async as user; else notSignedIn">
   <div class="userbox__user">
-    <div class="userbox__avatar" [ngStyle]="{ 'background-image': 'url(' + (user.avatar ? user.avatar.thumb : 'assets/user.png') + ')' }"></div>
+    <div class="userbox__avatar" [ngStyle]="{ 'background-image': 'url(' + (user.avatar ? imagePath.get(user.avatar, 'thumb') : 'assets/user.png') + ')' }"></div>
     <div class="userbox__link" i18n="@@userbox.username">Hi <b>{{ user.username }}</b></div>
   </div>
   <div class="userbox__menu" [ngClass]="{ 'userbox__menu-hidden' : !menuVisible }">

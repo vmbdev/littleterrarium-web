@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
+import { ImagePathService } from '@services/image-path.service';
 
 @Component({
   standalone: true,
@@ -24,7 +25,10 @@ export class PlantListComponent implements OnInit {
   @Input() owned: boolean = true;
   pictures: any[] = [];
 
-  constructor(private plantService: PlantService) { }
+  constructor(
+    private plantService: PlantService,
+    private imagePath: ImagePathService
+  ) { }
 
   ngOnInit(): void {
     if (this.list) this.setPictureList(this.list);
@@ -47,7 +51,7 @@ export class PlantListComponent implements OnInit {
       const pic = {
         id: plant.id,
         name: plant.visibleName,
-        image: plant.photos?.at(0)?.images.thumb
+        image: this.imagePath.get(plant.photos?.at(0)?.images, 'thumb')
       };
 
       this.pictures.push(pic);
