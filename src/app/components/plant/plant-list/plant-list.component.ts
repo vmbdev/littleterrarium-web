@@ -51,7 +51,7 @@ export class PlantListComponent implements OnInit {
       const pic = {
         id: plant.id,
         name: plant.visibleName,
-        image: this.imagePath.get(plant.photos?.at(0)?.images, 'thumb')
+        image: plant.photos?.at(0) ? this.imagePath.get(plant.photos[0]?.images, 'thumb') : null
       };
 
       this.pictures.push(pic);

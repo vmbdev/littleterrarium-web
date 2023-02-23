@@ -1,7 +1,11 @@
 <div class="picture-list">
   <picturebox *ngIf="owned" [add]="true" [link]="['/location','create']" i18n="@@location-list.create">Create location</picturebox>
 
-  <picturebox *ngFor="let location of list$ | async" [image]="imagePath.get(location.pictures, 'thumb')" [link]="['/location', location.id]">
+  <picturebox
+    *ngFor="let location of list$ | async"
+    [image]="location.pictures ? imagePath.get(location.pictures, 'thumb') : null"
+    [link]="['/location', location.id]"
+  >
     <div>{{ location.name }}</div>
     <div i18n="@@location-list.amount">{{ location._count.plants > 0 ? location._count.plants : 'No' }} plants here</div>
   </picturebox>

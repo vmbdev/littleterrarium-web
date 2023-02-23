@@ -9,12 +9,13 @@ export class ImagePathService {
 
   constructor() { }
   // TODO: webp support
-  get(image: ImagePath, size: 'thumb' | 'mid' | 'full'): string {
-    let path: string;
+  get(image: ImagePath, size: 'thumb' | 'mid' | 'full'): string | null {
+    let path: string | null = null;
     
     //if (image.webp) path = image.webp[size];
-    path = image.path[size];
+    if (image.path) path = image.path[size];
 
-    return `${baseUrl}/${path}`
+    if (!path) return null;
+    else return `${baseUrl}/${path}`
   }
 }
