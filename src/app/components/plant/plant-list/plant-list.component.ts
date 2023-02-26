@@ -26,8 +26,7 @@ export class PlantListComponent implements OnInit {
   pictures: any[] = [];
 
   constructor(
-    private plantService: PlantService,
-    private imagePath: ImagePathService
+    private plantService: PlantService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +34,8 @@ export class PlantListComponent implements OnInit {
     else {
       const options = {
         locationId: this.locationId,
-        userId: this.userId
+        userId: this.userId,
+        cover: true
       };
   
       this.plantService.getMany(options).subscribe((plants: Plant[]) => {
@@ -51,7 +51,7 @@ export class PlantListComponent implements OnInit {
       const pic = {
         id: plant.id,
         name: plant.visibleName,
-        image: plant.photos?.at(0) ? this.imagePath.get(plant.photos[0]?.images, 'thumb') : null
+        image: this.plantService.coverPhoto(plant)
       };
 
       this.pictures.push(pic);

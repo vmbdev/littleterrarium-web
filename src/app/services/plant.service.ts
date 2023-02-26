@@ -7,6 +7,7 @@ import { ApiService } from '@services/api.service';
 import { PhotoService } from '@services/photo.service';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
+import { ImagePathService } from './image-path.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,11 @@ export class PlantService {
   owned: boolean = false;
 
   constructor(
+    private router: Router,
     private api: ApiService,
     private auth: AuthService,
     private photoService: PhotoService,
-    private router: Router
+    private imagePath: ImagePathService
   ) { }
 
   create(plant: Plant, photoFiles: File[]): Observable<any> {
@@ -51,8 +53,8 @@ export class PlantService {
     );
   }
 
-  get(id: number): Observable<any> {
-    return this.api.getPlant(id).pipe(
+  get(id: number, options?: any): Observable<Plant> {
+    return this.api.getPlant(id, options).pipe(
       map((plant: Plant) => {
         this.owned = (this.auth.user$.getValue()?.id === plant.ownerId);
         plant.visibleName = this.getVisibleName(plant);
@@ -100,6 +102,8 @@ export class PlantService {
           plant.photos = current.photos;
           this.plant$.next(plant);
         }
+
+        return plant;
       }),
       catchError((HttpError: HttpErrorResponse) => {
         this.plant$.next(null);
@@ -142,5 +146,22 @@ export class PlantService {
     }
 
     return EMPTY;
+  }
+
+  coverPhoto(plant?: Plant): any {
+    let workingPlant: Plant | null;
+
+    if (!plant) workingPlant = this.plant$.getValue();
+    else workingPlant = plant;
+
+    if (plant) {
+      let image: any;
+
+      if (plant.cover) image = this.imagePath.get(plant.cover.images, 'thumb');
+      else if (plant.photos && plant.photos[0].images) image = this.imagePath.get(plant.photos[0].images, 'thumb');
+      else image = null;
+      return image;
+    }
+    else return null;
   }
 }

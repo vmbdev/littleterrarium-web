@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,12 +6,11 @@ import { catchError, EMPTY } from 'rxjs';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
-import { CommonModule } from '@angular/common';
+import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
 import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
 import { PlantEditWateringComponent } from '@components/plant/plant-edit-watering/plant-edit-watering.component';
 import { PlantEditFertilizerComponent } from '@components/plant/plant-edit-fertilizer/plant-edit-fertilizer.component';
-import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import { PlantWidgetFertilizerComponent } from '@components/plant/plant-widget-fertilizer/plant-widget-fertilizer.component';
 import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/plant-widget-soil.component';
@@ -69,7 +69,7 @@ export class PlantComponent implements OnInit {
   }
 
   fetchPlantData(): void {
-    this.plantService.get(this.id).pipe(
+    this.plantService.get(this.id, { photos: true }).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.error?.msg === 'PLANT_NOT_FOUND') this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
         else this.errorHandler.push($localize `:@@errors.server:Server error`);
@@ -81,16 +81,17 @@ export class PlantComponent implements OnInit {
     ).subscribe((plant: Plant) => {
       this.plantVisibility = plant.public;
 
+      // if customName and/or specie exists, we use it for title and subtitle
+      // otherwise we use the plant visibleName
       if (plant.customName) {
         this.plantTitle = plant.customName;
 
         if (plant.specie) this.plantSubtitle = plant.specie.name;
       }
-      else if (plant.specie) this.plantTitle = plant.specie.name
       else this.plantTitle = plant.visibleName;
 
       this.breadcrumb.setNavigation([
-        { selector: 'plant', name: this.plantTitle, link: ['/plant', this.id] }
+        { selector: 'plant', name: plant.visibleName, link: ['/plant', this.id] }
       ], { attachTo: 'location' });
     });
 

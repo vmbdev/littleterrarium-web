@@ -19,18 +19,18 @@ export class PhotoService {
     private errorHandler: ErrorHandlerService
   ) { }
 
-  get(id: number, navigation: boolean = false): Observable<any> {
-    return this.api.getPhoto(id, navigation).pipe(
+  get(id: number, options?: any): Observable<any> {
+    return this.api.getPhoto(id, options).pipe(
       map((res: any) => {
         this.owned = (this.auth.user$.getValue()?.id === res.data.photo.ownerId);
         this.photo$.next(res.data.photo);
 
         return res;
       }),
-      catchError((HttpError: HttpErrorResponse) => {
+      catchError((error: HttpErrorResponse) => {
         this.photo$.next(null);
 
-        return throwError(() => HttpError);
+        return throwError(() => error);
       })
     );
   }

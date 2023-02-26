@@ -18,10 +18,12 @@ export interface Plant {
   potSize: number | null
   soil: string | null
   public: boolean
+  coverId?: number
   locationId: number
   ownerId: number
   createdAt: Date
   updatedAt: Date
+  cover?: Photo
   photos?: Photo[]
   specie?: Specie
   visibleName?: string

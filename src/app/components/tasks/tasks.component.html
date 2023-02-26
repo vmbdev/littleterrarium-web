@@ -1,11 +1,11 @@
 <div *ngIf="tasks.length > 0; else noTasks" class="tasks">
   <div *ngFor="let plant of tasks" class="tasks__plant">
     <div class="tasks__picbox">
-      <img *ngIf="plant.photos?.at(0)?.images" class="tasks__pic" [src]="imagePath.get(plant.photos?.at(0)?.images, 'thumb')">
+      <img *ngIf="plant.photos?.at(0)?.images" class="tasks__pic" [src]="plantService.coverPhoto(plant)">
     </div>
     <div class="tasks__list">
-      <div class="tasks__task" *ngIf="plant.waterNext" i18n="@@tasks.waterRequired">{{ getPlantName(plant) }} requires watering</div>
-      <div class="tasks__task" *ngIf="plant.fertNext" i18n="@@tasks.fertilizerRequired">{{ getPlantName(plant) }} requires fertilizing</div>
+      <div class="tasks__task" *ngIf="plant.waterNext" i18n="@@tasks.waterRequired">{{ plantService.getVisibleName(plant) }} requires watering</div>
+      <div class="tasks__task" *ngIf="plant.fertNext" i18n="@@tasks.fertilizerRequired">{{ plantService.getVisibleName(plant) }} requires fertilizing</div>
     </div>
   </div>
 

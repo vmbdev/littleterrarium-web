@@ -158,16 +158,27 @@ export class ApiService {
       if (options.userId && +options.userId) {
         url += `/user/${+options.userId}`;
       }
+
       if (options.locationId && +options.locationId) {
         url += `/location/${+options.locationId}`;
+      }
+
+      if (options.photos || options.cover) {
+        url += `?photos=${options.photos ? true : false}&cover=${options.cover ? true : false}`;
       }
     }
 
     return this.http.get<Plant[]>(this.endpoint(url));
   }
 
-  getPlant(id: number): Observable<Plant> {
-    return this.http.get<Plant>(this.endpoint(`plant/${id}`));
+  getPlant(id: number, options?: any): Observable<Plant> {
+    let url = `plant/${id}`;
+
+    if (options && (options.photos || options.cover)) {
+      url += `?photos=${options.photos ? true : false}&cover=${options.cover ? true : false}`;
+    }
+
+    return this.http.get<Plant>(this.endpoint(url));
   }
 
   createPlant(plant: Plant): Observable<any> {
@@ -179,6 +190,7 @@ export class ApiService {
 
     if (options) {
       if (options.removeSpecie) data.removeSpecie = true;
+      if (options.removeCover) data.removeCover = true;
     }
 
     return this.http.put<any>(this.endpoint('plant'), data).pipe(
@@ -196,8 +208,15 @@ export class ApiService {
    * Photo related calls
    */
 
-  getPhoto(id: number, navigation: boolean = false): Observable<Photo> {
-    const url = `photo/${id}?navigation=${navigation ? 'true' : 'false' }`;
+  getPhoto(id: number, options?: any): Observable<Photo> {
+    let url = `photo/${id}`;
+
+    // TODO: create proper API to do this
+    if (options) {
+      url += '?';
+      if (options.navigation) url += `navigation=${options.navigation ? 'true' : 'false' }&`;
+      if (options.cover) url += `cover=${options.cover ? true : false}&`;
+    }
 
     return this.http.get<Photo>(this.endpoint(url));
   }

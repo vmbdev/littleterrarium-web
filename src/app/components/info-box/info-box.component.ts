@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
+// TODO: separate InfoBox properties
+
 @Component({
   standalone: true,
   selector: 'info-box',

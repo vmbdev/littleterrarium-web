@@ -45,7 +45,7 @@
     </div>
 
     <div class="section-header">
-      <h2 i18n="@@plant.photoList">Photos taken for {{ plantTitle }}</h2>
+      <h2 i18n="@@plant.photoList">Photos taken for {{ plant.visibleName }}</h2>
     </div>
     <photo-list *ngIf="plant.photos" [owned]="this.plantService.owned" [plantId]="plant.id" [list]="plant.photos"></photo-list>
   </div>

@@ -16,6 +16,8 @@ import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import { PhotoEditComponent } from '@components/photo/photo-edit/photo-edit.component';
 import { NavigationComponent } from '@components/navigation/navigation.component';
 import { ImagePathService } from '@services/image-path.service';
+import { PlantService } from '@services/plant.service';
+import { Plant } from '@models/plant.model';
 
 
 @Component({
@@ -39,12 +41,14 @@ export class PhotoComponent implements OnInit {
   confirmDelete: boolean = false;
   enablePhotoEditing: boolean = false;
   navigation: any;
+  plantCoverId?: number;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
     public photoService: PhotoService,
+    private plantService: PlantService,
     private errorHandler: ErrorHandlerService,
     public imagePath: ImagePathService
   ) { }
@@ -55,12 +59,11 @@ export class PhotoComponent implements OnInit {
       this.id = param['photoId'];
       this.loadPhoto();
     })
-
   }
 
   loadPhoto(): void {
     if (this.id) {
-      this.photoService.get(this.id, true).pipe(
+      this.photoService.get(this.id, { navigation: true, cover: true }).pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.error?.msg === 'PHOTO_NOT_FOUND') this.errorHandler.push($localize `:@@photo.invalid:Photo not found.`);
           else this.errorHandler.push($localize `:@@errors.server:Server error`);
@@ -73,6 +76,7 @@ export class PhotoComponent implements OnInit {
         dayjs.extend(LocalizedFormat);
 
         if (res.data.navigation) this.navigation = res.data.navigation;
+        if (res.data.plantCoverId) this.plantCoverId = res.data.plantCoverId;
 
         this.breadcrumb.setNavigation(
           [{
@@ -81,6 +85,27 @@ export class PhotoComponent implements OnInit {
             link: ['/photo', this.id]
           }], { attachTo: 'plant' })
       });
+    }
+  }
+
+  updateCoverPhoto(): void {
+    const photo = this.photoService.photo$.getValue();
+    
+    if (photo) {
+      let plant: Plant;
+
+      if (photo.id === this.plantCoverId) {
+        plant = { id: photo.plantId } as Plant;
+        this.plantService.update(plant, { removeCover: true }).subscribe(() => {
+          this.plantCoverId = undefined;
+        });
+      }
+      else {
+        plant = { id: photo.plantId, coverId: photo.id } as Plant;
+        this.plantService.update(plant).subscribe(() => {
+          this.plantCoverId = photo.id;
+        });
+      }
     }
   }
 

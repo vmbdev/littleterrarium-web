@@ -17,18 +17,13 @@ export class TasksComponent implements OnInit {
   
   constructor(
     private api: ApiService,
-    private plantService: PlantService,
-    public imagePath: ImagePathService
+    public plantService: PlantService,
   ) { }
 
   ngOnInit(): void {
     this.api.getTasks().subscribe((data: Plant[]) => {
       this.tasks = data;
     });
-  }
-
-  getPlantName(plant: Plant): string {
-    return this.plantService.getVisibleName(plant);
   }
 
 }
