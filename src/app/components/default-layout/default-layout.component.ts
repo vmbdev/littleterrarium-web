@@ -8,7 +8,6 @@ import { ErrorToastComponent } from '@components/error-toast/error-toast.compone
   standalone: true,
   selector: 'default-layout',
   imports: [
-    CommonModule,
     RouterModule,
     CoreModule,
     ErrorToastComponent

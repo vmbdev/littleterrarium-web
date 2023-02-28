@@ -148,18 +148,21 @@ export class PlantService {
     return EMPTY;
   }
 
-  coverPhoto(plant?: Plant): any {
-    let workingPlant: Plant | null;
+  coverPhoto(plant?: Plant): Photo | null {
+    let workingPlant;
 
     if (!plant) workingPlant = this.plant$.getValue();
     else workingPlant = plant;
 
-    if (plant) {
+    if (workingPlant) {
       let image: any;
 
-      if (plant.cover) image = this.imagePath.get(plant.cover.images, 'thumb');
-      else if (plant.photos && plant.photos[0].images) image = this.imagePath.get(plant.photos[0].images, 'thumb');
+      if (workingPlant.cover) image = this.imagePath.get(workingPlant.cover.images, 'thumb');
+      else if (workingPlant.photos && workingPlant.photos[0] && workingPlant.photos[0].images) {
+        image = this.imagePath.get(workingPlant.photos[0].images, 'thumb');
+      }
       else image = null;
+
       return image;
     }
     else return null;

@@ -1,12 +1,28 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { enableProdMode, ErrorHandler, importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { environment } from './environments/environment';
+
+import { AuthInterceptor } from '@interceptors/auth.interceptor';
+import { ErrorHandlerInterceptor } from '@interceptors/error-handler.interceptor';
+import { ErrorHandlerService } from '@services/error-handler.service';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/routes';
+
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true },
+    importProvidersFrom(RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })),
+    importProvidersFrom(HttpClientModule)
+  ],
+}).catch((err) => {
+  console.error(err)
+});
