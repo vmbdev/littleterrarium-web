@@ -1,0 +1,13 @@
+@use 'src/styles/variables.scss' as var;
+
+.picture-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, var.$pictureBoxSize);
+  gap: 15px;
+
+  margin: 20px 0;
+
+  &-center{
+    justify-content: center;
+  }
+}

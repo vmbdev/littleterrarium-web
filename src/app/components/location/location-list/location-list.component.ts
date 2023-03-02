@@ -6,6 +6,8 @@ import { Location } from '@models/location.model';
 import { ApiService } from '@services/api.service';
 import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
 import { ImagePathService } from '@services/image-path.service';
+import { PictureItem } from '@models/picture-item.model';
+import { PictureListComponent } from '@components/picture-list/picture-list.component';
 
 @Component({
   standalone: true,
@@ -13,7 +15,7 @@ import { ImagePathService } from '@services/image-path.service';
   imports: [
     CommonModule,
     RouterModule,
-    PictureBoxComponent
+    PictureListComponent
   ],
   templateUrl: './location-list.component.html',
   styleUrls: ['./location-list.component.scss']
@@ -21,7 +23,7 @@ import { ImagePathService } from '@services/image-path.service';
 export class LocationListComponent implements OnInit {
   @Input() userId?: number;
   @Input() owned: boolean = true;
-  list$?: Observable<Location[]>;
+  pictureList: PictureItem[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -33,7 +35,21 @@ export class LocationListComponent implements OnInit {
       plantCount: true,
       userId: this.userId ? this.userId : null
     }
-    this.list$ = this.apiService.getLocationList(options);
+
+    this.apiService.getLocationList(options).subscribe((locations: Location[]) => {
+      this.pictureList = [];
+      
+      for (const location of locations) {
+        this.pictureList.push({
+          image: location.pictures ? this.imagePath.get(location.pictures, 'thumb') : null,
+          link: ['/location', location.id],
+          name: location.name,
+          description: [
+            $localize `:@@location-list.amount:${location._count.plants > 0 ? location._count.plants : 'No' }:plantCount: plants here`
+          ]
+        })
+      }
+    });
   }
 
 }

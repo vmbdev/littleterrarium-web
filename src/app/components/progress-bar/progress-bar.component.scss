@@ -1,7 +1,7 @@
 @use 'src/styles/theming.scss' as t;
 
 .progress-bar {
-  width: 25em;
+  width: 100%;
   border-radius: 3px;
 
   @include t.themify {
@@ -14,6 +14,7 @@
     justify-content: space-between;
     height: 100%;
     padding: 5px;
+    transition: width 0.3s;
     
     @include t.themify {
       background-color: t.theme(progressbar_progress);

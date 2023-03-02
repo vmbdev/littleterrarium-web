@@ -1,6 +1,9 @@
-<div *ngIf="list && plantId" class="picture-list">
-  <picturebox *ngIf="owned" [add]="true" [link]="['/photo', 'create', plantId]" i18n="@@photo-list.add">Add photo</picturebox>
-  <picturebox *ngFor="let photo of list" [image]="imagePath.get(photo.images, 'thumb')" [contentBelow]="true" [link]="['/photo', photo.id]">
-    {{ photo.takenAt | date }}
-  </picturebox>
-</div>
+<picture-list
+  *ngIf="plantService.plant$ | async as plant"
+  [createAddItem]="(plantId !== null) && owned"
+  [addItemLink]="['/photo','create', plantId]"
+  [contentBelow]="true"
+  [list]="pictureList"
+>
+  <ng-container addItem i18n="@@photo-list.add">Add photo</ng-container>
+</picture-list>

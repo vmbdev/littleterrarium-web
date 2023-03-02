@@ -148,7 +148,7 @@ export class PlantService {
     return EMPTY;
   }
 
-  coverPhoto(plant?: Plant): Photo | null {
+  coverPhoto(plant?: Plant): string | null {
     let workingPlant;
 
     if (!plant) workingPlant = this.plant$.getValue();

@@ -7,7 +7,11 @@ import { SigninComponent } from '@components/user/signin/signin.component';
 @Component({
   standalone: true,
   selector: 'home',
-  imports: [CommonModule, SigninComponent, LocationListComponent],
+  imports: [
+    CommonModule,
+    SigninComponent,
+    LocationListComponent
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

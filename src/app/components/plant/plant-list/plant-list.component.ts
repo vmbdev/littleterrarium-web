@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
-import { ImagePathService } from '@services/image-path.service';
+import { PictureListComponent } from '@components/picture-list/picture-list.component';
+import { PictureItem } from '@models/picture-item.model';
 
 @Component({
   standalone: true,
@@ -12,7 +12,7 @@ import { ImagePathService } from '@services/image-path.service';
   imports: [
     CommonModule,
     RouterModule,
-    PictureBoxComponent
+    PictureListComponent
   ],
   templateUrl: './plant-list.component.html',
   styleUrls: ['./plant-list.component.scss']
@@ -23,7 +23,7 @@ export class PlantListComponent implements OnInit {
   @Input() userId?: number;
   @Input() center?: boolean = false;
   @Input() owned: boolean = true;
-  pictures: any[] = [];
+  pictureList: PictureItem[] = [];
 
   constructor(
     private plantService: PlantService
@@ -45,16 +45,17 @@ export class PlantListComponent implements OnInit {
   }
 
   setPictureList(plants: Plant[]) {
+    this.pictureList = [];
+    
     for (const plant of plants) {
       if (!plant.visibleName) plant.visibleName = this.plantService.getVisibleName(plant);
 
-      const pic = {
-        id: plant.id,
+      this.pictureList.push({
+        image: this.plantService.coverPhoto(plant),
+        link: ['/plant', plant.id],
         name: plant.visibleName,
-        image: this.plantService.coverPhoto(plant)
-      };
+      });
 
-      this.pictures.push(pic);
     }
   }
 }
