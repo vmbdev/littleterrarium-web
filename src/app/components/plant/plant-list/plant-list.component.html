@@ -1,3 +1,19 @@
-<picture-list [createAddItem]="(locationId !== null) && owned" [addItemLink]="['/plant','create', locationId]" [contentBelow]="true" [list]="pictureList">
+<filter-bar
+  [searchBar]="true"
+  [sortByDate]="true"
+  [sortByName]="true"
+  (sortingChanged)="changeSorting($event)"
+  (filterChanged)="changeFilter($event)"
+>
+</filter-bar>
+<picture-list
+  [createAddItem]="(locationId !== null) && owned"
+  [addItemLink]="['/plant','create', locationId]"
+  [contentBelow]="true"
+  [list]="pictureList"
+  [sortBy]="sortBy"
+  [sortOrder]="sortOrder"
+  [filterText]="filter"
+>
   <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>
 </picture-list>

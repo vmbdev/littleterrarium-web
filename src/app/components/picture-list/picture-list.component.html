@@ -1,11 +1,12 @@
 <div class="picture-list">
+  <!-- FIXME: additem text not working -->
   <picture-box *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
     <ng-content select="addItem"></ng-content>
   </picture-box>
 
   <ng-container *ngIf="list">
     <picture-box
-      *ngFor="let item of (list)"
+      *ngFor="let item of (list | filter:'name':filterText | sort:sortBy:sortOrder:true)"
       [contentBelow]="contentBelow"
       [image]="item.image ? item.image : null"
       [link]="item.link"

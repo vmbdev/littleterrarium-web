@@ -44,6 +44,7 @@ export class SpecieFinderComponent implements OnInit {
     this.currentSearch = input.value;
 
     if (this.currentSearch.length >= 3) {
+      // TODO: possibly have this as an async pipe?
       this.api.findSpecie(this.currentSearch).subscribe({
         next: (data: Specie[]) => {
           this.results = data;

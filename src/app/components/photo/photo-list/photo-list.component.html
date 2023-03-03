@@ -1,5 +1,5 @@
 <picture-list
-  *ngIf="plantService.plant$ | async as plant"
+  *ngIf="pictureList"
   [createAddItem]="(plantId !== null) && owned"
   [addItemLink]="['/photo','create', plantId]"
   [contentBelow]="true"

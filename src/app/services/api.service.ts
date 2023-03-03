@@ -215,7 +215,7 @@ export class ApiService {
     if (options) {
       url += '?';
       if (options.navigation) url += `navigation=${options.navigation ? 'true' : 'false' }&`;
-      if (options.cover) url += `cover=${options.cover ? true : false}&`;
+      if (options.cover) url += `cover=${options.cover ? 'true' : 'false'}&`;
     }
 
     return this.http.get<Photo>(this.endpoint(url));

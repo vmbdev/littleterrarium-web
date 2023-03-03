@@ -14,18 +14,18 @@ import { InfoBoxComponent } from '@components//info-box/info-box.component';
 import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
 
 @Component({
-  standalone: true,
-  selector: 'location',
-  imports: [
-    CommonModule,
-    RouterModule,
-    PlantListComponent,
-    ToolboxModule,
-    ConfirmModalComponent,
-    InfoBoxComponent
-  ],
-  templateUrl: './location.component.html',
-  styleUrls: ['./location.component.scss']
+    standalone: true,
+    selector: 'location',
+    templateUrl: './location.component.html',
+    styleUrls: ['./location.component.scss'],
+    imports: [
+        CommonModule,
+        RouterModule,
+        PlantListComponent,
+        ToolboxModule,
+        ConfirmModalComponent,
+        InfoBoxComponent
+    ]
 })
 export class LocationComponent implements OnInit {
   private id?: number;

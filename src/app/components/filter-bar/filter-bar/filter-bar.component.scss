@@ -1,0 +1,32 @@
+.filter-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__header {
+    margin-right: 20px;
+  }
+
+  &__search {
+    width: auto;
+    margin-right: 20px;
+
+    input {
+      display: block;
+      font-size: 14pt;
+      text-align: center;
+      width: 160px;
+      height: 30px;
+    }
+  }
+
+  &__sortbutton {
+    cursor: pointer;
+    margin: 0 10px;
+
+    img {
+      width: 32px;
+      height: auto;
+    }
+  }
+}

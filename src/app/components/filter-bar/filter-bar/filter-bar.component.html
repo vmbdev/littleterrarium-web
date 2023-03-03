@@ -1,0 +1,13 @@
+<div class="filter-bar">
+  <div *ngIf="searchBar" class="filter-bar__search">
+    <input #search (input)="filterItems(search.value)" type="search" placeholder="Search" i18n-placeholder="@@general.search">
+  </div>
+  <div *ngIf="sortByName" class="filter-bar__sortbutton" (click)="toggleSort('name')">
+    <img *ngIf="nameOrder === 'asc'" src="assets/sort-an-asc.png">
+    <img *ngIf="nameOrder === 'desc'" src="assets/sort-an-desc.png">
+  </div>
+  <div *ngIf="sortByDate" class="filter-bar__sortbutton" (click)="toggleSort('date')">
+    <img *ngIf="dateOrder === 'asc'" src="assets/sort-date-asc.png">
+    <img *ngIf="dateOrder === 'desc'" src="assets/sort-date-asc.png" [ngStyle]="{ 'transform': 'scaleX(-1)' }">
+  </div>
+</div>
