@@ -1,9 +1,9 @@
 <div class="navigation">
-  <div class="navigation__arrow">
-    <a *ngIf="previousLink" [routerLink]="previousLink"><img class="navigation__img navigation__prev" src="/assets/next.png"></a>
+  <div class="navigation__arrow navigation__prev">
+    <a *ngIf="previousLink" [routerLink]="previousLink"><img class="navigation__img" src="/assets/next.png"></a>
   </div>
   <ng-content></ng-content>
-  <div class="navigation__arrow">
+  <div class="navigation__arrow navigation__next">
     <a *ngIf="nextLink" [routerLink]="nextLink"><img class="navigation__img" src="/assets/next.png"></a>
   </div>
 </div>

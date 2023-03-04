@@ -1,4 +1,5 @@
 @use 'src/styles/variables.scss' as var;
+@use 'src/styles/media.scss' as m;
 
 .picture-list {
   display: grid;
@@ -9,5 +10,13 @@
 
   &-center{
     justify-content: center;
+  }
+}
+
+@include m.media(mobile) {
+  .picture-list {
+    justify-content: center;
+    grid-template-columns: none;
+    margin: 0;
   }
 }

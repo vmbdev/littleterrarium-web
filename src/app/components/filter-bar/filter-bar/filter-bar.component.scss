@@ -1,3 +1,5 @@
+@use 'src/styles/media.scss' as m;
+
 .filter-bar {
   display: flex;
   flex-direction: row;
@@ -28,5 +30,11 @@
       width: 32px;
       height: auto;
     }
+  }
+}
+
+@include m.media(mobile) {
+  .filter-bar {
+    justify-content: center;
   }
 }

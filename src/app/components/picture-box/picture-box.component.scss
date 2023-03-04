@@ -1,5 +1,6 @@
 @use 'src/styles/variables.scss' as var;
 @use 'src/styles/theming.scss' as t;
+@use 'src/styles/media.scss' as m;
 
 .picturebox-wrapper {
   @include t.themify {
@@ -46,5 +47,16 @@
 
   &__add {
     font-size: 150px;
+  }
+}
+
+@include m.media(mobile) {
+  .picturebox { 
+    height: 95vw;
+    width: 95vw;
+
+    &__content {
+      height: 100%;
+    }
   }
 }
