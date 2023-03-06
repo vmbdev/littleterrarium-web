@@ -10,7 +10,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class FileUploaderComponent implements OnInit {
   @Input() amount: number = 1;
-  @Input() controlName: string | null = null;
   @Output() fileChange: EventEmitter<File[]> = new EventEmitter<File[]>();
   files: File[] = [];
   dragOver: boolean = false;

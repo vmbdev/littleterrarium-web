@@ -51,6 +51,9 @@ export class SpecieFinderComponent implements OnInit {
         }
       })
     }
+    else if (this.currentSearch.length === 0) {
+      this.results = [];
+    }
   }
 
   hideResults(): void {

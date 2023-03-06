@@ -15,10 +15,11 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
-    "module": "es2020",
+    "useDefineForClassFields": false,
+    "target": "ES2022",
+    "module": "ES2022",
     "lib": [
-      "es2020",
+      "ES2022",
       "dom"
     ],
     "types": [
@@ -31,7 +32,8 @@
       "@pipes/*": ["./src/app/pipes/*"],
       "@guards/*": ["./src/app/guards/*"],
       "@interceptors/*": ["./src/app/interceptors/*"],
-      "@models/*": ["src/app/models/*"]
+      "@models/*": ["./src/app/models/*"],
+      "@config": ["./src/config.ts"]
     }
   },
   "angularCompilerOptions": {

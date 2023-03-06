@@ -27,14 +27,18 @@
       <div *ngIf="plant.description" class="plant__description">{{ plant.description }}</div>
 
       <ng-container properties>
-        <div *ngIf="plant.condition" class="plant__condition plant__condition-{{ plant.condition.toLowerCase() }}">
-          <b i18n="@@plant.condition">Condition:</b>&nbsp;{{ plantCondition[plant.condition] }}
-        </div>
-        <div class="plant__visibility" [class]="getVisibilityClass()">
+        <property-box>
+          <div *ngIf="plant.condition" class="plant__condition plant__condition-{{ plant.condition.toLowerCase() }}">
+            <b i18n="@@plant.condition">Condition:</b>&nbsp;{{ plantCondition[plant.condition] }}
+          </div>
+        </property-box>
+
+        <property-box [icon]="getVisibilityAsset()">
           <b i18n="@@general.visibility">Visibility:</b>
           <ng-container *ngIf="plant.public; else plantPrivate" i18n="@@general.public">Public</ng-container>
           <ng-template #plantPrivate i18n="@@general.private">Private</ng-template>
-        </div>
+        </property-box>
+
       </ng-container>
     </info-box>
 

@@ -10,8 +10,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class PlusButtonComponent implements OnInit {
   @Output() click: EventEmitter<null> = new EventEmitter<null>();
-  @Input() title?: string;
-  @Input() type?: string;
+  @Input() title: string = '';
 
   constructor() { }
 

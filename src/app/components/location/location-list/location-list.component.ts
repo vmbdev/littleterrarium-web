@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Location } from '@models/location.model';
 import { ApiService } from '@services/api.service';
-import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
 import { ImagePathService } from '@services/image-path.service';
 import { PictureItem } from '@models/picture-item.model';
 import { PictureListComponent } from '@components/picture-list/picture-list.component';

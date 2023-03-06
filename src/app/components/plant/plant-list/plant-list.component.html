@@ -7,7 +7,7 @@
 >
 </filter-bar>
 <picture-list
-  [createAddItem]="(locationId !== null) && owned"
+  [createAddItem]="(locationId !== undefined) && (locationId !== null) && owned"
   [addItemLink]="['/plant','create', locationId]"
   [contentBelow]="true"
   [list]="pictureList"

@@ -1,19 +1,37 @@
-<div class="picture-list">
-  <picture-box *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
-    <ng-content select="[addItem]"></ng-content>
-  </picture-box>
-
-  <ng-container *ngIf="list">
-    <picture-box
-      *ngFor="let item of (list | filter:'name':filterText | sort:sortBy:sortOrder:true)"
-      [contentBelow]="contentBelow"
-      [image]="item.image ? item.image : null"
-      [link]="item.link"
-    >
-      <div *ngIf="item.name">{{ item.name }}</div>
-      <div *ngFor="let text of item.description">
-        {{ text }}
-      </div>
+<div [ngClass]="getStyleClass()">
+  
+  <ng-container *ngIf="!detailed">
+    <picture-box *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
+      <ng-content select="[addItem]"></ng-content>
     </picture-box>
+
+    <ng-container *ngIf="list">
+      <picture-box
+        *ngFor="let item of (list | filter:'name':filterText | sort:sortBy:sortOrder:true)"
+        [contentBelow]="contentBelow"
+        [image]="item.image ? item.image : null"
+        [link]="item.link"
+      >
+        <div *ngIf="item.name">{{ item.name }}</div>
+        <div *ngFor="let text of item.description">{{ text }}</div>
+      </picture-box>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="detailed">
+    <picture-detailed *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
+      <ng-content select="[addItem]"></ng-content>
+    </picture-detailed>
+
+    <ng-container *ngIf="list">
+      <picture-detailed
+        *ngFor="let item of (list | filter:'name':filterText | sort:sortBy:sortOrder:true)"
+        [image]="item.image ? item.image : null"
+        [link]="item.link"
+      >
+        <div *ngIf="item.name">{{ item.name }}</div>
+        <div *ngFor="let text of item.description">{{ text }}</div>
+      </picture-detailed>
+    </ng-container>
   </ng-container>
 </div>

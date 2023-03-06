@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild 
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent implements OnInit {
-  @Input() image!: string;
+  @Input() image?: string;
   @Output() click = new EventEmitter<any>();
   @ViewChild('buttonTemplate') buttonTemplate!: TemplateRef<any>;
 

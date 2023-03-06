@@ -1,0 +1,10 @@
+.property-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  
+  &__icon {
+    height: 48px;
+    width: 48px;
+  }
+}

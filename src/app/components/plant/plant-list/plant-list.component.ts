@@ -5,7 +5,7 @@ import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
 import { PictureListComponent } from '@components/picture-list/picture-list.component';
 import { PictureItem } from '@models/picture-item.model';
-import { FilterBarComponent } from "../../filter-bar/filter-bar/filter-bar.component";
+import { FilterBarComponent } from "@components/filter-bar/filter-bar.component";
 import { SortOptions } from '@models/sort-options.model';
 
 @Component({
@@ -30,9 +30,7 @@ export class PlantListComponent implements OnInit {
   filter?: string;
   pictureList: PictureItem[] = [];
 
-  constructor(
-    private plantService: PlantService
-  ) { }
+  constructor(private plantService: PlantService) { }
 
   ngOnInit(): void {
     if (this.list) this.setPictureList(this.list);

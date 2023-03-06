@@ -14,6 +14,7 @@ import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import { PhotoEditComponent } from '@components/photo/photo-edit/photo-edit.component';
+import { PropertyBoxComponent } from '@components/property-box/property-box.component';
 import { NavigationComponent } from '@components/navigation/navigation.component';
 import { ImagePathService } from '@services/image-path.service';
 import { PlantService } from '@services/plant.service';
@@ -21,20 +22,21 @@ import { Plant } from '@models/plant.model';
 
 
 @Component({
-  standalone: true,
-  selector: 'photo',
-  imports: [
-    CommonModule,
-    RouterModule,
-    PhotoEditComponent,
-    ToolboxModule,
-    ConfirmModalComponent,
-    QuickModalComponent,
-    InfoBoxComponent,
-    NavigationComponent
-  ],
-  templateUrl: './photo.component.html',
-  styleUrls: ['./photo.component.scss']
+    standalone: true,
+    selector: 'photo',
+    templateUrl: './photo.component.html',
+    styleUrls: ['./photo.component.scss'],
+    imports: [
+        CommonModule,
+        RouterModule,
+        PhotoEditComponent,
+        ToolboxModule,
+        ConfirmModalComponent,
+        QuickModalComponent,
+        InfoBoxComponent,
+        NavigationComponent,
+        PropertyBoxComponent
+    ]
 })
 export class PhotoComponent implements OnInit {
   id?: number;
@@ -119,5 +121,11 @@ export class PhotoComponent implements OnInit {
         this.errorHandler.push($localize `:@@photo.deleteError:Error while deleting the photo.`);
       }
     })
+  }
+
+  getVisibilityAsset(): string {
+    const name = this.photoService.photo$.getValue()?.public ? 'public' : 'private';
+    
+    return `assets/visibility-${name}.png`;
   }
 }

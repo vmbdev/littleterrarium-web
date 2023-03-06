@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { theme, availableThemes } from 'src/config';
+import { theme, availableThemes } from '@config';
 
 @Injectable({
   providedIn: 'root'

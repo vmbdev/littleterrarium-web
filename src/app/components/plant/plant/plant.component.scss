@@ -38,27 +38,4 @@
       border-radius: 100%;
     }
   }
-
-  &__visibility {
-    display: flex;
-    align-items: center;
-    // justify-content: center;
-    gap: 5px;
-
-    &::before {
-      content: '';
-      display: inline-block;
-      width: 48px;
-      height: 48px;
-      background-size: 48px 48px;
-    }
-
-    &-public::before {
-      background-image: url('../../../../assets/visibility-public.png');
-    }
-
-    &-private::before {
-      background-image: url('../../../../assets/visibility-private.png');
-    }
-  }
 }

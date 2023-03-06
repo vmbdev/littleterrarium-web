@@ -17,7 +17,7 @@ import { AuthService } from '@services/auth.service';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent {
-  @Input() homepage?: boolean;
+  @Input() homepage: boolean = false;
   authInvalid: boolean = false;
   controls = {
     usernameEmpty: false,

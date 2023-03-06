@@ -9,6 +9,8 @@
     "errors.server": "Server error",
     "fileUploader.select": "Select a file or drag it here",
     "fileUploader.upload": "Upload",
+    "filter-bar.sortByDate": "Sort by date",
+    "filter-bar.sortByName": "Sort by name",
     "footer.msg": "©Little Terrarium 2022 - Source code available at {$START_LINK}GitHub{$CLOSE_LINK}",
     "general.accept": "Accept",
     "general.avatar": "Avatar",

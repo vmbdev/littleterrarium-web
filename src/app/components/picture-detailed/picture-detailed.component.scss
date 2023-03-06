@@ -1,0 +1,23 @@
+
+
+.picture-detailed {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid black;
+  padding: 4px;
+
+  &__imagebox {
+
+  }
+
+  &__image {
+    width: 64px;
+    height: auto;
+  }
+
+  &__name {
+
+  }
+}

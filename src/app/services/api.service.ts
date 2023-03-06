@@ -7,7 +7,7 @@ import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
 import { Specie } from '@models/specie.model';
 import { User } from '@models/user.model';
-import { endpoint } from '../../config';
+import { endpoint } from '@config';
 
 @Injectable({
   providedIn: 'root'

@@ -12,21 +12,27 @@
   </toolbox>
 
   <info-box title="Location information" i18n-title="@@location.locationInformation">
+
     <ng-container properties>
-      <div class="location__property" [ngClass]="getLightClass()">{{ getLightName() }}</div>
-      <div class="location__property" [ngClass]="getVisibilityClass()">
+      <property-box [icon]="getLightAsset()">
+        {{ getLightName() }}
+      </property-box>
+
+      <property-box [icon]="getVisibilityAsset()">
         <ng-container *ngIf="location.public; else locationPrivate" i18n="@@general.public">Public</ng-container>
         <ng-template #locationPrivate i18n="@@general.private">Private</ng-template>
-      </div>
-      <div class="location__property" [ngClass]="getPlantsClass()">
+      </property-box>
+
+      <property-box [icon]="getPlantsAsset()">
         <ng-container *ngIf="(location.plants && (location.plants.length > 0)); else noPlants">
           <span i18n="@@location.plants">{{ location.plants.length }} plants</span>
         </ng-container>
         <ng-template #noPlants>
           <span i18n="@@location.noPlants">No plants yet!</span>
         </ng-template>
-      </div>
+      </property-box>
     </ng-container>
+
   </info-box>
 
   <div class="section-header">

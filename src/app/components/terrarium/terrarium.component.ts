@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '@services/api.service';
 import { LocationListComponent } from '@components/location/location-list/location-list.component';
 import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
-import { Location } from '@models/location.model';
-import { Plant } from '@models/plant.model';
 import { User } from '@models/user.model';
 
 @Component({
@@ -21,9 +19,6 @@ import { User } from '@models/user.model';
 })
 export class TerrariumComponent implements OnInit {
   user?: User;
-  locations?: Location[];
-  plants?: Plant[];
-
 
   constructor(
     private route: ActivatedRoute,

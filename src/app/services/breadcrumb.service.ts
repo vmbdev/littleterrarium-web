@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, filter } from 'rxjs';
-import { BreadcrumbLink } from '../models/breadcrumb-link.model';
+import { BreadcrumbLink } from '@models/breadcrumb-link.model';
 
 @Injectable({
   providedIn: 'root'

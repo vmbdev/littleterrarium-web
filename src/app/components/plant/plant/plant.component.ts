@@ -16,26 +16,28 @@ import { PlantWidgetFertilizerComponent } from '@components/plant/plant-widget-f
 import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/plant-widget-soil.component';
 import { PlantWidgetWaterComponent } from '@components/plant/plant-widget-water/plant-widget-water.component';
 import { PhotoListComponent } from '@components/photo/photo-list/photo-list.component';
+import { PropertyBoxComponent } from '@components/property-box/property-box.component';
 import { Plant, Condition } from '@models/plant.model';
 
 @Component({
-  standalone: true,
-  selector: 'plant',
-  imports: [
-    CommonModule,
-    ToolboxModule,
-    QuickModalComponent,
-    ConfirmModalComponent,
-    InfoBoxComponent,
-    PlantEditWateringComponent,
-    PlantEditFertilizerComponent,
-    PlantWidgetFertilizerComponent,
-    PlantWidgetSoilComponent,
-    PlantWidgetWaterComponent,
-    PhotoListComponent
-  ],
-  templateUrl: './plant.component.html',
-  styleUrls: ['./plant.component.scss']
+    standalone: true,
+    selector: 'plant',
+    templateUrl: './plant.component.html',
+    styleUrls: ['./plant.component.scss'],
+    imports: [
+        CommonModule,
+        ToolboxModule,
+        QuickModalComponent,
+        ConfirmModalComponent,
+        InfoBoxComponent,
+        PlantEditWateringComponent,
+        PlantEditFertilizerComponent,
+        PlantWidgetFertilizerComponent,
+        PlantWidgetSoilComponent,
+        PlantWidgetWaterComponent,
+        PhotoListComponent,
+        PropertyBoxComponent
+    ]
 })
 export class PlantComponent implements OnInit {
   id!: number;
@@ -115,10 +117,10 @@ export class PlantComponent implements OnInit {
     }
   }
 
-  getVisibilityClass(): string {
-    const modifier = this.plantVisibility ? 'public' : 'private';
+  getVisibilityAsset(): string {
+    const name = this.plantVisibility ? 'public' : 'private';
 
-    return `plant__visibility-${modifier}`;
+    return `assets/visibility-${name}.png`;
   }
 
 }

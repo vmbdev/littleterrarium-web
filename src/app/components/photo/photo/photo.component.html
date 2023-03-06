@@ -17,23 +17,28 @@
 
   <info-box title="Photo information" i18n-title="@@photo.photoInformation">
     <div *ngIf="photo.description" class="photo__description">{{ photo.description }}</div>
+
     <ng-container properties>
-      <div class="photo__property photo__property-takendate">
+      <property-box icon="assets/clock.png">
         <b i18n="@@photo.takenAt">Taken at:</b> {{ photo.takenAt | date }}
-      </div>
-      <div class="photo__property" [ngClass]="photo.public ? 'photo__property-public' : 'photo__property-private'">
+      </property-box>
+
+      <property-box [icon]="getVisibilityAsset()">
         <b i18n="@@general.visibility">Visibility:</b>
         <ng-container *ngIf="photo.public; else photoPrivate" i18n="@@general.public">Public</ng-container>
         <ng-template #photoPrivate i18n="@@general.private">Private</ng-template>
-      </div>
-      <div class="photo_property">
+      </property-box>
+
+      <property-box>
         <div class="form__checkbox">
           <input type="checkbox" id="cover-checkbox" [checked]="plantCoverId === photo.id">
           <label for="cover-checkbox" (click)="updateCoverPhoto()" i18n="@@photo.cover">Cover photo</label>
         </div>
-      </div>
+      </property-box>
     </ng-container>
+
   </info-box>
+
  <!-- TODO: make the navigation buttons occupy the whole height -->
   <div class="photo__imagebox">
     <navigation

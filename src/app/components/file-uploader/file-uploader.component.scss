@@ -2,8 +2,14 @@
 @use 'src/styles/media.scss' as m;
 @use 'src/styles/theming.scss' as t;
 
+@mixin dottedBorder {
+  background-color: #2848851C;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='9' ry='9' stroke='%238592FFFF' stroke-width='7' stroke-dasharray='50%25%2c 13%25' stroke-dashoffset='3' stroke-linecap='square'/%3e%3c/svg%3e");
+  border-radius: 9px;
+}
+
 .file-uploader {
-  @include var.dottedBorder;
+  @include dottedBorder;
   margin: 10px;
   padding: 5px;
   height: 15em;

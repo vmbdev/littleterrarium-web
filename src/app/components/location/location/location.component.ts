@@ -12,19 +12,20 @@ import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
 import { InfoBoxComponent } from '@components//info-box/info-box.component';
 import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
+import { PropertyBoxComponent } from '@components/property-box/property-box.component';
 
 @Component({
     standalone: true,
     selector: 'location',
     templateUrl: './location.component.html',
-    styleUrls: ['./location.component.scss'],
     imports: [
         CommonModule,
         RouterModule,
         PlantListComponent,
         ToolboxModule,
         ConfirmModalComponent,
-        InfoBoxComponent
+        InfoBoxComponent,
+        PropertyBoxComponent
     ]
 })
 export class LocationComponent implements OnInit {
@@ -89,25 +90,25 @@ export class LocationComponent implements OnInit {
     return Light[this.location?.light].desc;
   }
 
-  getLightClass(): string {
-    let modifier: string;
+  getLightAsset(): string {
+    let name: string;
 
-    if (this.location?.light === 'FULLSUN') modifier = 'sun';
-    else if (this.location?.light === 'PARTIALSUN') modifier = 'partial';
-    else modifier = 'shade';
+    if (this.location?.light === 'FULLSUN') name = 'fullsun';
+    else if (this.location?.light === 'PARTIALSUN') name = 'partial';
+    else name = 'shade';
 
-    return `location__light-${modifier}`;
+    return `assets/light-${name}.png`;
   }
 
-  getVisibilityClass(): string {
-    const modifier = this.location?.public ? 'public' : 'private';
+  getVisibilityAsset(): string {
+    const name = this.location?.public ? 'public' : 'private';
     
-    return `location__visibility-${modifier}`;
+    return `assets/visibility-${name}.png`;
   }
 
-  getPlantsClass(): string {
-    const modifier = (this.location?.plants && (this.location.plants.length > 0)) ? 'exists' : 'empty';
+  getPlantsAsset(): string {
+    const name = (this.location?.plants && (this.location.plants.length > 0)) ? 'exists' : 'empty';
 
-    return `location__plants-${modifier}`;
+    return `assets/plants-${name}.png`;
   }
 }

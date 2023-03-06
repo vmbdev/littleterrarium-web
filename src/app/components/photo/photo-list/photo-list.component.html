@@ -1,6 +1,6 @@
 <picture-list
   *ngIf="pictureList"
-  [createAddItem]="(plantId !== null) && owned"
+  [createAddItem]="(plantId !== undefined) && (plantId !== null) && owned"
   [addItemLink]="['/photo','create', plantId]"
   [contentBelow]="true"
   [list]="pictureList"

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PlantListComponent } from '../plant-list/plant-list.component';
+import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
 
 @Component({
   standalone: true,

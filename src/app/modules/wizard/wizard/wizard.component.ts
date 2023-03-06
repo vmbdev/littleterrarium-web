@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ContentChild, ContentChildren, EventEmitter, Input, OnInit, Output, QueryList, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { WizardHeaderComponent } from '../wizard-header/wizard-header.component';
-import { PageComponent } from '../page/page.component';
+import { WizardHeaderComponent } from '@modules/wizard/wizard-header/wizard-header.component';
+import { PageComponent } from '@modules/wizard/page/page.component';
 
 // TODO: focus input on page change
 
@@ -14,7 +14,7 @@ export class WizardComponent implements OnInit {
   @ContentChildren(PageComponent, { descendants: true }) pageList!: QueryList<PageComponent>;
   @ContentChild(WizardHeaderComponent) wizardHeader?: WizardHeaderComponent;
   @Input() form?: FormGroup;
-  @Input() start?: number = 0;
+  @Input() start: number = 0;
   @Input() moveTo: number | undefined = undefined;
   @Input() singlePage: boolean = false;
   @Output() indexChange = new EventEmitter();

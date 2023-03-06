@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ImagePath } from '@models/image-path.model';
-import { baseUrl } from 'src/config';
+import { baseUrl } from '@config';
 
 @Injectable({
   providedIn: 'root'

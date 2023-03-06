@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
-// TODO: separate InfoBox properties
-
 @Component({
   standalone: true,
   selector: 'info-box',
@@ -12,7 +10,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class InfoBoxComponent implements OnInit {
   @Input() image?: string;
-  @Input() title?: string;
+  @Input() title: string = '';
 
   constructor() { }
 

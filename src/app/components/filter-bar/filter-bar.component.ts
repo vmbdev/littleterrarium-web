@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SortOptions } from '@models/sort-options.model';
+import { ThemeService } from '@services/theme.service';
 
 @Component({
   selector: 'filter-bar',
@@ -19,6 +20,8 @@ export class FilterBarComponent {
   @Output() filterChanged = new EventEmitter<any>();
   nameOrder: SortOptions = 'asc';
   dateOrder: SortOptions = 'asc';
+
+  constructor(public themeService: ThemeService) {}
 
   toggleSort(field: string): void {
     let order;

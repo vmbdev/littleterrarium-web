@@ -23,8 +23,8 @@ import { User } from '@models/user.model';
 })
 export class UserRegisterComponent implements OnInit {
   userForm: FormGroup;
-  pwdReq?: any = null;
-  usernameReq?: any = null;
+  pwdReq: any = null;
+  usernameReq: any = null;
   wizardPage: number | undefined = undefined;
   errors: any = {};
   nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"\|,.\<>/?';
