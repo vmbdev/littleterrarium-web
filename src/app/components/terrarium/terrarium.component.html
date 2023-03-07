@@ -1,4 +1,32 @@
-<div *ngIf="user" class="terrarium">
+<div *ngIf="user$ | async as user; else userNotFound" class="terrarium">
+  <div class="terrarium__userbox">
+    <div class="terrarium__avatar">
+      <img class="terrarium__avatarpic" [src]="getUserAvatar()">
+    </div>
+    <div class="terrarium__username">
+      <h1>{{ user.username }}</h1>
+    </div>
+    <div *ngIf="getFullName()" class="terrarium__realnames">
+      <h2>{{ getFullName() }}</h2>
+    </div>
+    <div *ngIf="user.bio" class="terrarium__bio">
+      <blockquote>
+        <p>{{ user.bio }}</p>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <h2 i18n="@@terrarium.locationsHeader">Public locations</h2>
+  </div>
   <location-list [owned]="false" [userId]="user.id"></location-list>
+
+  <div class="section-header">
+    <h2 i18n="@@terrarium.plantsHeader">Public plants</h2>
+  </div>
   <plant-list [userId]="user.id"></plant-list>
 </div>
+
+<ng-template #userNotFound>
+  <p i18n="@@terrarium.userNotFound">User not found</p>
+</ng-template>

@@ -24,14 +24,15 @@
     @include t.themify {
       background-color: t.theme(infobox_background);
     }
-
   }
+
   &__logo {
     content: '';
     display: block;
     width: 64px;
     height: 64px;
     background-image: url('../../../assets/info.png');
+    background-size: cover;
   }
 
   &__title {

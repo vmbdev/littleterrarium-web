@@ -5,7 +5,10 @@
   </div>
   <div class="userbox__menu" [ngClass]="{ 'userbox__menu-hidden' : !menuVisible }">
     <div class="userbox__menulink">
-      <a routerLink="/user/edit" i18n="@@userbox.profile">Your profile</a>
+      <a [routerLink]="['/terrarium', user.username]" i18n="@@userbox.terrarium">Your Terrarium</a>
+    </div>
+    <div class="userbox__menulink">
+      <a routerLink="/user/edit" i18n="@@userbox.profile">Edit profile</a>
     </div>
     <div class="userbox__menulink">
       <a routerLink="/logout" i18n="@@general.logout">Log out</a>

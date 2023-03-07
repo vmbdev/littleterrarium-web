@@ -192,7 +192,7 @@
     "user-register.usernameInvalid": "Tu nombre de usuario no es correcto. Por favor, revisa el formato.",
     "user-register.usernameReq": "Debe tener entre {$INTERPOLATION} y {$INTERPOLATION_1} caracteres, y contener solo letras, números, puntos (.), guiones (-) y barras bajas (_).",
     "user-register.usernameTaken": "Lo sentimos, este usuario ya está en uso. Por favor, elige otro.",
-    "userbox.profile": "Tu perfil",
+    "userbox.editProfile": "Editar perfil",
     "userbox.username": "Hola {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}"
   }
 }
