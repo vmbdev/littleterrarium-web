@@ -2,22 +2,19 @@
 @use 'src/styles/media.scss' as m;
 @use 'src/styles/theming.scss' as t;
 
-@mixin dottedBorder {
-  background-color: #2848851C;
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='9' ry='9' stroke='%238592FFFF' stroke-width='7' stroke-dasharray='50%25%2c 13%25' stroke-dashoffset='3' stroke-linecap='square'/%3e%3c/svg%3e");
-  border-radius: 9px;
-}
-
 .file-uploader {
-  @include dottedBorder;
-  margin: 10px;
-  padding: 5px;
-  height: 15em;
-  width: 20em;
+  background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin: 10px auto;
+  left: 0;
+  right: 0;
+  padding: 5px;
+  min-height: 15em;
+  width: 20em;
+
 
   input[type=file] {
     display: none;
@@ -28,11 +25,15 @@
   }
   
   &__label {
-    background-color: #4D96FF;
     padding: 15px;
     cursor: pointer;
-    margin: 5px;
-    font-weight: 600;
+    margin: 20px;
+    font-weight: 400;
+
+    @include t.themify {
+      background-color: t.theme(main_color);
+      color: t.theme(main_background)
+    }
   }
 
   &__over {
@@ -49,13 +50,18 @@
     word-wrap: break-word;
   }
 
-  @include m.media(mobile) {
-    height: 10em;
+}
+
+@include m.media(mobile) {
+  .file-uploader {
+    min-height: 10em;
     width: 90%;
   }
+}
 
-  @include m.media(tablet) {
-    height: 15em;
+@include m.media(tablet) {
+  .file-uploader {
+    min-height: 15em;
     width: 90%;
   }
 }

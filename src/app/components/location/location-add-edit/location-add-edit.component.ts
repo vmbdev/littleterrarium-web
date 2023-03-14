@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, Observable } from 'rxjs';
+import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
@@ -34,6 +34,7 @@ export class LocationAddEditComponent implements OnInit {
   created: boolean = false;
   edited: boolean = false;
   removePicture: boolean = false;
+  disableNavigation: boolean = false;
   
   constructor(
     private fb: FormBuilder,
@@ -99,12 +100,17 @@ export class LocationAddEditComponent implements OnInit {
       insert = this.api.updateLocation(data, this.removePicture);
     }
 
+    this.disableNavigation = true;
+
     if (insert) {
       insert.pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
 
           return EMPTY;
+        }),
+        finalize(() => {
+          this.disableNavigation = false;
         })
       ).subscribe((res: any) => {
         if (res.msg === 'LOCATION_CREATED') this.router.navigate([`location/${res.data.location.id}`]);

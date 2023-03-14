@@ -12,6 +12,7 @@ import { ProgressBarComponent } from '@components/progress-bar/progress-bar.comp
 import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
 import { Plant } from '@models/plant.model';
 import { Location } from '@models/location.model';
+import { finalize } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -34,6 +35,7 @@ export class PlantAddComponent implements OnInit {
   location?: Location;
   photos: File[] = [];
   uploadProgress: number = 0;
+  disableNavigation: boolean = false;
 
   constructor(
     private api: ApiService,
@@ -77,8 +79,13 @@ export class PlantAddComponent implements OnInit {
     const plant: Plant = this.plantForm.value;
 
     plant.locationId = this.locationId;
+    this.disableNavigation = true;
     
-    this.plantService.create(plant, this.photos).subscribe({
+    this.plantService.create(plant, this.photos).pipe(
+      finalize(() => {
+        this.disableNavigation = false;
+      })
+    ).subscribe({
       next: (event) => {
         if (event?.msg === 'PLANT_CREATED') this.router.navigate(['/plant', event.data.plant.id]);
         else {

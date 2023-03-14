@@ -41,7 +41,7 @@ export class SigninComponent {
     this.authInvalid = false;
   }
 
-  onSubmit(signinForm: any) {
+  submit(signinForm: any) {
     this.resetControls();
 
     if (!signinForm.valid) {

@@ -1,4 +1,5 @@
 @use 'src/styles/media.scss' as m;
+@use 'src/styles/theming.scss' as t;
 @use 'src/styles/form.scss';
 
 .wizard {
@@ -9,8 +10,10 @@
   justify-content: center;
 
   &__container {
-    border-top: 4px solid #3D8361;
-    border-right: 1px solid #3D8361;
+    @include t.themify {
+      border-top: 4px solid t.theme(wizard_navigation);
+      border-right: 1px solid t.theme(wizard_navigation);
+    }
     padding: 20px 30px;
     width: 50%;
     display: flex;
@@ -19,7 +22,6 @@
   
   &__content {
     flex: 1;
-    // overflow-y: auto;
   }
 
   &__navigation {
@@ -27,6 +29,12 @@
     justify-content: center;
     gap: 10px;
     margin-top: 5px;
+
+    button:disabled {
+      @include t.themify {
+        background-color: lighten(t.theme(wizard_navigation), 25%);
+      }
+    }
   }
 
   &__pagination {

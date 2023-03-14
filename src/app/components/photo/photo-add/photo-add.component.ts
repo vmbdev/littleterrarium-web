@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, throwError } from 'rxjs';
+import { catchError, EMPTY, finalize, throwError } from 'rxjs';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { PhotoService } from '@services/photo.service';
@@ -32,6 +32,7 @@ export class PhotoAddComponent implements OnInit {
   plantId?: number;
   plant?: Plant;
   uploadProgress: number = 0;
+  disableNavigation: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -81,8 +82,13 @@ export class PhotoAddComponent implements OnInit {
       const newPhoto: Photo = this.photoForm.value;
 
       newPhoto.plantId = this.plantId;
+      this.disableNavigation = true;
 
-      this.photoService.create(newPhoto).subscribe((event) => {
+      this.photoService.create(newPhoto).pipe(
+        finalize(() => {
+          this.disableNavigation = false;
+        })
+      ).subscribe((event) => {
         switch (event.type) {
           case HttpEventType.UploadProgress: {
             const eventTotal = event.total ? event.total : 0;

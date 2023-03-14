@@ -7,6 +7,8 @@ import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrum
 import { FooternavComponent } from './footernav/footernav.component';
 import { LangSwitcherComponent } from './lang-switcher/lang-switcher.component';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
+import { ErrorToastComponent } from './error-toast/error-toast.component';
+import { CloseButtonComponent } from '@components/close-button/close-button.component';
 
 @NgModule({
   declarations: [
@@ -15,11 +17,13 @@ import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.componen
     BreadcrumbNavigationComponent,
     FooternavComponent,
     LangSwitcherComponent,
-    ThemeSwitcherComponent
+    ThemeSwitcherComponent,
+    ErrorToastComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    CloseButtonComponent
   ],
   exports: [
     MainnavComponent,

@@ -17,6 +17,7 @@ export class WizardComponent implements OnInit {
   @Input() start: number = 0;
   @Input() moveTo: number | undefined = undefined;
   @Input() singlePage: boolean = false;
+  @Input() disableNavigation: boolean = false;
   @Output() indexChange = new EventEmitter();
   currentIndex: number = 0;
 

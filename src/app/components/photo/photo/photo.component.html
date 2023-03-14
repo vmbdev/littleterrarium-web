@@ -31,7 +31,7 @@
 
       <property-box>
         <div class="form__checkbox">
-          <input type="checkbox" id="cover-checkbox" [checked]="plantCoverId === photo.id">
+          <input type="checkbox" class="photo__cover" id="cover-checkbox" [checked]="plantCoverId === photo.id">
           <label for="cover-checkbox" (click)="updateCoverPhoto()" i18n="@@photo.cover">Cover photo</label>
         </div>
       </property-box>

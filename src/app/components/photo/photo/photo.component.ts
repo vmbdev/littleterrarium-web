@@ -27,15 +27,15 @@ import { Plant } from '@models/plant.model';
     templateUrl: './photo.component.html',
     styleUrls: ['./photo.component.scss'],
     imports: [
-        CommonModule,
-        RouterModule,
-        PhotoEditComponent,
-        ToolboxModule,
-        ConfirmModalComponent,
-        QuickModalComponent,
-        InfoBoxComponent,
-        NavigationComponent,
-        PropertyBoxComponent
+      CommonModule,
+      RouterModule,
+      PhotoEditComponent,
+      ToolboxModule,
+      ConfirmModalComponent,
+      QuickModalComponent,
+      InfoBoxComponent,
+      NavigationComponent,
+      PropertyBoxComponent
     ]
 })
 export class PhotoComponent implements OnInit {

@@ -1,5 +1,5 @@
 <form [formGroup]="photoForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
-  <wizard [form]="photoForm">
+  <wizard [form]="photoForm" [disableNavigation]="disableNavigation">
     <wizard-header *ngIf="plant">
       <span i18n="@@photo-add.header">Adding photos to <b>{{ plant.visibleName }}</b></span>&nbsp;
     </wizard-header>

@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ShortFilenamePipe } from '@pipes/short-filename/short-filename.pipe';
 
 @Component({
   standalone: true,
   selector: 'file-uploader',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    ShortFilenamePipe
+  ],
   templateUrl: './file-uploader.component.html',
   styleUrls: ['./file-uploader.component.scss']
 })
@@ -16,8 +20,7 @@ export class FileUploaderComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   dragEnter(event: Event): void {
     event.stopPropagation();
