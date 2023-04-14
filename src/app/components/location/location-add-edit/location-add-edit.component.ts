@@ -91,8 +91,10 @@ export class LocationAddEditComponent implements OnInit {
   }
 
   submit(): void {
+    if (!this.createNew && !this.id) return;
+
     const data: Location = this.locationForm.value;
-    let insert: Observable<any> | undefined;
+    let insert: Observable<Location> | undefined;
 
     if (this.createNew) insert = this.api.createLocation(data);
     else if (this.id) {
@@ -112,9 +114,8 @@ export class LocationAddEditComponent implements OnInit {
         finalize(() => {
           this.disableNavigation = false;
         })
-      ).subscribe((res: any) => {
-        if (res.msg === 'LOCATION_CREATED') this.router.navigate([`location/${res.data.location.id}`]);
-        else if (res.msg === 'LOCATION_UPDATED') this.router.navigate([`location/${data.id}`]);
+      ).subscribe((location: Location) => {
+        this.router.navigate([`location/${location.id}`]);
       });
     }
   }

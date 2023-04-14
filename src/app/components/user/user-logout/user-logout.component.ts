@@ -15,8 +15,8 @@ export class UserLogoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.auth.logOut().subscribe({
-      complete: () => { this.router.navigate(['/']) }
+    this.auth.logOut().subscribe(() => {
+      this.router.navigate(['/'])
     });
   }
 

@@ -79,11 +79,9 @@ export class UserEditComponent implements OnInit {
 
         return EMPTY;
       })
-    ).subscribe((res: any) => {
-      if (res.msg === 'USER_UPDATED') {
-        this.auth.updateUser(res.data.user);
-        this.router.navigate(['/']);
-      }
+    ).subscribe((user: User) => {
+      this.auth.updateUser(user);
+      this.router.navigate(['/']);
     });
   }
 

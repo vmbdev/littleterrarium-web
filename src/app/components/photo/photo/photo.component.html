@@ -29,7 +29,7 @@
         <ng-template #photoPrivate i18n="@@general.private">Private</ng-template>
       </property-box>
 
-      <property-box>
+      <property-box *ngIf="photoService.owned">
         <div class="form__checkbox">
           <input type="checkbox" class="photo__cover" id="cover-checkbox" [checked]="plantCoverId === photo.id">
           <label for="cover-checkbox" (click)="updateCoverPhoto()" i18n="@@photo.cover">Cover photo</label>

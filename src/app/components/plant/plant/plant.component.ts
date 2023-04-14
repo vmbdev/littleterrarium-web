@@ -40,7 +40,7 @@ import { Plant, Condition } from '@models/plant.model';
     ]
 })
 export class PlantComponent implements OnInit {
-  id!: number;
+  id?: number;
 
   plantTitle?: string;
   plantSubtitle?: string;
@@ -71,6 +71,8 @@ export class PlantComponent implements OnInit {
   }
 
   fetchPlantData(): void {
+    if (!this.id) return;
+
     this.plantService.get(this.id, { photos: true }).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.error?.msg === 'PLANT_NOT_FOUND') this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);

@@ -24,6 +24,7 @@ import { Plant, Condition } from '@models/plant.model';
 })
 export class PlantEditComponent implements OnInit {
   id!: number;
+  // TODO: async pipe?
   locations!: Location[];
   plantForm: FormGroup;
   plantConditions = Condition;

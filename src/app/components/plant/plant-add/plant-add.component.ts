@@ -12,7 +12,9 @@ import { ProgressBarComponent } from '@components/progress-bar/progress-bar.comp
 import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
 import { Plant } from '@models/plant.model';
 import { Location } from '@models/location.model';
-import { finalize } from 'rxjs';
+import { catchError, EMPTY, finalize, switchMap } from 'rxjs';
+import { Photo } from '@models/photo.model';
+import { PhotoService } from '@services/photo.service';
 
 @Component({
   standalone: true,
@@ -40,6 +42,7 @@ export class PlantAddComponent implements OnInit {
   constructor(
     private api: ApiService,
     private plantService: PlantService,
+    private photoService: PhotoService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -81,34 +84,55 @@ export class PlantAddComponent implements OnInit {
     plant.locationId = this.locationId;
     this.disableNavigation = true;
     
-    this.plantService.create(plant, this.photos).pipe(
-      finalize(() => {
-        this.disableNavigation = false;
-      })
-    ).subscribe({
-      next: (event) => {
-        if (event?.msg === 'PLANT_CREATED') this.router.navigate(['/plant', event.data.plant.id]);
-        else {
-          switch (event.type) {
-            case HttpEventType.UploadProgress: {
-              const eventTotal = event.total ? event.total : 0;
-              this.uploadProgress = Math.round(event.loaded / eventTotal * 100);
-              break;
+    const obs = this.plantService.create(plant);
+    
+    if (this.photos.length > 0) {
+      obs.pipe(
+        switchMap((plant: Plant) => {
+          const photos = {
+            plantId: plant.id,
+            public: plant.public,
+            pictureFiles: this.photos
+          } as Photo;
+  
+          return this.photoService.create(photos, true).pipe(
+            catchError(() => {
+              // Plant is created even though photo upload may have failed - we redirect to Plant
+              this.router.navigate(['/plant', plant.id]);
+      
+              return EMPTY;
+            }))
+        }),
+        finalize(() => { this.disableNavigation = false }),
+      ).subscribe((event) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress: {
+            const eventTotal = event.total ? event.total : 0;
+            this.uploadProgress = Math.round(event.loaded / eventTotal * 100);
+            break;
+          }
+          case HttpEventType.Response: {
+            if (event.body.msg === 'PHOTOS_CREATED') {
+              this.uploadProgress = 0;
             }
-            case HttpEventType.Response: {
-              if (event.body.msg === 'PHOTOS_CREATED') {
-                this.uploadProgress = 0;
-              }
 
-              this.router.navigate(['/plant', event.body.data.plantId])
-              break;
-            }
+            this.router.navigate(['/plant', event.body.data.plantId])
+            break;
           }
         }
-      },
-      error: () => {
-        this.errorHandler.push($localize `:@@plant-add.create:Error when creating the plant.`);
-      }
-    });
+      });
+    }
+    else {
+      obs.pipe(
+        finalize(() => { this.disableNavigation = false })
+      ).subscribe({
+        next: (plant: Plant) => {
+          this.router.navigate(['/plant', plant.id], { replaceUrl: true });
+        },
+        error: () => {
+          this.errorHandler.push($localize `:@@plant-add.create:Error when creating the plant.`);
+        }
+      })
+    }
   }
 }

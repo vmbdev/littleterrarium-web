@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ImagePath } from '@models/image-path.model';
-import { baseUrl } from '@config';
+import { BACKEND_URL } from 'src/tokens';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImagePathService {
-  constructor() { }
+  constructor(@Inject(BACKEND_URL) public backendUrl: string) { }
   
   get(image: ImagePath, size: 'thumb' | 'mid' | 'full'): string | null {
     let path: string | null = null;
@@ -15,7 +15,7 @@ export class ImagePathService {
     else if (image.path) path = image.path[size];
     
     if (!path) return null;
-    else return `${baseUrl}/${path}`
+    else return `${this.backendUrl}/${path}`
   }
   
   // TODO: detect webp support and offer the choice to the browser

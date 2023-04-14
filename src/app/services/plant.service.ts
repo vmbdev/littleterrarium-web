@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthService } from '@services/auth.service';
-import { ApiService } from '@services/api.service';
+import { ApiService, PlantGetConfig, PlantUpdateConfig } from '@services/api.service';
 import { PhotoService } from '@services/photo.service';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
@@ -17,43 +17,16 @@ export class PlantService {
   owned: boolean = false;
 
   constructor(
-    private router: Router,
     private api: ApiService,
     private auth: AuthService,
-    private photoService: PhotoService,
     private imagePath: ImagePathService
   ) { }
 
-  create(plant: Plant, photoFiles: File[]): Observable<any> {
-    let newPlantId: number;
-
-    return this.api.createPlant(plant).pipe(
-      switchMap((res: any) => {
-        const plant: Plant = res.data.plant;
-        newPlantId = plant.id;
-
-        if (photoFiles.length === 0) return of(res);
-        else {
-          const photos = {
-            plantId: plant.id,
-            public: plant.public,
-            pictureFiles: photoFiles
-          } as Photo;
-
-          return this.photoService.create(photos, true).pipe(
-            catchError(() => {
-              // Plant is created even though photo upload may have failed - we redirect to Plant
-              // FIXME: move it to the component?
-              this.router.navigate(['/plant', newPlantId]);
-      
-              return EMPTY;
-            }))
-        }
-      })
-    );
+  create(plant: Plant): Observable<Plant> {
+    return this.api.createPlant(plant);
   }
 
-  get(id: number, options?: any): Observable<Plant> {
+  get(id: number, options?: PlantGetConfig): Observable<Plant> {
     return this.api.getPlant(id, options).pipe(
       map((plant: Plant) => {
         this.owned = (this.auth.user$.getValue()?.id === plant.ownerId);
@@ -71,7 +44,7 @@ export class PlantService {
     );
   }
 
-  getMany(options: any): Observable<Plant[]> {
+  getMany(options: PlantGetConfig): Observable<Plant[]> {
     return this.api.getPlants(options).pipe(
       map((plants: Plant[]) => {
         for (const plant of plants) {
@@ -81,6 +54,10 @@ export class PlantService {
         return plants;
       })
     );
+  }
+
+  getCover(id: number): Observable<any> {
+    return this.api.getPlantCover(id);
   }
 
   getVisibleName(plant: Plant): string {
@@ -93,10 +70,13 @@ export class PlantService {
     return name;
   }
 
-  update(plant: Plant, options?: any): Observable<any> {
+  update(plant: Plant, options: PlantUpdateConfig = {}): Observable<Plant> {
+    if (plant.specieId === null) options.removeSpecie = true;
+
     return this.api.updatePlant(plant, options).pipe(
       map((plant: Plant) => {
         const current = this.plant$.getValue();
+        plant.visibleName = this.getVisibleName(plant);
 
         if (current) {
           plant.photos = current.photos;

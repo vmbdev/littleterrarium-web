@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError, EMPTY, switchMap } from 'rxjs';
 import * as dayjs from 'dayjs';
 import * as LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
@@ -19,6 +19,7 @@ import { NavigationComponent } from '@components/navigation/navigation.component
 import { ImagePathService } from '@services/image-path.service';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
+import { Photo } from '@models/photo.model';
 
 
 @Component({
@@ -73,19 +74,27 @@ export class PhotoComponent implements OnInit {
           this.router.navigateByUrl('/');
   
           return EMPTY;
+        }),
+        switchMap((photo: Photo) => {
+          dayjs.extend(LocalizedFormat);
+          this.breadcrumb.setNavigation(
+            [{
+              selector: 'photo',
+              name: dayjs(photo.takenAt).format('LL'),
+              link: ['/photo', this.id]
+            }], { attachTo: 'plant' })
+
+            return this.photoService.getNavigation(photo.id);
+        }),
+        switchMap((navigation: any) => {
+          this.navigation = navigation;
+          const photo = this.photoService.photo$.getValue();
+
+          if (photo?.plantId) return this.plantService.getCover(photo.plantId);
+          else return EMPTY;
         })
-      ).subscribe((res) => {
-        dayjs.extend(LocalizedFormat);
-
-        if (res.data.navigation) this.navigation = res.data.navigation;
-        if (res.data.plantCoverId) this.plantCoverId = res.data.plantCoverId;
-
-        this.breadcrumb.setNavigation(
-          [{
-            selector: 'photo',
-            name: dayjs(this.photoService.photo$?.getValue()?.takenAt).format('LL'),
-            link: ['/photo', this.id]
-          }], { attachTo: 'plant' })
+      ).subscribe((cover: any) => {
+        this.plantCoverId = cover.coverId;
       });
     }
   }
@@ -94,16 +103,14 @@ export class PhotoComponent implements OnInit {
     const photo = this.photoService.photo$.getValue();
     
     if (photo) {
-      let plant: Plant;
-
       if (photo.id === this.plantCoverId) {
-        plant = { id: photo.plantId } as Plant;
+        const plant = { id: photo.plantId } as Plant;
         this.plantService.update(plant, { removeCover: true }).subscribe(() => {
           this.plantCoverId = undefined;
         });
       }
       else {
-        plant = { id: photo.plantId, coverId: photo.id } as Plant;
+        const plant = { id: photo.plantId, coverId: photo.id } as Plant;
         this.plantService.update(plant).subscribe(() => {
           this.plantCoverId = photo.id;
         });
@@ -112,15 +119,18 @@ export class PhotoComponent implements OnInit {
   }
 
   delete(): void {
-    this.photoService.delete().subscribe({
-      next: (res: any) => {
-        if ((res.msg === 'PHOTO_REMOVED') && (res.data.photo.plantId))
-          this.router.navigate(['/plant', res.data.photo.plantId]);
-      },
-      error: () => {
-        this.errorHandler.push($localize `:@@photo.deleteError:Error while deleting the photo.`);
-      }
-    })
+    const photo = this.photoService.photo$.getValue();
+
+    if (photo) {
+      this.photoService.delete().subscribe({
+        next: () => {
+            this.router.navigate(['/plant', photo.plantId]);
+        },
+        error: () => {
+          this.errorHandler.push($localize `:@@photo.deleteError:Error while deleting the photo.`);
+        }
+      })
+    }
   }
 
   getVisibilityAsset(): string {

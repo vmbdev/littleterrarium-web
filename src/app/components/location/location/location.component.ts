@@ -76,8 +76,8 @@ export class LocationComponent implements OnInit {
   delete(): void {
     if (this.id) {
       this.api.deleteLocation(this.id).subscribe({
-        next: (res) => {
-          if (res.msg === 'LOCATION_REMOVED') this.router.navigate(['/']);
+        next: () => {
+          this.router.navigate(['/']);
         },
         error: (err) => {
           if (err.msg === 'LOCATION_NOT_VALID') this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`)

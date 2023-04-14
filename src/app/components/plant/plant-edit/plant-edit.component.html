@@ -45,7 +45,7 @@
         <p i18n="@@plant-edit.health">Let's keep track of its health, would you?</p>
       </page-description>
       <div class="plantedit__conditions">
-        <div class="form__radio" *ngFor="let cond of plantConditions | keyvalue : noSort">
+        <div class="form__radio" *ngFor="let cond of plantConditions | keyvalue: noSort">
           <input type="radio" formControlName="condition" [id]="'cond' + cond.key" [value]="cond.key">
           <label [for]="'cond' + cond.key">{{ cond.value }}</label>
         </div>
