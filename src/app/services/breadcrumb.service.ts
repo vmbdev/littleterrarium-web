@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, filter } from 'rxjs';
-import { BreadcrumbLink } from '@models/breadcrumb-link.model';
+import { BehaviorSubject, combineLatest, filter, map, mergeMap, Observable, of } from 'rxjs';
+import { BreadcrumbLink, BreadcrumbOptions } from '@models/breadcrumb-link.model';
+import { LocationService } from './location.service';
+import { PlantService } from './plant.service';
+import { Location } from '@models/location.model';
+import { Plant } from '@models/plant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +14,11 @@ export class BreadcrumbService {
   links$: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<BreadcrumbLink[]>([]);
   prev: BreadcrumbLink[] = [];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private locationService: LocationService,
+    private plantService: PlantService,
+  ) {
     this.router.events.pipe(
       filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -19,9 +27,9 @@ export class BreadcrumbService {
     })
   }
 
-  setNavigation(links: any[], options: any = {}): void {
+  setNavigation(links: BreadcrumbLink[], options: BreadcrumbOptions = {}): void {
     if (options.attachTo) {
-      const newLinks = [];
+      const newLinks: BreadcrumbLink[] = [];
       let found = false;
       let i = 0;
 
@@ -36,10 +44,60 @@ export class BreadcrumbService {
 
         i++;
       }
-      
-      this.links$.next(newLinks.concat([...links]));
+
+      // if there's no parent, we fetch it
+      if (!found && options.parent) {
+        switch (options.attachTo) {
+          case 'location': {
+            this.getParentLocation(options.parent).subscribe((parentLink: BreadcrumbLink) => {
+              this.links$.next(newLinks.concat([parentLink], links));
+            })
+            break;
+          }
+
+          case 'plant': {
+            this.getParentPlant(options.parent).subscribe((parentLinks: BreadcrumbLink[]) => {
+              this.links$.next(newLinks.concat(parentLinks, links));
+            })
+            break;
+          }
+        }
+
+      }
+      else this.links$.next(newLinks.concat([...links]));
     }
     else this.links$.next(links);
+  }
+
+
+  getParentLocation(id: number): Observable<BreadcrumbLink> {
+    return this.locationService.get(id).pipe(
+      map((location: Location) => {
+        return {
+          selector: 'location',
+          name: location.name,
+          link: ['/location', location.id]
+        }
+      })
+    );
+  }
+
+  getParentPlant(id: number): Observable<BreadcrumbLink[]> {
+    return this.plantService.get(id).pipe(
+      mergeMap((plant: Plant) => {
+        return combineLatest([
+          of ({
+            selector: 'plant',
+            name: this.plantService.getVisibleName(plant),
+            link: ['/plant', plant.id]
+          }),
+          this.getParentLocation(plant.locationId)
+        ])
+      }),
+      map(([plantlink, locationLink]) => {
+        return [locationLink, plantlink]
+      })
+    );
   }
 
 }

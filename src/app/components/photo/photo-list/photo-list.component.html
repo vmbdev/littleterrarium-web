@@ -3,6 +3,8 @@
   [createAddItem]="(plantId !== undefined) && (plantId !== null) && owned"
   [addItemLink]="['/photo','create', plantId]"
   [contentBelow]="true"
+  sortBy="date"
+  sortOrder="desc"
   [list]="pictureList"
 >
   <ng-container addItem i18n="@@photo-list.add">Add photo</ng-container>

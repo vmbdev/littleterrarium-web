@@ -82,9 +82,10 @@ export class PhotoComponent implements OnInit {
               selector: 'photo',
               name: dayjs(photo.takenAt).format('LL'),
               link: ['/photo', this.id]
-            }], { attachTo: 'plant' })
+            }], { attachTo: 'plant', parent: photo.plantId }
+          )
 
-            return this.photoService.getNavigation(photo.id);
+          return this.photoService.getNavigation(photo.id);
         }),
         switchMap((navigation: any) => {
           this.navigation = navigation;

@@ -69,9 +69,10 @@ export class LocationAddEditComponent implements OnInit {
             this.locationForm.controls[key].setValue(location[key as keyof Location]);
           });
 
-          this.breadcrumb.setNavigation([
-            { selector: 'location-edit', name: 'Edit location' }
-          ], { attachTo: 'location' });
+          this.breadcrumb.setNavigation(
+            [{ selector: 'location-edit', name: 'Edit location' }],
+            { attachTo: 'location' }
+          );
         },
         error: () => {
           this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);

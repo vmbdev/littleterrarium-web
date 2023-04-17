@@ -51,7 +51,9 @@ export class LocationComponent implements OnInit {
       
       this.api.getLocation(this.id, true).pipe(
         catchError((err: HttpErrorResponse) => {
-          if (err.error?.msg === 'LOCATION_NOT_FOUND') this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
+          if (err.error?.msg === 'LOCATION_NOT_FOUND') {
+            this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
+          }
           else this.errorHandler.push($localize `:@@errors.server:Server error`);
           
           this.router.navigateByUrl('/');

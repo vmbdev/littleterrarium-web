@@ -7,6 +7,8 @@ import { PictureListComponent } from '@components/picture-list/picture-list.comp
 import { PictureItem } from '@models/picture-item.model';
 import { FilterBarComponent } from "@components/filter-bar/filter-bar.component";
 import { SortOptions } from '@models/sort-options.model';
+import { LocationService } from '@services/location.service';
+import { Observable } from 'rxjs';
 
 @Component({
     standalone: true,
@@ -30,20 +32,31 @@ export class PlantListComponent implements OnInit {
   filter?: string;
   pictureList: PictureItem[] = [];
 
-  constructor(private plantService: PlantService) { }
+  constructor(
+    private plantService: PlantService,
+    private locationService: LocationService
+  ) { }
 
   ngOnInit(): void {
     if (this.list) this.setPictureList(this.list);
     else {
-      const options = {
-        locationId: this.locationId,
-        userId: this.userId,
-        cover: true
-      };
+      let obs: Observable<Plant[]>;
 
-      this.plantService.getMany(options).subscribe((plants: Plant[]) => {
+      if (this.locationId) {
+        obs = this.locationService.getPlants(this.locationId);
+      }
+      else {
+        const options = {
+          userId: this.userId,
+          cover: true
+        };
+
+        obs = this.plantService.getMany(options);
+      }
+
+      obs.subscribe((plants: Plant[]) => {
         this.setPictureList(plants);
-      })
+      });
     }
   }
 

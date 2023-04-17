@@ -1,9 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PictureListComponent } from '@components/picture-list/picture-list.component';
 import { Photo } from '@models/photo.model';
 import { PictureItem } from '@models/picture-item.model';
 import { ImagePathService } from '@services/image-path.service';
+import { PlantService } from '@services/plant.service';
 
 @Component({
   standalone: true,
@@ -18,16 +19,20 @@ import { ImagePathService } from '@services/image-path.service';
 export class PhotoListComponent implements OnInit {
   @Input() plantId?: number;
   @Input() owned: boolean = true;
-  @Input() list?: Photo[];
   pictureList: PictureItem[] = [];
 
   constructor(
     public imagePath: ImagePathService,
     private datePipe: DatePipe,
+    private plantService: PlantService
   ) { }
 
   ngOnInit(): void {
-    if (this.list) this.setPictureList(this.list);
+    if (this.plantId) {
+      this.plantService.getPhotos(this.plantId).subscribe((photos: Photo[]) => {
+        this.setPictureList(photos);
+      })
+    }
   }
 
   setPictureList(photos: Photo[]) {
@@ -38,13 +43,10 @@ export class PhotoListComponent implements OnInit {
         image: this.imagePath.get(photo.images, 'thumb'),
         link: ['/photo', photo.id],
         name: this.datePipe.transform(photo.takenAt)!,
+        sortableOptions: {
+          date: photo.takenAt
+        }
       });
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes['list'].currentValue !== changes['list'].previousValue) {
-      this.setPictureList(changes['list'].currentValue);
     }
   }
 

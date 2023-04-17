@@ -94,9 +94,14 @@ export class PlantComponent implements OnInit {
       }
       else this.plantTitle = plant.visibleName;
 
-      this.breadcrumb.setNavigation([
-        { selector: 'plant', name: plant.visibleName, link: ['/plant', this.id] }
-      ], { attachTo: 'location' });
+      this.breadcrumb.setNavigation(
+        [{
+          selector: 'plant',
+          name: this.plantService.getVisibleName(plant),
+          link: ['/plant', this.id]
+        }],
+        { attachTo: 'location', parent: plant.locationId }
+      );
     });
 
   }
