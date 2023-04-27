@@ -97,7 +97,7 @@ export class UserRegisterComponent implements OnInit {
     return (Object.keys(errorObj).length > 0) ? errorObj : null;
   }
 
-  havePasswordConditions(): boolean {
+  hasPasswordConditions(): boolean {
     return !!(this.pwdReq && (this.pwdReq.requireNumber || this.pwdReq.requireUppercase || this.pwdReq.requireNonAlphanumeric));
   }
 

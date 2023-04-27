@@ -24,8 +24,9 @@
       </property-box>
 
       <property-box [icon]="getPlantsAsset()">
-        <ng-container *ngIf="(location.plants && (location.plants.length > 0)); else noPlants">
-          <span i18n="@@location.plants">{{ location.plants.length }} plants</span>
+        <!-- FIXME: update to new backend API -->
+        <ng-container *ngIf="location._count?.plants; else noPlants">
+          <span i18n="@@location.plants">{{ location._count?.plants }} plants</span>
         </ng-container>
         <ng-template #noPlants>
           <span i18n="@@location.noPlants">No plants yet!</span>

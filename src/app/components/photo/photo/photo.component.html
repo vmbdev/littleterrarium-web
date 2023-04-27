@@ -42,8 +42,8 @@
  <!-- TODO: make the navigation buttons occupy the whole height -->
   <div class="photo__imagebox">
     <navigation
-      [previousLink]="navigation.prev ? ['/photo', navigation.prev?.id] : undefined"
-      [nextLink]="navigation.next ? ['/photo', navigation.next?.id] : undefined"
+      [previousLink]="navigation.prev ? ['/photo', navigation.prev.id] : undefined"
+      [nextLink]="navigation.next ? ['/photo', navigation.next.id] : undefined"
     >
       <div class="photo__image">
         <a [href]="imagePath.get(photo.images, 'full')" target="_blank">

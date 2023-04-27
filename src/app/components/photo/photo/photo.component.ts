@@ -19,7 +19,7 @@ import { NavigationComponent } from '@components/navigation/navigation.component
 import { ImagePathService } from '@services/image-path.service';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
-import { Photo } from '@models/photo.model';
+import { NavigationData, Photo } from '@models/photo.model';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class PhotoComponent implements OnInit {
   id?: number;
   confirmDelete: boolean = false;
   enablePhotoEditing: boolean = false;
-  navigation: any;
+  navigation: NavigationData = { };
   plantCoverId?: number;
 
   constructor(
@@ -87,7 +87,7 @@ export class PhotoComponent implements OnInit {
 
           return this.photoService.getNavigation(photo.id);
         }),
-        switchMap((navigation: any) => {
+        switchMap((navigation: NavigationData) => {
           this.navigation = navigation;
           const photo = this.photoService.photo$.getValue();
 

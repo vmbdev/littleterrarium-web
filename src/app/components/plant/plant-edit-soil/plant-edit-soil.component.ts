@@ -22,6 +22,7 @@ export class PlantEditSoilComponent implements OnInit {
   id!: number;
   potForm: FormGroup;
   selectedPot: string | null = null;
+  pots: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +45,7 @@ export class PlantEditSoilComponent implements OnInit {
     if (this.id) {
       this.plantService.get(this.id).subscribe({
         next: (plant: Plant) => {
+          this.pots = this.getPots();
           this.selectPot(plant.potType);
 
           this.potForm.patchValue({
@@ -69,7 +71,7 @@ export class PlantEditSoilComponent implements OnInit {
     });
   }
 
-  pots(): any[] {
+  getPots(): any[] {
     return Object.keys(potChoices).map(key => { return { id: key, ...potChoices[key] } });
   }
 

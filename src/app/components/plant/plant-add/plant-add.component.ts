@@ -112,10 +112,7 @@ export class PlantAddComponent implements OnInit {
             break;
           }
           case HttpEventType.Response: {
-            if (event.body.msg === 'PHOTOS_CREATED') {
-              this.uploadProgress = 0;
-            }
-
+            this.uploadProgress = 0;
             this.router.navigate(['/plant', event.body.data.plantId])
             break;
           }

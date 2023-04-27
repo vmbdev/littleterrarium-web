@@ -38,12 +38,14 @@ export class LocationListComponent implements OnInit {
       this.pictureList = [];
       
       for (const location of locations) {
+        const plantCount = location._count?.plants ? location._count.plants : 0;
+
         this.pictureList.push({
           image: location.pictures ? this.imagePath.get(location.pictures, 'thumb') : null,
           link: ['/location', location.id],
           name: location.name,
           description: [
-            $localize `:@@location-list.amount:${location._count.plants > 0 ? location._count.plants : 'No' }:plantCount: plants here`
+            $localize `:@@location-list.amount:${plantCount > 0 ? plantCount : 'No' }:plantCount: plants here`
           ]
         })
       }

@@ -70,6 +70,7 @@ export class UserEditComponent implements OnInit {
     });
   }
 
+  // TODO: detect if username or email are already taken
   submit(): void {
     const user: User = this.userForm.value;
 

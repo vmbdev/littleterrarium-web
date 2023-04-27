@@ -9,7 +9,7 @@
       <p i18n="@@plant-edit-soil.material">What kind of <b>material</b> is your plant sitting on?</p>
       <div class="pot-selector">
         <div
-          *ngFor="let pot of pots()"
+          *ngFor="let pot of pots"
           class="pot-selector__material"
           (click)="selectPot(pot.id)"
           [ngClass]="{ 'pot-selector__material-selected': selectedPot === pot.id } "

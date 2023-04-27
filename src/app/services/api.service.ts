@@ -11,6 +11,11 @@ import { BackendResponse } from '@models/backend-response.model';
 import { endpoint } from '@config';
 import { BACKEND_URL } from 'src/tokens';
 
+export interface LocationGetConfig {
+  plantCount?: boolean,
+  userId?: number
+}
+
 export interface PlantGetConfig {
   userId?: number,
   locationId?: number,
@@ -102,8 +107,13 @@ export class ApiService {
    * Location related calls
    */
 
-  getLocation(id: number, plants?: boolean, limit?: number): Observable<Location> {
-    const url = `locations/${id}?plants=${plants ? 'true' : 'false'}&limit=${limit ? limit : 0}`;
+  getLocation(id: number, options?: LocationGetConfig): Observable<Location> {
+    let url = `locations/${id}`;
+
+    if (options) {
+      if (options.userId) url += `/user/${+options.userId}`;
+      if (options.plantCount) url += '?plantcount=true';
+    }
 
     return this.http.get<Location>(this.endpoint(url));
   }
@@ -116,7 +126,6 @@ export class ApiService {
       if (options.userId && +options.userId) url += `/user/${+options.userId}`;
 
       if (options.plantCount) url += '?plantcount=true';
-      else if (options.plants) url += `?plants=${(options.plants ? 'true' : 'false')}&limit=${(options.limit ? options.limit : 3)}`;
     }
 
     return this.http.get<Location[]>(this.endpoint(url));

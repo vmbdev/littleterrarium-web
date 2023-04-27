@@ -49,7 +49,7 @@ export class LocationComponent implements OnInit {
     
     if (this.id) {
       
-      this.api.getLocation(this.id, true).pipe(
+      this.api.getLocation(this.id, { plantCount: true}).pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.error?.msg === 'LOCATION_NOT_FOUND') {
             this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
@@ -109,7 +109,12 @@ export class LocationComponent implements OnInit {
   }
 
   getPlantsAsset(): string {
-    const name = (this.location?.plants && (this.location.plants.length > 0)) ? 'exists' : 'empty';
+    let name: 'exists' | 'empty';
+
+    if (this.location && this.location._count) {
+      name = (this.location._count.plants > 0) ? 'exists' : 'empty';
+    }
+    else name = 'empty';
 
     return `assets/plants-${name}.png`;
   }

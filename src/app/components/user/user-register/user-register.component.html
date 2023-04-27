@@ -29,7 +29,7 @@
     <page title="Password" control="password" i18n-title="@@general.password">
       <page-description>
         <p i18n="@@user-register.passwordDesc"><b>We're almost there</b>. Last but not least, a <b>password</b> to protect your access</p>
-        <ng-container *ngIf="havePasswordConditions()">
+        <ng-container *ngIf="hasPasswordConditions()">
           <p i18n="@@user-register.passwordReq">Password must contain:</p>
           <ul>
             <li [ngClass]="{ 'form__errormsg': hasPasswordError('minLength') }">
@@ -41,7 +41,7 @@
             <li *ngIf="pwdReq.requireNumber" [ngClass]="{ 'form__errormsg': hasPasswordError('missingNumber') }">
               <span i18n="@@user-register.passwordNumber">One number</span>
             </li>
-            <li *ngIf="pwdReq.requireUppercase" [ngClass]="{ 'form__errormsg': hasPasswordError('missingNonAlphanumeric') }">
+            <li *ngIf="pwdReq.requireNonAlphanumeric" [ngClass]="{ 'form__errormsg': hasPasswordError('missingNonAlphanumeric') }">
               <span i18n="@@user-register.passwordAlphanum">One non-alphanumeric character: {{ nonAlphaNumChars }}</span>
             </li>
           </ul>
