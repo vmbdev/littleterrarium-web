@@ -100,7 +100,7 @@ export class LocationAddEditComponent implements OnInit {
     if (this.createNew) insert = this.api.createLocation(data);
     else if (this.id) {
       data.id = this.id;
-      insert = this.api.updateLocation(data, this.removePicture);
+      insert = this.api.updateLocation(data, { removePicture: this.removePicture });
     }
 
     this.disableNavigation = true;

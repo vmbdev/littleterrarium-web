@@ -29,6 +29,10 @@ export interface Plant {
   visibleName?: string
 }
 
+export interface CoverPhoto {
+  coverId: number | null
+}
+
 export const Condition: { [key: string]: string } = {
   BAD: $localize `:@@interfaces.condition.bad:On the line`, // red
   POOR: $localize `:@@interfaces.condition.poor:Holding on to life`, // yellow
@@ -38,8 +42,12 @@ export const Condition: { [key: string]: string } = {
 }
 export type Condition = (typeof Condition)[keyof typeof Condition];
 
+export type Pot = {
+  name: string,
+  image: string
+}
 // client-side only
-export const potChoices: { [key: string]: any } = {
+export const potChoices: { [key: string]: Pot } = {
   LT_POT_TERRACOTTA: { name: $localize `:@@interfaces.potMaterial.terracotta:Terracotta`, image: 'assets/pot-terracotta.jpg' },
   LT_POT_PLASTIC: { name: $localize `:@@interfaces.potMaterial.plastic:Plastic`, image: 'assets/pot-plastic.jpg' },
   LT_POT_CERAMIC: { name: $localize `:@@interfaces.potMaterial.ceramic:Ceramic`, image: 'assets/pot-ceramic.jpg' },
