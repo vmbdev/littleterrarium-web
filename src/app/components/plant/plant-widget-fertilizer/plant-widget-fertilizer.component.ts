@@ -43,7 +43,7 @@ export class PlantWidgetFertilizerComponent implements OnInit {
   }
 
   nextFertilizing(): any {
-    const fertNext = this.plantService.plant$.getValue()?.fertNext;
+    const fertNext = this.plantService.current()?.fertNext;
 
     if (fertNext) {
       return {

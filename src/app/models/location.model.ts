@@ -16,18 +16,9 @@ export interface Location {
   pictures?: any
 }
 
-export const Light: { [key: string]: any } = {
-  FULLSUN: {
-    desc: $localize `:@@interfaces.light.fullsunDesc:Full sun`,
-    verbose: $localize `:@@interfaces.light.fullsunVerbose:Sun shines over the whole day`,
-  },
-  PARTIALSUN: {
-    desc: $localize `:@@interfaces.light.partialsunDesc:Partial sun`,
-    verbose: $localize `:@@interfaces.light.partialsunVerbose:Sun is here for a few hours each day`,
-  },
-  SHADE: {
-    desc: $localize `:@@interfaces.light.shadeDesc:Shade`,
-    verbose: $localize `:@@interfaces.light.shadeVerbose:Sun is not allowed here`,
-  },
+export const Light: { [key: string]: string} = {
+  FULLSUN: 'FULLSUN',
+  PARTIALSUN: 'PARTIALSUN',
+  SHADE: 'SHADE'
 }
 export type Light = (typeof Light)[keyof typeof Light];

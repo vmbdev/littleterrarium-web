@@ -1,0 +1,8 @@
+@use 'src/styles/form.scss';
+
+.plant-list {
+  &__loadmore {
+    width: 100%;
+    text-align: center;
+  }
+}

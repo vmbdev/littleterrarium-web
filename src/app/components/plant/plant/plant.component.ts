@@ -3,9 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
-import { BreadcrumbService } from '@services/breadcrumb.service';
-import { ErrorHandlerService } from '@services/error-handler.service';
-import { PlantService } from '@services/plant.service';
+
 import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
 import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
@@ -17,6 +15,9 @@ import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/pl
 import { PlantWidgetWaterComponent } from '@components/plant/plant-widget-water/plant-widget-water.component';
 import { PhotoListComponent } from '@components/photo/photo-list/photo-list.component';
 import { PropertyBoxComponent } from '@components/property-box/property-box.component';
+import { BreadcrumbService } from '@services/breadcrumb.service';
+import { ErrorHandlerService } from '@services/error-handler.service';
+import { PlantService } from '@services/plant.service';
 import { Plant, Condition } from '@models/plant.model';
 
 @Component({
@@ -115,7 +116,7 @@ export class PlantComponent implements OnInit {
   }
 
   delete(): void {
-    const plant = this.plantService.plant$.getValue();
+    const plant = this.plantService.current();
 
     if (plant) {
       this.plantService.delete().subscribe(() => {

@@ -37,7 +37,9 @@
       </page-description>
       <div class="form__radio" *ngFor="let option of lightOptions | keyvalue; let i = index">
         <input type="radio" formControlName="light" [id]="'light' + i" [value]="option.key">
-        <label [for]="'light' + i"><b>{{ option.value.desc }}</b>: {{ option.value.verbose }}</label>
+        <label [for]="'light' + i">
+          <b>{{ locationService.getLightName(option.key) }}</b>: {{ locationService.getLightVerbose(option.key) }}
+        </label>
       </div>
     </page>
 

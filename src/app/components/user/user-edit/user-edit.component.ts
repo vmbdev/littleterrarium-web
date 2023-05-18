@@ -49,7 +49,7 @@ export class UserEditComponent implements OnInit {
     this.auth.checked$.pipe(
       skipWhile(val => val === false)
     ).subscribe(() => {
-      const user = this.auth.user$.getValue();
+      const user = this.auth.getUser();
 
       if (user) {
         this.userForm.patchValue({

@@ -33,7 +33,7 @@ export class PlantEditFertilizerComponent implements OnInit {
       this.plantService.get(this.plantId).subscribe((plant: Plant) => { this.updateForm(plant) });
     }
     else {
-      const plant = this.plantService.plant$.getValue();
+      const plant = this.plantService.current();
 
       if (plant) this.updateForm(plant);
     }

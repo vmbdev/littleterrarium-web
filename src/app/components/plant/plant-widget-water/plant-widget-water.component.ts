@@ -43,7 +43,7 @@ export class PlantWidgetWaterComponent implements OnInit {
   }
 
   nextWatering(): any {
-    const waterNext = this.plantService.plant$.getValue()?.waterNext;
+    const waterNext = this.plantService.current()?.waterNext;
 
     if (waterNext) {
       return {

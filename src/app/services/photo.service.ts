@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, throwError } from 'rxjs';
 import { AuthService } from '@services/auth.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService, PhotoGetConfig } from '@services/api.service';
@@ -22,7 +22,7 @@ export class PhotoService {
   get(id: number, options?: PhotoGetConfig): Observable<Photo> {
     return this.api.getPhoto(id, options).pipe(
       map((photo: Photo) => {
-        this.owned = (this.auth.user$.getValue()?.id === photo.ownerId);
+        this.owned = (this.auth.getUser()?.id === photo.ownerId);
         this.photo$.next(photo);
 
         return photo;
@@ -65,15 +65,12 @@ export class PhotoService {
     );
   }
 
-  delete(): Observable<any> {
-    const photo = this.photo$.getValue();
-
-    if (photo) {
-      const id = photo.id;
-
-      return this.api.deletePhoto(id);
-    }
+  delete(id?: number): Observable<any> {
+    if (!id) id = this.photo$.getValue()?.id;
+    
+    if (id) return this.api.deletePhoto(id);
     else return EMPTY;
   }
+
 
 }

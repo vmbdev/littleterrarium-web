@@ -3,9 +3,9 @@
   <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
 </confirm-modal>
 
-<div class="location" *ngIf="location">
+<div class="location" *ngIf="locationService.location$ | async as location">
   <toolbox [title]="location.name">
-    <ng-container *ngIf="owned">
+    <ng-container *ngIf="locationService.isOwned()">
       <toolbox-button image="assets/edit.png" (click)="edit()"></toolbox-button>
       <toolbox-button image="assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
     </ng-container>
@@ -14,19 +14,18 @@
   <info-box title="Location information" i18n-title="@@location.locationInformation">
 
     <ng-container properties>
-      <property-box [icon]="getLightAsset()">
-        {{ getLightName() }}
+      <property-box [icon]="locationService.getLightAsset(location.light)">
+        {{ locationService.getLightName(location.light) }}
       </property-box>
 
-      <property-box [icon]="getVisibilityAsset()">
+      <property-box [icon]="getVisibilityAsset(location.public)">
         <ng-container *ngIf="location.public; else locationPrivate" i18n="@@general.public">Public</ng-container>
         <ng-template #locationPrivate i18n="@@general.private">Private</ng-template>
       </property-box>
 
-      <property-box [icon]="getPlantsAsset()">
-        <!-- FIXME: update to new backend API -->
-        <ng-container *ngIf="location._count?.plants; else noPlants">
-          <span i18n="@@location.plants">{{ location._count?.plants }} plants</span>
+      <property-box [icon]="getPlantsAsset(location._count?.plants)">
+        <ng-container *ngIf="location._count?.plants as count; else noPlants">
+          <span i18n="@@location.plants">{{ count }} plants</span>
         </ng-container>
         <ng-template #noPlants>
           <span i18n="@@location.noPlants">No plants yet!</span>
@@ -39,5 +38,5 @@
   <div class="section-header">
     <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
   </div>
-  <plant-list [owned]="owned" [locationId]="location.id"></plant-list>
+  <plant-list [owned]="locationService.isOwned()" [locationId]="location.id"></plant-list>
 </div>

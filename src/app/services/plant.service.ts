@@ -1,10 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
 import { AuthService } from '@services/auth.service';
 import { ApiService, PlantGetConfig, PlantUpdateConfig } from '@services/api.service';
-import { PhotoService } from '@services/photo.service';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
 import { ImagePathService } from './image-path.service';
@@ -13,7 +10,8 @@ import { ImagePathService } from './image-path.service';
   providedIn: 'root'
 })
 export class PlantService {
-  plant$: BehaviorSubject<Plant | null> = new BehaviorSubject<Plant | null>(null);
+  plant: BehaviorSubject<Plant | null> = new BehaviorSubject<Plant | null>(null);
+  plant$ = this.plant.asObservable();
   owned: boolean = false;
 
   constructor(
@@ -27,19 +25,16 @@ export class PlantService {
   }
 
   get(id: number, options?: PlantGetConfig): Observable<Plant> {
+    this.plant.next(null);
+
     return this.api.getPlant(id, options).pipe(
       map((plant: Plant) => {
-        this.owned = (this.auth.user$.getValue()?.id === plant.ownerId);
+        this.owned = (this.auth.getUser()?.id === plant.ownerId);
         plant.visibleName = this.getVisibleName(plant);
 
-        this.plant$.next(plant);
+        this.plant.next(plant);
 
         return plant;
-      }),
-      catchError((HttpError: HttpErrorResponse) => {
-        this.plant$.next(null);
-
-        return throwError(() => HttpError);
       })
     );
   }
@@ -76,40 +71,42 @@ export class PlantService {
 
   update(plant: Plant, options: PlantUpdateConfig = {}): Observable<Plant> {
     if (plant.specieId === null) options.removeSpecie = true;
-
+    
     return this.api.updatePlant(plant, options).pipe(
       map((plant: Plant) => {
-        const current = this.plant$.getValue();
+        const current = this.plant.getValue();
         plant.visibleName = this.getVisibleName(plant);
 
         if (current) {
           plant.photos = current.photos;
-          this.plant$.next(plant);
+          this.plant.next(plant);
         }
 
         return plant;
-      }),
-      catchError((HttpError: HttpErrorResponse) => {
-        this.plant$.next(null);
-
-        return throwError(() => HttpError);
       })
     );
   }
 
-  delete(): Observable<any> {
-    const id = this.plant$.getValue()?.id;
+  delete(id?: number): Observable<any> {
+    if (!id) id = this.plant.getValue()?.id;
 
-    if (id) return this.api.deletePlant(id);
+    if (id) {
+      this.plant.next(null);
+      return this.api.deletePlant(id);
+    }
+
     else return EMPTY;
   }
 
-  fertilize(): Observable<any> {
-    const id = this.plant$.getValue()?.id;
+  fertilize(id?: number): Observable<any> {
+    let plantId: number | undefined;
 
-    if (id) {
+    if (id) plantId = id;
+    else plantId = this.plant.getValue()?.id;
+
+    if (plantId) {
       const updatedPlant = {
-        id: id,
+        id: plantId,
         fertLast: new Date()
       } as Plant;
       return this.update(updatedPlant);
@@ -118,12 +115,15 @@ export class PlantService {
     return EMPTY;
   }
 
-  water(): Observable<any> {
-    const id = this.plant$.getValue()?.id;
+  water(id?: number): Observable<any> {
+    let plantId: number | undefined;
 
-    if (id) {
+    if (id) plantId = id;
+    else plantId = this.plant.getValue()?.id;
+
+    if (plantId) {
       const updatedPlant = {
-        id: id,
+        id: plantId,
         waterLast: new Date()
       } as Plant;
       return this.update(updatedPlant);
@@ -132,10 +132,14 @@ export class PlantService {
     return EMPTY;
   }
 
+  current(): Plant | null {
+    return this.plant.getValue();
+  }
+
   coverPhoto(plant?: Plant): string | null {
     let workingPlant;
 
-    if (!plant) workingPlant = this.plant$.getValue();
+    if (!plant) workingPlant = this.plant.getValue();
     else workingPlant = plant;
 
     if (workingPlant) {

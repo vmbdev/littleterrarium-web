@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SortOptions } from '@models/sort-options.model';
+import { SortOrder } from '@models/sort-options.model';
 
 @Pipe({
   name: 'sort',
@@ -7,7 +7,7 @@ import { SortOptions } from '@models/sort-options.model';
 })
 export class SortPipe implements PipeTransform {
 
-  transform(value: any[], param: string, order: SortOptions, caseSensitive: boolean = false): any[] {
+  transform(value: any[], param: string, order: SortOrder, caseSensitive: boolean = false): any[] {
     return value.sort((a, b) => {
       let aParam, bParam;
 

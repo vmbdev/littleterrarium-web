@@ -11,6 +11,7 @@ import { FileUploaderComponent } from '@components/file-uploader/file-uploader.c
 import { WizardModule } from '@modules/wizard/wizard.module';
 import { Location, Light } from '@models/location.model';
 import { ImagePathService } from '@services/image-path.service';
+import { LocationService } from '@services/location.service';
 
 @Component({
   standalone: true,
@@ -40,7 +41,7 @@ export class LocationAddEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private api: ApiService,
+    public locationService: LocationService,
     private breadcrumb: BreadcrumbService,
     private errorHandler: ErrorHandlerService,
     public imagePath: ImagePathService
@@ -61,7 +62,7 @@ export class LocationAddEditComponent implements OnInit {
     if (!this.createNew && +paramId) {
       this.id = +paramId;
 
-      this.api.getLocation(this.id).subscribe({
+      this.locationService.get(this.id).subscribe({
         next: (location: Location) => {
           this.location = location;
 
@@ -97,10 +98,10 @@ export class LocationAddEditComponent implements OnInit {
     const data: Location = this.locationForm.value;
     let insert: Observable<Location> | undefined;
 
-    if (this.createNew) insert = this.api.createLocation(data);
+    if (this.createNew) insert = this.locationService.create(data);
     else if (this.id) {
       data.id = this.id;
-      insert = this.api.updateLocation(data, { removePicture: this.removePicture });
+      insert = this.locationService.update(data, { removePicture: this.removePicture });
     }
 
     this.disableNavigation = true;

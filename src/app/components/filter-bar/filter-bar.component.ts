@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SortOptions } from '@models/sort-options.model';
+import { SortColumn, SortOrder } from '@models/sort-options.model';
 import { ThemeService } from '@services/theme.service';
 
 @Component({
@@ -18,21 +18,21 @@ export class FilterBarComponent {
   @Input() sortByDate: boolean = false;
   @Output() sortingChanged = new EventEmitter<any>();
   @Output() filterChanged = new EventEmitter<any>();
-  nameOrder: SortOptions = 'asc';
-  dateOrder: SortOptions = 'asc';
+  nameOrder: SortOrder = 'asc';
+  dateOrder: SortOrder = 'asc';
 
   constructor(public themeService: ThemeService) {}
 
-  toggleSort(field: string): void {
+  toggleSort(column: SortColumn): void {
     let order;
 
-    if (field === 'name') {
+    if (column === 'name') {
       if (this.nameOrder === 'asc') this.nameOrder = 'desc';
       else this.nameOrder = 'asc';
 
       order = this.nameOrder;
     }
-    else if (field === 'date') {
+    else if (column === 'date') {
       if (this.dateOrder === 'asc') this.dateOrder = 'desc';
       else this.dateOrder = 'asc';
 
@@ -40,7 +40,7 @@ export class FilterBarComponent {
     }
     else return;
 
-    this.sortingChanged.emit({ field, order });
+    this.sortingChanged.emit({ column, order });
   }
 
   filterItems(val: string): void {

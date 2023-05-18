@@ -11,9 +11,10 @@
   [addItemLink]="['/plant','create', locationId]"
   [contentBelow]="true"
   [list]="pictureList"
-  [sortBy]="sortBy"
-  [sortOrder]="sortOrder"
-  [filterText]="filter"
 >
   <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>
 </picture-list>
+
+<div class="plant-list__loadmore form__button">
+  <button type="button" (click)="loadMore()" i18n="@@general.loadMore">Load more</button>
+</div>

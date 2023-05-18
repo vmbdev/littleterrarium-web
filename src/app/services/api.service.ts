@@ -10,6 +10,7 @@ import { User } from '@models/user.model';
 import { BackendResponse, NavigationData } from '@models/backend-response.model';
 import { endpoint } from '@config';
 import { BACKEND_URL } from 'src/tokens';
+import { SortColumn, SortOrder } from '@models/sort-options.model';
 
 export interface LocationGetConfig {
   plantCount?: boolean
@@ -29,8 +30,9 @@ export interface PlantGetConfig {
   cover?: boolean
   limit?: number
   filter?: string
-  sort?: 'name' | 'date',
-  order?: 'asc' | 'desc'
+  cursor?: number
+  sort?: SortColumn
+  order?: SortOrder
 }
 
 export interface PlantUpdateConfig {
@@ -199,18 +201,21 @@ export class ApiService {
     let url = 'plants/';
 
     if (options) {
+      // for location's plants it's location/:id/plants
       if (options.locationId) {
         url = `locations/${options.locationId}/${url}`;
       }
-      if (options.userId) {
-        url = `user/${options.userId}${url}`;
+      // for plants of user it's plants/user/:id
+      else if (options.userId) {
+        url += `user/${options.userId}`;
       }
 
       url += '?';
 
-      if (options.photos || options.cover) {
-        url += `photos=${options.photos ? true : false}&cover=${options.cover ? true : false}&`;
+      if (options.cover) {
+        url += `cover=${options.cover ? true : false}&`;
       }
+      if (options.cursor) url += `cursor=${options.cursor}&`;
       if (options.filter) url += `filter=${options.filter}&`;
       if (options.sort) url += `sort=${options.sort}&`;
       if (options.order) url += `order=${options.order}&`;

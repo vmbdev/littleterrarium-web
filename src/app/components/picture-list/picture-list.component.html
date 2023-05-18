@@ -7,7 +7,7 @@
 
     <ng-container *ngIf="list">
       <picture-box
-        *ngFor="let item of (list | filter:'name':filterText | sort:sortBy:sortOrder:true)"
+        *ngFor="let item of list"
         [contentBelow]="contentBelow"
         [image]="item.image ? item.image : null"
         [link]="item.link"
@@ -25,7 +25,7 @@
 
     <ng-container *ngIf="list">
       <picture-detailed
-        *ngFor="let item of (list | filter:'name':filterText | sort:sortBy:sortOrder:true)"
+        *ngFor="let item of list"
         [image]="item.image ? item.image : null"
         [link]="item.link"
       >
