@@ -1,4 +1,4 @@
-@use 'src/styles/variables.scss' as var;
+@use 'src/styles/form.scss';
 @use 'src/styles/media.scss' as m;
 @use 'src/styles/theming.scss' as t;
 
@@ -24,12 +24,7 @@
     }
   }
   
-  &__label {
-    padding: 15px;
-    cursor: pointer;
-    margin: 20px;
-    font-weight: 400;
-
+  &__select {
     @include t.themify {
       background-color: t.theme(main_color);
       color: t.theme(main_background)
@@ -42,12 +37,37 @@
 
   &__removelink {
     font-weight: 600;
-    color: #FF6B6B;
+    color: #ffffff;
+    background-color: black;
+    border-radius: 5px;
+    padding: 3px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
     cursor: pointer;
   }
 
   &__filename {
     word-wrap: break-word;
+  }
+
+  &__picture {
+    position: relative;
+  }
+
+  &__picturegrid {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 100px);
+    gap: 5px;
+    width: 100%;
+  }
+  
+  &__previewimg {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    object-position: 50% 50%;
   }
 
 }
