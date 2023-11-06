@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ErrorHandlerService } from '@services/error-handler.service';
 
 @Component({
-  selector: 'error-toast',
+  selector: 'lt-error-toast',
   templateUrl: './error-toast.component.html',
   styleUrls: ['./error-toast.component.scss']
 })

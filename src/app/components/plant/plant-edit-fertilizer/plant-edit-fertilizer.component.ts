@@ -6,7 +6,7 @@ import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,
-  selector: 'plant-edit-fertilizer',
+  selector: 'lt-plant-edit-fertilizer',
   imports: [ReactiveFormsModule],
   templateUrl: './plant-edit-fertilizer.component.html',
   styleUrls: ['./plant-edit-fertilizer.component.scss']

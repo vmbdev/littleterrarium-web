@@ -5,7 +5,7 @@ import { filter, map, switchMap } from 'rxjs';
 import { ApiService } from '@services/api.service';
 
 @Component({
-  selector: 'lang-switcher',
+  selector: 'lt-lang-switcher',
   templateUrl: './lang-switcher.component.html',
   styleUrls: ['./lang-switcher.component.scss']
 })

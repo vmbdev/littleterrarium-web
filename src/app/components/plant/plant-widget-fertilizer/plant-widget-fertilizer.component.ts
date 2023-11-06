@@ -10,7 +10,7 @@ import { PlusButtonComponent } from '@components/plus-button/plus-button.compone
 
 @Component({
   standalone: true,
-  selector: 'plant-widget-fertilizer',
+  selector: 'lt-plant-widget-fertilizer',
   imports: [
     CommonModule,
     ConfirmModalComponent,

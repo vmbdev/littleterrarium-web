@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ContentChildren, Input, OnInit, QueryList
 import { ButtonComponent } from '@modules/toolbox/button/button.component';
 
 @Component({
-  selector: 'toolbox',
+  selector: 'lt-toolbox',
   templateUrl: './toolbox.component.html',
   styleUrls: ['./toolbox.component.scss']
 })

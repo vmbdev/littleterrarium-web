@@ -109,6 +109,7 @@ export class PlantService {
         id: plantId,
         fertLast: new Date()
       } as Plant;
+
       return this.update(updatedPlant);
     }
 
@@ -126,6 +127,7 @@ export class PlantService {
         id: plantId,
         waterLast: new Date()
       } as Plant;
+
       return this.update(updatedPlant);
     }
 
@@ -149,10 +151,10 @@ export class PlantService {
       else if (workingPlant.photos && workingPlant.photos[0] && workingPlant.photos[0].images) {
         image = this.imagePath.get(workingPlant.photos[0].images, 'thumb');
       }
-      else image = null;
+      else image = 'assets/nopic.png';
 
       return image;
     }
-    else return null;
+    else return 'assets/nopic.png';
   }
 }

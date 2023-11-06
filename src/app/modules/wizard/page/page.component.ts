@@ -2,7 +2,7 @@ import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '
 import { PageDescriptionComponent } from '@modules/wizard/page-description/page-description.component';
 
 @Component({
-  selector: 'page',
+  selector: 'lt-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']
 })

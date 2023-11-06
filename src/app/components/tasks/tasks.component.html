@@ -1,11 +1,35 @@
-<div *ngIf="tasks.length > 0; else noTasks" class="tasks">
-  <div *ngFor="let plant of tasks" class="tasks__plant">
-    <div class="tasks__picbox">
-      <img *ngIf="plant.photos?.at(0)?.images" class="tasks__pic" [src]="plantService.coverPhoto(plant)">
+<div *ngIf="taskService.tasks$ | async as tasks; else noTasks" class="tasks">
+  <p i18n="@@tasks.msg">
+    According to your plant settings, these are the tasks left to do. Blue
+    drop, plant needs to drink; green spoon, plants need to eat!
+  </p>
+  <div *ngFor="let task of tasks" class="tasks__plant">
+    <img
+      class="tasks__pic"
+      [src]="plantService.coverPhoto(task)"
+      [routerLink]="['/plant', task.id]"
+    >
+
+    <div class="tasks__plantname" [routerLink]="['/plant', task.id]">
+      {{ plantService.getVisibleName(task) }}
     </div>
+
     <div class="tasks__list">
-      <div class="tasks__task" *ngIf="plant.waterNext" i18n="@@tasks.waterRequired">{{ plantService.getVisibleName(plant) }} requires watering</div>
-      <div class="tasks__task" *ngIf="plant.fertNext" i18n="@@tasks.fertilizerRequired">{{ plantService.getVisibleName(plant) }} requires fertilizing</div>
+      <img
+        class="tasks__pic"
+        [ngClass]="{ 'tasks__pic--disabled': !task.waterNext }"
+        alt="requires watering"
+        i18n-alt="@@tasks.waterRequired"
+        src="/assets/water.png"
+      >
+      <img
+        class="tasks__pic"
+        [ngClass]="{ 'tasks__pic--disabled': !task.fertNext }"
+        alt="requires fertilizing"
+        i18n-alt="@@tasks.fertilizerRequired"
+        src="/assets/fertilizer.png"
+        (click)="test()"
+      >
     </div>
   </div>
 

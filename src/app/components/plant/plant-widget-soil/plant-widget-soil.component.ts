@@ -7,7 +7,7 @@ import { potChoices } from '@models/plant.model';
 
 @Component({
   standalone: true,
-  selector: 'plant-widget-soil',
+  selector: 'lt-plant-widget-soil',
   imports: [
     CommonModule,
     UnitPipe,

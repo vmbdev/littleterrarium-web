@@ -19,12 +19,12 @@
   <div class="section-header">
     <h2 i18n="@@terrarium.locationsHeader">Public locations</h2>
   </div>
-  <location-list [owned]="false" [userId]="user.id"></location-list>
+  <lt-location-list [owned]="false" [userId]="user.id"></lt-location-list>
 
   <div class="section-header">
     <h2 i18n="@@terrarium.plantsHeader">Public plants</h2>
   </div>
-  <plant-list [user]="user"></plant-list>
+  <lt-plant-list [user]="user"></lt-plant-list>
 </div>
 
 <ng-template #userNotFound>

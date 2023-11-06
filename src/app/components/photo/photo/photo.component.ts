@@ -24,7 +24,7 @@ import { NavigationData, Photo } from '@models/photo.model';
 
 @Component({
     standalone: true,
-    selector: 'photo',
+    selector: 'lt-photo',
     templateUrl: './photo.component.html',
     styleUrls: ['./photo.component.scss'],
     imports: [

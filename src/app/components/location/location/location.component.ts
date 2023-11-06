@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
@@ -9,15 +9,17 @@ import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-
 import { InfoBoxComponent } from '@components//info-box/info-box.component';
 import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
 import { PropertyBoxComponent } from '@components/property-box/property-box.component';
-import { AuthService } from '@services/auth.service';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LocationService } from '@services/location.service';
 import { Location } from '@models/location.model';
 
+/**
+ * Component providing visualization for a Location model.
+ */
 @Component({
   standalone: true,
-  selector: 'location',
+  selector: 'lt-location',
   templateUrl: './location.component.html',
   imports: [
     CommonModule,
@@ -29,8 +31,16 @@ import { Location } from '@models/location.model';
     PropertyBoxComponent
   ]
 })
-export class LocationComponent implements OnInit {
+export class LocationComponent {
+  /**
+   * Id number of the location, as represented in the database, and obtained
+   * from the route.
+   */
   private id?: number;
+
+  /**
+   * Variable to control whether the ConfirmModal for deletion is opened.
+   */
   confirmDelete: boolean = false;
 
   constructor(
@@ -41,6 +51,10 @@ export class LocationComponent implements OnInit {
     private errorHandler: ErrorHandlerService
   ) { }
 
+  /**
+   * On component creation, read the route to obtain the Id and fetch the
+   * location object from the database.
+   */
   ngOnInit(): void {
     const paramId = this.route.snapshot.paramMap.get('locationId');
     this.id = paramId ? +paramId : NaN;

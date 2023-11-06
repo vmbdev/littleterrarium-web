@@ -1,12 +1,12 @@
 <div [ngClass]="getStyleClass()">
   
   <ng-container *ngIf="!detailed">
-    <picture-box *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
+    <lt-picture-box *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
       <ng-content select="[addItem]"></ng-content>
-    </picture-box>
+    </lt-picture-box>
 
     <ng-container *ngIf="list">
-      <picture-box
+      <lt-picture-box
         *ngFor="let item of list"
         [contentBelow]="contentBelow"
         [image]="item.image ? item.image : null"
@@ -14,24 +14,24 @@
       >
         <div *ngIf="item.name">{{ item.name }}</div>
         <div *ngFor="let text of item.description">{{ text }}</div>
-      </picture-box>
+      </lt-picture-box>
     </ng-container>
   </ng-container>
 
   <ng-container *ngIf="detailed">
-    <picture-detailed *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
+    <lt-picture-detailed *ngIf="createAddItem && addItemLink" [add]="true" [link]="addItemLink">
       <ng-content select="[addItem]"></ng-content>
-    </picture-detailed>
+    </lt-picture-detailed>
 
     <ng-container *ngIf="list">
-      <picture-detailed
+      <lt-picture-detailed
         *ngFor="let item of list"
         [image]="item.image ? item.image : null"
         [link]="item.link"
       >
         <div *ngIf="item.name">{{ item.name }}</div>
         <div *ngFor="let text of item.description">{{ text }}</div>
-      </picture-detailed>
+      </lt-picture-detailed>
     </ng-container>
   </ng-container>
 </div>

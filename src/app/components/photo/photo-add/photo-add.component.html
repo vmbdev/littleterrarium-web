@@ -1,34 +1,34 @@
 <form [formGroup]="photoForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
-  <wizard [form]="photoForm" [disableNavigation]="disableNavigation">
-    <wizard-header *ngIf="plant">
+  <lt-wizard [form]="photoForm" [disableNavigation]="disableNavigation">
+    <lt-wizard-header *ngIf="plant">
       <span i18n="@@photo-add.header">Adding photos to <b>{{ plant.visibleName }}</b></span>&nbsp;
-    </wizard-header>
+    </lt-wizard-header>
 
-    <page title="Pictures" i18n-title="@@general.pictures">
-      <page-description>
+    <lt-page title="Pictures" i18n-title="@@general.pictures">
+      <lt-page-description>
         <p i18n="@@photo-add.addMsg">Time to brag about our well-cared, personal jungle.</p>
         <p i18n="@@photo-add.addMsgLimit">Up to <b>10 pictures</b> at once! Once they're up, you can edit their description and if you need them in a specific order you can define when they were taken.</p>
-      </page-description>
-      <file-uploader [amount]="10" (fileChange)="fileChange($event)"></file-uploader>
-    </page>
+      </lt-page-description>
+      <lt-file-uploader [maxAmount]="10" (fileChange)="fileChange($event)"></lt-file-uploader>
+    </lt-page>
 
-    <page title="Privacy" i18n-title="@@general.privacy">
-      <page-description>
+    <lt-page title="Privacy" i18n-title="@@general.privacy">
+      <lt-page-description>
         <p i18n="@@photo-add.visibility">When your picture is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
         <p i18n="@@photo-add.visibilityNote">
           <strong>Note</strong> that your locations and plants have their own privacy settings, and they supersedes the picture's privacy setting (i.e. you can't share this picture if the plant is private).
         </p>
-      </page-description>
+      </lt-page-description>
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
         <label for="public-checkbox" i18n="@@general.visibilityPublic">Publicly visible</label>
       </div>
 
       <div class="photo-add__progress">
-        <progress-bar *ngIf="uploadProgress > 0" [progress]="uploadProgress"></progress-bar>
+        <lt-progress-bar *ngIf="uploadProgress > 0" [progress]="uploadProgress"></lt-progress-bar>
         <div *ngIf="uploadProgress === 100" class="photo-add__finished" i18n="@@general.uploadFinished">Upload finished. Processing your photos, please wait.</div>
       </div>
-    </page>
-  </wizard>
+    </lt-page>
+  </lt-wizard>
 </form>
 

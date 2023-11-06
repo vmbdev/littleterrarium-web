@@ -9,7 +9,7 @@ import { Plant, potChoices } from '@models/plant.model';
 
 @Component({
   standalone: true,
-  selector: 'plant-edit-soil',
+  selector: 'lt-plant-edit-soil',
   imports: [
     CommonModule,
     ReactiveFormsModule,

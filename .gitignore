@@ -39,6 +39,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Docs
+/documentation/
+
 .angular/
 /src/config.ts
 

@@ -3,7 +3,7 @@ import { CloseButtonComponent } from '@components/close-button/close-button.comp
 
 @Component({
   standalone: true,
-  selector: 'quick-modal',
+  selector: 'lt-quick-modal',
   imports: [CloseButtonComponent],
   templateUrl: './quick-modal.component.html',
   styleUrls: ['./quick-modal.component.scss']

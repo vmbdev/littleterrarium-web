@@ -1,24 +1,48 @@
 <div class="filter-bar">
   <div *ngIf="searchBar" class="filter-bar__search">
-    <input #search (input)="filterItems(search.value)" type="search" placeholder="Search" i18n-placeholder="@@general.search">
+    <input
+      #search
+      (input)="filterItems(search.value)"
+      type="search"
+      placeholder="Search"
+      i18n-placeholder="@@general.search"
+    >
   </div>
-  <div *ngIf="sortByName" class="filter-bar__sortbutton" (click)="toggleSort('name')">
+
+
+  <div
+    *ngIf="sortByName"
+    class="filter-bar__sortbutton"
+    (click)="toggleSort('name')"
+  >
     <img
       *ngIf="((nameOrder === 'asc') || (nameOrder === 'desc'))"
       src="assets/sort-an-{{nameOrder}}.png"
-      [ngClass]="{ 'filter-bar__sortbutton-inverted': (themeService.theme$ | async) === 'dark' }"
+      [ngClass]="{
+        'filter-bar__sortbutton-inverted': (themeService.theme$ | async) === 'dark'
+      }"
       alt="Sort by name"
       title="Sort by name"
       i18n-alt="@@filter-bar.sortByName"
       i18n-title="@@filter-bar.sortByName"
     >
   </div>
-  <div *ngIf="sortByDate" class="filter-bar__sortbutton" (click)="toggleSort('date')">
+
+
+  <div
+    *ngIf="sortByDate"
+    class="filter-bar__sortbutton"
+    (click)="toggleSort('date')"
+  >
     <img
       *ngIf="((dateOrder === 'asc') || (dateOrder === 'desc'))"
-      src="assets/sort-date-asc.png"
-      [ngClass]="{ 'filter-bar__sortbutton-inverted': (themeService.theme$ | async) === 'dark' }"
-      [ngStyle]="{ 'transform': (dateOrder === 'desc') ? 'scaleX(-1)' : 'none' }"
+      src="assets/sort-date-{{dateOrder}}.png"
+      [ngClass]="{
+        'filter-bar__sortbutton-inverted': (themeService.theme$ | async) === 'dark'
+      }"
+      [ngStyle]="{
+        'transform': (dateOrder === 'desc') ? 'scaleX(-1)' : 'none'
+      }"
       alt="Sort by date"
       title="Sort by date"
       i18n-alt="@@filter-bar.sortByDate"

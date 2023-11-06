@@ -7,7 +7,7 @@ import { Specie } from '@models/specie.model';
 
 @Component({
   standalone: true,
-  selector: 'specie-finder',
+  selector: 'lt-specie-finder',
   imports: [
     CommonModule,
     FormsModule,

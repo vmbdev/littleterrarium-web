@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'footernav',
+  selector: 'lt-footernav',
   templateUrl: './footernav.component.html',
   styleUrls: ['./footernav.component.scss']
 })

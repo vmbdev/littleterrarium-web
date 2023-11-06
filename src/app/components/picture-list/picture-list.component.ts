@@ -8,7 +8,7 @@ import { FilterPipe } from '@pipes/filter/filter.pipe';
 
 @Component({
   standalone: true,
-  selector: 'picture-list',
+  selector: 'lt-picture-list',
   templateUrl: './picture-list.component.html',
   styleUrls: ['./picture-list.component.scss'],
   imports: [

@@ -9,7 +9,7 @@ import { PictureListComponent } from '@components/picture-list/picture-list.comp
 
 @Component({
   standalone: true,
-  selector: 'location-list',
+  selector: 'lt-location-list',
   imports: [
     CommonModule,
     RouterModule,

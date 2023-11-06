@@ -23,7 +23,7 @@
     type="file"
     (change)="fileInputChange($event)"
     [disabled]="availableSlots() === 0"
-    [multiple]="amount > 1"
+    [multiple]="maxAmount > 1"
     accept="image/*"
     capture
     hidden

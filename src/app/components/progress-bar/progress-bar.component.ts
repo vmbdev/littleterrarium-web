@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'progress-bar',
+  selector: 'lt-progress-bar',
   imports: [CommonModule],
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.scss']

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'plus-button',
+  selector: 'lt-plus-button',
   imports: [CommonModule],
   templateUrl: './plus-button.component.html',
   styleUrls: ['./plus-button.component.scss']

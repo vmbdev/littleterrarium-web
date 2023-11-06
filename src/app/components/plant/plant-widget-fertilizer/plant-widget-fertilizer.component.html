@@ -1,9 +1,9 @@
 <ng-container *ngIf="plantService.plant$ | async as plant">
-  <confirm-modal *ngIf="confirmFertilizing" (accept)="addFertilizer()" (cancel)="confirmFertilizing = false">
+  <lt-confirm-modal *ngIf="confirmFertilizing" (accept)="addFertilizer()" (cancel)="confirmFertilizing = false">
     <span i18n="@@plant-widget-fertilizer.confirm">This will update your <b>last time fertilized</b> to today.</span>
-  </confirm-modal>
+  </lt-confirm-modal>
 
-  <widget-box image="assets/fertilizer.png" title="Fertiliser" i18n-title="@@general.fertilizer">
+  <lt-widget-box image="assets/fertilizer.png" title="Fertiliser" i18n-title="@@general.fertilizer">
     <div>
       <p *ngIf="plant.fertLast"><b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}</p>
       <p *ngIf="plant.fertType"><b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}</p>
@@ -13,13 +13,13 @@
       <p *ngIf="nextFertilizing() as nextF">
         <b i18n="@@general.nextTime">Next time:</b>&nbsp;<span [ngStyle]="{ 'color' : nextF.due ? 'red' : null }">{{ nextF.text }}</span>
       </p>
-      <plus-button
+      <lt-plus-button
         *ngIf="this.plantService.owned"
         type="add"
         title="Fertilize"
         (click)="confirmFertilizing = true"
         i18n-title="@@plant-widget-fertilizer.button">
-      </plus-button>
+      </lt-plus-button>
     </div>
-  </widget-box>
+  </lt-widget-box>
 </ng-container>

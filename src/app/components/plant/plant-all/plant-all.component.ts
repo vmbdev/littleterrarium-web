@@ -3,7 +3,7 @@ import { PlantListComponent } from '@components/plant/plant-list/plant-list.comp
 
 @Component({
   standalone: true,
-  selector: 'plant-all',
+  selector: 'lt-plant-all',
   imports: [PlantListComponent],
   templateUrl: './plant-all.component.html',
   styleUrls: ['./plant-all.component.scss']

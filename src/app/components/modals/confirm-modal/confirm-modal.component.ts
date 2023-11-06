@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'confirm-modal',
+  selector: 'lt-confirm-modal',
   imports: [CommonModule],
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.scss']

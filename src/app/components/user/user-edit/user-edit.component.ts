@@ -13,7 +13,7 @@ import { User } from '@models/user.model';
 
 @Component({
   standalone: true,
-  selector: 'user-edit',
+  selector: 'lt-user-edit',
   imports: [
     CommonModule,
     WizardModule,

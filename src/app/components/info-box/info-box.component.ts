@@ -1,20 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
+/**
+ * Provides an information box with highlighted data.
+ */
 @Component({
   standalone: true,
-  selector: 'info-box',
+  selector: 'lt-info-box',
   imports: [CommonModule],
   templateUrl: './info-box.component.html',
   styleUrls: ['./info-box.component.scss']
 })
-export class InfoBoxComponent implements OnInit {
-  @Input() image?: string;
+export class InfoBoxComponent  {
+  /**
+   * The title of the information box. By default, an empty string.
+   */
   @Input() title: string = '';
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

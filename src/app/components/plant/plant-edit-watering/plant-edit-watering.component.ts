@@ -6,7 +6,7 @@ import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,
-  selector: 'plant-edit-watering',
+  selector: 'lt-plant-edit-watering',
   imports: [ReactiveFormsModule],
   templateUrl: './plant-edit-watering.component.html',
   styleUrls: ['./plant-edit-watering.component.scss']

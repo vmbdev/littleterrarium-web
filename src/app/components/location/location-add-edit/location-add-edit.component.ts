@@ -4,18 +4,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize, Observable } from 'rxjs';
-import { BreadcrumbService } from '@services/breadcrumb.service';
-import { ErrorHandlerService } from '@services/error-handler.service';
-import { ApiService } from '@services/api.service';
+
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { WizardModule } from '@modules/wizard/wizard.module';
 import { Location, Light } from '@models/location.model';
+import { ErrorHandlerService } from '@services/error-handler.service';
+import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ImagePathService } from '@services/image-path.service';
 import { LocationService } from '@services/location.service';
 
 @Component({
   standalone: true,
-  selector: 'location-add-edit',
+  selector: 'lt-location-add-edit',
   imports: [
     CommonModule,
     RouterModule,
@@ -62,22 +62,24 @@ export class LocationAddEditComponent implements OnInit {
     if (!this.createNew && +paramId) {
       this.id = +paramId;
 
-      this.locationService.get(this.id).subscribe({
-        next: (location: Location) => {
-          this.location = location;
-
-          Object.keys(this.locationForm.value).forEach((key) => {
-            this.locationForm.controls[key].setValue(location[key as keyof Location]);
-          });
-
-          this.breadcrumb.setNavigation(
-            [{ selector: 'location-edit', name: 'Edit location' }],
-            { attachTo: 'location' }
-          );
-        },
-        error: () => {
+      this.locationService.get(this.id).pipe(
+        catchError((err: HttpErrorResponse) => {
           this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
-        }
+
+          return EMPTY;
+        })
+      )
+      .subscribe((location: Location) => {
+        this.location = location;
+
+        Object.keys(this.locationForm.value).forEach((key) => {
+          this.locationForm.controls[key].setValue(location[key as keyof Location]);
+        });
+
+        this.breadcrumb.setNavigation(
+          [{ selector: 'location-edit', name: 'Edit location' }],
+          { attachTo: 'location' }
+        );
       })
     }
   }

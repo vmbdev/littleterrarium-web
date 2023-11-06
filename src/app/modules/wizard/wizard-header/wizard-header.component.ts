@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'wizard-header',
+  selector: 'lt-wizard-header',
   templateUrl: './wizard-header.component.html',
   styleUrls: ['./wizard-header.component.scss']
 })

@@ -3,7 +3,7 @@ import { AuthService } from '@services/auth.service';
 import { ImagePathService } from '@services/image-path.service';
 
 @Component({
-  selector: 'userbox',
+  selector: 'lt-userbox',
   templateUrl: './userbox.component.html',
   styleUrls: ['./userbox.component.scss']
 })

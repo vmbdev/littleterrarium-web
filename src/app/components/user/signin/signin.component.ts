@@ -7,7 +7,7 @@ import { AuthService } from '@services/auth.service';
 
 @Component({
   standalone: true,
-  selector: 'signin',
+  selector: 'lt-signin',
   imports: [
     CommonModule,
     FormsModule,

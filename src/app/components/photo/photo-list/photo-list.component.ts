@@ -8,7 +8,7 @@ import { PlantService } from '@services/plant.service';
 
 @Component({
   standalone: true,
-  selector: 'photo-list',
+  selector: 'lt-photo-list',
   imports: [
     CommonModule,
     PictureListComponent

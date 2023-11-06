@@ -15,7 +15,7 @@ import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,
-  selector: 'photo-add',
+  selector: 'lt-photo-add',
   imports: [
     CommonModule,
     RouterModule,

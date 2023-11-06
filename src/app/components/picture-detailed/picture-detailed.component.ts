@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'picture-detailed',
+  selector: 'lt-picture-detailed',
   imports: [
     CommonModule,
     RouterModule

@@ -22,7 +22,7 @@ import { Plant, Condition } from '@models/plant.model';
 
 @Component({
     standalone: true,
-    selector: 'plant',
+    selector: 'lt-plant',
     templateUrl: './plant.component.html',
     styleUrls: ['./plant.component.scss'],
     imports: [

@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'page-description',
+  selector: 'lt-page-description',
   templateUrl: './page-description.component.html',
   styleUrls: ['./page-description.component.scss']
 })

@@ -12,7 +12,7 @@ import { Plant, Condition } from '@models/plant.model';
 
 @Component({
   standalone: true,
-  selector: 'plant-edit',
+  selector: 'lt-plant-edit',
   imports: [
     CommonModule,
     ReactiveFormsModule,

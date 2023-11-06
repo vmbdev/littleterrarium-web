@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'mainnav',
+  selector: 'lt-mainnav',
   templateUrl: './mainnav.component.html',
   styleUrls: ['./mainnav.component.scss']
 })

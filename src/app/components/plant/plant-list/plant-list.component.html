@@ -1,19 +1,19 @@
-<filter-bar
+<lt-filter-bar
   [searchBar]="true"
   [sortByDate]="true"
   [sortByName]="true"
   (sortingChanged)="changeSorting($event)"
   (filterChanged)="changeFilter($event)"
 >
-</filter-bar>
-<picture-list
+</lt-filter-bar>
+<lt-picture-list
   [createAddItem]="(locationId !== undefined) && (locationId !== null) && owned"
   [addItemLink]="['/plant','create', locationId]"
   [contentBelow]="true"
   [list]="pictureList"
 >
   <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>
-</picture-list>
+</lt-picture-list>
 
 <div class="plant-list__loadmore form__button">
   <button type="button" (click)="loadMore()" i18n="@@general.loadMore">Load more</button>

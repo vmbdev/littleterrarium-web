@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'toolbox-button',
+  selector: 'lt-toolbox-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })

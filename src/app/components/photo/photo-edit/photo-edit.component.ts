@@ -8,7 +8,7 @@ import { PhotoService } from '@services/photo.service';
 
 @Component({
   standalone: true,
-  selector: 'photo-edit',
+  selector: 'lt-photo-edit',
   imports: [
     CommonModule,
     RouterModule,

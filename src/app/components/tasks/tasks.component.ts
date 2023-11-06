@@ -1,28 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PlantService } from '@services/plant.service';
-import { ApiService } from '@services/api.service';
 import { Plant } from '@models/plant.model';
+import { TaskService } from '@services/task.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'tasks',
-  imports: [CommonModule],
+  selector: 'lt-tasks',
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent {
   tasks: Plant[] = [];
   
   constructor(
-    private api: ApiService,
+    public taskService: TaskService,
     public plantService: PlantService,
   ) { }
 
-  ngOnInit(): void {
-    this.api.getTasks().subscribe((data: Plant[]) => {
-      this.tasks = data;
-    });
+  test() {
+    console.log('tete')
   }
-
 }

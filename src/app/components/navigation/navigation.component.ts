@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'navigation',
+  selector: 'lt-navigation',
   imports: [
     CommonModule,
     RouterModule

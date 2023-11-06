@@ -10,7 +10,7 @@ import { User } from '@models/user.model';
 
 @Component({
   standalone: true,
-  selector: 'terrarium',
+  selector: 'lt-terrarium',
   imports: [
     CommonModule,
     LocationListComponent,

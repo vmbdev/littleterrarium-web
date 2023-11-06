@@ -1,11 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CoreModule } from '@modules/core/core.module';
 
+/**
+ * Component proving the default layout.
+ */
+
 @Component({
   standalone: true,
-  selector: 'default-layout',
+  selector: 'lt-default-layout',
   imports: [
     RouterModule,
     CoreModule
@@ -13,11 +16,6 @@ import { CoreModule } from '@modules/core/core.module';
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss']
 })
-export class DefaultLayoutComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class DefaultLayoutComponent {
 
 }

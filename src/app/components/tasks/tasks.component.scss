@@ -12,8 +12,28 @@
     border: 1px solid black;
   }
 
-  &__pic, &__picbox {
-    width: 42px;
-    height: 42px;
+  &__plantname {
+    font-weight: bold;
+    flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
   }
+
+  &__list {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  &__pic {
+    width: 40px;
+    height: 40px;
+
+    &--disabled {
+      filter: grayscale(100%);
+    }
+  }
+
 }

@@ -1,42 +1,42 @@
-<confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
+<lt-confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
   <p i18n="@@location.remove">This will remove this location along with its plants and photos. Are you sure?</p>
   <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
-</confirm-modal>
+</lt-confirm-modal>
 
 <div class="location" *ngIf="locationService.location$ | async as location">
-  <toolbox [title]="location.name">
+  <lt-toolbox [title]="location.name">
     <ng-container *ngIf="locationService.isOwned()">
-      <toolbox-button image="assets/edit.png" (click)="edit()"></toolbox-button>
-      <toolbox-button image="assets/delete.png" (click)="confirmDelete = true"></toolbox-button>
+      <lt-toolbox-button image="assets/edit.png" (click)="edit()"></lt-toolbox-button>
+      <lt-toolbox-button image="assets/delete.png" (click)="confirmDelete = true"></lt-toolbox-button>
     </ng-container>
-  </toolbox>
+  </lt-toolbox>
 
-  <info-box title="Location information" i18n-title="@@location.locationInformation">
+  <lt-info-box title="Location information" i18n-title="@@location.locationInformation">
 
     <ng-container properties>
-      <property-box [icon]="locationService.getLightAsset(location.light)">
+      <lt-property-box [icon]="locationService.getLightAsset(location.light)">
         {{ locationService.getLightName(location.light) }}
-      </property-box>
+      </lt-property-box>
 
-      <property-box [icon]="getVisibilityAsset(location.public)">
+      <lt-property-box [icon]="getVisibilityAsset(location.public)">
         <ng-container *ngIf="location.public; else locationPrivate" i18n="@@general.public">Public</ng-container>
         <ng-template #locationPrivate i18n="@@general.private">Private</ng-template>
-      </property-box>
+      </lt-property-box>
 
-      <property-box [icon]="getPlantsAsset(location._count?.plants)">
+      <lt-property-box [icon]="getPlantsAsset(location._count?.plants)">
         <ng-container *ngIf="location._count?.plants as count; else noPlants">
           <span i18n="@@location.plants">{{ count }} plants</span>
         </ng-container>
         <ng-template #noPlants>
           <span i18n="@@location.noPlants">No plants yet!</span>
         </ng-template>
-      </property-box>
+      </lt-property-box>
     </ng-container>
 
-  </info-box>
+  </lt-info-box>
 
   <div class="section-header">
     <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
   </div>
-  <plant-list [owned]="locationService.isOwned()" [locationId]="location.id"></plant-list>
+  <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id"></lt-plant-list>
 </div>

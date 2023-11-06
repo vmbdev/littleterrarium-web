@@ -6,7 +6,7 @@ import { PageComponent } from '@modules/wizard/page/page.component';
 // TODO: focus input on page change
 
 @Component({
-  selector: 'wizard',
+  selector: 'lt-wizard',
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.scss']
 })

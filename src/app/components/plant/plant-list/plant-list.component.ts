@@ -14,7 +14,7 @@ import { User } from '@models/user.model';
 
 @Component({
   standalone: true,
-  selector: 'plant-list',
+  selector: 'lt-plant-list',
   templateUrl: './plant-list.component.html',
   styleUrls: ['./plant-list.component.scss'],
   imports: [

@@ -1,4 +1,4 @@
-<picture-list
+<lt-picture-list
   *ngIf="pictureList"
   [createAddItem]="(plantId !== undefined) && (plantId !== null) && owned"
   [addItemLink]="['/photo','create', plantId]"
@@ -8,4 +8,4 @@
   [list]="pictureList"
 >
   <ng-container addItem i18n="@@photo-list.add">Add photo</ng-container>
-</picture-list>
+</lt-picture-list>

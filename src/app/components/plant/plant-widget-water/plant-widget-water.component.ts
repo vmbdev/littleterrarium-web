@@ -10,7 +10,7 @@ import { PlusButtonComponent } from '@components/plus-button/plus-button.compone
 
 @Component({
   standalone: true,
-  selector: 'plant-widget-water',
+  selector: 'lt-plant-widget-water',
   imports: [
     CommonModule,
     ConfirmModalComponent,
@@ -19,7 +19,7 @@ import { PlusButtonComponent } from '@components/plus-button/plus-button.compone
   ],
   templateUrl: './plant-widget-water.component.html'
 })
-export class PlantWidgetWaterComponent implements OnInit {
+export class PlantWidgetWaterComponent {
   confirmWatering: boolean = false;
   usableLocale: string = 'en';
 
@@ -32,9 +32,6 @@ export class PlantWidgetWaterComponent implements OnInit {
     import(`dayjs/locale/${currentLocale}`)
       .then(() => { this.usableLocale = currentLocale })
       .catch(() => { this.usableLocale = 'en' })
-  }
-
-  ngOnInit(): void {
   }
 
   addWater(): void {

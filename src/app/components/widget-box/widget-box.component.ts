@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'widget-box',
+  selector: 'lt-widget-box',
   imports: [CommonModule],
   templateUrl: './widget-box.component.html',
   styleUrls: ['./widget-box.component.scss']

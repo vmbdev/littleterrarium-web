@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '@services/theme.service';
 
 @Component({
-  selector: 'theme-switcher',
+  selector: 'lt-theme-switcher',
   templateUrl: './theme-switcher.component.html',
   styleUrls: ['./theme-switcher.component.scss']
 })

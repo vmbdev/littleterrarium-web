@@ -18,7 +18,7 @@ import { PhotoService } from '@services/photo.service';
 
 @Component({
   standalone: true,
-  selector: 'plant-add',
+  selector: 'lt-plant-add',
   imports: [
     CommonModule,
     WizardModule,

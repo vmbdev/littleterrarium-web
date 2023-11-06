@@ -1,10 +1,10 @@
 <ng-container *ngIf="plantService.plant$ | async as plant">
-  <confirm-modal *ngIf="confirmWatering" (accept)="addWater()" (cancel)="confirmWatering = false">
+  <lt-confirm-modal *ngIf="confirmWatering" (accept)="addWater()" (cancel)="confirmWatering = false">
     <p i18n="@@plant-widget-water.confirm">This will update your <b>last time watered</b> to today.</p>
     <p i18n="@@plant-widget-water.warning">If you haven't watered it yet, please check your soil. Never water your plants on a schedule!</p>
-  </confirm-modal>
+  </lt-confirm-modal>
 
-  <widget-box image="assets/water.png" title="Watering" i18n-title="@@general.watering">
+  <lt-widget-box image="assets/water.png" title="Watering" i18n-title="@@general.watering">
     <div>
       <p *ngIf="plant.waterLast"><b i18n="@@general.lastTime">Last time:</b> {{ plant.waterLast | date }}</p>
     </div>
@@ -13,7 +13,7 @@
       <p *ngIf="nextWatering() as nextW">
         <b i18n="@@general.nextTime">Next time:</b>&nbsp;<span [ngStyle]="{ 'color' : nextW.due ? 'red' : null }">{{ nextW.text }}</span>
       </p>
-      <plus-button *ngIf="this.plantService.owned" type="add" title="Water" (click)="confirmWatering = true"></plus-button>
+      <lt-plus-button *ngIf="this.plantService.owned" type="add" title="Water" (click)="confirmWatering = true"></lt-plus-button>
     </div>
-  </widget-box>
+  </lt-widget-box>
 </ng-container>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
@@ -11,7 +11,7 @@ import { User } from '@models/user.model';
 
 @Component({
   standalone: true,
-  selector: 'user-register',
+  selector: 'lt-user-register',
   imports: [
     CommonModule,
     WizardModule,
@@ -21,7 +21,7 @@ import { User } from '@models/user.model';
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.scss']
 })
-export class UserRegisterComponent implements OnInit {
+export class UserRegisterComponent {
   userForm: FormGroup;
   pwdReq: any = null;
   usernameReq: any = null;
