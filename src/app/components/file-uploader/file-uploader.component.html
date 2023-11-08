@@ -12,9 +12,18 @@
   </div>
 
   <div *ngIf="files.length > 0" class="file-uploader__picturegrid">
-    <div *ngFor="let preview of previews; let i = index" class="file-uploader__picture">
-      <span class="file-uploader__removelink" (click)="removeFile(i)">&#10006;</span>
-      <img [src]="preview" class="file-uploader__previewimg" (load)="revokeUrl(preview)">
+    <div
+      *ngFor="let preview of previews; let i = index"
+      class="file-uploader__picture"
+    >
+      <span class="file-uploader__removelink" (click)="removeFile(i)">
+        &#10006;
+      </span>
+      <img
+        [src]="preview"
+        class="file-uploader__previewimg"
+        (load)="revokeUrl(preview)"
+      >
     </div>
   </div>
 

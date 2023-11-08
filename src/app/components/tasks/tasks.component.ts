@@ -22,8 +22,4 @@ export class TasksComponent {
     public taskService: TaskService,
     public plantService: PlantService,
   ) { }
-
-  test() {
-    console.log('tete')
-  }
 }

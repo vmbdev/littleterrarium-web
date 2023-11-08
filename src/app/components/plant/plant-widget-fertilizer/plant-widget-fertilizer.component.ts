@@ -1,12 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import * as relativeTime from 'dayjs/plugin/relativeTime'
 import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import * as dayjs from 'dayjs';
+import {
+  ConfirmModalComponent
+} from '@components/modals/confirm-modal/confirm-modal.component';
+import {
+  WidgetBoxComponent
+} from '@components/widget-box/widget-box.component';
+import {
+  PlusButtonComponent
+} from '@components/plus-button/plus-button.component';
 import { PlantService } from '@services/plant.service';
-import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
-import { WidgetBoxComponent } from '@components/widget-box/widget-box.component';
-import { PlusButtonComponent } from '@components/plus-button/plus-button.component';
 
 @Component({
   standalone: true,
@@ -19,7 +25,7 @@ import { PlusButtonComponent } from '@components/plus-button/plus-button.compone
   ],
   templateUrl: './plant-widget-fertilizer.component.html'
 })
-export class PlantWidgetFertilizerComponent implements OnInit {
+export class PlantWidgetFertilizerComponent {
   confirmFertilizing: boolean = false;
   usableLocale: string = 'en';
 

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { DefaultLayoutComponent } from '@components/default-layout/default-layout.component';
+import { Component } from '@angular/core';
+import {
+  DefaultLayoutComponent
+} from '@components/default-layout/default-layout.component';
 import { ThemeService } from '@services/theme.service';
 
 @Component({
@@ -12,8 +14,6 @@ import { ThemeService } from '@services/theme.service';
   ],
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   constructor(public theme: ThemeService) {}
-
-  ngOnInit(): void {}
 }

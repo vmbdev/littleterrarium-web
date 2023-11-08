@@ -1,17 +1,8 @@
-import { Photo } from "@models/photo.model"
+import { Photo, NavigationData } from "@models/photo.model"
 import { Plant } from "@models/plant.model"
 import { Specie } from "@models/specie.model"
 import { User } from "@models/user.model"
 import { Location } from "@models/location.model"
-
-export type NavigationData = {
-  prev?: {
-    id: number
-  },
-  next?: {
-    id: number
-  }
-}
 
 export interface BackendResponse {
   msg?: string

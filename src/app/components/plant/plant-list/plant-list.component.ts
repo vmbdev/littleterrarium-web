@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PlantService } from '@services/plant.service';
-import { Plant } from '@models/plant.model';
-import { PictureListComponent } from '@components/picture-list/picture-list.component';
-import { PictureItem } from '@models/picture-item.model';
-import { FilterBarComponent } from "@components/filter-bar/filter-bar.component";
-import { SortColumn, SortOption, SortOrder } from '@models/sort-options.model';
-import { LocationService } from '@services/location.service';
 import { Observable } from 'rxjs';
+import {
+  PictureListComponent
+} from '@components/picture-list/picture-list.component';
+import {
+  FilterBarComponent
+} from "@components/filter-bar/filter-bar.component";
+import { SortColumn, SortOption, SortOrder } from '@models/sort-options.model';
+import { PlantService } from '@services/plant.service';
+import { LocationService } from '@services/location.service';
 import { PlantGetConfig } from '@services/api.service';
+import { PictureItem } from '@models/picture-item.model';
+import { Plant } from '@models/plant.model';
 import { User } from '@models/user.model';
 
 @Component({
@@ -24,7 +28,7 @@ import { User } from '@models/user.model';
     FilterBarComponent
   ]
 })
-export class PlantListComponent implements OnInit {
+export class PlantListComponent {
   @Input() list?: Plant[];
   @Input() locationId?: number;
   @Input() user?: User;
@@ -48,12 +52,14 @@ export class PlantListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.list) this.pictureList = this.createPictureListFromPlants(this.list);
+    if (this.list) {
+      this.pictureList = this.createPictureListFromPlants(this.list);
+    }
     else this.fetchPlants();
   }
 
   fetchPlants(scroll: boolean = false): void {
-    let obs: Observable<Plant[]>;
+    let obs$: Observable<Plant[]>;
     let options: PlantGetConfig = {
       cursor: scroll && this.cursor ? this.cursor : undefined,
       filter: this.filter ? this.filter : '',
@@ -65,7 +71,7 @@ export class PlantListComponent implements OnInit {
     if (this.cursor) this.lastCursor = this.cursor;
 
     if (this.locationId) {
-      obs = this.locationService.getPlants(this.locationId, options);
+      obs$ = this.locationService.getPlants(this.locationId, options);
     }
     else {
       options = {
@@ -74,16 +80,19 @@ export class PlantListComponent implements OnInit {
         cover: true
       };
 
-      obs = this.plantService.getMany(options);
+      obs$ = this.plantService.getMany(options);
     }
 
-    obs.subscribe((plants: Plant[]) => {
+    obs$.subscribe((plants: Plant[]) => {
       if (plants.length > 0) {
         this.cursor = plants[plants.length - 1].id;
       }
 
       if (scroll) {
-        this.pictureList = ([...this.pictureList, ...this.createPictureListFromPlants(plants)]);
+        this.pictureList = ([
+          ...this.pictureList,
+          ...this.createPictureListFromPlants(plants)
+        ]);
       }
       else this.pictureList = this.createPictureListFromPlants(plants);
     });
@@ -93,7 +102,9 @@ export class PlantListComponent implements OnInit {
     const pictures = [];
 
     for (const plant of plants) {
-      if (!plant.visibleName) plant.visibleName = this.plantService.getVisibleName(plant);
+      if (!plant.visibleName) {
+        plant.visibleName = this.plantService.getVisibleName(plant);
+      }
 
       pictures.push({
         image: this.plantService.coverPhoto(plant),

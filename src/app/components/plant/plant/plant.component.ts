@@ -1,46 +1,64 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
 import { ToolboxModule } from '@modules/toolbox/toolbox.module';
-import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
-import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
-import { PlantEditWateringComponent } from '@components/plant/plant-edit-watering/plant-edit-watering.component';
-import { PlantEditFertilizerComponent } from '@components/plant/plant-edit-fertilizer/plant-edit-fertilizer.component';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
-import { PlantWidgetFertilizerComponent } from '@components/plant/plant-widget-fertilizer/plant-widget-fertilizer.component';
-import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/plant-widget-soil.component';
-import { PlantWidgetWaterComponent } from '@components/plant/plant-widget-water/plant-widget-water.component';
-import { PhotoListComponent } from '@components/photo/photo-list/photo-list.component';
-import { PropertyBoxComponent } from '@components/property-box/property-box.component';
+import {
+  QuickModalComponent
+} from '@components/modals/quick-modal/quick-modal.component';
+import {
+  ConfirmModalComponent
+} from '@components/modals/confirm-modal/confirm-modal.component';
+import {
+  PlantEditWateringComponent
+} from '@components/plant/plant-edit-watering/plant-edit-watering.component';
+import {
+  PlantEditFertilizerComponent
+} from '@components/plant/plant-edit-fertilizer/plant-edit-fertilizer.component';
+import {
+  PlantWidgetFertilizerComponent
+} from '@components/plant/plant-widget-fertilizer/plant-widget-fertilizer.component';
+import {
+  PlantWidgetSoilComponent
+} from '@components/plant/plant-widget-soil/plant-widget-soil.component';
+import {
+  PlantWidgetWaterComponent
+} from '@components/plant/plant-widget-water/plant-widget-water.component';
+import {
+  PhotoListComponent
+} from '@components/photo/photo-list/photo-list.component';
+import {
+  PropertyBoxComponent
+} from '@components/property-box/property-box.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { Plant, Condition } from '@models/plant.model';
 
 @Component({
-    standalone: true,
-    selector: 'lt-plant',
-    templateUrl: './plant.component.html',
-    styleUrls: ['./plant.component.scss'],
-    imports: [
-        CommonModule,
-        ToolboxModule,
-        QuickModalComponent,
-        ConfirmModalComponent,
-        InfoBoxComponent,
-        PlantEditWateringComponent,
-        PlantEditFertilizerComponent,
-        PlantWidgetFertilizerComponent,
-        PlantWidgetSoilComponent,
-        PlantWidgetWaterComponent,
-        PhotoListComponent,
-        PropertyBoxComponent
-    ]
+  standalone: true,
+  selector: 'lt-plant',
+  templateUrl: './plant.component.html',
+  styleUrls: ['./plant.component.scss'],
+  imports: [
+    CommonModule,
+    ToolboxModule,
+    QuickModalComponent,
+    ConfirmModalComponent,
+    InfoBoxComponent,
+    PlantEditWateringComponent,
+    PlantEditFertilizerComponent,
+    PlantWidgetFertilizerComponent,
+    PlantWidgetSoilComponent,
+    PlantWidgetWaterComponent,
+    PhotoListComponent,
+    PropertyBoxComponent
+  ]
 })
-export class PlantComponent implements OnInit {
+export class PlantComponent {
   id?: number;
 
   plantTitle?: string;
@@ -76,7 +94,11 @@ export class PlantComponent implements OnInit {
 
     this.plantService.get(this.id, { photos: true }).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.error?.msg === 'PLANT_NOT_FOUND') this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
+        if (err.error?.msg === 'PLANT_NOT_FOUND') {
+          this.errorHandler.push(
+            $localize `:@@plant.invalid:Plant not found.`
+          );
+        }
         else this.errorHandler.push($localize `:@@errors.server:Server error`);
 
         this.router.navigateByUrl('/');
@@ -120,7 +142,7 @@ export class PlantComponent implements OnInit {
 
     if (plant) {
       this.plantService.delete().subscribe(() => {
-        this.router.navigate(['/location', plant.locationId])
+        this.router.navigate(['/location', plant.locationId]);
       })
     }
   }
@@ -129,6 +151,13 @@ export class PlantComponent implements OnInit {
     const name = this.plantVisibility ? 'public' : 'private';
 
     return `assets/visibility-${name}.png`;
+  }
+
+  getConditionClass(plant: Plant): string | null {
+    if (plant.condition) {
+      return `plant__condition-${ plant.condition?.toLowerCase() }`;
+    }
+    else return null;
   }
 
 }

@@ -9,18 +9,31 @@
       class="sf__search"
       i18n-placeholder="@@specieFinder.inputPlaceholder"
     >
-    <button type="button" class="sf__clear" (click)="clearSearch()">&#10006;</button>
+    <button type="button" class="sf__clear" (click)="clearSearch()">
+      &#10006;
+    </button>
   </div>
 
   <div
     class="sf__results"
     [ngClass]="{'sf__results-hidden': (results.length === 0) || (resultsHidden) }"
   >
-    <div *ngFor="let specie of results" class="sf__item" (click)="selectSpecie(specie.id, specie.name)">
+    <div
+      *ngFor="let specie of results"
+      class="sf__item"
+      (click)="selectSpecie(specie.id, specie.name)"
+    >
       <div class="sf__image"></div>
       <div class="sf__itemtext">
-        <div class="sf__title" [innerHtml]="(specie.commonName ? specie.commonName : specie.name) | highlight:currentSearch"></div>
-        <div *ngIf="specie.commonName" class="sf__subtitle" [innerHtml]="specie.name | highlight:currentSearch"></div>
+        <div
+          class="sf__title"
+          [innerHtml]="(specie.commonName ? specie.commonName : specie.name) | highlight:currentSearch"
+        ></div>
+        <div
+          *ngIf="specie.commonName"
+          class="sf__subtitle"
+          [innerHtml]="specie.name | highlight:currentSearch"
+        ></div>
       </div>
     </div>
   </div>

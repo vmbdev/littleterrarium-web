@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -13,15 +13,9 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./picture-box.component.scss'],
   preserveWhitespaces: true,
 })
-export class PictureBoxComponent implements OnInit {
+export class PictureBoxComponent {
   @Input() image?: string | null;
   @Input() contentBelow: boolean = false;
   @Input() add: boolean = false;
   @Input() link?: string | any[];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

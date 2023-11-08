@@ -1,18 +1,30 @@
-<form *ngIf="plantService.plant$ | async as plant" [formGroup]="potForm" method="post" (submit)="submit()">
+<form
+  *ngIf="plantService.plant$ | async as plant"
+  [formGroup]="potForm"
+  method="post"
+  (submit)="submit()"
+>
   <lt-wizard [form]="potForm" [singlePage]="true">
-    <lt-wizard-header *ngIf="plant" i18n="@@plant-edit-soil.header">Editing soil and pot options for <b>{{ plant.visibleName }}</b></lt-wizard-header>
+    <lt-wizard-header *ngIf="plant" i18n="@@plant-edit-soil.header">
+      Editing soil and pot options for <b>{{ plant.visibleName }}</b>
+    </lt-wizard-header>
     
     <lt-page title="Pot" i18n-title="@@general.pot">
       <lt-page-description>
-        <p i18n="@@plant-edit-soil.potDesc">Nothing like finding a proper home to your plants, with a comfy floor!</p>
+        <p i18n="@@plant-edit-soil.potDesc">
+          Nothing like finding a proper home to your plants, with a comfy
+          floor!
+        </p>
       </lt-page-description>
-      <p i18n="@@plant-edit-soil.material">What kind of <b>material</b> is your plant sitting on?</p>
+      <p i18n="@@plant-edit-soil.material">
+        What kind of <b>material</b> is your plant sitting on?
+      </p>
       <div class="pot-selector">
         <div
           *ngFor="let pot of pots"
           class="pot-selector__material"
           (click)="selectPot(pot.id)"
-          [ngClass]="{ 'pot-selector__material-selected': selectedPot === pot.id } "
+          [ngClass]="{ 'pot-selector__material-selected': selectedPot === pot.id }"
         >
           <img [src]="pot.image">
           <p>{{ pot.name }}</p>
@@ -22,20 +34,35 @@
 
     <lt-page title="Pot size" i18n-title="@@general.potSize">
       <div class="form__number">
-        <p i18n="@@plant-edit-soil.size">Do you know the <b>diameter of your plant</b>?</p>
+        <p i18n="@@plant-edit-soil.size">
+          Do you know the <b>diameter of your plant</b>?
+        </p>
         <input type="number" formControlName="potSize">
       </div>
       <div class="form__radio form__radio-center">
-        <input type="radio" formControlName="potSizeUnits" id="units_cm" value="cm">
+        <input
+          type="radio"
+          formControlName="potSizeUnits"
+          id="units_cm"
+          value="cm"
+        >
         <label for="units_cm" i18n="@@general.cm">Centimeters</label>
-        <input type="radio" formControlName="potSizeUnits" id="units_in" value="in">
+        <input
+          type="radio"
+          formControlName="potSizeUnits"
+          id="units_in"
+          value="in"
+        >
         <label for="units_in" i18n="@@general.in">Inches</label>
       </div>
     </lt-page>
 
     <lt-page title="Soil" i18n-title="@@general.soil">
       <div class="form__textinput">
-        <p i18n="@@plant-edit-soil.composition">Let's be a completionist and describe a bit what's your soil <b>composition</b></p>
+        <p i18n="@@plant-edit-soil.composition">
+          Let's be a completionist and describe a bit what's your soil
+          <b>composition</b>
+        </p>
         <input type="text" formControlName="soil">
       </div>
     </lt-page>

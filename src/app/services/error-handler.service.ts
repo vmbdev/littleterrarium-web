@@ -7,9 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 export class ErrorHandlerService implements ErrorHandler {
   list$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  constructor() {
-  }
-
   handleError(error: any) {
     
   }

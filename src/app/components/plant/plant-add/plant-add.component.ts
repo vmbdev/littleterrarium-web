@@ -1,18 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { catchError, EMPTY, finalize, switchMap } from 'rxjs';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { ApiService } from '@services/api.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
-import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
-import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
-import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
+import {
+  FileUploaderComponent
+} from '@components/file-uploader/file-uploader.component';
+import {
+  ProgressBarComponent
+} from '@components/progress-bar/progress-bar.component';
+import {
+  SpecieFinderComponent
+} from '@components/specie-finder/specie-finder.component';
 import { Plant } from '@models/plant.model';
 import { Location } from '@models/location.model';
-import { catchError, EMPTY, finalize, switchMap } from 'rxjs';
 import { Photo } from '@models/photo.model';
 import { PhotoService } from '@services/photo.service';
 
@@ -30,7 +41,7 @@ import { PhotoService } from '@services/photo.service';
   templateUrl: './plant-add.component.html',
   styleUrls: ['./plant-add.component.scss']
 })
-export class PlantAddComponent implements OnInit {
+export class PlantAddComponent {
   plantForm: FormGroup;
   locationId?: number;
   newPlantId?: number;
@@ -61,7 +72,11 @@ export class PlantAddComponent implements OnInit {
     if (this.locationId) {
       this.api.getLocation(this.locationId).subscribe({
         next: (location: Location) => { this.location = location },
-        error: () => { this.errorHandler.push($localize `:@@plant-add.location:Invalid location provided.`) }
+        error: () => {
+          this.errorHandler.push(
+            $localize `:@@plant-add.location:Invalid location provided.`
+          )
+        }
       });
     }
   }
@@ -97,7 +112,8 @@ export class PlantAddComponent implements OnInit {
   
           return this.photoService.create(photos, true).pipe(
             catchError(() => {
-              // Plant is created even though photo upload may have failed - we redirect to Plant
+              // Plant is created even though photo upload may have failed.
+              // So we redirect to Plant.
               this.router.navigate(['/plant', plant.id]);
       
               return EMPTY;
@@ -127,7 +143,9 @@ export class PlantAddComponent implements OnInit {
           this.router.navigate(['/plant', plant.id], { replaceUrl: true });
         },
         error: () => {
-          this.errorHandler.push($localize `:@@plant-add.create:Error when creating the plant.`);
+          this.errorHandler.push(
+            $localize `:@@plant-add.create:Error when creating the plant.`
+          );
         }
       })
     }

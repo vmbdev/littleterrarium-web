@@ -3,11 +3,11 @@ import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Location } from '@models/location.model';
-import { Photo } from '@models/photo.model';
+import { Photo, NavigationData } from '@models/photo.model';
 import { CoverPhoto, Plant } from '@models/plant.model';
 import { Specie } from '@models/specie.model';
-import { User } from '@models/user.model';
-import { BackendResponse, NavigationData } from '@models/backend-response.model';
+import { PasswordRequirements, User, UsernameRequirements } from '@models/user.model';
+import { BackendResponse } from '@models/backend-response.model';
 import { endpoint } from '@config';
 import { BACKEND_URL } from 'src/tokens';
 import { SortColumn, SortOrder } from '@models/sort-options.model';
@@ -84,23 +84,31 @@ export class ApiService {
   }
 
   signIn(username: string, password: string): Observable<User> {
-    return this.http.post<User>(this.endpoint('users/signin'), { username, password });
+    return this.http.post<User>(this.endpoint('users/signin'), {
+      username, password
+    });
   }
 
   logOut(): Observable<any> {
     return this.http.post<any>(this.endpoint('users/logout'), null);
   }
 
-  getPasswordRequirements(): Observable<BackendResponse> {
-    return this.http.get<BackendResponse>(this.endpoint('users/password/requirements'));
+  getPasswordRequirements(): Observable<PasswordRequirements> {
+    return this.http.get<PasswordRequirements>(
+      this.endpoint('users/password/requirements')
+    );
   }
 
-  getUsernameRequirements(): Observable<BackendResponse> {
-    return this.http.get<BackendResponse>(this.endpoint('users/usernamerequirements'));
+  getUsernameRequirements(): Observable<UsernameRequirements> {
+    return this.http.get<UsernameRequirements>(
+      this.endpoint('users/usernamerequirements')
+    );
   }
 
   checkPassword(password: string): Observable<BackendResponse> {
-    return this.http.post<BackendResponse>(this.endpoint('users/password/check'), { password });
+    return this.http.post<BackendResponse>(
+      this.endpoint('users/password/check'), { password }
+    );
   }
 
   createUser(user: User): Observable<User> {
@@ -152,7 +160,10 @@ export class ApiService {
     return this.http.get<Location[]>(this.endpoint(url));
   }
 
-  getLocationPlants(id: number, options?: PlantGetConfig): Observable<Plant[]> {
+  getLocationPlants(
+    id: number,
+    options?: PlantGetConfig
+  ): Observable<Plant[]> {
     return this.getPlants({ ...options, locationId: id });
   }
 
@@ -162,7 +173,10 @@ export class ApiService {
    * @param update Whether we're creating (false/null) or updating (true) an existing one.
    * @returns An observable with the server response.
    */
-  upsertLocation(location: Location, options: LocationUpsertConfig = {}): Observable<Location> {
+  upsertLocation(
+    location: Location,
+    options: LocationUpsertConfig = {}
+  ): Observable<Location> {
     let observable;
     const form = new FormData();
 
@@ -171,12 +185,22 @@ export class ApiService {
     form.append('public', location.public.toString());
 
     if (options.removePicture) form.append('removePicture', 'true');
-    else if (location.pictureFile) form.append('picture', location.pictureFile);
+    else if (location.pictureFile) {
+      form.append('picture', location.pictureFile);
+    }
 
-    if (location.id && options.update) form.append('id', location.id.toString());
+    if (location.id && options.update) {
+      form.append('id', location.id.toString());
+    }
 
-    if (options.update) observable = this.http.put<Location>(this.endpoint('locations'), form);
-    else observable = this.http.post<Location>(this.endpoint('locations'), form);
+    if (options.update) observable = this.http.put<Location>(
+      this.endpoint('locations'),
+      form
+    );
+    else observable = this.http.post<Location>(
+      this.endpoint('locations'),
+      form
+    );
 
     return observable;
   }
@@ -185,7 +209,10 @@ export class ApiService {
     return this.upsertLocation(location);
   }
 
-  updateLocation(location: Location, options: LocationUpsertConfig = {}): Observable<Location> {
+  updateLocation(
+    location: Location,
+    options: LocationUpsertConfig = {}
+  ): Observable<Location> {
     return this.upsertLocation(location, { update: true, ...options });
   }
 
@@ -271,7 +298,9 @@ export class ApiService {
     // TODO: create proper API to do this
     if (options) {
       url += '?';
-      if (options.navigation) url += `navigation=${options.navigation ? 'true' : 'false' }&`;
+      if (options.navigation) {
+        url += `navigation=${options.navigation ? 'true' : 'false' }&`;
+      }
       if (options.cover) url += `cover=${options.cover ? 'true' : 'false'}&`;
     }
 
@@ -279,7 +308,9 @@ export class ApiService {
   }
 
   getPhotoNavigation(id: number): Observable<NavigationData> {
-    return this.http.get<NavigationData>(this.endpoint(`photos/${id}/navigation`));
+    return this.http.get<NavigationData>(
+      this.endpoint(`photos/${id}/navigation`)
+    );
   }
 
   createPhoto(photo: Photo): Observable<HttpEvent<BackendResponse>> {
@@ -291,7 +322,11 @@ export class ApiService {
       form.append('photo', photo);
     });
 
-    return this.http.post<BackendResponse>(this.endpoint('photos'), form, { reportProgress: true, observe: 'events' });
+    return this.http.post<BackendResponse>(
+      this.endpoint('photos'),
+      form,
+      { reportProgress: true, observe: 'events' }
+    );
   }
 
   updatePhoto(photo: Photo): Observable<Photo> {

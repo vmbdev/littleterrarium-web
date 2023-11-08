@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
@@ -10,12 +10,22 @@ import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PhotoService } from '@services/photo.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ToolboxModule } from '@modules/toolbox/toolbox.module';
-import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
-import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
+import {
+  ConfirmModalComponent
+} from '@components/modals/confirm-modal/confirm-modal.component';
+import {
+  QuickModalComponent
+} from '@components/modals/quick-modal/quick-modal.component';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
-import { PhotoEditComponent } from '@components/photo/photo-edit/photo-edit.component';
-import { PropertyBoxComponent } from '@components/property-box/property-box.component';
-import { NavigationComponent } from '@components/navigation/navigation.component';
+import {
+  PhotoEditComponent
+} from '@components/photo/photo-edit/photo-edit.component';
+import {
+  PropertyBoxComponent
+} from '@components/property-box/property-box.component';
+import {
+  NavigationComponent
+} from '@components/navigation/navigation.component';
 import { ImagePathService } from '@services/image-path.service';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
@@ -57,7 +67,8 @@ export class PhotoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Angular doesn't update a component when the route only changes its parameters, so...
+    // Angular doesn't update a component when the route only changes its
+    // parameters
     this.route.params.subscribe((param: Params) => {
       this.id = param['photoId'];
       this.loadPhoto();
@@ -68,8 +79,14 @@ export class PhotoComponent implements OnInit {
     if (this.id) {
       this.photoService.get(this.id, { navigation: true, cover: true }).pipe(
         catchError((err: HttpErrorResponse) => {
-          if (err.error?.msg === 'PHOTO_NOT_FOUND') this.errorHandler.push($localize `:@@photo.invalid:Photo not found.`);
-          else this.errorHandler.push($localize `:@@errors.server:Server error`);
+          if (err.error?.msg === 'PHOTO_NOT_FOUND') {
+            this.errorHandler.push(
+              $localize `:@@photo.invalid:Photo not found.`
+            );
+          }
+          else this.errorHandler.push(
+            $localize `:@@errors.server:Server error`
+            );
           
           this.router.navigateByUrl('/');
   
@@ -112,6 +129,7 @@ export class PhotoComponent implements OnInit {
       }
       else {
         const plant = { id: photo.plantId, coverId: photo.id } as Plant;
+
         this.plantService.update(plant).subscribe(() => {
           this.plantCoverId = photo.id;
         });
@@ -128,14 +146,19 @@ export class PhotoComponent implements OnInit {
             this.router.navigate(['/plant', photo.plantId]);
         },
         error: () => {
-          this.errorHandler.push($localize `:@@photo.deleteError:Error while deleting the photo.`);
+          this.errorHandler.push(
+            $localize `:@@photo.deleteError:Error while deleting the photo.`
+          );
         }
       })
     }
   }
 
   getVisibilityAsset(): string {
-    const name = this.photoService.photo$.getValue()?.public ? 'public' : 'private';
+    const name =
+      this.photoService.photo$.getValue()?.public ?
+      'public' :
+      'private';
     
     return `assets/visibility-${name}.png`;
   }

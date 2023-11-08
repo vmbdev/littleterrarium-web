@@ -2,10 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import {
+  LocationListComponent
+} from '@components/location/location-list/location-list.component';
+import {
+  PlantListComponent
+} from '@components/plant/plant-list/plant-list.component';
 import { ApiService } from '@services/api.service';
 import { ImagePathService } from '@services/image-path.service';
-import { LocationListComponent } from '@components/location/location-list/location-list.component';
-import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
 import { User } from '@models/user.model';
 
 @Component({
@@ -40,7 +44,11 @@ export class TerrariumComponent implements OnInit {
     const user = this.user$.getValue();
 
     if (user) {
-      return (user.avatar ? this.imagePath.get(user.avatar, 'thumb') : 'assets/user.png');
+      return (
+        user.avatar ?
+        this.imagePath.get(user.avatar, 'thumb') :
+        'assets/user.png'
+      );
     }
     else return null;
   }
@@ -49,7 +57,9 @@ export class TerrariumComponent implements OnInit {
     const user = this.user$.getValue();
     
     if (user) {
-      return `${user.firstname ? user.firstname + ' ' : ''}${user.lastname ? user.lastname + ' ': ''}`;
+      const firstname = user.firstname ? user.firstname + ' ' : '';
+
+      return `${firstname}${user.lastname}`;
     }
     else return null;
   }

@@ -1,17 +1,30 @@
-<lt-confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
-  <p i18n="@@location.remove">This will remove this location along with its plants and photos. Are you sure?</p>
-  <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
+<lt-confirm-modal
+  *ngIf="confirmDelete"
+  (accept)="delete()"
+  (cancel)="confirmDelete = false"
+>
+  <p i18n="@@location.remove">
+    This will remove this location along with its plants and photos. Are you sure?
+  </p>
+  <p>
+    <strong i18n="@@general.irreversible">
+      This action is irreversible.
+    </strong>
+  </p>
 </lt-confirm-modal>
 
 <div class="location" *ngIf="locationService.location$ | async as location">
   <lt-toolbox [title]="location.name">
     <ng-container *ngIf="locationService.isOwned()">
-      <lt-toolbox-button image="assets/edit.png" (click)="edit()"></lt-toolbox-button>
-      <lt-toolbox-button image="assets/delete.png" (click)="confirmDelete = true"></lt-toolbox-button>
+      <lt-toolbox-button image="assets/edit.png" (click)="edit()" />
+      <lt-toolbox-button image="assets/delete.png" (click)="confirmDelete = true" />
     </ng-container>
   </lt-toolbox>
 
-  <lt-info-box title="Location information" i18n-title="@@location.locationInformation">
+  <lt-info-box
+    title="Location information"
+    i18n-title="@@location.locationInformation"
+  >
 
     <ng-container properties>
       <lt-property-box [icon]="locationService.getLightAsset(location.light)">
@@ -19,7 +32,12 @@
       </lt-property-box>
 
       <lt-property-box [icon]="getVisibilityAsset(location.public)">
-        <ng-container *ngIf="location.public; else locationPrivate" i18n="@@general.public">Public</ng-container>
+        <ng-container
+          *ngIf="location.public; else locationPrivate"
+          i18n="@@general.public"
+        >
+          Public
+        </ng-container>
         <ng-template #locationPrivate i18n="@@general.private">Private</ng-template>
       </lt-property-box>
 
@@ -38,5 +56,5 @@
   <div class="section-header">
     <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
   </div>
-  <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id"></lt-plant-list>
+  <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id" />
 </div>

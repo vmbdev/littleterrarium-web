@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
 import { AuthService } from '@services/auth.service';
-import { ApiService, PlantGetConfig, PlantUpdateConfig } from '@services/api.service';
+import {
+  ApiService,
+  PlantGetConfig,
+  PlantUpdateConfig
+} from '@services/api.service';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
 import { ImagePathService } from './image-path.service';
@@ -63,7 +67,9 @@ export class PlantService {
     let name;
 
     if (plant.customName) name = plant.customName;
-    else if (plant.specie?.name) name = plant.specie.name.slice(0,1).toUpperCase() + plant.specie.name.slice(1);
+    else if (plant.specie?.name) {
+      name = plant.specie.name.slice(0,1).toUpperCase() + plant.specie.name.slice(1);
+    }
     else name = $localize `:@@general.unnamedPlant:Unnamed plant ${plant.id}:plantId:`;
 
     return name;
@@ -147,8 +153,14 @@ export class PlantService {
     if (workingPlant) {
       let image: any;
 
-      if (workingPlant.cover) image = this.imagePath.get(workingPlant.cover.images, 'thumb');
-      else if (workingPlant.photos && workingPlant.photos[0] && workingPlant.photos[0].images) {
+      if (workingPlant.cover) {
+        image = this.imagePath.get(workingPlant.cover.images, 'thumb');
+      }
+      else if (
+        workingPlant.photos
+        && workingPlant.photos[0]
+        && workingPlant.photos[0].images
+      ) {
         image = this.imagePath.get(workingPlant.photos[0].images, 'thumb');
       }
       else image = 'assets/nopic.png';

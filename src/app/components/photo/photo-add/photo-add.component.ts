@@ -1,15 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize, throwError } from 'rxjs';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { PhotoService } from '@services/photo.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
-import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
-import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
+import {
+  FileUploaderComponent
+} from '@components/file-uploader/file-uploader.component';
+import {
+  ProgressBarComponent
+} from '@components/progress-bar/progress-bar.component';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
 
@@ -27,7 +36,7 @@ import { Plant } from '@models/plant.model';
   templateUrl: './photo-add.component.html',
   styleUrls: ['./photo-add.component.scss']
 })
-export class PhotoAddComponent implements OnInit {
+export class PhotoAddComponent {
   photoForm: FormGroup;
   plantId?: number;
   plant?: Plant;
@@ -57,7 +66,10 @@ export class PhotoAddComponent implements OnInit {
           this.router.navigateByUrl('/');
 
           if (err.error?.msg === 'PLANT_NOT_FOUND') {
-            this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
+            this.errorHandler.push(
+              $localize `:@@plant.invalid:Plant not found.`
+            );
+
             return EMPTY;
           }
           else return throwError(() => err);  

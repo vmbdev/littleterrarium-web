@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
 import { ApiService } from '@services/api.service';
@@ -16,7 +22,7 @@ import { Specie } from '@models/specie.model';
   templateUrl: './specie-finder.component.html',
   styleUrls: ['./specie-finder.component.scss']
 })
-export class SpecieFinderComponent implements OnInit {
+export class SpecieFinderComponent {
   @Input() selected?: number;
   @Output() selectSpecieId = new EventEmitter<number | null>();
   results: Specie[] = [];
@@ -28,12 +34,11 @@ export class SpecieFinderComponent implements OnInit {
     private api: ApiService,
   ) { }
 
-  ngOnInit(): void {
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['selected'].currentValue) {
-      this.api.getSpecie(changes['selected'].currentValue).subscribe((specie: Specie) => {
+    const specie = changes['selected'].currentValue;
+
+    if (specie) {
+      this.api.getSpecie(specie).subscribe((specie: Specie) => {
         this.selectSpecie(specie.id, specie.name);
       });
     }

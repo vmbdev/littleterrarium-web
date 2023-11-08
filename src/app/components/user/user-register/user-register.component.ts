@@ -1,13 +1,33 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 import { AuthService } from '@services/auth.service';
 import { ApiService } from '@services/api.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
-import { User } from '@models/user.model';
+import { PasswordRequirements, User, UsernameRequirements } from '@models/user.model';
+
+type RegisterErrors = {
+  usernameExists: boolean,
+  usernameInvalid: boolean,
+  emailExists: boolean,
+  emailInvalid: boolean,
+  pwd: {
+    length: boolean,
+    uppercase: boolean,
+    numbers: boolean,
+    nonAlphanumeric: boolean
+  }
+}
 
 @Component({
   standalone: true,
@@ -23,11 +43,11 @@ import { User } from '@models/user.model';
 })
 export class UserRegisterComponent {
   userForm: FormGroup;
-  pwdReq: any = null;
-  usernameReq: any = null;
+  pwdReq?: PasswordRequirements;
+  usernameReq?: UsernameRequirements;
   wizardPage: number | undefined = undefined;
-  errors: any = {};
   nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"\|,.\<>/?';
+  errors: RegisterErrors = this.resetErrors();
 
   constructor(
     private api: ApiService,
@@ -38,27 +58,43 @@ export class UserRegisterComponent {
   ) {
     this.userForm = this.fb.group({
       username: ['', Validators.required],
-      email: ['', Validators.compose([Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/i)])],
+      email: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^\S+@\S+\.\S+$/i)
+        ])
+      ],
       passwordCheck: this.fb.group({
-        password: ['', [Validators.required, this.checkPasswordStrength.bind(this)]],
+        password: ['', [
+          Validators.required,
+          this.checkPasswordStrength.bind(this)]
+        ],
         password2: ['', Validators.required]
       }, { validators: this.checkPasswordsEqual }),
     });
 
-    this.resetErrors();
+    this.errors = this.resetErrors();
   }
 
   ngOnInit(): void {
-    this.api.getPasswordRequirements().subscribe((requirements: any) => { this.pwdReq = requirements });
-    this.api.getUsernameRequirements().subscribe((requirements: any) => { this.usernameReq = requirements });
+    this.api.getPasswordRequirements()
+    .subscribe((requirements: PasswordRequirements) => {
+      this.pwdReq = requirements;
+    });
+
+    this.api.getUsernameRequirements()
+    .subscribe((requirements: UsernameRequirements) => {
+      this.usernameReq = requirements;
+    });
   }
 
   ngAfterViewChecked(): void {
     this.cd.detectChanges();
   }
 
-  resetErrors(): void {
-    this.errors = {
+  resetErrors(): RegisterErrors {
+    return {
       usernameExists: false,
       usernameInvalid: false,
       emailExists: false,
@@ -87,9 +123,16 @@ export class UserRegisterComponent {
 
     if (this.pwdReq) {
       if (value.length < this.pwdReq.minLength) errorObj['minLength'] = true;
-      if (this.pwdReq.requireUppercase && !(/.*([A-Z]).*/).test(value)) errorObj['missingUppercase'] = true;
-      if (this.pwdReq.requireNumber && !(/.*(\d).*/).test(value)) errorObj['missingNumber'] = true;
-      if (this.pwdReq.requireNonAlphanumeric && !(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/).test(value)) {
+      if (this.pwdReq.requireUppercase && !(/.*([A-Z]).*/).test(value)) {
+        errorObj['missingUppercase'] = true;
+      }
+      if (this.pwdReq.requireNumber && !(/.*(\d).*/).test(value)) {
+        errorObj['missingNumber'] = true;
+      }
+      if (
+        this.pwdReq.requireNonAlphanumeric
+        && !(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/).test(value)
+      ) {
         errorObj['missingNonAlphanumeric'] = true;
       }
     }
@@ -98,7 +141,14 @@ export class UserRegisterComponent {
   }
 
   hasPasswordConditions(): boolean {
-    return !!(this.pwdReq && (this.pwdReq.requireNumber || this.pwdReq.requireUppercase || this.pwdReq.requireNonAlphanumeric));
+    return !!(
+      this.pwdReq
+      && (
+        this.pwdReq.requireNumber
+        || this.pwdReq.requireUppercase
+        || this.pwdReq.requireNonAlphanumeric
+      )
+    );
   }
 
   /**
@@ -113,13 +163,16 @@ export class UserRegisterComponent {
   }
 
   hasPasswordError(control: string): boolean | undefined {
-    return this.userForm.get('passwordCheck')?.get('password')?.hasError(control);
+    return this.userForm
+      .get('passwordCheck')
+      ?.get('password')
+      ?.hasError(control);
   }
 
   submit(): void {
     if (!this.userForm.valid) return;
 
-    this.resetErrors();
+    this.errors = this.resetErrors();
 
     const pwd = this.userForm.get('passwordCheck')?.get('password')?.value;
 
@@ -159,9 +212,15 @@ export class UserRegisterComponent {
           this.moveWizardPage(2);
 
           if (!error.errorData.comp.minLength) this.errors.pwd.length = true;
-          if (!error.errorData.comp.hasUppercase) this.errors.pwd.uppercase = true;
-          if (!error.errorData.comp.hasNumber) this.errors.pwd.numbers = true;
-          if (!error.errorData.comp.hasNonAlphanumeric) this.errors.pwd.nonAlphanumeric = true;
+          if (!error.errorData.comp.hasUppercase) {
+            this.errors.pwd.uppercase = true;
+          }
+          if (!error.errorData.comp.hasNumber) {
+            this.errors.pwd.numbers = true;
+          }
+          if (!error.errorData.comp.hasNonAlphanumeric) {
+            this.errors.pwd.nonAlphanumeric = true;
+          }
         }
 
         return EMPTY;

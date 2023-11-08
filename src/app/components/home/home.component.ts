@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { LocationListComponent } from '@components/location/location-list/location-list.component';
+import {
+  LocationListComponent
+} from '@components/location/location-list/location-list.component';
 import { AuthService } from '@services/auth.service';
 import { SigninComponent } from '@components/user/signin/signin.component';
 

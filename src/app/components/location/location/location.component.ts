@@ -5,10 +5,16 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
 import { ToolboxModule } from '@modules/toolbox/toolbox.module';
-import { ConfirmModalComponent } from '@components/modals/confirm-modal/confirm-modal.component';
+import {
+  ConfirmModalComponent
+} from '@components/modals/confirm-modal/confirm-modal.component';
 import { InfoBoxComponent } from '@components//info-box/info-box.component';
-import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
-import { PropertyBoxComponent } from '@components/property-box/property-box.component';
+import {
+  PlantListComponent
+} from '@components/plant/plant-list/plant-list.component';
+import {
+  PropertyBoxComponent
+} from '@components/property-box/property-box.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LocationService } from '@services/location.service';
@@ -64,7 +70,9 @@ export class LocationComponent {
       this.locationService.get(this.id, { plantCount: true}).pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.error?.msg === 'LOCATION_NOT_FOUND') {
-            this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
+            this.errorHandler.push(
+              $localize `:@@location.invalid:Location invalid or not found`
+            );
           }
           else this.errorHandler.push($localize `:@@errors.server:Server error`);
           
@@ -74,7 +82,11 @@ export class LocationComponent {
         })
       ).subscribe((location: Location) => {
         this.breadcrumb.setNavigation([
-          { selector: 'location', name: location.name, link: ['/location', this.id] },
+          {
+            selector: 'location',
+            name: location.name,
+            link: ['/location', this.id]
+          },
         ])
       });
     }
@@ -91,7 +103,11 @@ export class LocationComponent {
           this.router.navigate(['/']);
         },
         error: (err) => {
-          if (err.msg === 'LOCATION_NOT_VALID') this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`)
+          if (err.msg === 'LOCATION_NOT_VALID') {
+            this.errorHandler.push(
+              $localize `:@@location.invalid:Location invalid or not found`
+            );
+          }
         }
       })
     }

@@ -1,6 +1,8 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { PictureListComponent } from '@components/picture-list/picture-list.component';
+import {
+  PictureListComponent
+} from '@components/picture-list/picture-list.component';
 import { Photo } from '@models/photo.model';
 import { PictureItem } from '@models/picture-item.model';
 import { ImagePathService } from '@services/image-path.service';
@@ -29,7 +31,9 @@ export class PhotoListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.plantId) {
-      this.plantService.getPhotos(this.plantId).subscribe((photos: Photo[]) => {
+      const photos$ = this.plantService.getPhotos(this.plantId);
+
+      photos$.subscribe((photos: Photo[]) => {
         this.setPictureList(photos);
       })
     }

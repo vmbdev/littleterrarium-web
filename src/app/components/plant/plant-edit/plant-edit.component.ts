@@ -1,12 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ApiService } from '@services/api.service';
 import { PlantService } from '@services/plant.service';
 import { WizardModule } from '@modules/wizard/wizard.module';
-import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
+import {
+  SpecieFinderComponent
+} from '@components/specie-finder/specie-finder.component';
 import { Location } from '@models/location.model';
 import { Plant, Condition } from '@models/plant.model';
 
@@ -22,7 +29,7 @@ import { Plant, Condition } from '@models/plant.model';
   templateUrl: './plant-edit.component.html',
   styleUrls: ['./plant-edit.component.scss']
 })
-export class PlantEditComponent implements OnInit {
+export class PlantEditComponent {
   id!: number;
   // TODO: async pipe?
   locations!: Location[];
@@ -92,9 +99,10 @@ export class PlantEditComponent implements OnInit {
     const plant: Plant = this.plantForm.value;
     plant.id = this.id;
     
-    this.plantService.update(plant, { removeSpecie: this.removeSpecie }).subscribe(() => {
-      this.router.navigate(['/plant', this.id])
-    });
+    this.plantService.update(plant, { removeSpecie: this.removeSpecie })
+      .subscribe(() => {
+        this.router.navigate(['/plant', this.id])
+      });
   }
 
   /**

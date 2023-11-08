@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { AuthService } from '@services/auth.service';
 
+// FIXME: migrate to ReactForms
 @Component({
   standalone: true,
   selector: 'lt-signin',
@@ -50,14 +51,17 @@ export class SigninComponent {
     }
 
     else {
-      this.auth.signIn(signinForm.value.username, signinForm.value.password).subscribe({
-        next: () => {
-          this.router.navigate(['/']);
-        },
-        error: (err: any) => {
-          if (err.msg && (err.msg === 'USER_DATA_INCORRECT')) this.authInvalid = true;
-        }
-      });
+      this.auth.signIn(signinForm.value.username, signinForm.value.password)
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/']);
+          },
+          error: (err: any) => {
+            if (err.msg && (err.msg === 'USER_DATA_INCORRECT')) {
+              this.authInvalid = true;
+            }
+          }
+        });
     }
   }
 }

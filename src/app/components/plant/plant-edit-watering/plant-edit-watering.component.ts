@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as dayjs from 'dayjs';
 import { PlantService } from '@services/plant.service';
@@ -11,8 +11,9 @@ import { Plant } from '@models/plant.model';
   templateUrl: './plant-edit-watering.component.html',
   styleUrls: ['./plant-edit-watering.component.scss']
 })
-export class PlantEditWateringComponent implements OnInit {
-  @Input() plantId?: number; // it can receive a specific plantId rather than get what's in PlantService
+export class PlantEditWateringComponent {
+  // it can receive a specific plantId rather than get what's in PlantService
+  @Input() plantId?: number;
   @Output() updated: EventEmitter<any> = new EventEmitter<any>();
   id?: number;
   waterForm: FormGroup;
@@ -29,7 +30,9 @@ export class PlantEditWateringComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.plantId) {
-      this.plantService.get(this.plantId).subscribe((plant: Plant) => { this.updateForm(plant) });
+      this.plantService.get(this.plantId).subscribe((plant: Plant) => {
+        this.updateForm(plant)
+      });
     }
     else {
       const plant = this.plantService.current();

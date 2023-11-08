@@ -1,57 +1,115 @@
 <ng-container *ngIf="plantService.plant$ | async as plant">
-  <lt-quick-modal *ngIf="enableWaterEditing" (close)="enableWaterEditing = false" title="Watering" i18n-title="@@general.watering">
-    <lt-plant-edit-watering (updated)="enableWaterEditing = false"></lt-plant-edit-watering>
+  <lt-quick-modal
+    *ngIf="enableWaterEditing"
+    (close)="enableWaterEditing = false"
+    title="Watering"
+    i18n-title="@@general.watering"
+  >
+    <lt-plant-edit-watering (updated)="enableWaterEditing = false" />
   </lt-quick-modal>
 
-  <lt-quick-modal *ngIf="enableFertilizerEditing" (close)="enableFertilizerEditing = false" title="Fertiliser" i18n-title="@@general.fertilizer">
-    <lt-plant-edit-fertilizer (updated)="enableFertilizerEditing = false"></lt-plant-edit-fertilizer>
+  <lt-quick-modal
+    *ngIf="enableFertilizerEditing"
+    (close)="enableFertilizerEditing = false"
+    title="Fertiliser"
+    i18n-title="@@general.fertilizer"
+  >
+    <lt-plant-edit-fertilizer (updated)="enableFertilizerEditing = false" />
   </lt-quick-modal>
 
-  <lt-confirm-modal *ngIf="confirmDelete" (accept)="delete()" (cancel)="confirmDelete = false">
-    <p i18n="@@plant.remove">This will remove this plant and all of its photos. Are you sure?</p>
-    <p><strong i18n="@@general.irreversible">This action is irreversible.</strong></p>
+  <lt-confirm-modal
+    *ngIf="confirmDelete"
+    (accept)="delete()"
+    (cancel)="confirmDelete = false"
+  >
+    <p i18n="@@plant.remove">
+      This will remove this plant and all of its photos. Are you sure?
+    </p>
+    <p>
+      <strong i18n="@@general.irreversible">This action is irreversible.</strong>
+    </p>
   </lt-confirm-modal>
 
   <div class="plant">
     <lt-toolbox [title]="plantTitle" [subtitle]="plantSubtitle">
       <ng-container *ngIf="this.plantService.owned">
-        <lt-toolbox-button image="assets/water.png" (click)="enableWaterEditing = true"></lt-toolbox-button>
-        <lt-toolbox-button image="assets/fertilizer.png" (click)="enableFertilizerEditing = true"></lt-toolbox-button>
-        <lt-toolbox-button image="assets/pot.png" (click)="editSoil()"></lt-toolbox-button>
-        <lt-toolbox-button image="assets/edit.png" (click)="edit()"></lt-toolbox-button>
-        <lt-toolbox-button image="assets/delete.png" (click)="confirmDelete = true"></lt-toolbox-button>
+        <lt-toolbox-button
+          image="assets/water.png"
+          (click)="enableWaterEditing = true"
+        />
+        <lt-toolbox-button
+          image="assets/fertilizer.png"
+          (click)="enableFertilizerEditing = true"
+        />
+        <lt-toolbox-button image="assets/pot.png" (click)="editSoil()" />
+        <lt-toolbox-button image="assets/edit.png" (click)="edit()" />
+        <lt-toolbox-button
+          image="assets/delete.png"
+          (click)="confirmDelete = true"
+        />
       </ng-container>
     </lt-toolbox>
 
-    <lt-info-box title="Plant information" i18n-title="@@plant.plantInformation">
-      <div *ngIf="plant.description" class="plant__description">{{ plant.description }}</div>
+    <lt-info-box
+      title="Plant information"
+      i18n-title="@@plant.plantInformation"
+    >
+      <div
+        *ngIf="plant.description"
+        class="plant__description"
+      >
+        {{ plant.description }}
+      </div>
 
       <ng-container properties>
         <lt-property-box>
-          <div *ngIf="plant.condition" class="plant__condition plant__condition-{{ plant.condition.toLowerCase() }}">
-            <b i18n="@@plant.condition">Condition:</b>&nbsp;{{ plantCondition[plant.condition] }}
+          <div
+            *ngIf="plant.condition"
+            class="plant__condition {{ getConditionClass(plant) }}"
+          >
+            <b i18n="@@plant.condition">Condition:</b>
+            &nbsp;{{ plantCondition[plant.condition] }}
           </div>
         </lt-property-box>
 
         <lt-property-box [icon]="getVisibilityAsset()">
           <b i18n="@@general.visibility">Visibility:</b>
-          <ng-container *ngIf="plant.public; else plantPrivate" i18n="@@general.public">Public</ng-container>
-          <ng-template #plantPrivate i18n="@@general.private">Private</ng-template>
+          <ng-container
+            *ngIf="plant.public; else plantPrivate"
+            i18n="@@general.public"
+          >
+            Public
+          </ng-container>
+          <ng-template
+            #plantPrivate
+            i18n="@@general.private"
+          >
+            Private
+          </ng-template>
         </lt-property-box>
 
       </ng-container>
     </lt-info-box>
 
     <div class="plant__row">
-      <lt-plant-widget-water *ngIf="plant.waterFreq || plant.waterLast"></lt-plant-widget-water>
-      <lt-plant-widget-fertilizer *ngIf="plant.fertFreq || plant.fertLast || plant.fertType"></lt-plant-widget-fertilizer>
-      <lt-plant-widget-soil *ngIf="plant.potSize || plant.potType || plant.soil"></lt-plant-widget-soil>
+      <lt-plant-widget-water *ngIf="plant.waterFreq || plant.waterLast" />
+      <lt-plant-widget-fertilizer
+        *ngIf="plant.fertFreq || plant.fertLast || plant.fertType"
+      />
+      <lt-plant-widget-soil
+        *ngIf="plant.potSize || plant.potType || plant.soil"
+        />
     </div>
 
     <div class="section-header">
-      <h2 i18n="@@plant.photoList">Photos taken for {{ plant.visibleName }}</h2>
+      <h2 i18n="@@plant.photoList">
+        Photos taken for {{ plant.visibleName }}
+      </h2>
     </div>
-    <lt-photo-list [owned]="this.plantService.owned" [plantId]="this.id"></lt-photo-list>
+    <lt-photo-list
+      [owned]="this.plantService.owned"
+      [plantId]="this.id"
+    />
   </div>
 
 </ng-container>

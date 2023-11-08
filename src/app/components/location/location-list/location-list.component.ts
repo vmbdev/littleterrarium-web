@@ -5,7 +5,9 @@ import { Location } from '@models/location.model';
 import { ApiService } from '@services/api.service';
 import { ImagePathService } from '@services/image-path.service';
 import { PictureItem } from '@models/picture-item.model';
-import { PictureListComponent } from '@components/picture-list/picture-list.component';
+import {
+  PictureListComponent
+} from '@components/picture-list/picture-list.component';
 
 @Component({
   standalone: true,
@@ -15,8 +17,7 @@ import { PictureListComponent } from '@components/picture-list/picture-list.comp
     RouterModule,
     PictureListComponent
   ],
-  templateUrl: './location-list.component.html',
-  styleUrls: ['./location-list.component.scss']
+  templateUrl: './location-list.component.html'
 })
 export class LocationListComponent implements OnInit {
   @Input() userId?: number;
@@ -33,8 +34,9 @@ export class LocationListComponent implements OnInit {
       plantCount: true,
       userId: this.userId ? this.userId : null
     }
+    const list$ = this.apiService.getLocationList(options);
 
-    this.apiService.getLocationList(options).subscribe((locations: Location[]) => {
+    list$.subscribe((locations: Location[]) => {
       this.pictureList = [];
       
       for (const location of locations) {

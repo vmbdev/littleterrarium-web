@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,14 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './widget-box.component.html',
   styleUrls: ['./widget-box.component.scss']
 })
-export class WidgetBoxComponent implements OnInit {
+export class WidgetBoxComponent {
   @Input() image?: string;
   @Input() title?: string;
   @Input() center: boolean = true;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

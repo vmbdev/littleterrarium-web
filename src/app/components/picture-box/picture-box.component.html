@@ -3,19 +3,26 @@
   <div *ngIf="add" class="picturebox">
     <div class="picturebox__content picturebox__black">
       <div class="picturebox__add">+</div>
-      <ng-container *ngTemplateOutlet="content"></ng-container>
+      <ng-container *ngTemplateOutlet="content" />
     </div>
   </div>
 
-  <div *ngIf="!add" class="picturebox" [ngStyle]="{ 'background-image': image ? 'url(' + image + ')' : null }">
-    <div *ngIf="!contentBelow" [ngClass]="{ 'picturebox__content': !contentBelow }">
-      <ng-container *ngTemplateOutlet="content"></ng-container>
+  <div
+    *ngIf="!add"
+    class="picturebox"
+    [ngStyle]="{ 'background-image': image ? 'url(' + image + ')' : null }"
+  >
+    <div
+      *ngIf="!contentBelow"
+      [ngClass]="{ 'picturebox__content': !contentBelow }"
+    >
+      <ng-container *ngTemplateOutlet="content" />
     </div>
   </div>
   <div *ngIf="contentBelow" class="picturebox__contentbelow">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="content" />
   </div>
 
 </a>
 
-<ng-template #content><ng-content></ng-content></ng-template>
+<ng-template #content><ng-content /></ng-template>

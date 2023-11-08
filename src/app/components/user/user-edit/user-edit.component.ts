@@ -1,14 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, skipWhile } from 'rxjs';
+import { WizardModule } from '@modules/wizard/wizard.module';
 import { AuthService } from '@services/auth.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
-import { WizardModule } from '@modules/wizard/wizard.module';
-import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
+import {
+  FileUploaderComponent
+} from '@components/file-uploader/file-uploader.component';
 import { User } from '@models/user.model';
 
 @Component({
@@ -76,7 +83,11 @@ export class UserEditComponent implements OnInit {
 
     this.api.editUser(user).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+        if (error.error?.msg === 'IMG_NOT_VALID') {
+          this.errorHandler.push(
+            $localize `:@@errors.invalidImg:Invalid image.`
+          );
+        }
 
         return EMPTY;
       })

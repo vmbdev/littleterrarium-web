@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PictureBoxComponent } from '@components/picture-box/picture-box.component';
-import { PictureDetailedComponent } from '@components/picture-detailed/picture-detailed.component';
+import {
+  PictureBoxComponent
+} from '@components/picture-box/picture-box.component';
+import {
+  PictureDetailedComponent
+} from '@components/picture-detailed/picture-detailed.component';
 import { PictureItem } from '@models/picture-item.model';
 import { SortPipe } from '@pipes/sort/sort.pipe';
 import { FilterPipe } from '@pipes/filter/filter.pipe';

@@ -3,9 +3,8 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from '@modules/core/core.module';
 
 /**
- * Component proving the default layout.
+ * Component providing the default layout.
  */
-
 @Component({
   standalone: true,
   selector: 'lt-default-layout',

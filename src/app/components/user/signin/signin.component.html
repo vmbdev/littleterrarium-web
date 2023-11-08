@@ -1,30 +1,68 @@
-<form #signinForm="ngForm" (ngSubmit)="submit(signinForm)" class="form" novalidate>
+<form
+  #signinForm="ngForm"
+  (ngSubmit)="submit(signinForm)"
+  class="form"
+  novalidate
+>
   <div class="signinForm">
     <div class="signinForm__container">
       <div class="signinForm__center">
         <h1 *ngIf="!homepage" i18n="@@signin.welcomeBack">Welcome back!</h1>
         <ng-container *ngIf="homepage">
           <h1 i18n="@@signin.homepageTitle">Welcome to Little Terrarium!</h1>
-          <p i18n="@@signin.homepageMsg">We are really happy to have you here. <b>Sign in</b> or <b><a routerLink="/register">sign up</a></b> and start taking care of your plants!</p>
+          <p i18n="@@signin.homepageMsg">
+            We are really happy to have you here. <b>Sign in</b> or
+            <b><a routerLink="/register">sign up</a></b> and start taking care
+            of your plants!
+          </p>
         </ng-container>
       </div>
       <div class="form__textinput">
         <p i18n="@@signin.identification">Username or email</p>
-        <input type="text" name="username" placeholder="PlantLover95" [ngClass]="{ 'form__error': controls.usernameEmpty }" required ngModel>
+        <input
+          type="text"
+          required
+          ngModel
+          name="username"
+          placeholder="PlantLover95"
+          [ngClass]="{ 'form__error': controls.usernameEmpty }"
+        >
       </div>
       <div class="form__textinput">
         <p i18n="@@general.password">Password</p>
-        <input type="password" name="password" placeholder="Password" [ngClass]="{ 'form__error': controls.passwordEmpty }" required ngModel i18n-placeholder="@@general.password">
+        <input
+          type="password"
+          required
+          ngModel
+          name="password"
+          placeholder="Password"
+          [ngClass]="{ 'form__error': controls.passwordEmpty }"
+          i18n-placeholder="@@general.password"
+        >
       </div>
       <div *ngIf="authInvalid" class="signinForm__center form__errormsg">
-        <p i18n="@@signin.invalidCredentials">Sorry, the credentials are not valid.</p>
+        <p i18n="@@signin.invalidCredentials">
+          Sorry, the credentials are not valid.
+        </p>
       </div>
       <div class="form__submit">
-        <button [disabled]="!signinForm.valid" i18n="@@general.signin">Sign in</button>
+        <button [disabled]="!signinForm.valid" i18n="@@general.signin">
+          Sign in
+        </button>
       </div>
       <div class="signinForm__center">
-        <p><a routerLink="/register" i18n="@@signin.createAccount">Don't have an account? <b>Sign up!</b></a></p>
-        <!-- <p><a routerLink="/user/retrievepwd" i18n="@@signin.forgottenPassword">Forgot your password?</a></p> -->
+        <p>
+          <a routerLink="/register" i18n="@@signin.createAccount">
+            Don't have an account? <b>Sign up!</b>
+          </a>
+        </p>
+        <!--         
+          <p>
+            <a routerLink="/user/retrievepwd" i18n="@@signin.forgottenPassword">
+              Forgot your password?
+            </a>
+          </p>
+        -->
       </div>
     </div>
   </div>

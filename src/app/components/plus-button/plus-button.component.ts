@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,14 +8,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './plus-button.component.html',
   styleUrls: ['./plus-button.component.scss']
 })
-export class PlusButtonComponent implements OnInit {
+export class PlusButtonComponent {
   @Output() click: EventEmitter<null> = new EventEmitter<null>();
   @Input() title: string = '';
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   clickEvent(): void {
     this.click.emit();

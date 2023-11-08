@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -8,14 +8,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.scss']
 })
-export class ConfirmModalComponent implements OnInit {
+export class ConfirmModalComponent {
   @Output() accept: EventEmitter<null> = new EventEmitter<null>();
   @Output() cancel: EventEmitter<null> = new EventEmitter<null>();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   acceptEvent(): void {
     this.accept.emit();

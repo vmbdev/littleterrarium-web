@@ -1,17 +1,36 @@
 <ng-container *ngIf="plantService.plant$ | async as plant">
-  <lt-confirm-modal *ngIf="confirmFertilizing" (accept)="addFertilizer()" (cancel)="confirmFertilizing = false">
-    <span i18n="@@plant-widget-fertilizer.confirm">This will update your <b>last time fertilized</b> to today.</span>
+  <lt-confirm-modal
+    *ngIf="confirmFertilizing"
+    (accept)="addFertilizer()"
+    (cancel)="confirmFertilizing = false"
+  >
+    <span i18n="@@plant-widget-fertilizer.confirm">
+      This will update your <b>last time fertilized</b> to today.
+    </span>
   </lt-confirm-modal>
 
-  <lt-widget-box image="assets/fertilizer.png" title="Fertiliser" i18n-title="@@general.fertilizer">
+  <lt-widget-box
+    image="assets/fertilizer.png"
+    title="Fertiliser"
+    i18n-title="@@general.fertilizer"
+  >
     <div>
-      <p *ngIf="plant.fertLast"><b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}</p>
-      <p *ngIf="plant.fertType"><b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}</p>
+      <p *ngIf="plant.fertLast">
+        <b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}
+      </p>
+      <p *ngIf="plant.fertType">
+        <b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}
+      </p>
     </div>
     <div bottom>
-      <p *ngIf="plant.fertFreq" i18n="@@plant-widget-fertilizer.freq">Fertilise every <b>{{ plant.fertFreq }} days</b></p>
+      <p *ngIf="plant.fertFreq" i18n="@@plant-widget-fertilizer.freq">
+        Fertilise every <b>{{ plant.fertFreq }} days</b>
+      </p>
       <p *ngIf="nextFertilizing() as nextF">
-        <b i18n="@@general.nextTime">Next time:</b>&nbsp;<span [ngStyle]="{ 'color' : nextF.due ? 'red' : null }">{{ nextF.text }}</span>
+        <b i18n="@@general.nextTime">Next time:</b>&nbsp;
+        <span [ngStyle]="{ 'color' : nextF.due ? 'red' : null }">
+          {{ nextF.text }}
+        </span>
       </p>
       <lt-plus-button
         *ngIf="this.plantService.owned"

@@ -1,11 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 
-import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
+import {
+  FileUploaderComponent
+} from '@components/file-uploader/file-uploader.component';
 import { WizardModule } from '@modules/wizard/wizard.module';
 import { Location, Light } from '@models/location.model';
 import { ErrorHandlerService } from '@services/error-handler.service';
@@ -64,7 +72,9 @@ export class LocationAddEditComponent implements OnInit {
 
       this.locationService.get(this.id).pipe(
         catchError((err: HttpErrorResponse) => {
-          this.errorHandler.push($localize `:@@location.invalid:Location invalid or not found`);
+          this.errorHandler.push(
+            $localize `:@@location.invalid:Location invalid or not found`
+          );
 
           return EMPTY;
         })
@@ -73,7 +83,8 @@ export class LocationAddEditComponent implements OnInit {
         this.location = location;
 
         Object.keys(this.locationForm.value).forEach((key) => {
-          this.locationForm.controls[key].setValue(location[key as keyof Location]);
+          this.locationForm.controls[key]
+            .setValue(location[key as keyof Location]);
         });
 
         this.breadcrumb.setNavigation(
@@ -103,7 +114,9 @@ export class LocationAddEditComponent implements OnInit {
     if (this.createNew) insert = this.locationService.create(data);
     else if (this.id) {
       data.id = this.id;
-      insert = this.locationService.update(data, { removePicture: this.removePicture });
+      insert = this.locationService.update(data, {
+        removePicture: this.removePicture
+      });
     }
 
     this.disableNavigation = true;
@@ -111,7 +124,11 @@ export class LocationAddEditComponent implements OnInit {
     if (insert) {
       insert.pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.error?.msg === 'IMG_NOT_VALID') this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+          if (error.error?.msg === 'IMG_NOT_VALID') {
+            this.errorHandler.push(
+              $localize `:@@errors.invalidImg:Invalid image.`
+            );
+          }
 
           return EMPTY;
         }),

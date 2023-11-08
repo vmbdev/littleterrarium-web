@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
@@ -18,7 +23,7 @@ import { Plant, potChoices } from '@models/plant.model';
   templateUrl: './plant-edit-soil.component.html',
   styleUrls: ['./plant-edit-soil.component.scss']
 })
-export class PlantEditSoilComponent implements OnInit {
+export class PlantEditSoilComponent {
   id!: number;
   potForm: FormGroup;
   selectedPot: string | null = null;
@@ -72,7 +77,9 @@ export class PlantEditSoilComponent implements OnInit {
   }
 
   getPots(): any[] {
-    return Object.keys(potChoices).map(key => { return { id: key, ...potChoices[key] } });
+    return Object.keys(potChoices).map(key => {
+      return { id: key, ...potChoices[key] }
+    });
   }
 
   submit(): void {
@@ -80,7 +87,10 @@ export class PlantEditSoilComponent implements OnInit {
     plant.id = this.id;
 
     if (plant.potSize) {
-      plant.potSize = this.potForm.value.potSizeUnits === 'in' ? plant.potSize * 2.54 : plant.potSize;
+      plant.potSize =
+        this.potForm.value.potSizeUnits === 'in' ?
+        plant.potSize * 2.54 :
+        plant.potSize;
     }
 
     this.plantService.update(plant).subscribe({

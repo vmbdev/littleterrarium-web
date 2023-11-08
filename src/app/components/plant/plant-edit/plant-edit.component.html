@@ -1,21 +1,45 @@
-<form *ngIf="plantService.plant$ | async as plant" [formGroup]="plantForm" (ngSubmit)="submit()" method="post" enctype="multipart/form-data">
+<form
+  *ngIf="plantService.plant$ | async as plant"
+  method="post"
+  [formGroup]="plantForm"
+  (ngSubmit)="submit()"
+  enctype="multipart/form-data"
+>
   <lt-wizard [form]="plantForm" [singlePage]="true">
-    <lt-wizard-header i18n="@@plant-edit.header">Editing {{ plant.visibleName }}</lt-wizard-header>
+    <lt-wizard-header i18n="@@plant-edit.header">
+      Editing {{ plant.visibleName }}
+    </lt-wizard-header>
 
     <lt-page title="Name" i18n-title="@@general.name">
       <lt-page-description>
-        <p i18n="@@plant-add.nameDesc">This is the happy moment when we add our beloved plants. First things first, identify! Want to give it a <b> name</b>?</p>
+        <p i18n="@@plant-add.nameDesc">
+          This is the happy moment when we add our beloved plants. First things
+          first, identify! Want to give it a <b> name</b>?
+        </p>
       </lt-page-description>
       <div class="form__textinput">
-        <input type="text" formControlName="customName" placeholder="Big Fluffy Smelly Geranium" i18n-placeholder="@@plant-add.namePlaceholder">
+        <input
+          type="text"
+          formControlName="customName"
+          placeholder="Big Fluffy Smelly Geranium"
+          i18n-placeholder="@@plant-add.namePlaceholder"
+        >
       </div>
     </lt-page>
 
     <lt-page title="Specie" i18n-title="@@general.specie">
       <lt-page-description>
-        <p i18n="@@plant-add.specieDesc">Have you identified its specie? Search and select it from the list. You can use <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a> to identify it.</p>
+        <p i18n="@@plant-add.specieDesc">
+          Have you identified its specie? Search and select it from the list.
+          You can use
+          <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a>
+          to identify it.
+        </p>
       </lt-page-description>
-      <lt-specie-finder [selected]="plant.specieId ? plant.specieId : undefined" (selectSpecieId)="selectSpecieId($event)"></lt-specie-finder>
+      <lt-specie-finder
+        [selected]="plant.specieId ? plant.specieId : undefined"
+        (selectSpecieId)="selectSpecieId($event)"
+      />
     </lt-page>
 
     <lt-page title="Location" i18n-title="@@general.location">
@@ -24,7 +48,11 @@
       </lt-page-description>
       <div class="form__select">
         <select formControlName="locationId">
-          <option *ngFor="let location of locations" [value]="location.id" [selected]="location.id === plant.locationId">
+          <option
+            *ngFor="let location of locations"
+            [value]="location.id"
+            [selected]="location.id === plant.locationId"
+          >
             {{ location.name }}
           </option>
         </select>
@@ -33,20 +61,39 @@
 
     <lt-page title="Description" i18n-title="@@general.description">
       <lt-page-description>
-        <p i18n="@@plant-edit.description">Tell us something about your green friend: Where did you get it? When? How? Is it a variation of the common species? Is there an interesting story behind it?</p>
+        <p i18n="@@plant-edit.description">
+          Tell us something about your green friend: Where did you get it?
+          When? How? Is it a variation of the common species? Is there an
+          interesting story behind it?
+        </p>
       </lt-page-description>
       <div class="form__textarea">
-        <textarea formControlName="description" maxlength="300" rows="4">{{ plant.description }}</textarea>
+        <textarea
+          formControlName="description"
+          maxlength="300"
+          rows="4"
+        >
+          {{ plant.description }}
+        </textarea>
       </div>
     </lt-page>
 
     <lt-page title="Plant condition" i18n-title="@@plant-edit.condition">
       <lt-page-description>
-        <p i18n="@@plant-edit.health">Let's keep track of its health, would you?</p>
+        <p i18n="@@plant-edit.health">
+          Let's keep track of its health, would you?
+        </p>
       </lt-page-description>
       <div class="plantedit__conditions">
-        <div class="form__radio" *ngFor="let cond of plantConditions | keyvalue: noSort">
-          <input type="radio" formControlName="condition" [id]="'cond' + cond.key" [value]="cond.key">
+        <div
+          *ngFor="let cond of plantConditions | keyvalue: noSort"
+          class="form__radio"
+        >
+          <input
+            type="radio"
+            formControlName="condition" [id]="'cond' + cond.key"
+            [value]="cond.key"
+          >
           <label [for]="'cond' + cond.key">{{ cond.value }}</label>
         </div>
       </div>
@@ -54,14 +101,23 @@
 
     <lt-page title="Privacy" i18n-title="@@general.privacy">
       <lt-page-description>
-        <p i18n="@@plant-add.privacy">When your plant is <b>publicly visible</b>, other users will be able to see it when visiting your user profile (given that it's <b>public</b>).</p>
+        <p i18n="@@plant-add.privacy">
+          When your plant is <b>publicly visible</b>, other users will be able
+          to see it when visiting your user profile (given that it's
+          <b>public</b>).
+        </p>
         <p i18n="@@plant-add.privacyTip">
-          <strong>Note</strong> that your locations has its own privacy settings, and it supersedes the plant's privacy setting, so if the location is private users won't be able to see the location plant list, but you can share a direct link to this plant.
+          <strong>Note</strong> that your locations has its own privacy
+          settings, and it supersedes the plant's privacy setting, so if the
+          location is private users won't be able to see the location plant
+          list, but you can share a direct link to this plant.
         </p>
       </lt-page-description>
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
-        <label for="public-checkbox" i18n="@@general.visibilityPublic">Publicly visible</label>
+        <label for="public-checkbox" i18n="@@general.visibilityPublic">
+          Publicly visible
+        </label>
       </div>
     </lt-page>
   </lt-wizard>

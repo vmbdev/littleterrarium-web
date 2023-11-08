@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as dayjs from 'dayjs';
 import { PlantService } from '@services/plant.service';
@@ -11,7 +11,7 @@ import { Plant } from '@models/plant.model';
   templateUrl: './plant-edit-fertilizer.component.html',
   styleUrls: ['./plant-edit-fertilizer.component.scss']
 })
-export class PlantEditFertilizerComponent implements OnInit {
+export class PlantEditFertilizerComponent {
   @Input() plantId?: number;
   @Output() updated: EventEmitter<any> = new EventEmitter<any>();
   id?: number;
@@ -30,7 +30,9 @@ export class PlantEditFertilizerComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.plantId) {
-      this.plantService.get(this.plantId).subscribe((plant: Plant) => { this.updateForm(plant) });
+      this.plantService.get(this.plantId).subscribe((plant: Plant) => {
+        this.updateForm(plant)
+      });
     }
     else {
       const plant = this.plantService.current();

@@ -34,3 +34,15 @@ export const UserStatus: { [key: string]: string } = {
   BANNED: 'BANNED'
 };
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+export interface UsernameRequirements {
+  minLength: number,
+  maxLength: number
+}
+
+export interface PasswordRequirements {
+  minLength: number,
+	requireUppercase: boolean,
+	requireNumber: boolean,
+	requireNonAlphanumeric: boolean
+}

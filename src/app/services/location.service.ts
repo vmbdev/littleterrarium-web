@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Location } from '@models/location.model';
 import { Plant } from '@models/plant.model';
 import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
-import { ApiService, LocationGetConfig, LocationUpsertConfig, PlantGetConfig } from './api.service';
+import {
+  ApiService,
+  LocationGetConfig,
+  LocationUpsertConfig,
+  PlantGetConfig
+} from './api.service';
 import { AuthService } from './auth.service';
 import { PlantService } from './plant.service';
 
@@ -32,7 +37,7 @@ export class LocationService {
     )
   }
 
-  get(id: number, options?: LocationGetConfig): Observable<Location>  {
+  get(id: number, options?: LocationGetConfig): Observable<Location> {
     this.location.next(null);
 
     return this.api.getLocation(id, options).pipe(
@@ -62,7 +67,10 @@ export class LocationService {
     );
   }
 
-  update(location: Location, options?: LocationUpsertConfig): Observable<Location> {
+  update(
+    location: Location,
+    options?: LocationUpsertConfig
+  ): Observable<Location> {
     return this.api.updateLocation(location, options).pipe(
       map((location: Location) => {
         this.location.next(location);
