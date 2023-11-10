@@ -4,7 +4,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
-import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import {
   ConfirmModalComponent
 } from '@components/modals/confirm-modal/confirm-modal.component';
@@ -15,6 +14,12 @@ import {
 import {
   PropertyBoxComponent
 } from '@components/property-box/property-box.component';
+import {
+  ToolboxComponent
+} from '@components/toolbox/toolbox/toolbox.component';
+import {
+  ToolboxButtonComponent
+} from '@components/toolbox/toolbox-button/toolbox-button.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LocationService } from '@services/location.service';
@@ -31,7 +36,8 @@ import { Location } from '@models/location.model';
     CommonModule,
     RouterModule,
     PlantListComponent,
-    ToolboxModule,
+    ToolboxComponent,
+    ToolboxButtonComponent,
     ConfirmModalComponent,
     InfoBoxComponent,
     PropertyBoxComponent

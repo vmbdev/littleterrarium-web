@@ -11,9 +11,12 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
+
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { AuthService } from '@services/auth.service';
 import { ApiService } from '@services/api.service';
-import { WizardModule } from '@modules/wizard/wizard.module';
 import { PasswordRequirements, User, UsernameRequirements } from '@models/user.model';
 
 type RegisterErrors = {
@@ -34,7 +37,9 @@ type RegisterErrors = {
   selector: 'lt-user-register',
   imports: [
     CommonModule,
-    WizardModule,
+    WizardComponent,
+    WizardPageComponent,
+    WizardPageDescriptionComponent,
     ReactiveFormsModule,
     RouterModule
   ],

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UnitPipe } from '@pipes/unit/unit.pipe';
 import { PlantService } from '@services/plant.service';
 import {
@@ -17,11 +17,8 @@ import { potChoices } from '@models/plant.model';
   ],
   templateUrl: './plant-widget-soil.component.html'
 })
-export class PlantWidgetSoilComponent implements OnInit {
+export class PlantWidgetSoilComponent {
   constructor(public plantService: PlantService) { }
-
-  ngOnInit(): void {
-  }
 
   getPotName(): string {
     let potName;

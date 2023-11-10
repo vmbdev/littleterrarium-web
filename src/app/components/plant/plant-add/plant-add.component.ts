@@ -9,10 +9,17 @@ import {
   Validators
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ErrorHandlerService } from '@services/error-handler.service';
-import { PlantService } from '@services/plant.service';
-import { ApiService } from '@services/api.service';
-import { WizardModule } from '@modules/wizard/wizard.module';
+
+import {
+  WizardHeaderComponent
+} from '@components/wizard/wizard-header/wizard-header.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
   FileUploaderComponent
 } from '@components/file-uploader/file-uploader.component';
@@ -26,13 +33,19 @@ import { Plant } from '@models/plant.model';
 import { Location } from '@models/location.model';
 import { Photo } from '@models/photo.model';
 import { PhotoService } from '@services/photo.service';
+import { ErrorHandlerService } from '@services/error-handler.service';
+import { PlantService } from '@services/plant.service';
+import { ApiService } from '@services/api.service';
 
 @Component({
   standalone: true,
   selector: 'lt-plant-add',
   imports: [
     CommonModule,
-    WizardModule,
+    WizardComponent,
+    WizardPageComponent,
+    WizardPageDescriptionComponent,
+    WizardHeaderComponent,
     FileUploaderComponent,
     ReactiveFormsModule,
     ProgressBarComponent,

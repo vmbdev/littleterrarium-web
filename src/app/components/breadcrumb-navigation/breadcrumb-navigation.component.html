@@ -1,0 +1,21 @@
+@if (breadcrumb.links$ | async; as links) {
+  <nav class="breadcrumb">
+
+    @if (links.length > 0) {
+      @if (router.url !== '/') {
+        <div class="breadcrumb__link">
+          <a routerLink="/" i18n="@@mainnav.home">Home</a>
+        </div>
+      }
+
+      @for (link of links; track link.name) {
+        <div class="breadcrumb__link">
+          <a [routerLink]="link.link">
+            {{ link.name }}
+          </a>
+        </div>
+      }
+    }
+
+  </nav>
+}

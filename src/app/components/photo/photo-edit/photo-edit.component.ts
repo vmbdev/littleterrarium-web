@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +7,8 @@ import {
   Validators
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import * as dayjs from 'dayjs';
+import { DateTime } from 'luxon';
+
 import { Photo } from '@models/photo.model';
 import { PhotoService } from '@services/photo.service';
 
@@ -22,7 +23,7 @@ import { PhotoService } from '@services/photo.service';
   templateUrl: './photo-edit.component.html',
   styleUrls: ['./photo-edit.component.scss']
 })
-export class PhotoEditComponent implements OnInit {
+export class PhotoEditComponent {
   @Output() updated: EventEmitter<null> = new EventEmitter<null>();
   photoForm: FormGroup;
 
@@ -32,7 +33,7 @@ export class PhotoEditComponent implements OnInit {
   ) {
     this.photoForm = this.fb.group({
       description: [],
-      takenAt: [dayjs().format('YYYY-MM-DD'), Validators.required],
+      takenAt: [DateTime.now().toFormat('yyyy-LL-dd'), Validators.required],
       public: []
     })
   }
@@ -42,7 +43,9 @@ export class PhotoEditComponent implements OnInit {
       if (photo) {
         this.photoForm.setValue({
           description: photo.description,
-          takenAt: dayjs(photo.takenAt).format('YYYY-MM-DD'),
+          takenAt: DateTime
+            .fromISO(photo.takenAt as string)
+            .toFormat('yyyy-LL-dd'),
           public: photo.public
         })
       }

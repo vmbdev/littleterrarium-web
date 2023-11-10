@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
-import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import {
   QuickModalComponent
@@ -33,6 +32,12 @@ import {
 import {
   PropertyBoxComponent
 } from '@components/property-box/property-box.component';
+import {
+  ToolboxComponent
+} from '@components/toolbox/toolbox/toolbox.component';
+import {
+  ToolboxButtonComponent
+} from '@components/toolbox/toolbox-button/toolbox-button.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
@@ -45,7 +50,8 @@ import { Plant, Condition } from '@models/plant.model';
   styleUrls: ['./plant.component.scss'],
   imports: [
     CommonModule,
-    ToolboxModule,
+    ToolboxComponent,
+    ToolboxButtonComponent,
     QuickModalComponent,
     ConfirmModalComponent,
     InfoBoxComponent,

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import * as dayjs from 'dayjs';
+import { DateTime } from 'luxon';
+
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
 
@@ -24,7 +25,7 @@ export class PlantEditWateringComponent {
   ) {
     this.waterForm = this.fb.group({
       waterFreq: [],
-      waterLast: [dayjs().format('YYYY-MM-DD')]
+      waterLast: [DateTime.now().toFormat('yyyy-LL-dd')]
     })
   }
 
@@ -45,7 +46,7 @@ export class PlantEditWateringComponent {
     this.id = plant.id;
     this.waterForm.setValue({
       waterFreq: plant.waterFreq,
-      waterLast: dayjs(plant.waterLast).format('YYYY-MM-DD')
+      waterLast: DateTime.fromISO(plant.waterLast as string).toFormat('yyyy-LL-dd')
     })
   }
 

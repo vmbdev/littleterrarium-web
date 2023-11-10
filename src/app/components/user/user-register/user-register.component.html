@@ -4,12 +4,12 @@
     [moveTo]="wizardPage"
     (indexChange)="indexChange()"
   >
-    <lt-page
+    <lt-wizard-page
       title="Username"
       control="username"
       i18n-title="@@general.username"
     >
-      <lt-page-description>
+      <lt-wizard-page-description>
         <p i18n="@@user-register.lookingForward">
           We are looking forward to welcoming you to our family!
         </p>
@@ -23,7 +23,7 @@
           characters long, and contain only alphanumeric characters, dot (.),
           dash (-) and underscore (_).
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
 
       <div class="form__textinput">
         <input type="textinput" formControlName="username">
@@ -42,15 +42,15 @@
           Sorry, your username is not valid. Please, check the formatting.
         </p>
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="E-mail" control="email" i18n-title="@@general.email">
-      <lt-page-description>
+    <lt-wizard-page title="E-mail" control="email" i18n-title="@@general.email">
+      <lt-wizard-page-description>
         <p i18n="@@user-register.emailDesc">
           This is how we identify you uniquely, and it's needed to receive
           notifications and to reset your password in case you forget it.
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
 
       <div class="form__textinput">
         <input type="email" formControlName="email">
@@ -70,14 +70,14 @@
           Sorry, your e-mail is not formatted correctly.
         </p>
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page
+    <lt-wizard-page
       title="Password"
       control="password"
       i18n-title="@@general.password"
     >
-      <lt-page-description>
+      <lt-wizard-page-description>
         <p i18n="@@user-register.passwordDesc">
           <b>We're almost there</b>. Last but not least, a <b>password</b> to
           protect your access
@@ -117,7 +117,7 @@
             </li>
           </ul>
         </ng-container>
-      </lt-page-description>
+      </lt-wizard-page-description>
 
       <ng-container formGroupName="passwordCheck">
         <div class="form__textinput">
@@ -137,6 +137,6 @@
           >
         </div>
       </ng-container>
-    </lt-page>
+    </lt-wizard-page>
   </lt-wizard>
 </form>

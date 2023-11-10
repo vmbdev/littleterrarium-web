@@ -166,11 +166,12 @@
     "signin.invalidCredentials": "Lo sentimos, tus datos no son válidos.",
     "signin.welcomeBack": "¡Bienvenido de nuevo!",
     "specieFinder.inputPlaceholder": "Prueba con algo como 'basil'",
-    "tasks.fertilizerRequired": "{$INTERPOLATION} necesita fertilizante.",
+    "tasks.fertilizerRequired": "Necesita fertilizante",
     "tasks.msg": "Según los datos de tus plantas, éstas son las tareas pendientes. Gota azul, la planta necesita beber; cuchara verde, la planta necesita comer.",
     "tasks.noTasks": "¡Hurra! No queda nada por hacer.",
     "tasks.remaining": "Hay {$INTERPOLATION} tareas",
-    "tasks.waterRequired": "{$INTERPOLATION} necesita agua",
+    "tasks.waterRequired": "Necesita agua",
+    "terrarium.locationsHeader": "Lugares públicos",
     "user-edit.avatarDesc": "También conocido como foto de perfil. Simplemente una imagen para presentarte.",
     "user-edit.bioDesc": "¡Cuéntanos algo sobre ti! Cómo te introdujiste en el mundo verde, qué tipo de plantas te gustan...",
     "user-edit.emailDesc": "¡Esto es {$START_TAG_STRONG}importante{$CLOSE_TAG_STRONG}! Así es como puedes recuperar tu cuenta si te olvidas la contraseña.",
@@ -196,6 +197,7 @@
     "user-register.usernameReq": "Debe tener entre {$INTERPOLATION} y {$INTERPOLATION_1} caracteres, y contener solo letras, números, puntos (.), guiones (-) y barras bajas (_).",
     "user-register.usernameTaken": "Lo sentimos, este usuario ya está en uso. Por favor, elige otro.",
     "userbox.profile": "Editar perfil",
+    "userbox.terrarium": "Tu Terrarium",
     "userbox.username": "Hola {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}"
   }
 }

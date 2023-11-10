@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import * as dayjs from 'dayjs';
+import { DateTime } from 'luxon';
+
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
 
@@ -23,7 +24,7 @@ export class PlantEditFertilizerComponent {
   ) {
     this.fertForm = this.fb.group({
       fertFreq: [],
-      fertLast: [dayjs().format('YYYY-MM-DD')],
+      fertLast: [DateTime.now().toFormat('yyyy-LL-dd')],
       fertType: [''],
     })
   }
@@ -45,7 +46,7 @@ export class PlantEditFertilizerComponent {
     this.id = plant.id;
     this.fertForm.setValue({
       fertFreq: plant.fertFreq,
-      fertLast: dayjs(plant.fertLast).format('YYYY-MM-DD'),
+      fertLast: DateTime.fromISO(plant.fertLast as string).toFormat('yyyy-LL-dd'),
       fertType: plant.fertType
     })
   }

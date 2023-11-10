@@ -1,17 +1,19 @@
-<ng-container *ngIf="plantService.plant$ | async as plant">
-  <lt-confirm-modal
-    *ngIf="confirmWatering"
-    (accept)="addWater()"
-    (cancel)="confirmWatering = false"
-  >
-    <p i18n="@@plant-widget-water.confirm">
-      This will update your <b>last time watered</b> to today.
-    </p>
-    <p i18n="@@plant-widget-water.warning">
-      If you haven't watered it yet, please check your soil. Never water your
-      plants on a schedule!
-    </p>
-  </lt-confirm-modal>
+@if (plantService.plant$ | async; as plant) {
+
+  @if (confirmWatering) {
+    <lt-confirm-modal
+      (accept)="addWater()"
+      (cancel)="confirmWatering = false"
+    >
+      <p i18n="@@plant-widget-water.confirm">
+        This will update your <b>last time watered</b> to today.
+      </p>
+      <p i18n="@@plant-widget-water.warning">
+        If you haven't watered it yet, please check your soil. Never water your
+        plants on a schedule!
+      </p>
+    </lt-confirm-modal>
+  }
 
   <lt-widget-box
     image="assets/water.png"
@@ -19,26 +21,35 @@
     i18n-title="@@general.watering"
   >
     <div>
-      <p *ngIf="plant.waterLast">
-        <b i18n="@@general.lastTime">Last time:</b> {{ plant.waterLast | date }}
-      </p>
+      @if (plant.waterLast) {
+        <p>
+          <b i18n="@@general.lastTime">Last time:</b> {{ plant.waterLast | date }}
+        </p>
+      }
     </div>
+
     <div bottom>
-      <p *ngIf="plant.waterFreq" i18n="@@plant-widget-water.freq">
-        Water every <b>{{ plant.waterFreq }} days</b>
-      </p>
-      <p *ngIf="nextWatering() as nextW">
-        <b i18n="@@general.nextTime">Next time:</b>&nbsp;
-        <span [ngStyle]="{ 'color' : nextW.due ? 'red' : null }">
-          {{ nextW.text }}
-        </span>
-      </p>
-      <lt-plus-button
-        *ngIf="this.plantService.owned"
-        type="add"
-        title="Water"
-        (click)="confirmWatering = true"
-      />
+      @if (plant.waterFreq) {
+        <p i18n="@@plant-widget-water.freq">
+          Water every <b>{{ plant.waterFreq }} days</b>
+        </p>
+      }
+      @if (nextDate.text) {
+        <p>
+          <b i18n="@@general.nextTime">Next time:</b>&nbsp;
+          <span [ngStyle]="{ 'color' : nextDate.due ? 'red' : null }">
+            {{ nextDate.text }}
+          </span>
+        </p>
+      }
+      @if (this.plantService.owned) {
+        <lt-plus-button
+          type="add"
+          title="Water"
+          (click)="confirmWatering = true"
+        />
+      }
     </div>
   </lt-widget-box>
-</ng-container>
+
+}

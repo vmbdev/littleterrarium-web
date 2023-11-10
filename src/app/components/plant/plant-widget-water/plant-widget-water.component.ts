@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, LOCALE_ID } from '@angular/core';
-import * as relativeTime from 'dayjs/plugin/relativeTime'
-import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
-import * as dayjs from 'dayjs';
+import { Component } from '@angular/core';
+import { DateTime } from 'luxon';
+
 import {
   ConfirmModalComponent
 } from '@components/modals/confirm-modal/confirm-modal.component';
@@ -13,6 +12,8 @@ import {
   PlusButtonComponent
 } from '@components/plus-button/plus-button.component';
 import { PlantService } from '@services/plant.service';
+import { Plant } from '@models/plant.model';
+import { NextDateWidget } from '@models/next-date-widget.model';
 
 @Component({
   standalone: true,
@@ -27,34 +28,29 @@ import { PlantService } from '@services/plant.service';
 })
 export class PlantWidgetWaterComponent {
   confirmWatering: boolean = false;
-  usableLocale: string = 'en';
+  nextDate: NextDateWidget = {
+    text: null,
+    due: false
+  };
 
-  constructor(
-    public plantService: PlantService,
-    @Inject(LOCALE_ID) public currentLocale: string
-  ) {
-    dayjs.extend(relativeTime);
-    dayjs.extend(isSameOrBefore);
-    import(`dayjs/locale/${currentLocale}`)
-      .then(() => { this.usableLocale = currentLocale })
-      .catch(() => { this.usableLocale = 'en' })
+  constructor(public plantService: PlantService) { }
+
+  ngOnInit(): void {
+    this.plantService.plant$.subscribe((plant: Plant | null) => {
+      if (plant?.waterNext) {
+        const date = DateTime.fromISO(plant.waterNext as string);
+  
+        this.nextDate = {
+          text: date.toRelative(),
+          due: (date.diffNow('days').days < 0)
+        }
+      }
+    })
   }
 
   addWater(): void {
     this.confirmWatering = false;
     this.plantService.water().subscribe();
-  }
-
-  nextWatering(): any {
-    const waterNext = this.plantService.current()?.waterNext;
-
-    if (waterNext) {
-      return {
-        text: dayjs(waterNext).locale(this.usableLocale).fromNow(),
-        due: dayjs(waterNext).isSameOrBefore(dayjs())
-      }
-    }
-    else return null;
   }
 
 }

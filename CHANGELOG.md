@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.2] - 2023-11-10
+
+### Changes
+
+- Updated to Angular 17. Skipped 16 as esbuild wasn't compatible with i18n back
+then.
+- Replaced dayjs with Luxon. The constant compiling warning about dayjs not
+being ESM (and thus, not tree-shakable) was driving me crazy.
+- Huge code cleanup and beautify.
+- Slowly moving to the new Angular 17 control flow.
+- Migrated modules to standalone components, as recommended by latest Angular
+guidelines regarding the future of the modules.
+
+### Fixed
+
+- Updated relative paths in SCSS files.
+- Updated missing translations.
+
 ## [1.0.1] - 2023-11-07
 
 ### Changes

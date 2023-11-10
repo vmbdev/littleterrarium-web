@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CoreModule } from '@modules/core/core.module';
+import { FooternavComponent } from '@components/footernav/footernav.component';
+import { MainnavComponent } from '@components/mainnav/mainnav.component';
 
 /**
  * Component providing the default layout.
@@ -10,7 +11,8 @@ import { CoreModule } from '@modules/core/core.module';
   selector: 'lt-default-layout',
   imports: [
     RouterModule,
-    CoreModule
+    MainnavComponent,
+    FooternavComponent
   ],
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss']

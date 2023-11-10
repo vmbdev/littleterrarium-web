@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -14,7 +14,16 @@ import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 import {
   FileUploaderComponent
 } from '@components/file-uploader/file-uploader.component';
-import { WizardModule } from '@modules/wizard/wizard.module';
+import {
+  WizardHeaderComponent
+} from '@components/wizard/wizard-header/wizard-header.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { Location, Light } from '@models/location.model';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { BreadcrumbService } from '@services/breadcrumb.service';
@@ -29,12 +38,15 @@ import { LocationService } from '@services/location.service';
     RouterModule,
     ReactiveFormsModule,
     FileUploaderComponent,
-    WizardModule
+    WizardComponent,
+    WizardPageComponent,
+    WizardPageDescriptionComponent,
+    WizardHeaderComponent,
   ],
   templateUrl: './location-add-edit.component.html',
   styleUrls: ['./location-add-edit.component.scss']
 })
-export class LocationAddEditComponent implements OnInit {
+export class LocationAddEditComponent {
   lightOptions = Light;
   locationForm: FormGroup;
   location?: Location;

@@ -1,6 +1,0 @@
-<div class="theme-switcher" *ngIf="theme.theme$ | async as currentTheme">
-  <div class="theme-switcher__light" [ngClass]="{ 'theme-switcher__light-turn': currentTheme === 'dark' }" (click)="switchTheme()">
-    <div class="theme-switcher__light-on"></div>
-    <div class="theme-switcher__light-off"></div>
-  </div>
-</div>

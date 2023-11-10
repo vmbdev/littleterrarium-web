@@ -1,15 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
-import * as dayjs from 'dayjs';
-import * as LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import { DateTime } from 'luxon';
 
-import { BreadcrumbService } from '@services/breadcrumb.service';
-import { PhotoService } from '@services/photo.service';
-import { ErrorHandlerService } from '@services/error-handler.service';
-import { ToolboxModule } from '@modules/toolbox/toolbox.module';
 import {
   ConfirmModalComponent
 } from '@components/modals/confirm-modal/confirm-modal.component';
@@ -26,6 +21,15 @@ import {
 import {
   NavigationComponent
 } from '@components/navigation/navigation.component';
+import {
+  ToolboxComponent
+} from '@components/toolbox/toolbox/toolbox.component';
+import {
+  ToolboxButtonComponent
+} from '@components/toolbox/toolbox-button/toolbox-button.component';
+import { BreadcrumbService } from '@services/breadcrumb.service';
+import { PhotoService } from '@services/photo.service';
+import { ErrorHandlerService } from '@services/error-handler.service';
 import { ImagePathService } from '@services/image-path.service';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
@@ -33,23 +37,24 @@ import { NavigationData, Photo } from '@models/photo.model';
 
 
 @Component({
-    standalone: true,
-    selector: 'lt-photo',
-    templateUrl: './photo.component.html',
-    styleUrls: ['./photo.component.scss'],
-    imports: [
-      CommonModule,
-      RouterModule,
-      PhotoEditComponent,
-      ToolboxModule,
-      ConfirmModalComponent,
-      QuickModalComponent,
-      InfoBoxComponent,
-      NavigationComponent,
-      PropertyBoxComponent
-    ]
+  standalone: true,
+  selector: 'lt-photo',
+  templateUrl: './photo.component.html',
+  styleUrls: ['./photo.component.scss'],
+  imports: [
+    CommonModule,
+    RouterModule,
+    PhotoEditComponent,
+    ToolboxComponent,
+    ToolboxButtonComponent,
+    ConfirmModalComponent,
+    QuickModalComponent,
+    InfoBoxComponent,
+    NavigationComponent,
+    PropertyBoxComponent
+  ]
 })
-export class PhotoComponent implements OnInit {
+export class PhotoComponent {
   id?: number;
   confirmDelete: boolean = false;
   enablePhotoEditing: boolean = false;
@@ -93,11 +98,14 @@ export class PhotoComponent implements OnInit {
           return EMPTY;
         }),
         switchMap((photo: Photo) => {
-          dayjs.extend(LocalizedFormat);
+          const takenAt = DateTime
+            .fromISO(photo.takenAt as string)
+            .toLocaleString(DateTime.DATE_FULL);
+
           this.breadcrumb.setNavigation(
             [{
               selector: 'photo',
-              name: dayjs(photo.takenAt).format('LL'),
+              name: takenAt,
               link: ['/photo', this.id]
             }], { attachTo: 'plant', parent: photo.plantId }
           )

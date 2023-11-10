@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   PictureListComponent
 } from '@components/picture-list/picture-list.component';
@@ -18,7 +18,7 @@ import { PlantService } from '@services/plant.service';
   templateUrl: './photo-list.component.html',
   providers: [DatePipe]
 })
-export class PhotoListComponent implements OnInit {
+export class PhotoListComponent {
   @Input() plantId?: number;
   @Input() owned: boolean = true;
   pictureList: PictureItem[] = [];

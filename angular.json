@@ -26,13 +26,13 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "localize": false,
             "outputPath": "dist/littleterrarium",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -67,9 +67,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -81,10 +79,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "littleterrarium:build:production"
+              "buildTarget": "littleterrarium:build:production"
             },
             "development": {
-              "browserTarget": "littleterrarium:build:development"
+              "buildTarget": "littleterrarium:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "littleterrarium:build"
+            "buildTarget": "littleterrarium:build"
           }
         },
         "test": {

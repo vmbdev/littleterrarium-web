@@ -9,16 +9,26 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize, throwError } from 'rxjs';
-import { ErrorHandlerService } from '@services/error-handler.service';
-import { PlantService } from '@services/plant.service';
-import { PhotoService } from '@services/photo.service';
-import { WizardModule } from '@modules/wizard/wizard.module';
+
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
+import {
+  WizardHeaderComponent
+} from '@components/wizard/wizard-header/wizard-header.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
 import {
   FileUploaderComponent
 } from '@components/file-uploader/file-uploader.component';
 import {
   ProgressBarComponent
 } from '@components/progress-bar/progress-bar.component';
+import { ErrorHandlerService } from '@services/error-handler.service';
+import { PlantService } from '@services/plant.service';
+import { PhotoService } from '@services/photo.service';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
 
@@ -29,7 +39,10 @@ import { Plant } from '@models/plant.model';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    WizardModule,
+    WizardComponent,
+    WizardPageComponent,
+    WizardPageDescriptionComponent,
+    WizardHeaderComponent,
     FileUploaderComponent,
     ProgressBarComponent
   ],

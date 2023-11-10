@@ -1,13 +1,15 @@
-<ng-container *ngIf="plantService.plant$ | async as plant">
-  <lt-confirm-modal
-    *ngIf="confirmFertilizing"
-    (accept)="addFertilizer()"
-    (cancel)="confirmFertilizing = false"
-  >
-    <span i18n="@@plant-widget-fertilizer.confirm">
-      This will update your <b>last time fertilized</b> to today.
-    </span>
-  </lt-confirm-modal>
+@if (plantService.plant$ | async; as plant) {
+
+  @if (confirmFertilizing) {
+    <lt-confirm-modal
+      (accept)="addFertilizer()"
+      (cancel)="confirmFertilizing = false"
+    >
+      <span i18n="@@plant-widget-fertilizer.confirm">
+        This will update your <b>last time fertilized</b> to today.
+      </span>
+    </lt-confirm-modal>
+  }
 
   <lt-widget-box
     image="assets/fertilizer.png"
@@ -15,30 +17,41 @@
     i18n-title="@@general.fertilizer"
   >
     <div>
-      <p *ngIf="plant.fertLast">
-        <b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}
-      </p>
-      <p *ngIf="plant.fertType">
-        <b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}
-      </p>
+      @if (plant.fertLast) {
+        <p>
+          <b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}
+        </p>
+      }
+      @if (plant.fertType) {
+        <p>
+          <b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}
+        </p>
+      }
     </div>
+
     <div bottom>
-      <p *ngIf="plant.fertFreq" i18n="@@plant-widget-fertilizer.freq">
-        Fertilise every <b>{{ plant.fertFreq }} days</b>
-      </p>
-      <p *ngIf="nextFertilizing() as nextF">
-        <b i18n="@@general.nextTime">Next time:</b>&nbsp;
-        <span [ngStyle]="{ 'color' : nextF.due ? 'red' : null }">
-          {{ nextF.text }}
-        </span>
-      </p>
-      <lt-plus-button
-        *ngIf="this.plantService.owned"
-        type="add"
-        title="Fertilize"
-        (click)="confirmFertilizing = true"
-        i18n-title="@@plant-widget-fertilizer.button">
-      </lt-plus-button>
+      @if (plant.fertFreq) {
+        <p i18n="@@plant-widget-fertilizer.freq">
+          Fertilise every <b>{{ plant.fertFreq }} days</b>
+        </p>
+      }
+      @if (nextDate.text) {
+        <p>
+          <b i18n="@@general.nextTime">Next time:</b>&nbsp;
+          <span [ngStyle]="{ 'color' : nextDate.due ? 'red' : null }">
+            {{ nextDate.text }}
+          </span>
+        </p>
+      }
+      @if (this.plantService.owned) {
+        <lt-plus-button
+          type="add"
+          title="Fertilize"
+          (click)="confirmFertilizing = true"
+          i18n-title="@@plant-widget-fertilizer.button"
+        />
+      }
     </div>
   </lt-widget-box>
-</ng-container>
+
+}

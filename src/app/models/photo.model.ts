@@ -3,7 +3,7 @@ export interface Photo {
   images: any
   description: string | null
   public: boolean
-  takenAt: Date
+  takenAt: Date | string
   hashId: number
   plantId: number
   ownerId: number

@@ -1,0 +1,15 @@
+<ng-template #pageTemplate>
+  <div class="page">
+    @if (title) {
+      <div class="page__title">{{ title }}</div>
+    }
+
+    @if (description) {
+      <ng-template [ngTemplateOutlet]="description.pageDescTemplate" />
+    }
+
+    <div class="page__content">
+      <ng-content />
+    </div>
+  </div>
+</ng-template>

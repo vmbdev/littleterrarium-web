@@ -15,5 +15,5 @@ export class InfoBoxComponent  {
   /**
    * The title of the information box. By default, an empty string.
    */
-  @Input() title: string = '';
+  @Input({ required: true }) title!: string;
 }

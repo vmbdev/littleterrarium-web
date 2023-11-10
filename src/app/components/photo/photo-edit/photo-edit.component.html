@@ -1,5 +1,5 @@
+@if (photoService.photo$ | async; as photo) {
 <form
-  *ngIf="photoService.photo$ | async as photo"
   [formGroup]="photoForm"
   method="post"
   (submit)="submit()"
@@ -32,3 +32,4 @@
     <button i18n="@@general.update">Update</button>
   </div>
 </form>
+}

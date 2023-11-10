@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Location } from '@models/location.model';
 import { ApiService } from '@services/api.service';
@@ -19,7 +19,7 @@ import {
   ],
   templateUrl: './location-list.component.html'
 })
-export class LocationListComponent implements OnInit {
+export class LocationListComponent {
   @Input() userId?: number;
   @Input() owned: boolean = true;
   pictureList: PictureItem[] = [];

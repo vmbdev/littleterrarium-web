@@ -1,0 +1,21 @@
+<div class="toolbox">
+  <div class="toolbox__divider">
+    <div class="toolbox__title">
+      @if (title) {
+        <h1>{{ title | capitalize }}</h1>
+      }
+      @if (subtitle) {
+        <h2>{{ subtitle | capitalize }}</h2>
+      }
+    </div>
+    @if (buttons) {
+      <div class="toolbox__buttons">
+        @for (button of buttons; track button.image) {
+          <div>
+            <ng-template [ngTemplateOutlet]="button.buttonTemplate" />
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

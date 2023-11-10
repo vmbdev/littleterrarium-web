@@ -7,9 +7,19 @@ import {
   Validators
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import {
+  WizardHeaderComponent
+} from '@components/wizard/wizard-header/wizard-header.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
-import { WizardModule } from '@modules/wizard/wizard.module';
 import { Plant, potChoices } from '@models/plant.model';
 
 @Component({
@@ -18,7 +28,10 @@ import { Plant, potChoices } from '@models/plant.model';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    WizardModule
+    WizardComponent,
+    WizardPageComponent,
+    WizardPageDescriptionComponent,
+    WizardHeaderComponent
   ],
   templateUrl: './plant-edit-soil.component.html',
   styleUrls: ['./plant-edit-soil.component.scss']

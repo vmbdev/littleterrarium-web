@@ -9,13 +9,13 @@
       Editing soil and pot options for <b>{{ plant.visibleName }}</b>
     </lt-wizard-header>
     
-    <lt-page title="Pot" i18n-title="@@general.pot">
-      <lt-page-description>
+    <lt-wizard-page title="Pot" i18n-title="@@general.pot">
+      <lt-wizard-page-description>
         <p i18n="@@plant-edit-soil.potDesc">
           Nothing like finding a proper home to your plants, with a comfy
           floor!
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <p i18n="@@plant-edit-soil.material">
         What kind of <b>material</b> is your plant sitting on?
       </p>
@@ -30,9 +30,9 @@
           <p>{{ pot.name }}</p>
         </div>
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Pot size" i18n-title="@@general.potSize">
+    <lt-wizard-page title="Pot size" i18n-title="@@general.potSize">
       <div class="form__number">
         <p i18n="@@plant-edit-soil.size">
           Do you know the <b>diameter of your plant</b>?
@@ -55,9 +55,9 @@
         >
         <label for="units_in" i18n="@@general.in">Inches</label>
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Soil" i18n-title="@@general.soil">
+    <lt-wizard-page title="Soil" i18n-title="@@general.soil">
       <div class="form__textinput">
         <p i18n="@@plant-edit-soil.composition">
           Let's be a completionist and describe a bit what's your soil
@@ -65,6 +65,6 @@
         </p>
         <input type="text" formControlName="soil">
       </div>
-    </lt-page>
+    </lt-wizard-page>
   </lt-wizard>
 </form>

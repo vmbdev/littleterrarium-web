@@ -10,13 +10,13 @@
       Editing {{ plant.visibleName }}
     </lt-wizard-header>
 
-    <lt-page title="Name" i18n-title="@@general.name">
-      <lt-page-description>
+    <lt-wizard-page title="Name" i18n-title="@@general.name">
+      <lt-wizard-page-description>
         <p i18n="@@plant-add.nameDesc">
           This is the happy moment when we add our beloved plants. First things
           first, identify! Want to give it a <b> name</b>?
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <div class="form__textinput">
         <input
           type="text"
@@ -25,27 +25,27 @@
           i18n-placeholder="@@plant-add.namePlaceholder"
         >
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Specie" i18n-title="@@general.specie">
-      <lt-page-description>
+    <lt-wizard-page title="Specie" i18n-title="@@general.specie">
+      <lt-wizard-page-description>
         <p i18n="@@plant-add.specieDesc">
           Have you identified its specie? Search and select it from the list.
           You can use
-          <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a>
+          <a href="https://identify.plantnet.org/" target="_blank">Pl&#64;ntNet</a>
           to identify it.
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <lt-specie-finder
         [selected]="plant.specieId ? plant.specieId : undefined"
         (selectSpecieId)="selectSpecieId($event)"
       />
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Location" i18n-title="@@general.location">
-      <lt-page-description>
+    <lt-wizard-page title="Location" i18n-title="@@general.location">
+      <lt-wizard-page-description>
         <p i18n="@@plant-edit.moved">Did you move your plant?</p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <div class="form__select">
         <select formControlName="locationId">
           <option
@@ -57,16 +57,16 @@
           </option>
         </select>
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Description" i18n-title="@@general.description">
-      <lt-page-description>
+    <lt-wizard-page title="Description" i18n-title="@@general.description">
+      <lt-wizard-page-description>
         <p i18n="@@plant-edit.description">
           Tell us something about your green friend: Where did you get it?
           When? How? Is it a variation of the common species? Is there an
           interesting story behind it?
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <div class="form__textarea">
         <textarea
           formControlName="description"
@@ -76,14 +76,14 @@
           {{ plant.description }}
         </textarea>
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Plant condition" i18n-title="@@plant-edit.condition">
-      <lt-page-description>
+    <lt-wizard-page title="Plant condition" i18n-title="@@plant-edit.condition">
+      <lt-wizard-page-description>
         <p i18n="@@plant-edit.health">
           Let's keep track of its health, would you?
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <div class="plantedit__conditions">
         <div
           *ngFor="let cond of plantConditions | keyvalue: noSort"
@@ -97,10 +97,10 @@
           <label [for]="'cond' + cond.key">{{ cond.value }}</label>
         </div>
       </div>
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Privacy" i18n-title="@@general.privacy">
-      <lt-page-description>
+    <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
+      <lt-wizard-page-description>
         <p i18n="@@plant-add.privacy">
           When your plant is <b>publicly visible</b>, other users will be able
           to see it when visiting your user profile (given that it's
@@ -112,13 +112,13 @@
           location is private users won't be able to see the location plant
           list, but you can share a direct link to this plant.
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
         <label for="public-checkbox" i18n="@@general.visibilityPublic">
           Publicly visible
         </label>
       </div>
-    </lt-page>
+    </lt-wizard-page>
   </lt-wizard>
 </form>

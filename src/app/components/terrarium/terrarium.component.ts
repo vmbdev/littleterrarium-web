@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -23,7 +23,7 @@ import { User } from '@models/user.model';
   templateUrl: './terrarium.component.html',
   styleUrls: ['./terrarium.component.scss']
 })
-export class TerrariumComponent implements OnInit {
+export class TerrariumComponent {
   user$ = new BehaviorSubject<User | null>(null);
 
   constructor(

@@ -7,13 +7,17 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { BreadcrumbService } from '@services/breadcrumb.service';
-import { ApiService } from '@services/api.service';
-import { PlantService } from '@services/plant.service';
-import { WizardModule } from '@modules/wizard/wizard.module';
+
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
   SpecieFinderComponent
 } from '@components/specie-finder/specie-finder.component';
+import { BreadcrumbService } from '@services/breadcrumb.service';
+import { ApiService } from '@services/api.service';
+import { PlantService } from '@services/plant.service';
 import { Location } from '@models/location.model';
 import { Plant, Condition } from '@models/plant.model';
 
@@ -23,7 +27,10 @@ import { Plant, Condition } from '@models/plant.model';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    WizardModule,
+    WizardComponent,
+    WizardPageComponent,
+    WizardPageDescriptionComponent,
+    WizardHeaderComponent,
     SpecieFinderComponent
   ],
   templateUrl: './plant-edit.component.html',

@@ -11,8 +11,8 @@
       </span>
     </lt-wizard-header>
 
-    <lt-page title="Pictures" i18n-title="@@general.pictures">
-      <lt-page-description>
+    <lt-wizard-page title="Pictures" i18n-title="@@general.pictures">
+      <lt-wizard-page-description>
         <p i18n="@@photo-add.addMsg">
           Time to brag about our well-cared, personal jungle.
         </p>
@@ -21,15 +21,15 @@
           description and if you need them in a specific order you can define
           when they were taken.
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <lt-file-uploader
         [maxAmount]="10"
         (fileChange)="fileChange($event)"
       />
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Privacy" i18n-title="@@general.privacy">
-      <lt-page-description>
+    <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
+      <lt-wizard-page-description>
         <p i18n="@@photo-add.visibility">
           When your picture is <b>publicly visible</b>, other users will be
           able to see it when visiting your user profile (given that it's
@@ -40,7 +40,7 @@
           privacy settings, and they supersedes the picture's privacy setting
           (i.e. you can't share this picture if the plant is private).
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
 
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
@@ -62,7 +62,7 @@
           Upload finished. Processing your photos, please wait.
         </div>
       </div>
-    </lt-page>
+    </lt-wizard-page>
   </lt-wizard>
 </form>
 

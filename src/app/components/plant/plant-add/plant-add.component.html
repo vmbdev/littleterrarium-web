@@ -9,13 +9,13 @@
       Adding photos to <b>{{ location.name }}</b>
     </lt-wizard-header>
 
-    <lt-page title="Name" i18n-title="@@general.name">
-      <lt-page-description>
+    <lt-wizard-page title="Name" i18n-title="@@general.name">
+      <lt-wizard-page-description>
         <p i18n="@@plant-add.nameDesc">
           This is the happy moment when we add our beloved plants. First things
           first, identify! Want to give it a <b> name</b>?
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <div class="form__textinput">
         <input
           type="text"
@@ -24,22 +24,22 @@
           i18n-placeholder="@@plant-add.namePlaceholder"
         >
       </div>
-    </lt-page>
+    </lt-wizard-page>
     
-    <lt-page title="Specie" i18n-title="@@general.specie">
-      <lt-page-description>
+    <lt-wizard-page title="Specie" i18n-title="@@general.specie">
+      <lt-wizard-page-description>
         <p i18n="@@plant-add.specieDesc">
           Have you identified its specie? Search and select it from the list.
           You can use
-          <a href="https://identify.plantnet.org/" target="_blank">Pl@ntNet</a>
+          <a href="https://identify.plantnet.org/" target="_blank">Pl&#64;ntNet</a>
           to identify it.
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <lt-specie-finder (selectSpecieId)="selectSpecieId($event)" />
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Pictures" i18n-title="@@general.pictures">
-      <lt-page-description>
+    <lt-wizard-page title="Pictures" i18n-title="@@general.pictures">
+      <lt-wizard-page-description>
         <p i18n="@@photo-add.addMsg">
           Time to brag about our well-cared, personal jungle.
         </p>
@@ -48,12 +48,12 @@
           description and if you need them in a specific order you can define
           when they were taken.
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <lt-file-uploader [maxAmount]="10" (fileChange)="fileChange($event)" />
-    </lt-page>
+    </lt-wizard-page>
 
-    <lt-page title="Privacy" i18n-title="@@general.privacy">
-      <lt-page-description>
+    <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
+      <lt-wizard-page-description>
         <p i18n="@@plant-add.privacy">
           When your plant is <b>publicly visible</b>, other users will be able
           to see it when visiting your user profile (given that it's
@@ -65,7 +65,7 @@
           location is private users won't be able to see the location plant
           list, but you can share a direct link to this plant.
         </p>
-      </lt-page-description>
+      </lt-wizard-page-description>
       <div class="form__checkbox">
         <input type="checkbox" formControlName="public" id="public-checkbox">
         <label for="public-checkbox" i18n="@@general.visibilityPublic">
@@ -86,6 +86,6 @@
           Upload finished. Processing your photos, please wait.
         </div>
       </div>
-    </lt-page>
+    </lt-wizard-page>
   </lt-wizard>
 </form>

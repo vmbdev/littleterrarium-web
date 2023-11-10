@@ -8,12 +8,12 @@ export interface Plant {
   description: string | null
   condition: Condition | null
   waterFreq: number | null
-  waterLast: Date | null
-  waterNext: Date | null
+  waterLast: Date | string | null
+  waterNext: Date | string | null
   fertFreq: number | null
-  fertLast: Date | null
+  fertLast: Date | string | null
   fertType: string | null
-  fertNext: Date | null
+  fertNext: Date | string | null
   potType: string | null
   potSize: number | null
   soil: string | null
