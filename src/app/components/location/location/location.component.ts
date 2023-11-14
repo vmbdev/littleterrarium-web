@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
-import {
-  ConfirmModalComponent
-} from '@components/modals/confirm-modal/confirm-modal.component';
 import { InfoBoxComponent } from '@components//info-box/info-box.component';
 import {
   PlantListComponent
@@ -24,6 +21,7 @@ import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LocationService } from '@services/location.service';
 import { Location } from '@models/location.model';
+import { ModalService } from '@services/modal.service';
 
 /**
  * Component providing visualization for a Location model.
@@ -38,29 +36,26 @@ import { Location } from '@models/location.model';
     PlantListComponent,
     ToolboxComponent,
     ToolboxButtonComponent,
-    ConfirmModalComponent,
     InfoBoxComponent,
     PropertyBoxComponent
   ]
 })
 export class LocationComponent {
+  @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
+
   /**
    * Id number of the location, as represented in the database, and obtained
    * from the route.
    */
   private id?: number;
 
-  /**
-   * Variable to control whether the ConfirmModal for deletion is opened.
-   */
-  confirmDelete: boolean = false;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public locationService: LocationService,
     private breadcrumb: BreadcrumbService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private modal: ModalService
   ) { }
 
   /**
@@ -96,6 +91,12 @@ export class LocationComponent {
         ])
       });
     }
+  }
+
+  openDeleteModal(): void {
+    this.modal.open(this.deleteModal, 'confirm').subscribe((res) => {
+      if (res === 'accept') this.delete()
+    });
   }
 
   edit(): void {

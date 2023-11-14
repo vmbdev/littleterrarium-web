@@ -4,6 +4,7 @@
       <img class="ls__flag" src="/assets/flags/{{ currentLocale }}.png">
     </div>
     <div class="ls__list" [ngClass]="{ 'ls__list-hidden': listHidden }">
+
       @for (locale of getFullLocaleList(); track locale) {
         <div class="ls__lang" (click)="changeLocale(locale)">
           <img class="ls__flag" src="/assets/flags/{{ locale }}.png">

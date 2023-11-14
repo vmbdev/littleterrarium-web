@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -12,11 +12,15 @@ export class ConfirmModalComponent {
   @Output() accept: EventEmitter<null> = new EventEmitter<null>();
   @Output() cancel: EventEmitter<null> = new EventEmitter<null>();
 
-  acceptEvent(): void {
+  constructor(private elementRef: ElementRef) {}
+
+  onAccept(): void {
+    this.elementRef.nativeElement.remove();
     this.accept.emit();
   }
 
-  cancelEvent(): void {
+  onCancel(): void {
+    this.elementRef.nativeElement.remove();
     this.cancel.emit();
   }
 

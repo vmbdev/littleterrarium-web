@@ -1,92 +1,93 @@
 @if (photoService.photo$ | async; as photo) {
-<div class="photo">
-  @if (enablePhotoEditing) {
-    <lt-quick-modal (close)="enablePhotoEditing = false" title="Edit photo">
-      <lt-photo-edit (updated)="enablePhotoEditing = false" />
-    </lt-quick-modal>
-  }
-
-  @if (confirmDelete) {
-    <lt-confirm-modal (accept)="delete()" (cancel)="confirmDelete = false">
-      <p i18n="@@photo.remove">This will remove this photo. Are you sure?</p>
-      <p>
-        <strong i18n="@@general.irreversible">
-          This action is irreversible.
-        </strong>
-      </p>
-    </lt-confirm-modal>
-  }
-
-  <lt-toolbox title="{{ photo.takenAt | date }}">
-    @if (photoService.owned) {
-
-      <lt-toolbox-button image="assets/edit.png"
-        (click)="enablePhotoEditing = true"
-      />
-      <lt-toolbox-button
-        image="assets/delete.png"
-        (click)="confirmDelete = true"
-      />
-    }
-  </lt-toolbox>
-
-  <lt-info-box title="Photo information" i18n-title="@@photo.photoInformation">
-    @if (photo.description) {
-      <div class="photo__description">
-        {{ photo.description }}
-      </div>
+  <div class="photo">
+    @if (enablePhotoEditing) {
+      <lt-quick-modal (close)="enablePhotoEditing = false" title="Edit photo">
+        <lt-photo-edit (updated)="enablePhotoEditing = false" />
+      </lt-quick-modal>
     }
 
-    <ng-container properties>
-      <lt-property-box icon="assets/clock.png">
-        <b i18n="@@photo.takenAt">Taken at:</b> {{ photo.takenAt | date }}
-      </lt-property-box>
-
-      <lt-property-box [icon]="getVisibilityAsset()">
-        <b i18n="@@general.visibility">Visibility:</b>
-        @if (photo.public) {
-          <ng-container i18n="@@general.public">Public</ng-container>
-        }
-        @else {
-          <ng-container i18n="@@general.private">Private</ng-container>
-        }
-      </lt-property-box>
-
+    <lt-toolbox title="{{ photo.takenAt | date }}">
       @if (photoService.owned) {
-        <lt-property-box>
-          <div class="form__checkbox">
-            <input
-              type="checkbox"
-              class="photo__cover"
-              id="cover-checkbox"
-              [checked]="plantCoverId === photo.id"
-            >
-            <label
-              for="cover-checkbox"
-              (click)="updateCoverPhoto()"
-              i18n="@@photo.cover"
-            >
-              Cover photo
-            </label>
-          </div>
-        </lt-property-box>
+        <lt-toolbox-button image="assets/edit.png"
+          (click)="enablePhotoEditing = true"
+        />
+        <lt-toolbox-button
+          image="assets/delete.png"
+          (click)="openDeleteModal()"
+        />
       }
-    </ng-container>
+    </lt-toolbox>
 
-  </lt-info-box>
+    <lt-info-box title="Photo information" i18n-title="@@photo.photoInformation">
+      @if (photo.description) {
+        <div class="photo__description">
+          {{ photo.description }}
+        </div>
+      }
 
- <!-- TODO: make the navigation buttons occupy the whole height -->
-  <div class="photo__imagebox">
-    <lt-navigation
-      [previousLink]="navigation.prev ? ['/photo', navigation.prev.id] : undefined"
-      [nextLink]="navigation.next ? ['/photo', navigation.next.id] : undefined"
-    >
-      <div class="photo__image">
-        <a [href]="imagePath.get(photo.images, 'full')" target="_blank">
-          <img [src]="imagePath.get(photo.images, 'mid')">
-        </a>
-      </div>
-    </lt-navigation>
+      <ng-container properties>
+        <lt-property-box icon="assets/clock.png">
+          <b i18n="@@photo.takenAt">Taken at:</b> {{ photo.takenAt | date }}
+        </lt-property-box>
+
+        <lt-property-box [icon]="getVisibilityAsset()">
+          <b i18n="@@general.visibility">Visibility:</b>
+          @if (photo.public) {
+            <span i18n="@@general.public">Public</span>
+          }
+          @else {
+            <span i18n="@@general.private">Private</span>
+          }
+        </lt-property-box>
+
+        @if (photoService.owned) {
+          <lt-property-box>
+            <div class="form__checkbox">
+              <input
+                type="checkbox"
+                class="photo__cover"
+                id="cover-checkbox"
+                [checked]="plantCoverId === photo.id"
+              >
+              <label
+                for="cover-checkbox"
+                (click)="updateCoverPhoto()"
+                i18n="@@photo.cover"
+              >
+                Cover photo
+              </label>
+            </div>
+          </lt-property-box>
+        }
+      </ng-container>
+
+    </lt-info-box>
+
+  <!-- TODO: make the navigation buttons occupy the whole height -->
+    <div class="photo__imagebox">
+      <lt-navigation
+        [previousLink]="
+          navigation.prev ? ['/photo', navigation.prev.id] : undefined
+        "
+        [nextLink]="
+          navigation.next ? ['/photo', navigation.next.id] : undefined
+        "
+      >
+        <div class="photo__image">
+          <a [href]="imagePath.get(photo.images, 'full')" target="_blank">
+            <img [src]="imagePath.get(photo.images, 'mid')">
+          </a>
+        </div>
+      </lt-navigation>
+    </div>
   </div>
-</div>
 }
+
+<ng-template #deleteModal>
+  <p i18n="@@photo.remove">This will remove this photo. Are you sure?</p>
+  <p>
+    <strong i18n="@@general.irreversible">
+      This action is irreversible.
+    </strong>
+  </p>
+</ng-template>

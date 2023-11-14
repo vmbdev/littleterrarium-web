@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { DateTime } from 'luxon';
 
-import {
-  ConfirmModalComponent
-} from '@components/modals/confirm-modal/confirm-modal.component';
 import {
   WidgetBoxComponent
 } from '@components/widget-box/widget-box.component';
@@ -14,26 +11,30 @@ import {
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
 import { NextDateWidget } from '@models/next-date-widget.model';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   standalone: true,
   selector: 'lt-plant-widget-fertilizer',
   imports: [
     CommonModule,
-    ConfirmModalComponent,
     WidgetBoxComponent,
     PlusButtonComponent
   ],
   templateUrl: './plant-widget-fertilizer.component.html'
 })
 export class PlantWidgetFertilizerComponent {
-  confirmFertilizing: boolean = false;
+  @ViewChild('fertModal') fertModal!: TemplateRef<any>;
+
   nextDate: NextDateWidget = {
     text: null,
     due: false
   };
 
-  constructor(public plantService: PlantService) {}
+  constructor(
+    public plantService: PlantService,
+    private modal: ModalService
+  ) {}
 
   ngOnInit(): void {
     this.plantService.plant$.subscribe((plant: Plant | null) => {
@@ -48,8 +49,13 @@ export class PlantWidgetFertilizerComponent {
     })
   }
 
+  openFertModal(): void {
+    this.modal.open(this.fertModal, 'confirm').subscribe((res) => {
+      if (res === 'accept') this.addFertilizer();
+    })
+  }
+
   addFertilizer(): void {
-    this.confirmFertilizing = false;
     this.plantService.fertilize().subscribe();
   }
 }

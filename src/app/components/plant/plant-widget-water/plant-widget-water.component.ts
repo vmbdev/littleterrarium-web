@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { DateTime } from 'luxon';
 
-import {
-  ConfirmModalComponent
-} from '@components/modals/confirm-modal/confirm-modal.component';
 import {
   WidgetBoxComponent
 } from '@components/widget-box/widget-box.component';
@@ -14,26 +11,30 @@ import {
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
 import { NextDateWidget } from '@models/next-date-widget.model';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   standalone: true,
   selector: 'lt-plant-widget-water',
   imports: [
     CommonModule,
-    ConfirmModalComponent,
     WidgetBoxComponent,
     PlusButtonComponent
   ],
   templateUrl: './plant-widget-water.component.html'
 })
 export class PlantWidgetWaterComponent {
-  confirmWatering: boolean = false;
+  @ViewChild('waterModal') waterModal!: TemplateRef<any>;
+
   nextDate: NextDateWidget = {
     text: null,
     due: false
   };
 
-  constructor(public plantService: PlantService) { }
+  constructor(
+    public plantService: PlantService,
+    private modal: ModalService
+  ) { }
 
   ngOnInit(): void {
     this.plantService.plant$.subscribe((plant: Plant | null) => {
@@ -48,8 +49,13 @@ export class PlantWidgetWaterComponent {
     })
   }
 
+  openWaterModal(): void {
+    this.modal.open(this.waterModal, 'confirm').subscribe((res) => {
+      if (res === 'accept') this.addWater();
+    })
+  }
+
   addWater(): void {
-    this.confirmWatering = false;
     this.plantService.water().subscribe();
   }
 

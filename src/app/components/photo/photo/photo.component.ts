@@ -1,13 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 import { DateTime } from 'luxon';
 
-import {
-  ConfirmModalComponent
-} from '@components/modals/confirm-modal/confirm-modal.component';
 import {
   QuickModalComponent
 } from '@components/modals/quick-modal/quick-modal.component';
@@ -34,6 +31,7 @@ import { ImagePathService } from '@services/image-path.service';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
 import { NavigationData, Photo } from '@models/photo.model';
+import { ModalService } from '@services/modal.service';
 
 
 @Component({
@@ -47,7 +45,6 @@ import { NavigationData, Photo } from '@models/photo.model';
     PhotoEditComponent,
     ToolboxComponent,
     ToolboxButtonComponent,
-    ConfirmModalComponent,
     QuickModalComponent,
     InfoBoxComponent,
     NavigationComponent,
@@ -55,8 +52,8 @@ import { NavigationData, Photo } from '@models/photo.model';
   ]
 })
 export class PhotoComponent {
+  @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
   id?: number;
-  confirmDelete: boolean = false;
   enablePhotoEditing: boolean = false;
   navigation: NavigationData = { };
   plantCoverId?: number;
@@ -68,7 +65,8 @@ export class PhotoComponent {
     public photoService: PhotoService,
     private plantService: PlantService,
     private errorHandler: ErrorHandlerService,
-    public imagePath: ImagePathService
+    public imagePath: ImagePathService,
+    private modal: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -143,6 +141,12 @@ export class PhotoComponent {
         });
       }
     }
+  }
+
+  openDeleteModal(): void {
+    this.modal.open(this.deleteModal, 'confirm').subscribe((res) => {
+      if (res === 'accept') this.delete();
+    })
   }
 
   delete(): void {

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -12,6 +13,7 @@ import {
 @Component({
   selector: 'lt-wizard-page',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './wizard-page.component.html',
   styleUrls: ['./wizard-page.component.scss']
 })

@@ -12,7 +12,8 @@ export class PlusButtonComponent {
   @Output() click: EventEmitter<null> = new EventEmitter<null>();
   @Input() title: string = '';
 
-  clickEvent(): void {
+  clickEvent(event: MouseEvent): void {
+    event.stopPropagation();
     this.click.emit();
   }
 

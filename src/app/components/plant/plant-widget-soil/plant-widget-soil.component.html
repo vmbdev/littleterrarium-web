@@ -1,22 +1,26 @@
-<lt-widget-box
-  *ngIf="plantService.plant$ | async as plant"
-  image="assets/pot.png"
-  title="Soil and Pot"
-  i18n-title="@@plant-widget-soil.title"
->
-  <div>
-    <!-- TODO: check if pot translation work without potSize -->
-    <p *ngIf="plant.potType" i18n="@@plant-widget-soil.pot">
-      Your pot is made of <b>{{ getPotName() }}</b>,
-      <span *ngIf="plant.potSize">with a size of
-        <b>{{ plant.potSize | unit:'cm' }}</b>
-      </span>.
-    </p>
-    <p
-      *ngIf="plant.soil"
-      i18n="@@plant-widget-soil.composition"
-    >
-      Your plant has a nice soil made up of <b>{{ plant.soil }}</b>.
-    </p>
-  </div>
-</lt-widget-box>
+@if (plantService.plant$ | async; as plant) {
+  <lt-widget-box
+    image="assets/pot.png"
+    title="Soil and Pot"
+    i18n-title="@@plant-widget-soil.title"
+  >
+    <div>
+      <!-- TODO: check if pot translation work without potSize -->
+      @if (plant.potType) {
+        <p i18n="@@plant-widget-soil.pot">
+          Your pot is made of <b>{{ getPotName() }}</b>,
+          <!-- FIXME: changing it to the new control flow makes angular compiler crash -->
+          <span *ngIf="plant.potSize">with a size of
+            <b>{{ plant.potSize | unit:'cm' }}</b>
+          </span>.
+        </p>
+      }
+
+      @if (plant.soil) {
+        <p i18n="@@plant-widget-soil.composition">
+          Your plant has a nice soil made up of <b>{{ plant.soil }}</b>.
+        </p>
+      }
+    </div>
+  </lt-widget-box>
+}

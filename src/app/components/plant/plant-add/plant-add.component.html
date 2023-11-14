@@ -5,9 +5,11 @@
   enctype="multipart/form-data"
 >
   <lt-wizard [form]="plantForm" [disableNavigation]="disableNavigation">
-    <lt-wizard-header *ngIf="location" i18n="@@plant-add.header">
-      Adding photos to <b>{{ location.name }}</b>
-    </lt-wizard-header>
+    @if (location) {
+      <lt-wizard-header i18n="@@plant-add.header">
+        Adding photos to <b>{{ location.name }}</b>
+      </lt-wizard-header>
+    }
 
     <lt-wizard-page title="Name" i18n-title="@@general.name">
       <lt-wizard-page-description>
@@ -74,17 +76,15 @@
       </div>
 
       <div class="plant-add__progress">
-        <lt-progress-bar
-          *ngIf="uploadProgress > 0"
-          [progress]="uploadProgress"
-          />
-        <div
-          *ngIf="uploadProgress === 100"
-          class="plant-add__finished"
-          i18n="@@general.uploadFinished"
-        >
-          Upload finished. Processing your photos, please wait.
-        </div>
+        @if (uploadProgress > 0) {
+          <lt-progress-bar [progress]="uploadProgress" />
+        }
+
+        @if (uploadProgress === 100) {
+          <div class="plant-add__finished" i18n="@@general.uploadFinished">
+            Upload finished. Processing your photos, please wait.
+          </div>
+        }
       </div>
     </lt-wizard-page>
   </lt-wizard>

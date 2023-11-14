@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
@@ -8,9 +8,6 @@ import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import {
   QuickModalComponent
 } from '@components/modals/quick-modal/quick-modal.component';
-import {
-  ConfirmModalComponent
-} from '@components/modals/confirm-modal/confirm-modal.component';
 import {
   PlantEditWateringComponent
 } from '@components/plant/plant-edit-watering/plant-edit-watering.component';
@@ -42,6 +39,7 @@ import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { Plant, Condition } from '@models/plant.model';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   standalone: true,
@@ -53,7 +51,6 @@ import { Plant, Condition } from '@models/plant.model';
     ToolboxComponent,
     ToolboxButtonComponent,
     QuickModalComponent,
-    ConfirmModalComponent,
     InfoBoxComponent,
     PlantEditWateringComponent,
     PlantEditFertilizerComponent,
@@ -65,6 +62,9 @@ import { Plant, Condition } from '@models/plant.model';
   ]
 })
 export class PlantComponent {
+  @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
+  @ViewChild('editWaterModal') editWaterModal!: TemplateRef<any>;
+
   id?: number;
 
   plantTitle?: string;
@@ -77,15 +77,13 @@ export class PlantComponent {
   enableFertilizerEditing: boolean = false;
   enableEditing: boolean = false;
 
-  // Confirm modals
-  confirmDelete: boolean = false;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
     public plantService: PlantService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private modal: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -134,6 +132,18 @@ export class PlantComponent {
     });
 
   }
+
+  openDeleteModal(): void {
+    this.modal.open(this.deleteModal, 'confirm').subscribe((res) => {
+      if (res === 'accept') this.delete();
+    })
+  }
+
+  // openEditWaterModal(): void {
+  //   this.modal.open(this.editWaterModal, 'quick', {
+  //     title: $localize `:@@general.watering:Watering`
+  //   }).subscribe();
+  // }
 
   edit(): void {
     this.router.navigate(['/plant/edit', this.id]);

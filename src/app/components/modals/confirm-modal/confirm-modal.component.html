@@ -1,13 +1,13 @@
 <div class="confirm-modal">
   <div class="confirm-modal__container">
     <div class="confirm-modal__text">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
     <div class="confirm-modal__buttons form__button">
-      <button type="button" (click)="acceptEvent()" i18n="@@general.accept">
+      <button type="button" (click)="onAccept()" i18n="@@general.accept">
         Accept
       </button>
-      <button type="button" (click)="cancelEvent()" i18n="@@general.cancel">
+      <button type="button" (click)="onCancel()" i18n="@@general.cancel">
         Cancel
       </button>
     </div>

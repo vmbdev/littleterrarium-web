@@ -1,8 +1,53 @@
-<lt-confirm-modal
-  *ngIf="confirmDelete"
-  (accept)="delete()"
-  (cancel)="confirmDelete = false"
->
+@if (locationService.location$ | async; as location) {
+  <div class="location">
+    <lt-toolbox [title]="location.name">
+      @if (locationService.isOwned()) {
+        <lt-toolbox-button image="assets/edit.png" (click)="edit()" />
+        <lt-toolbox-button image="assets/delete.png" (click)="openDeleteModal()" />
+      }
+    </lt-toolbox>
+
+    <lt-info-box
+      title="Location information"
+      i18n-title="@@location.locationInformation"
+    >
+
+      <ng-container properties>
+        <lt-property-box [icon]="locationService.getLightAsset(location.light)">
+          {{ locationService.getLightName(location.light) }}
+        </lt-property-box>
+
+        <lt-property-box [icon]="getVisibilityAsset(location.public)">
+          @if (location.public) {
+            <span i18n="@@general.public">
+              Public
+            </span>
+          } @else {
+            <span i18n="@@general.private">
+              Private
+            </span>
+          }
+        </lt-property-box>
+
+        <lt-property-box [icon]="getPlantsAsset(location._count?.plants)">
+          @if (location._count?.plants; as count) {
+            <span i18n="@@location.plants">{{ count }} plants</span>
+          } @else {
+            <span i18n="@@location.noPlants">No plants yet!</span>
+          }
+        </lt-property-box>
+      </ng-container>
+
+    </lt-info-box>
+
+    <div class="section-header">
+      <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
+    </div>
+    <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id" />
+  </div>
+}
+
+<ng-template #deleteModal>
   <p i18n="@@location.remove">
     This will remove this location along with its plants and photos. Are you sure?
   </p>
@@ -11,50 +56,4 @@
       This action is irreversible.
     </strong>
   </p>
-</lt-confirm-modal>
-
-<div class="location" *ngIf="locationService.location$ | async as location">
-  <lt-toolbox [title]="location.name">
-    <ng-container *ngIf="locationService.isOwned()">
-      <lt-toolbox-button image="assets/edit.png" (click)="edit()" />
-      <lt-toolbox-button image="assets/delete.png" (click)="confirmDelete = true" />
-    </ng-container>
-  </lt-toolbox>
-
-  <lt-info-box
-    title="Location information"
-    i18n-title="@@location.locationInformation"
-  >
-
-    <ng-container properties>
-      <lt-property-box [icon]="locationService.getLightAsset(location.light)">
-        {{ locationService.getLightName(location.light) }}
-      </lt-property-box>
-
-      <lt-property-box [icon]="getVisibilityAsset(location.public)">
-        <ng-container
-          *ngIf="location.public; else locationPrivate"
-          i18n="@@general.public"
-        >
-          Public
-        </ng-container>
-        <ng-template #locationPrivate i18n="@@general.private">Private</ng-template>
-      </lt-property-box>
-
-      <lt-property-box [icon]="getPlantsAsset(location._count?.plants)">
-        <ng-container *ngIf="location._count?.plants as count; else noPlants">
-          <span i18n="@@location.plants">{{ count }} plants</span>
-        </ng-container>
-        <ng-template #noPlants>
-          <span i18n="@@location.noPlants">No plants yet!</span>
-        </ng-template>
-      </lt-property-box>
-    </ng-container>
-
-  </lt-info-box>
-
-  <div class="section-header">
-    <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
-  </div>
-  <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id" />
-</div>
+</ng-template>

@@ -9,12 +9,11 @@
     [singlePage]="!createNew" 
     [disableNavigation]="disableNavigation"
   >
-    <lt-wizard-header
-      *ngIf="!createNew && location"
-      i18n="@@location-add-edit.header"
-    >
-      Editing location <b>{{ location.name }}</b>
-    </lt-wizard-header>
+    @if (!createNew && location) {
+      <lt-wizard-header i18n="@@location-add-edit.header">
+        Editing location <b>{{ location.name }}</b>
+      </lt-wizard-header>
+    }
 
     <lt-wizard-page title="Name" control="name" i18n-title="@@general.name">
       <lt-wizard-page-description>
@@ -56,28 +55,26 @@
       >
         <lt-file-uploader [maxAmount]="1" (fileChange)="fileChange($event)" />
 
-        <div
-          *ngIf="!createNew && location && location.pictures"
-          class="location__currentpic"
-        >
-          <p i18n="@@location-add-edit.currentPic">Your current picture</p>
-          <img [src]="imagePath.get(location.pictures, 'thumb')">
-        </div>
+        @if (!createNew && location && location.pictures) {
+          <div class="location__currentpic">
+            <p i18n="@@location-add-edit.currentPic">Your current picture</p>
+            <img [src]="imagePath.get(location.pictures, 'thumb')">
+          </div>
+        }
       </div>
 
-      <div
-        *ngIf="!createNew && location"
-        class="location__removepic form__checkbox"
-      >
-        <input
-          type="checkbox"
-          id="removepic"
-          (change)="toggleRemovePicture($event)"
-        >
-        <label for="removepic" i18n="@@location-add-edit.removePic">
-          Remove picture
-        </label>
-      </div>
+      @if (!createNew && location) {
+        <div class="location__removepic form__checkbox">
+          <input
+            type="checkbox"
+            id="removepic"
+            (change)="toggleRemovePicture($event)"
+          >
+          <label for="removepic" i18n="@@location-add-edit.removePic">
+            Remove picture
+          </label>
+        </div>
+      }
     </lt-wizard-page>
 
     <lt-wizard-page title="Light" control="light" i18n-title="@@general.light">
@@ -91,20 +88,19 @@
         </p>
       </lt-wizard-page-description>
 
-      <div
-        *ngFor="let option of lightOptions | keyvalue; let i = index"
-        class="form__radio"
-      >
-        <input
-          type="radio"
-          formControlName="light" [id]="'light' + i"
-          [value]="option.key"
-        >
-        <label [for]="'light' + i">
-          <b>{{ locationService.getLightName(option.key) }}</b>:
-          {{ locationService.getLightVerbose(option.key) }}
-        </label>
-      </div>
+      @for (option of lightOptions | keyvalue; let i = $index; track option.key) {
+        <div class="form__radio">
+          <input
+            type="radio"
+            formControlName="light" [id]="'light' + i"
+            [value]="option.key"
+          >
+          <label [for]="'light' + i">
+            <b>{{ locationService.getLightName(option.key) }}</b>:
+            {{ locationService.getLightVerbose(option.key) }}
+          </label>
+        </div>
+      }
     </lt-wizard-page>
 
     <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">

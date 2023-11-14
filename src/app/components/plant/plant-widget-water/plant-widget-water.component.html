@@ -1,20 +1,4 @@
 @if (plantService.plant$ | async; as plant) {
-
-  @if (confirmWatering) {
-    <lt-confirm-modal
-      (accept)="addWater()"
-      (cancel)="confirmWatering = false"
-    >
-      <p i18n="@@plant-widget-water.confirm">
-        This will update your <b>last time watered</b> to today.
-      </p>
-      <p i18n="@@plant-widget-water.warning">
-        If you haven't watered it yet, please check your soil. Never water your
-        plants on a schedule!
-      </p>
-    </lt-confirm-modal>
-  }
-
   <lt-widget-box
     image="assets/water.png"
     title="Watering"
@@ -46,10 +30,20 @@
         <lt-plus-button
           type="add"
           title="Water"
-          (click)="confirmWatering = true"
+          (click)="openWaterModal()"
         />
       }
     </div>
   </lt-widget-box>
 
 }
+
+<ng-template #waterModal>
+  <p i18n="@@plant-widget-water.confirm">
+    This will update your <b>last time watered</b> to today.
+  </p>
+  <p i18n="@@plant-widget-water.warning">
+    If you haven't watered it yet, please check your soil. Never water your
+    plants on a schedule!
+  </p>
+</ng-template>

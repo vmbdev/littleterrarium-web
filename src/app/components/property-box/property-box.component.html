@@ -1,8 +1,10 @@
 <div class="property-box">
-  <div *ngIf="icon">
-    <img class="property-box__icon" [src]="icon">
-  </div>
+  @if (icon) {
+    <div>
+      <img class="property-box__icon" [src]="icon">
+    </div>
+  }
   <div class="property_box__content">
-    <ng-content></ng-content>
+    <ng-content />
   </div>
 </div>

@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.3] - 2023-11-15
+
+### Added
+
+- New ModalService to create ConfirmModal modals.
+
+### Changed
+
+- Templates migrated to the new Angular control flow.
+- Updated Angular to 17.0.2.
+
+### Fixes
+
+- Fixed a bug on PlusButton where the click would propagate and trigger
+multiple times.
+
 ## [1.0.2] - 2023-11-10
 
 ### Changes

@@ -5,11 +5,13 @@
   enctype="multipart/form-data"
 >
   <lt-wizard [form]="photoForm" [disableNavigation]="disableNavigation">
-    <lt-wizard-header *ngIf="plant">
-      <span i18n="@@photo-add.header">
-        Adding photos to <b>{{ plant.visibleName }}</b>
-      </span>
-    </lt-wizard-header>
+    @if (plant) {
+      <lt-wizard-header>
+        <span i18n="@@photo-add.header">
+          Adding photos to <b>{{ plant.visibleName }}</b>
+        </span>
+      </lt-wizard-header>
+    }
 
     <lt-wizard-page title="Pictures" i18n-title="@@general.pictures">
       <lt-wizard-page-description>
@@ -50,17 +52,14 @@
       </div>
 
       <div class="photo-add__progress">
-        <lt-progress-bar
-          *ngIf="uploadProgress > 0"
-          [progress]="uploadProgress"
-        />
-        <div
-          *ngIf="uploadProgress === 100"
-          class="photo-add__finished"
-          i18n="@@general.uploadFinished"
-        >
-          Upload finished. Processing your photos, please wait.
-        </div>
+        @if (uploadProgress > 0) {
+          <lt-progress-bar [progress]="uploadProgress" />
+        }
+        @if (uploadProgress === 100) {
+          <div class="photo-add__finished" i18n="@@general.uploadFinished">
+            Upload finished. Processing your photos, please wait.
+          </div>
+        }
       </div>
     </lt-wizard-page>
   </lt-wizard>

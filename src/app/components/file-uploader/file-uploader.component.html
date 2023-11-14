@@ -7,25 +7,28 @@
   (dragstart)="$event.preventDefault()"
   [ngClass]="{ 'file-uploader__over': dragOver }"
 >
-  <div *ngIf="files.length === 0">
-    <b i18n="@@fileUploader.select">Select a file or drag it here</b>
-  </div>
-
-  <div *ngIf="files.length > 0" class="file-uploader__picturegrid">
-    <div
-      *ngFor="let preview of previews; let i = index"
-      class="file-uploader__picture"
-    >
-      <span class="file-uploader__removelink" (click)="removeFile(i)">
-        &#10006;
-      </span>
-      <img
-        [src]="preview"
-        class="file-uploader__previewimg"
-        (load)="revokeUrl(preview)"
-      >
+  @if (files.length === 0) {
+    <div>
+      <b i18n="@@fileUploader.select">Select a file or drag it here</b>
     </div>
-  </div>
+  }
+
+  @if (files.length > 0) {
+    <div class="file-uploader__picturegrid">
+      @for (preview of previews; let i = $index; track preview) {
+        <div class="file-uploader__picture">
+          <span class="file-uploader__removelink" (click)="removeFile(i)">
+            &#10006;
+          </span>
+          <img
+            [src]="preview"
+            class="file-uploader__previewimg"
+            (load)="revokeUrl(preview)"
+          >
+        </div>
+      }
+    </div>
+  }
 
   <input
     #fileInput

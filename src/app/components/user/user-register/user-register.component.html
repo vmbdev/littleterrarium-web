@@ -18,29 +18,29 @@
           moniker you've been using for the last 20 years or something like
           your Instagram username.
         </p>
-        <p *ngIf="usernameReq" i18n="@@user-register.usernameReq">
-          It must be {{ usernameReq.minLength }} to {{ usernameReq.maxLength }}
-          characters long, and contain only alphanumeric characters, dot (.),
-          dash (-) and underscore (_).
-        </p>
+        
+        @if (usernameReq) {
+          <p i18n="@@user-register.usernameReq">
+            It must be {{ usernameReq.minLength }} to {{ usernameReq.maxLength }}
+            characters long, and contain only alphanumeric characters, dot (.),
+            dash (-) and underscore (_).
+          </p>
+        }
       </lt-wizard-page-description>
 
       <div class="form__textinput">
         <input type="textinput" formControlName="username">
-        <p
-          *ngIf="errors.usernameExists"
-          class="form__errormsg"
-          i18n="@@user-register.usernameTaken"
-        >
-          Sorry, your username already exists. Please choose another.
-        </p>
-        <p
-          *ngIf="errors.usernameInvalid"
-          class="form__errormsg"
-          i18n="@@user-register.usernameInvalid"
-        >
-          Sorry, your username is not valid. Please, check the formatting.
-        </p>
+        @if (errors.usernameExists) {
+          <p class="form__errormsg" i18n="@@user-register.usernameTaken">
+            Sorry, your username already exists. Please choose another.
+          </p>
+        }
+
+        @if (errors.usernameInvalid) {
+          <p class="form__errormsg" i18n="@@user-register.usernameInvalid">
+            Sorry, your username is not valid. Please, check the formatting.
+          </p>
+        }
       </div>
     </lt-wizard-page>
 
@@ -54,21 +54,19 @@
 
       <div class="form__textinput">
         <input type="email" formControlName="email">
-        <p
-          *ngIf="errors.emailExists"
-          class="form__errormsg"
-          i18n="@@user-register.emailTaken"
-        >
-          Sorry, your e-mail already exists in our system. Are you sure you
-          don't have an account already?
-        </p>
-        <p
-          *ngIf="errors.emailInvalid"
-          class="form__errormsg"
-          i18n="@@user-register.emailInvalid"
-        >
-          Sorry, your e-mail is not formatted correctly.
-        </p>
+
+        @if (errors.emailExists) {
+          <p class="form__errormsg" i18n="@@user-register.emailTaken">
+            Sorry, your e-mail already exists in our system. Are you sure you
+            don't have an account already?
+          </p>
+        }
+
+        @if (errors.emailInvalid) {
+          <p class="form__errormsg" i18n="@@user-register.emailInvalid">
+            Sorry, your e-mail is not formatted correctly.
+          </p>
+        }
       </div>
     </lt-wizard-page>
 
@@ -82,41 +80,46 @@
           <b>We're almost there</b>. Last but not least, a <b>password</b> to
           protect your access
         </p>
-        <ng-container *ngIf="hasPasswordConditions()">
+
+        @if (hasPasswordConditions()) {
           <p i18n="@@user-register.passwordReq">Password must contain:</p>
           <ul>
-            <li
-              [ngClass]="{ 'form__errormsg': hasPasswordError('minLength') }"
-            >
+            <li [ngClass]="{ 'form__errormsg': hasPasswordError('minLength') }">
               <span i18n="@@user-register.passwordLength">
                 Password must be at least
                 <b>{{ pwdReq?.minLength }} characters</b> long
               </span>
             </li>
-            <li
-              *ngIf="pwdReq?.requireUppercase"
-              [ngClass]="{ 'form__errormsg': hasPasswordError('missingUppercase') }"
-            >
-              <span i18n="@@user-register.passwordUppercase">
-                One uppercase
-              </span>
-            </li>
-            <li
-              *ngIf="pwdReq?.requireNumber"
-              [ngClass]="{ 'form__errormsg': hasPasswordError('missingNumber') }"
-            >
-              <span i18n="@@user-register.passwordNumber">One number</span>
-            </li>
-            <li
-              *ngIf="pwdReq?.requireNonAlphanumeric"
-              [ngClass]="{ 'form__errormsg': hasPasswordError('missingNonAlphanumeric') }"
-            >
-              <span i18n="@@user-register.passwordAlphanum">
-                One non-alphanumeric character: {{ nonAlphaNumChars }}
-              </span>
-            </li>
+
+            @if (pwdReq?.requireUppercase) {
+              <li
+                [ngClass]="{ 'form__errormsg': hasPasswordError('missingUppercase') }"
+              >
+                <span i18n="@@user-register.passwordUppercase">
+                  One uppercase
+                </span>
+              </li>
+            }
+
+            @if (pwdReq?.requireNumber) {
+              <li
+                [ngClass]="{ 'form__errormsg': hasPasswordError('missingNumber') }"
+              >
+                <span i18n="@@user-register.passwordNumber">One number</span>
+              </li>
+            }
+
+            @if (pwdReq?.requireNonAlphanumeric) {
+              <li
+                [ngClass]="{ 'form__errormsg': hasPasswordError('missingNonAlphanumeric') }"
+              >
+                <span i18n="@@user-register.passwordAlphanum">
+                  One non-alphanumeric character: {{ nonAlphaNumChars }}
+                </span>
+              </li>
+            }
           </ul>
-        </ng-container>
+        }
       </lt-wizard-page-description>
 
       <ng-container formGroupName="passwordCheck">

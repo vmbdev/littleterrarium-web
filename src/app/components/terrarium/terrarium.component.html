@@ -1,32 +1,38 @@
-<div *ngIf="user$ | async as user; else userNotFound" class="terrarium">
-  <div class="terrarium__userbox">
-    <div class="terrarium__avatar">
-      <img class="terrarium__avatarpic" [src]="getUserAvatar()">
+@if (user$ | async; as user) {
+  <div class="terrarium">
+    <div class="terrarium__userbox">
+      <div class="terrarium__avatar">
+        <img class="terrarium__avatarpic" [src]="getUserAvatar()">
+      </div>
+      <div class="terrarium__username">
+        <h1>{{ user.username }}</h1>
+      </div>
+
+      @if (user.firstname || user.lastname) {
+        <div class="terrarium__realnames">
+          <h2>{{ getFullName() }}</h2>
+        </div>
+      }
+      @if (user.bio) {
+        <div class="terrarium__bio">
+          <blockquote>
+            <p>{{ user.bio }}</p>
+          </blockquote>
+        </div>
+      }
     </div>
-    <div class="terrarium__username">
-      <h1>{{ user.username }}</h1>
+
+    <div class="section-header">
+      <h2 i18n="@@terrarium.locationsHeader">Public locations</h2>
     </div>
-    <div *ngIf="getFullName()" class="terrarium__realnames">
-      <h2>{{ getFullName() }}</h2>
+    <lt-location-list [owned]="false" [userId]="user.id" />
+
+    <div class="section-header">
+      <h2 i18n="@@terrarium.plantsHeader">Public plants</h2>
     </div>
-    <div *ngIf="user.bio" class="terrarium__bio">
-      <blockquote>
-        <p>{{ user.bio }}</p>
-      </blockquote>
-    </div>
+    <lt-plant-list [user]="user" />
   </div>
 
-  <div class="section-header">
-    <h2 i18n="@@terrarium.locationsHeader">Public locations</h2>
-  </div>
-  <lt-location-list [owned]="false" [userId]="user.id" />
-
-  <div class="section-header">
-    <h2 i18n="@@terrarium.plantsHeader">Public plants</h2>
-  </div>
-  <lt-plant-list [user]="user"></lt-plant-list>
-</div>
-
-<ng-template #userNotFound>
+} @else {
   <p i18n="@@terrarium.userNotFound">User not found</p>
-</ng-template>
+}

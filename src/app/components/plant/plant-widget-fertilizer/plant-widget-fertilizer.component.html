@@ -1,16 +1,4 @@
 @if (plantService.plant$ | async; as plant) {
-
-  @if (confirmFertilizing) {
-    <lt-confirm-modal
-      (accept)="addFertilizer()"
-      (cancel)="confirmFertilizing = false"
-    >
-      <span i18n="@@plant-widget-fertilizer.confirm">
-        This will update your <b>last time fertilized</b> to today.
-      </span>
-    </lt-confirm-modal>
-  }
-
   <lt-widget-box
     image="assets/fertilizer.png"
     title="Fertiliser"
@@ -47,7 +35,7 @@
         <lt-plus-button
           type="add"
           title="Fertilize"
-          (click)="confirmFertilizing = true"
+          (click)="openFertModal()"
           i18n-title="@@plant-widget-fertilizer.button"
         />
       }
@@ -55,3 +43,9 @@
   </lt-widget-box>
 
 }
+
+<ng-template #fertModal>
+  <span i18n="@@plant-widget-fertilizer.confirm">
+    This will update your <b>last time fertilized</b> to today.
+  </span>
+</ng-template>

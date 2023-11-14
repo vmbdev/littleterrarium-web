@@ -7,15 +7,16 @@
   <div class="signinForm">
     <div class="signinForm__container">
       <div class="signinForm__center">
-        <h1 *ngIf="!homepage" i18n="@@signin.welcomeBack">Welcome back!</h1>
-        <ng-container *ngIf="homepage">
+        @if (homepage) {
           <h1 i18n="@@signin.homepageTitle">Welcome to Little Terrarium!</h1>
           <p i18n="@@signin.homepageMsg">
             We are really happy to have you here. <b>Sign in</b> or
             <b><a routerLink="/register">sign up</a></b> and start taking care
             of your plants!
           </p>
-        </ng-container>
+        } @else {
+          <h1 i18n="@@signin.welcomeBack">Welcome back!</h1>
+        }
       </div>
       <div class="form__textinput">
         <p i18n="@@signin.identification">Username or email</p>
@@ -40,11 +41,15 @@
           i18n-placeholder="@@general.password"
         >
       </div>
-      <div *ngIf="authInvalid" class="signinForm__center form__errormsg">
-        <p i18n="@@signin.invalidCredentials">
-          Sorry, the credentials are not valid.
-        </p>
-      </div>
+
+      @if (authInvalid) {
+        <div class="signinForm__center form__errormsg">
+          <p i18n="@@signin.invalidCredentials">
+            Sorry, the credentials are not valid.
+          </p>
+        </div>
+      }
+
       <div class="form__submit">
         <button [disabled]="!signinForm.valid" i18n="@@general.signin">
           Sign in

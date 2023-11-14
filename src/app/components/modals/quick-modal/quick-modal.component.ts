@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import {
   CloseButtonComponent
 } from '@components/close-button/close-button.component';
@@ -14,7 +14,10 @@ export class QuickModalComponent {
   @Input() title: string = '';
   @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
-  propagateClose(): void {
+  constructor(private elementRef: ElementRef) {}
+
+  onClose(): void {
+    this.elementRef.nativeElement.remove();
     this.close.emit();
   }
 
