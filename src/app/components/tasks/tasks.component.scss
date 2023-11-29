@@ -9,7 +9,9 @@
     margin: 5px;
     padding: 5px;
 
-    border: 1px solid black;
+    &:hover {
+      background-color: rgb(224, 237, 247);
+    }
   }
 
   &__plantname {
@@ -27,13 +29,26 @@
     gap: 20px;
   }
 
-  &__pic {
+  &__actionbutton {
+    border: 0;
+    background-color: transparent;
+
+    &:disabled {
+      &>img {
+        filter: grayscale(100%);
+      }
+    }
+  }
+
+  &__plantpic {
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+  }
+
+  &__actionpic {
     width: 40px;
     height: 40px;
-
-    &--disabled {
-      filter: grayscale(100%);
-    }
   }
 
 }

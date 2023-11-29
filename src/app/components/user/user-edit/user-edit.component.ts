@@ -83,13 +83,21 @@ export class UserEditComponent {
     });
   }
 
-  // TODO: detect if username or email are already taken
+  // TODO: detect errors in editing
+  // TODO: merge a class for this and register
   submit(): void {
     const user: User = this.userForm.value;
 
     this.api.editUser(user).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.error?.msg === 'IMG_NOT_VALID') {
+      catchError((err: HttpErrorResponse) => {
+        const error = err.error;
+
+        if (error.msg === 'USER_FIELD_EXISTS') {
+          if (error.errorData.field === 'username') {
+            
+          }
+        }
+        if (error.msg === 'IMG_NOT_VALID') {
           this.errorHandler.push(
             $localize `:@@errors.invalidImg:Invalid image.`
           );

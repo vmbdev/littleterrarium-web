@@ -10,13 +10,12 @@
       </textarea>
     </div>
 
-    <!-- FIXME: add max date to today -->
     <div class="form__date">
       <p i18n="@@photo-edit.takenAt">
         When was the photo taken? The gallery will be displayed in
         chronological order.
       </p>
-      <input type="date" formControlName="takenAt">
+      <input type="date" [max]="today()" formControlName="takenAt">
     </div>
     <div class="form__checkbox">
       <input type="checkbox" formControlName="public" id="public-checkbox">

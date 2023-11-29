@@ -2,6 +2,7 @@
   <lt-wizard
     [form]="userForm"
     [moveTo]="wizardPage"
+    start="2"
     (indexChange)="indexChange()"
   >
     <lt-wizard-page
@@ -30,6 +31,7 @@
 
       <div class="form__textinput">
         <input type="textinput" formControlName="username">
+
         @if (errors.usernameExists) {
           <p class="form__errormsg" i18n="@@user-register.usernameTaken">
             Sorry, your username already exists. Please choose another.
@@ -80,66 +82,12 @@
           <b>We're almost there</b>. Last but not least, a <b>password</b> to
           protect your access
         </p>
-
-        @if (hasPasswordConditions()) {
-          <p i18n="@@user-register.passwordReq">Password must contain:</p>
-          <ul>
-            <li [ngClass]="{ 'form__errormsg': hasPasswordError('minLength') }">
-              <span i18n="@@user-register.passwordLength">
-                Password must be at least
-                <b>{{ pwdReq?.minLength }} characters</b> long
-              </span>
-            </li>
-
-            @if (pwdReq?.requireUppercase) {
-              <li
-                [ngClass]="{ 'form__errormsg': hasPasswordError('missingUppercase') }"
-              >
-                <span i18n="@@user-register.passwordUppercase">
-                  One uppercase
-                </span>
-              </li>
-            }
-
-            @if (pwdReq?.requireNumber) {
-              <li
-                [ngClass]="{ 'form__errormsg': hasPasswordError('missingNumber') }"
-              >
-                <span i18n="@@user-register.passwordNumber">One number</span>
-              </li>
-            }
-
-            @if (pwdReq?.requireNonAlphanumeric) {
-              <li
-                [ngClass]="{ 'form__errormsg': hasPasswordError('missingNonAlphanumeric') }"
-              >
-                <span i18n="@@user-register.passwordAlphanum">
-                  One non-alphanumeric character: {{ nonAlphaNumChars }}
-                </span>
-              </li>
-            }
-          </ul>
-        }
       </lt-wizard-page-description>
 
-      <ng-container formGroupName="passwordCheck">
-        <div class="form__textinput">
-          <input
-            type="password"
-            formControlName="password"
-            placeholder="Your password"
-            i18n-placeholder="@@user-register.passwordInput"
-          >
-        </div>
-        <div class="form__textinput">
-          <input
-            type="password"
-            formControlName="password2"
-            placeholder="Again, your password"
-            i18n-placeholder="@@user-register.passwordInputRepeat"
-          >
-        </div>
-      </ng-container>
+      <lt-confirm-password
+        [requirements]="pwdReq"
+        [passwordGroup]="passwordGroup"
+      />
     </lt-wizard-page>
   </lt-wizard>
 </form>

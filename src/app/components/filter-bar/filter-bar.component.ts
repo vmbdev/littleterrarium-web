@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SortColumn, SortOrder } from '@models/sort-options.model';
 import { ThemeService } from '@services/theme.service';
@@ -19,17 +25,20 @@ export class FilterBarComponent {
   /**
    * Show the search bar for text filtering.
    */
-  @Input() searchBar: boolean = false;
+  @Input({ transform: booleanAttribute }) showSearchBar: boolean = false;
 
   /**
    * Show the option to sort the list by name.
    */
-  @Input() sortByName: boolean = false;
+  @Input({ transform: booleanAttribute }) showSortByName: boolean = false;
 
   /**
    * Show the option to sort the list by date.
    */
-  @Input() sortByDate: boolean = false;
+  @Input({ transform: booleanAttribute }) showSortByDate: boolean = false;
+
+  @Input() nameOrder: SortOrder = 'asc';
+  @Input() dateOrder: SortOrder = 'asc';
 
   /**
    * Emitted when the column or the order has changed.
@@ -40,9 +49,6 @@ export class FilterBarComponent {
    * Emitted when the search bar text has changed.
    */
   @Output() filterChanged = new EventEmitter<any>();
-
-  nameOrder: SortOrder = 'asc';
-  dateOrder: SortOrder = 'asc';
 
   constructor(public themeService: ThemeService) {}
 
@@ -55,27 +61,19 @@ export class FilterBarComponent {
   toggleSort(column: SortColumn) {
     let order;
 
-    switch (column) {
-      case 'name': {
-        if (this.nameOrder === 'asc') this.nameOrder = 'desc';
-        else this.nameOrder = 'asc';
+    if (column === 'name') {
+      if (this.nameOrder === 'asc') this.nameOrder = 'desc';
+      else this.nameOrder = 'asc';
 
-        order = this.nameOrder;
-
-        break;
-      }
-      case 'date': {
-        if (this.dateOrder === 'asc') this.dateOrder = 'desc';
-        else this.dateOrder = 'asc';
-
-        order = this.dateOrder;
-
-        break;
-      }
-      default: {
-        return;
-      }
+      order = this.nameOrder;
     }
+    else if (column === 'date') {
+      if (this.dateOrder === 'asc') this.dateOrder = 'desc';
+      else this.dateOrder = 'asc';
+
+      order = this.dateOrder;
+    }
+    else return;
 
     this.sortingChanged.emit({ column, order });
   }

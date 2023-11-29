@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { Location } from '@models/location.model';
 import { Plant } from '@models/plant.model';
 import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
+
 import {
   ApiService,
   LocationGetConfig,
   LocationUpsertConfig,
   PlantGetConfig
-} from './api.service';
-import { AuthService } from './auth.service';
-import { PlantService } from './plant.service';
+} from '@services/api.service';
+import { AuthService } from '@services/auth.service';
+import { PlantService } from '@services/plant.service';
+
 
 @Injectable({
   providedIn: 'root'

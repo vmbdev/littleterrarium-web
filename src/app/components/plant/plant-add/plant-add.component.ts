@@ -41,7 +41,6 @@ import { ApiService } from '@services/api.service';
   standalone: true,
   selector: 'lt-plant-add',
   imports: [
-    CommonModule,
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
@@ -142,7 +141,7 @@ export class PlantAddComponent {
           }
           case HttpEventType.Response: {
             this.uploadProgress = 0;
-            this.router.navigate(['/plant', event.body.data.plantId])
+            this.router.navigate(['/plant', event.body?.data?.plantId])
             break;
           }
         }

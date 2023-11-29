@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  numberAttribute,
+  Output
+} from '@angular/core';
 import { ShortFilenamePipe } from '@pipes/short-filename/short-filename.pipe';
 
 /**
@@ -19,7 +25,7 @@ export class FileUploaderComponent {
   /**
    * Max amount of files the user can select. By default, 1.
    */
-  @Input() maxAmount: number = 1;
+  @Input({ transform: numberAttribute }) maxAmount: number = 1;
 
   /**
    * Emitted when the files selected in the component have changed.

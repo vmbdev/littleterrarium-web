@@ -5,7 +5,7 @@
     (ngSubmit)="submit()"
     enctype="multipart/form-data"
   >
-    <lt-wizard [form]="plantForm" [singlePage]="true">
+    <lt-wizard [form]="plantForm" singlePage="true">
       <lt-wizard-header i18n="@@plant-edit.header">
         Editing {{ plant.visibleName }}
       </lt-wizard-header>
@@ -13,8 +13,8 @@
       <lt-wizard-page title="Name" i18n-title="@@general.name">
         <lt-wizard-page-description>
           <p i18n="@@plant-add.nameDesc">
-            This is the happy moment when we add our beloved plants. First things
-            first, identify! Want to give it a <b> name</b>?
+            This is the happy moment when we add our beloved plants. First
+            things first, identify! Want to give it a <b> name</b>?
           </p>
         </lt-wizard-page-description>
         <div class="form__textinput">
@@ -48,7 +48,8 @@
         </lt-wizard-page-description>
         <div class="form__select">
           <select formControlName="locationId">
-            @for (location of locations; track location.id) {
+
+            @for (location of locations$ | async; track location.id) {
               <option
                 [value]="location.id"
                 [selected]="location.id === plant.locationId"
@@ -56,6 +57,7 @@
                 {{ location.name }}
               </option>
             }
+
           </select>
         </div>
       </lt-wizard-page>
@@ -79,7 +81,10 @@
         </div>
       </lt-wizard-page>
 
-      <lt-wizard-page title="Plant condition" i18n-title="@@plant-edit.condition">
+      <lt-wizard-page
+        title="Plant condition"
+        i18n-title="@@plant-edit.condition"
+      >
         <lt-wizard-page-description>
           <p i18n="@@plant-edit.health">
             Let's keep track of its health, would you?

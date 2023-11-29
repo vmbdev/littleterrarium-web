@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
 import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
@@ -38,8 +39,7 @@ import { Plant, Condition } from '@models/plant.model';
 })
 export class PlantEditComponent {
   id!: number;
-  // TODO: async pipe?
-  locations!: Location[];
+  locations$: Observable<Location[]>;
   plantForm: FormGroup;
   plantConditions = Condition;
   removeSpecie: boolean = false;
@@ -59,16 +59,18 @@ export class PlantEditComponent {
       condition: [],
       locationId: [Validators.required],
       public: []
-    })
+    });
+
+    this.locations$ = this.api.getLocationList();
   }
 
   ngOnInit(): void {
     this.id = +this.route.snapshot.params['plantId'];
 
     if (this.id) {
-      this.api.getLocationList().subscribe((locations: Location[]) => {
-        this.locations = locations;
-      });
+      // this.api.getLocationList().subscribe((locations: Location[]) => {
+      //   this.locations = locations;
+      // });
 
       this.plantService.get(this.id).subscribe({
         next: (plant: Plant) => {

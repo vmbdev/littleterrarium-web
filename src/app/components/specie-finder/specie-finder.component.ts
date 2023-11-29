@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
 import { ApiService } from '@services/api.service';
 import { Specie } from '@models/specie.model';
+import { Observable, of } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -25,7 +26,7 @@ import { Specie } from '@models/specie.model';
 export class SpecieFinderComponent {
   @Input() selected?: number;
   @Output() selectSpecieId = new EventEmitter<number | null>();
-  results: Specie[] = [];
+  results$: Observable<Specie[]> = of([]);
   currentSearch: string = '';
   inputValue: string = '';
   resultsHidden: boolean = false;
@@ -49,15 +50,10 @@ export class SpecieFinderComponent {
     this.currentSearch = input.value;
 
     if (this.currentSearch.length >= 3) {
-      // TODO: possibly have this as an async pipe?
-      this.api.findSpecie(this.currentSearch).subscribe({
-        next: (data: Specie[]) => {
-          this.results = data;
-        }
-      })
+      this.results$ = this.api.findSpecie(this.currentSearch);
     }
     else if (this.currentSearch.length === 0) {
-      this.results = [];
+      this.results$ = of([]);
     }
   }
 
@@ -70,7 +66,7 @@ export class SpecieFinderComponent {
   }
 
   clearSearch(): void {
-    this.results = [];
+    this.results$ = of([]);
     this.inputValue = '';
     this.currentSearch = '';
     this.selectSpecieId.emit(null);

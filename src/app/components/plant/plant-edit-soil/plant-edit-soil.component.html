@@ -1,6 +1,6 @@
 @if (plantService.plant$ | async; as plant) {
   <form [formGroup]="potForm" method="post" (submit)="submit()">
-    <lt-wizard [form]="potForm" [singlePage]="true">
+    <lt-wizard [form]="potForm" singlePage="true">
       <lt-wizard-header i18n="@@plant-edit-soil.header">
         Editing soil and pot options for <b>{{ plant.visibleName }}</b>
       </lt-wizard-header>

@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.4] - 2023-11-29
+
+### Added
+
+- First structure for password recovery.
+
+### Changed
+
+- Split UserRegisterComponent password check into ConfirmPasswordComponent
+to reuse in password recovery.
+
 ## [1.0.3] - 2023-11-15
 
 ### Added
@@ -8,13 +19,21 @@
 
 ### Changed
 
-- Templates migrated to the new Angular control flow.
 - Updated Angular to 17.0.2.
+- Templates migrated to the new Angular control flow.
+- TasksComponent now is fully functional, on par with the Material version.
+- PlantEdit will now use an Observable to look for available Locations.
+- PlantList will now use LocalStorage to store sorting states.
+- SpecieFinder will now use an Observable to find name matches.
 
 ### Fixes
 
 - Fixed a bug on PlusButton where the click would propagate and trigger
 multiple times.
+- Date inputs will now prevent choosing a date later than the current when
+necessary.
+- Fixed a bug in which translations were making the compiler crash with the new
+control flow.
 
 ## [1.0.2] - 2023-11-10
 

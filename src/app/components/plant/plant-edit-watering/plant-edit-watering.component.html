@@ -18,7 +18,7 @@
     <p i18n="@@plant-edit-watering.lastTime">
       Do you remember <b>when was the last time</b> you watered it?
     </p>
-    <input type="date" formControlName="waterLast">
+    <input type="date" [max]="today()" formControlName="waterLast">
   </div>
   <div class="form__number">
     <p i18n="@@plant-edit-watering.nextTime">

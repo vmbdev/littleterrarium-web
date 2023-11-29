@@ -14,9 +14,10 @@
     </button>
   </div>
 
+  @if (results$ | async; as results) {
   <div
     class="sf__results"
-    [ngClass]="{'sf__results-hidden': (results.length === 0) || (resultsHidden) }"
+    [ngClass]="{'sf__results-hidden': results.length === 0 || resultsHidden }"
   >
     @for (specie of results; track specie.name) {
       <div
@@ -28,17 +29,20 @@
           <div
             class="sf__title"
             [innerHtml]="(specie.commonName ? specie.commonName : specie.name) | highlight:currentSearch"
-          ></div>
+          >
+          </div>
 
           @if (specie.commonName) {
             <div
               class="sf__subtitle"
               [innerHtml]="specie.name | highlight:currentSearch"
-            ></div>
+            >
+            </div>
           }
         </div>
       </div>
     }
   </div>
+  }
   
 </div>

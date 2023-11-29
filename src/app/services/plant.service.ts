@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
-import { AuthService } from '@services/auth.service';
+
 import {
   ApiService,
   PlantGetConfig,
   PlantUpdateConfig
 } from '@services/api.service';
+import { AuthService } from '@services/auth.service';
+import { ImagePathService } from '@services/image-path.service';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
-import { ImagePathService } from './image-path.service';
 
 @Injectable({
   providedIn: 'root'
@@ -144,7 +145,7 @@ export class PlantService {
     return this.plant.getValue();
   }
 
-  coverPhoto(plant?: Plant): string | null {
+  coverPhoto(plant?: Plant): string {
     let workingPlant;
 
     if (!plant) workingPlant = this.plant.getValue();

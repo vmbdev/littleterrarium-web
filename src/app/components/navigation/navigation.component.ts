@@ -1,14 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, HostListener, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'lt-navigation',
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
+  imports: [RouterModule],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })

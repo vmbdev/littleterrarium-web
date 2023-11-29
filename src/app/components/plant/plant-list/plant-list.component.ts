@@ -34,7 +34,7 @@ export class PlantListComponent {
   @Input() user?: User;
   @Input() owned: boolean = true;
   order: SortOrder;
-  sort: SortColumn;
+  column: SortColumn;
 
   cursor?: number;
   lastCursor?: number;
@@ -46,16 +46,26 @@ export class PlantListComponent {
     private plantService: PlantService,
     private locationService: LocationService
   ) { 
-    // FIXME: get and store in LocalStorage
-    this.order = 'asc';
-    this.sort = 'name';
+    const storedOrder = localStorage.getItem('LT_plantListOrder');
+
+    if (storedOrder && (storedOrder === 'asc' || storedOrder === 'desc')) {
+      this.order = storedOrder;
+    }
+    else this.order = 'asc';
+
+    const storedSort = localStorage.getItem('LT_plantListSort');
+
+    if (storedSort && (storedSort === 'name' || storedSort === 'date')) {
+      this.column = storedSort;
+    }
+    else this.column = 'name';
   }
 
   ngOnInit(): void {
     if (this.list) {
       this.pictureList = this.createPictureListFromPlants(this.list);
     }
-    else this.fetchPlants();
+    else this.changeSorting({ column: this.column, order: this.order });
   }
 
   fetchPlants(scroll: boolean = false): void {
@@ -63,7 +73,7 @@ export class PlantListComponent {
     let options: PlantGetConfig = {
       cursor: scroll && this.cursor ? this.cursor : undefined,
       filter: this.filter ? this.filter : '',
-      sort: this.sort,
+      sort: this.column,
       order: this.order
     }
 
@@ -121,8 +131,11 @@ export class PlantListComponent {
   }
 
   changeSorting(sorting: SortOption): void {
-    this.sort = sorting.column;
+    this.column = sorting.column;
     this.order = sorting.order;
+
+    localStorage.setItem('LT_plantListSort', this.column);
+    localStorage.setItem('LT_plantListOrder', this.order);
 
     this.fetchPlants();
   }

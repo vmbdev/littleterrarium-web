@@ -2,57 +2,55 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
-import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  ConfirmPasswordComponent
+} from '@components/user/confirm-password/confirm-password.component';
 import { AuthService } from '@services/auth.service';
 import { ApiService } from '@services/api.service';
-import { PasswordRequirements, User, UsernameRequirements } from '@models/user.model';
-
-type RegisterErrors = {
-  usernameExists: boolean,
-  usernameInvalid: boolean,
-  emailExists: boolean,
-  emailInvalid: boolean,
-  pwd: {
-    length: boolean,
-    uppercase: boolean,
-    numbers: boolean,
-    nonAlphanumeric: boolean
-  }
-}
+import {
+  PasswordRequirements,
+  UsernameRequirements,
+  UserRegisterErrors,
+  User
+} from '@models/user.model';
 
 @Component({
   standalone: true,
   selector: 'lt-user-register',
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
-    ReactiveFormsModule,
-    RouterModule
+    ConfirmPasswordComponent
   ],
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.scss']
 })
 export class UserRegisterComponent {
   userForm: FormGroup;
+  passwordGroup: FormGroup;
   pwdReq?: PasswordRequirements;
   usernameReq?: UsernameRequirements;
   wizardPage: number | undefined = undefined;
-  nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"\|,.\<>/?';
-  errors: RegisterErrors = this.resetErrors();
+  errors: UserRegisterErrors = this.resetErrors();
 
   constructor(
     private api: ApiService,
@@ -61,6 +59,13 @@ export class UserRegisterComponent {
     private cd: ChangeDetectorRef,
     private auth: AuthService
   ) {
+    this.passwordGroup = this.fb.group(
+      {
+        password: [''],
+        password2: ['']
+      },
+    );
+
     this.userForm = this.fb.group({
       username: ['', Validators.required],
       email: [
@@ -69,36 +74,27 @@ export class UserRegisterComponent {
           Validators.required,
           Validators.pattern(/^\S+@\S+\.\S+$/i)
         ])
-      ],
-      passwordCheck: this.fb.group({
-        password: ['', [
-          Validators.required,
-          this.checkPasswordStrength.bind(this)]
-        ],
-        password2: ['', Validators.required]
-      }, { validators: this.checkPasswordsEqual }),
+      ]
     });
-
-    this.errors = this.resetErrors();
   }
 
   ngOnInit(): void {
     this.api.getPasswordRequirements()
-    .subscribe((requirements: PasswordRequirements) => {
-      this.pwdReq = requirements;
-    });
+      .subscribe((requirements: PasswordRequirements) => {
+        this.pwdReq = requirements;
+      });
 
     this.api.getUsernameRequirements()
-    .subscribe((requirements: UsernameRequirements) => {
-      this.usernameReq = requirements;
-    });
+      .subscribe((requirements: UsernameRequirements) => {
+        this.usernameReq = requirements;
+      });
   }
 
   ngAfterViewChecked(): void {
     this.cd.detectChanges();
   }
 
-  resetErrors(): RegisterErrors {
+  resetErrors(): UserRegisterErrors {
     return {
       usernameExists: false,
       usernameInvalid: false,
@@ -113,51 +109,9 @@ export class UserRegisterComponent {
     }
   }
 
-  checkPasswordsEqual(group: AbstractControl): ValidationErrors | null {
-    const pwd1 = group.get('password')?.value;
-    const pwd2 = group.get('password2')?.value;
-
-    if (pwd1 !== pwd2) return { different: true };
-
-    return null;
-  }
-
-  checkPasswordStrength(pwd: AbstractControl): ValidationErrors | null {
-    const value = pwd.value;
-    const errorObj: ValidationErrors = {};
-
-    if (this.pwdReq) {
-      if (value.length < this.pwdReq.minLength) errorObj['minLength'] = true;
-      if (this.pwdReq.requireUppercase && !(/.*([A-Z]).*/).test(value)) {
-        errorObj['missingUppercase'] = true;
-      }
-      if (this.pwdReq.requireNumber && !(/.*(\d).*/).test(value)) {
-        errorObj['missingNumber'] = true;
-      }
-      if (
-        this.pwdReq.requireNonAlphanumeric
-        && !(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/).test(value)
-      ) {
-        errorObj['missingNonAlphanumeric'] = true;
-      }
-    }
-
-    return (Object.keys(errorObj).length > 0) ? errorObj : null;
-  }
-
-  hasPasswordConditions(): boolean {
-    return !!(
-      this.pwdReq
-      && (
-        this.pwdReq.requireNumber
-        || this.pwdReq.requireUppercase
-        || this.pwdReq.requireNonAlphanumeric
-      )
-    );
-  }
-
   /**
-   * Reset the wizard page so that we can move to it even if it's the same as previously
+   * Reset the wizard page so that we can move to it even if it's the same as
+   * previously
    */
   indexChange(): void {
     this.wizardPage = undefined;
@@ -167,15 +121,8 @@ export class UserRegisterComponent {
     this.wizardPage = value;
   }
 
-  hasPasswordError(control: string): boolean | undefined {
-    return this.userForm
-      .get('passwordCheck')
-      ?.get('password')
-      ?.hasError(control);
-  }
-
   submit(): void {
-    if (!this.userForm.valid) return;
+    if (!this.userForm.valid || !this.passwordGroup.valid) return;
 
     this.errors = this.resetErrors();
 

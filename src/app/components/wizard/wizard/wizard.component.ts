@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
+  booleanAttribute,
+  numberAttribute,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -28,12 +30,16 @@ import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.
   styleUrls: ['./wizard.component.scss']
 })
 export class WizardComponent {
-  @ContentChildren(WizardPageComponent, { descendants: true }) pageList!: QueryList<WizardPageComponent>;
-  @ContentChild(WizardHeaderComponent) wizardHeader?: WizardHeaderComponent;
+  @ContentChildren(WizardPageComponent, { descendants: true })
+  pageList!: QueryList<WizardPageComponent>;
+
+  @ContentChild(WizardHeaderComponent)
+  wizardHeader?: WizardHeaderComponent;
+
   @Input() form?: FormGroup;
-  @Input() start: number = 0;
+  @Input({ transform: numberAttribute }) start: number = 0;
   @Input() moveTo: number | undefined = undefined;
-  @Input() singlePage: boolean = false;
+  @Input({ transform: booleanAttribute }) singlePage: boolean = false;
   @Input() disableNavigation: boolean = false;
   @Output() indexChange = new EventEmitter();
   currentIndex: number = 0;

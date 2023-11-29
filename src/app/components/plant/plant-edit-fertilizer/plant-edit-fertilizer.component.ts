@@ -46,9 +46,15 @@ export class PlantEditFertilizerComponent {
     this.id = plant.id;
     this.fertForm.setValue({
       fertFreq: plant.fertFreq,
-      fertLast: DateTime.fromISO(plant.fertLast as string).toFormat('yyyy-LL-dd'),
+      fertLast: DateTime
+        .fromISO(plant.fertLast as string)
+        .toFormat('yyyy-LL-dd'),
       fertType: plant.fertType
     })
+  }
+
+  today(): string {
+    return DateTime.now().toFormat('yyyy-LL-dd');
   }
 
   submit(): void {

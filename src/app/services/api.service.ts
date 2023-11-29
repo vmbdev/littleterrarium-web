@@ -2,14 +2,14 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { endpoint } from '@config';
+import { BACKEND_URL } from 'src/tokens';
 import { Location } from '@models/location.model';
 import { Photo, NavigationData } from '@models/photo.model';
 import { CoverPhoto, Plant } from '@models/plant.model';
 import { Specie } from '@models/specie.model';
 import { PasswordRequirements, User, UsernameRequirements } from '@models/user.model';
 import { BackendResponse } from '@models/backend-response.model';
-import { endpoint } from '@config';
-import { BACKEND_URL } from 'src/tokens';
 import { SortColumn, SortOrder } from '@models/sort-options.model';
 
 export interface LocationGetConfig {
@@ -85,12 +85,29 @@ export class ApiService {
 
   signIn(username: string, password: string): Observable<User> {
     return this.http.post<User>(this.endpoint('users/signin'), {
-      username, password
+      username,
+      password
     });
   }
 
   logOut(): Observable<any> {
     return this.http.post<any>(this.endpoint('users/logout'), null);
+  }
+
+  forgotPassword(userRef: string): Observable<any> {
+    return this.http.post<any>(this.endpoint('users/forgotten'), { userRef });
+  }
+
+  recoverPassword(
+    token: string,
+    password: string,
+    userId: number
+  ): Observable<any> {
+    return this.http.post<any>(this.endpoint('users/restore'), {
+      token,
+      password,
+      userId
+    });
   }
 
   getPasswordRequirements(): Observable<PasswordRequirements> {
@@ -120,11 +137,11 @@ export class ApiService {
 
     form.append('username', user.username);
     form.append('email', user.email);
+    form.append('public', user.public.toString());
 
     if (user.firstname) form.append('firstname', user.firstname);
     if (user.lastname) form.append('lastname', user.lastname);
     if (user.bio) form.append('bio', user.bio);
-    if (user.public) form.append('public', user.public.toString());
 
     if (removeAvatar) form.append('removeAvatar', 'true');
     else if (user.avatarFile) form.append('avatar', user.avatarFile);
@@ -170,7 +187,8 @@ export class ApiService {
   /**
    * Creates a new Location or updates an existing one.
    * @param location The location to be upserted
-   * @param update Whether we're creating (false/null) or updating (true) an existing one.
+   * @param update Whether we're creating (false/null) or updating (true) an
+   *    existing one.
    * @returns An observable with the server response.
    */
   upsertLocation(

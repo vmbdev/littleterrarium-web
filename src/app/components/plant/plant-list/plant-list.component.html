@@ -1,7 +1,9 @@
 <lt-filter-bar
-  [searchBar]="true"
-  [sortByDate]="true"
-  [sortByName]="true"
+  showSearchBar="true"
+  showSortByDate="true"
+  showSortByName="true"
+  [nameOrder]="column === 'name' ? order : 'asc'"
+  [dateOrder]="column === 'date' ? order : 'asc'"
   (sortingChanged)="changeSorting($event)"
   (filterChanged)="changeFilter($event)"
 >

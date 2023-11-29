@@ -4,15 +4,15 @@
   class="form"
   novalidate
 >
-  <div class="signinForm">
-    <div class="signinForm__container">
-      <div class="signinForm__center">
+  <div class="signin">
+    <div class="signin__container">
+      <div class="signin__center">
         @if (homepage) {
           <h1 i18n="@@signin.homepageTitle">Welcome to Little Terrarium!</h1>
           <p i18n="@@signin.homepageMsg">
-            We are really happy to have you here. <b>Sign in</b> or
-            <b><a routerLink="/register">sign up</a></b> and start taking care
-            of your plants!
+            We are really happy to have you here. Sign in or
+            <b class="signin__link" routerLink="/register">sign up</b> and
+            start taking care of your plants!
           </p>
         } @else {
           <h1 i18n="@@signin.welcomeBack">Welcome back!</h1>
@@ -43,7 +43,7 @@
       </div>
 
       @if (authInvalid) {
-        <div class="signinForm__center form__errormsg">
+        <div class="signin__center form__errormsg">
           <p i18n="@@signin.invalidCredentials">
             Sorry, the credentials are not valid.
           </p>
@@ -55,19 +55,26 @@
           Sign in
         </button>
       </div>
-      <div class="signinForm__center">
+      <div class="signin__center">
         <p>
-          <a routerLink="/register" i18n="@@signin.createAccount">
+          <span
+            class="signin__link"
+            routerLink="/register"
+            i18n="@@signin.createAccount"
+          >
             Don't have an account? <b>Sign up!</b>
-          </a>
+          </span>
         </p>
-        <!--         
-          <p>
-            <a routerLink="/user/retrievepwd" i18n="@@signin.forgottenPassword">
-              Forgot your password?
-            </a>
-          </p>
-        -->
+        <p>
+          <span
+            class="signin__link"
+            routerLink="/user/recover"
+            i18n="@@signin.forgottenPassword"
+          >
+            Forgot your password?
+          </span>
+        </p>
+       
       </div>
     </div>
   </div>

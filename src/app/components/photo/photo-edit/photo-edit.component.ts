@@ -52,6 +52,10 @@ export class PhotoEditComponent {
     })
   }
 
+  today(): string {
+    return DateTime.now().toFormat('yyyy-LL-dd');
+  }
+
   submit(): void {
     const current = this.photoService.photo$.getValue();
 

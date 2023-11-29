@@ -81,6 +81,18 @@ export class AuthService {
     this.user.next(user);
   }
 
+  forgotPassword(userRef: string): Observable<any> {
+    return this.api.forgotPassword(userRef);
+  }
+
+  recoverPassword(
+    token: string,
+    password: string,
+    userId: number
+  ): Observable<any> {
+    return this.api.recoverPassword(token, password, userId);
+  }
+
   checkPassword(password: string): Observable<BackendResponse> {
     return this.api.checkPassword(password);
   }

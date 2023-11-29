@@ -46,8 +46,14 @@ export class PlantEditWateringComponent {
     this.id = plant.id;
     this.waterForm.setValue({
       waterFreq: plant.waterFreq,
-      waterLast: DateTime.fromISO(plant.waterLast as string).toFormat('yyyy-LL-dd')
+      waterLast: DateTime
+        .fromISO(plant.waterLast as string)
+        .toFormat('yyyy-LL-dd')
     })
+  }
+
+  today(): string {
+    return DateTime.now().toFormat('yyyy-LL-dd');
   }
 
   submit(): void {

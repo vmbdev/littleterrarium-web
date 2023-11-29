@@ -5,15 +5,16 @@
     i18n-title="@@plant-widget-soil.title"
   >
     <div>
-      <!-- TODO: check if pot translation work without potSize -->
       @if (plant.potType) {
-        <p i18n="@@plant-widget-soil.pot">
-          Your pot is made of <b>{{ getPotName() }}</b>,
-          <!-- FIXME: changing it to the new control flow makes angular compiler crash -->
-          <span *ngIf="plant.potSize">with a size of
-            <b>{{ plant.potSize | unit:'cm' }}</b>
-          </span>.
-        </p>
+        <ng-container i18n="@@plant-widget-soil.potMaterial">
+          Your pot is made of <b>{{ getPotName() }}</b>.
+        </ng-container>
+      }
+
+      @if (plant.potSize) {
+        <ng-container i18n="@@plant-widget-soil.potSize">It has a diameter of
+          <b>{{ plant.potSize | unit:'cm' }}</b>
+        </ng-container>.
       }
 
       @if (plant.soil) {

@@ -8,7 +8,7 @@
     @for (task of tasks; track task) {
       <div class="tasks__plant">
         <img
-          class="tasks__pic"
+          class="tasks__plantpic"
           [src]="plantService.coverPhoto(task)"
           [routerLink]="['/plant', task.id]"
         >
@@ -18,20 +18,31 @@
         </div>
 
         <div class="tasks__list">
-          <img
-            class="tasks__pic"
-            [ngClass]="{ 'tasks__pic--disabled': !task.waterNext }"
-            alt="Requires watering"
-            i18n-alt="@@tasks.waterRequired"
-            src="/assets/water.png"
+          <button
+            class="tasks__actionbutton"
+            [disabled]="!task.waterNext"
+            (click)="openWaterModal(task.id)"
           >
-          <img
-            class="tasks__pic"
-            [ngClass]="{ 'tasks__pic--disabled': !task.fertNext }"
-            alt="Requires fertilizing"
-            i18n-alt="@@tasks.fertilizerRequired"
-            src="/assets/fertilizer.png"
+            <img
+              class="tasks__actionpic"
+              alt="Requires watering"
+              i18n-alt="@@tasks.waterRequired"
+              src="/assets/water.png"
+            >
+          </button>
+          <button
+            class="tasks__actionbutton"
+            [disabled]="!task.fertNext"
+            (click)="openFertModal(task.id)"
           >
+            <img
+              class="tasks__actionpic"
+              alt="Requires fertilizing"
+              i18n-alt="@@tasks.fertilizerRequired"
+              src="/assets/fertilizer.png"
+              
+            >
+          </button>
         </div>
       </div>
     }
@@ -40,3 +51,19 @@
 } @else {
   <p i18n="@@tasks.noTasks">Hooray! Nothing left to do!</p>
 }
+
+<ng-template #waterModal>
+  <p i18n="@@plant-widget-water.confirm">
+    This will update your <b>last time watered</b> to today.
+  </p>
+  <p i18n="@@plant-widget-water.warning">
+    If you haven't watered it yet, please check your soil. Never water your
+    plants on a schedule!
+  </p>
+</ng-template>
+
+<ng-template #fertModal>
+  <span i18n="@@plant-widget-fertilizer.confirm">
+    This will update your <b>last time fertilized</b> to today.
+  </span>
+</ng-template>

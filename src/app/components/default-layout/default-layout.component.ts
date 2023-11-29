@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FooternavComponent } from '@components/footernav/footernav.component';
-import { MainnavComponent } from '@components/mainnav/mainnav.component';
+import { MainnavComponent } from '@components/headernav/mainnav/mainnav.component';
 
 /**
  * Component providing the default layout.

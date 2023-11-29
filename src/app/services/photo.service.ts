@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
@@ -8,10 +8,12 @@ import {
   Observable,
   throwError
 } from 'rxjs';
+
 import { AuthService } from '@services/auth.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService, PhotoGetConfig } from '@services/api.service';
 import { Photo } from '@models/photo.model';
+import { BackendResponse } from '@models/backend-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +48,7 @@ export class PhotoService {
     return this.api.getPhotoNavigation(id);
   }
 
-  create(photo: Photo, propagateError: boolean = false): Observable<any> {
+  create(photo: Photo, propagateError: boolean = false): Observable<HttpEvent<BackendResponse>> {
     return this.api.createPhoto(photo).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error?.msg === 'IMG_NOT_VALID') {

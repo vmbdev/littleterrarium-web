@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { BACKEND_URL } from 'src/tokens';
 
-interface ImageSize {
+export interface ImageSize {
   [key: string]: string,
   full: string,
   mid: string,
   thumb: string
 }
 
-interface ImagePath {
+export interface ImagePath {
   path: ImageSize,
   webp?: ImageSize
 }

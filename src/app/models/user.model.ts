@@ -1,5 +1,5 @@
-import { Photo } from "./photo.model"
-import { Plant } from "./plant.model"
+import { Photo } from "@models/photo.model";
+import { Plant } from "@models/plant.model";
 
 export interface User {
   id: number
@@ -45,4 +45,17 @@ export interface PasswordRequirements {
 	requireUppercase: boolean,
 	requireNumber: boolean,
 	requireNonAlphanumeric: boolean
+}
+
+export interface UserRegisterErrors {
+  usernameExists: boolean,
+  usernameInvalid: boolean,
+  emailExists: boolean,
+  emailInvalid: boolean,
+  pwd: {
+    length: boolean,
+    uppercase: boolean,
+    numbers: boolean,
+    nonAlphanumeric: boolean
+  }
 }
