@@ -2,7 +2,6 @@
   <lt-wizard
     [form]="userForm"
     [moveTo]="wizardPage"
-    start="2"
     (indexChange)="indexChange()"
   >
     <lt-wizard-page
@@ -20,7 +19,7 @@
           your Instagram username.
         </p>
         
-        @if (usernameReq) {
+        @if (usernameReq$ | async; as usernameReq) {
           <p i18n="@@user-register.usernameReq">
             It must be {{ usernameReq.minLength }} to {{ usernameReq.maxLength }}
             characters long, and contain only alphanumeric characters, dot (.),
@@ -85,7 +84,7 @@
       </lt-wizard-page-description>
 
       <lt-confirm-password
-        [requirements]="pwdReq"
+        [requirements]="pwdReq$ | async"
         [passwordGroup]="passwordGroup"
       />
     </lt-wizard-page>

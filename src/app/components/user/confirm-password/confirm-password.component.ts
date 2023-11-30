@@ -21,7 +21,7 @@ import { PasswordRequirements } from '@models/user.model';
   styleUrl: './confirm-password.component.scss'
 })
 export class ConfirmPasswordComponent {
-  @Input({ required: true }) requirements?: PasswordRequirements;
+  @Input({ required: true }) requirements?: PasswordRequirements | null;
   @Input({ required: true }) passwordGroup!: FormGroup;
   nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"\|,.\<>/?';
 
@@ -82,10 +82,10 @@ export class ConfirmPasswordComponent {
     );
   }
 
-  hasError(control: string): boolean | undefined {
+  hasError(error: string): boolean | undefined {
     return this.passwordGroup
       .get('password')
-      ?.hasError(control);
+      ?.hasError(error);
   }
 
   arePasswordsEqual(): boolean {

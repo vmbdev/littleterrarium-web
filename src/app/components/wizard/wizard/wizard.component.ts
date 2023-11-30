@@ -38,7 +38,7 @@ export class WizardComponent {
 
   @Input() form?: FormGroup;
   @Input({ transform: numberAttribute }) start: number = 0;
-  @Input() moveTo: number | undefined = undefined;
+  @Input() moveTo?: number;
   @Input({ transform: booleanAttribute }) singlePage: boolean = false;
   @Input() disableNavigation: boolean = false;
   @Output() indexChange = new EventEmitter();

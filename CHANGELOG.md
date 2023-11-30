@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.5] - 2023-11-30
+
+### Added
+
+- Password recovery works completely. An email with a link and a token will
+be sent to the user requesting it. Requires Backend 1.0.1.
+
+### Changes
+
+- Updated translations.
+
 ## [1.0.4] - 2023-11-29
 
 ### Added

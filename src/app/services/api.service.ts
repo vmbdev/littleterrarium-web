@@ -110,6 +110,13 @@ export class ApiService {
     });
   }
 
+  verifyToken(token: string, userId: number): Observable<any> {
+    return this.http.post<any>(this.endpoint('users/verifyToken'), {
+      token,
+      userId
+    });
+  }
+
   getPasswordRequirements(): Observable<PasswordRequirements> {
     return this.http.get<PasswordRequirements>(
       this.endpoint('users/password/requirements')

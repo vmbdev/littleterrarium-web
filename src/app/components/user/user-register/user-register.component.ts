@@ -8,7 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, switchMap } from 'rxjs';
+import { catchError, EMPTY, Observable, switchMap } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
@@ -47,8 +47,10 @@ import {
 export class UserRegisterComponent {
   userForm: FormGroup;
   passwordGroup: FormGroup;
-  pwdReq?: PasswordRequirements;
-  usernameReq?: UsernameRequirements;
+
+  pwdReq$ = this.api.getPasswordRequirements();
+  usernameReq$ = this.api.getUsernameRequirements();
+
   wizardPage: number | undefined = undefined;
   errors: UserRegisterErrors = this.resetErrors();
 
@@ -76,18 +78,6 @@ export class UserRegisterComponent {
         ])
       ]
     });
-  }
-
-  ngOnInit(): void {
-    this.api.getPasswordRequirements()
-      .subscribe((requirements: PasswordRequirements) => {
-        this.pwdReq = requirements;
-      });
-
-    this.api.getUsernameRequirements()
-      .subscribe((requirements: UsernameRequirements) => {
-        this.usernameReq = requirements;
-      });
   }
 
   ngAfterViewChecked(): void {
@@ -126,7 +116,7 @@ export class UserRegisterComponent {
 
     this.errors = this.resetErrors();
 
-    const pwd = this.userForm.get('passwordCheck')?.get('password')?.value;
+    const pwd = this.passwordGroup.get('password')?.value;
 
     this.api.checkPassword(pwd).pipe(
       switchMap(() => {
