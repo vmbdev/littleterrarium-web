@@ -31,10 +31,10 @@ import { Plant, potChoices } from '@models/plant.model';
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
-    WizardHeaderComponent
+    WizardHeaderComponent,
   ],
   templateUrl: './plant-edit-soil.component.html',
-  styleUrls: ['./plant-edit-soil.component.scss']
+  styleUrls: ['./plant-edit-soil.component.scss'],
 })
 export class PlantEditSoilComponent {
   id!: number;
@@ -54,7 +54,7 @@ export class PlantEditSoilComponent {
       potSizeUnits: ['cm', Validators.required],
       potType: [],
       soil: [],
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -68,30 +68,31 @@ export class PlantEditSoilComponent {
 
           this.potForm.patchValue({
             potSize: plant.potSize,
-            soil: plant.soil
+            soil: plant.soil,
           });
 
-          this.breadcrumb.setNavigation([
-            { selector: 'plant-edit-soil', name: 'Edit pot and soil' }
-          ], { attachTo: 'plant' });
-        }
-      })
+          this.breadcrumb.setNavigation(
+            [{ selector: 'plant-edit-soil', name: 'Edit pot and soil' }],
+            { attachTo: 'plant' }
+          );
+        },
+      });
     }
   }
 
   selectPot(id: any): void {
-    // deselect 
+    // deselect
     if (id === this.selectedPot) this.selectedPot = null;
     else this.selectedPot = id;
 
     this.potForm.patchValue({
-      potType: this.selectedPot
+      potType: this.selectedPot,
     });
   }
 
   getPots(): any[] {
-    return Object.keys(potChoices).map(key => {
-      return { id: key, ...potChoices[key] }
+    return Object.keys(potChoices).map((key) => {
+      return { id: key, ...potChoices[key] };
     });
   }
 
@@ -101,13 +102,15 @@ export class PlantEditSoilComponent {
 
     if (plant.potSize) {
       plant.potSize =
-        this.potForm.value.potSizeUnits === 'in' ?
-        plant.potSize * 2.54 :
-        plant.potSize;
+        this.potForm.value.potSizeUnits === 'in'
+          ? plant.potSize * 2.54
+          : plant.potSize;
     }
 
     this.plantService.update(plant).subscribe({
-      next: () => { this.router.navigate(['/plant', this.id]) }
+      next: () => {
+        this.router.navigate(['/plant', this.id]);
+      },
     });
   }
 }

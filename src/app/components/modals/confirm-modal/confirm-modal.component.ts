@@ -6,7 +6,7 @@ import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
   selector: 'lt-confirm-modal',
   imports: [CommonModule],
   templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.scss']
+  styleUrls: ['./confirm-modal.component.scss'],
 })
 export class ConfirmModalComponent {
   @Output() accept: EventEmitter<null> = new EventEmitter<null>();
@@ -23,5 +23,4 @@ export class ConfirmModalComponent {
     this.elementRef.nativeElement.remove();
     this.cancel.emit();
   }
-
 }

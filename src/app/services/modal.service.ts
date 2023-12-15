@@ -16,11 +16,11 @@ import {
 
 type ModalType = 'quick' | 'confirm';
 type ModalOptions = {
-  title: string
-}
+  title: string;
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModalService {
   modalSubs?: Subject<string>;
@@ -28,13 +28,13 @@ export class ModalService {
   constructor(
     private injector: EnvironmentInjector,
     private app: ApplicationRef
-  ) { }
+  ) {}
 
   open(content: TemplateRef<any>, type: ModalType, options?: ModalOptions) {
     const contentViewRef = content.createEmbeddedView(null);
     const componentOptions = {
       environmentInjector: this.injector,
-      projectableNodes: [contentViewRef.rootNodes]
+      projectableNodes: [contentViewRef.rootNodes],
     };
     // Template inside root, needed to keep everything working with the themes
     const mainElement = this.app.components[0].instance.mainElement;
@@ -48,8 +48,7 @@ export class ModalService {
 
       component.instance.title = options?.title ? options.title : '';
       component.instance.close.subscribe(() => this.close());
-    }
-    else {
+    } else {
       component = createComponent<ConfirmModalComponent>(
         ConfirmModalComponent,
         componentOptions
@@ -60,7 +59,7 @@ export class ModalService {
     }
 
     mainElement.nativeElement.appendChild(component.location.nativeElement);
-    
+
     this.app.attachView(component.hostView);
     component.hostView.detectChanges();
     component.changeDetectorRef.detectChanges();

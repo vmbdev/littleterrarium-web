@@ -8,7 +8,7 @@ import {
   Validators
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, Observable, switchMap } from 'rxjs';
+import { catchError, EMPTY, switchMap } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
@@ -18,16 +18,11 @@ import {
   WizardPageDescriptionComponent
 } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import {
-  ConfirmPasswordComponent
-} from '@components/user/confirm-password/confirm-password.component';
+  PasswordFormComponent
+} from '@components/user/password-form/password-form.component';
 import { AuthService } from '@services/auth.service';
 import { ApiService } from '@services/api.service';
-import {
-  PasswordRequirements,
-  UsernameRequirements,
-  UserRegisterErrors,
-  User
-} from '@models/user.model';
+import { UserRegisterErrors, User } from '@models/user.model';
 
 @Component({
   standalone: true,
@@ -39,10 +34,10 @@ import {
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
-    ConfirmPasswordComponent
+    PasswordFormComponent,
   ],
   templateUrl: './user-register.component.html',
-  styleUrls: ['./user-register.component.scss']
+  styleUrls: ['./user-register.component.scss'],
 })
 export class UserRegisterComponent {
   userForm: FormGroup;
@@ -61,12 +56,10 @@ export class UserRegisterComponent {
     private cd: ChangeDetectorRef,
     private auth: AuthService
   ) {
-    this.passwordGroup = this.fb.group(
-      {
-        password: [''],
-        password2: ['']
-      },
-    );
+    this.passwordGroup = this.fb.group({
+      password: [''],
+      password2: [''],
+    });
 
     this.userForm = this.fb.group({
       username: ['', Validators.required],
@@ -74,9 +67,9 @@ export class UserRegisterComponent {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^\S+@\S+\.\S+$/i)
-        ])
-      ]
+          Validators.pattern(/^\S+@\S+\.\S+$/i),
+        ]),
+      ],
     });
   }
 
@@ -94,9 +87,9 @@ export class UserRegisterComponent {
         length: false,
         uppercase: false,
         numbers: false,
-        nonAlphanumeric: false
-      }
-    }
+        nonAlphanumeric: false,
+      },
+    };
   }
 
   /**
@@ -118,57 +111,54 @@ export class UserRegisterComponent {
 
     const pwd = this.passwordGroup.get('password')?.value;
 
-    this.api.checkPassword(pwd).pipe(
-      switchMap(() => {
-        const user: User = this.userForm.value;
-        user.password = pwd;
+    this.api
+      .checkPassword(pwd)
+      .pipe(
+        switchMap(() => {
+          const user: User = this.userForm.value;
+          user.password = pwd;
 
-        return this.auth.register(user);
-      }),
-      catchError((err: HttpErrorResponse) => {
-        const error = err.error;
+          return this.auth.register(user);
+        }),
+        catchError((err: HttpErrorResponse) => {
+          const error = err.error;
 
-        if (error.msg === 'USER_FIELD_EXISTS') {
-          if (error.errorData.field === 'username') {
-            this.errors.usernameExists = true;
-            this.moveWizardPage(0);
-          }
-          else if (error.errorData.field === 'email') {
-            this.errors.emailExists = true;
-            this.moveWizardPage(1);
-          }
-        }
+          if (error.msg === 'USER_FIELD_EXISTS') {
+            if (error.errorData.field === 'username') {
+              this.errors.usernameExists = true;
+              this.moveWizardPage(0);
+            } else if (error.errorData.field === 'email') {
+              this.errors.emailExists = true;
+              this.moveWizardPage(1);
+            }
+          } else if (error.msg === 'USER_FIELD_INVALID') {
+            if (error.errorData.field === 'username') {
+              this.errors.usernameInvalid = true;
+              this.moveWizardPage(0);
+            } else if (error.errorData.field === 'email') {
+              this.errors.emailInvalid = true;
+              this.moveWizardPage(1);
+            }
+          } else if (error.msg === 'USER_PASSWD_INVALID') {
+            this.moveWizardPage(2);
 
-        else if (error.msg === 'USER_FIELD_INVALID') {
-          if (error.errorData.field === 'username') {
-            this.errors.usernameInvalid = true;
-            this.moveWizardPage(0);
+            if (!error.errorData.comp.minLength) this.errors.pwd.length = true;
+            if (!error.errorData.comp.hasUppercase) {
+              this.errors.pwd.uppercase = true;
+            }
+            if (!error.errorData.comp.hasNumber) {
+              this.errors.pwd.numbers = true;
+            }
+            if (!error.errorData.comp.hasNonAlphanumeric) {
+              this.errors.pwd.nonAlphanumeric = true;
+            }
           }
-          else if (error.errorData.field === 'email') {
-            this.errors.emailInvalid = true;
-            this.moveWizardPage(1);
-          }
-        }
 
-        else if (error.msg === 'USER_PASSWD_INVALID') {
-          this.moveWizardPage(2);
-
-          if (!error.errorData.comp.minLength) this.errors.pwd.length = true;
-          if (!error.errorData.comp.hasUppercase) {
-            this.errors.pwd.uppercase = true;
-          }
-          if (!error.errorData.comp.hasNumber) {
-            this.errors.pwd.numbers = true;
-          }
-          if (!error.errorData.comp.hasNonAlphanumeric) {
-            this.errors.pwd.nonAlphanumeric = true;
-          }
-        }
-
-        return EMPTY;
-      })
-    ).subscribe(() => {
-      this.router.navigateByUrl('/')
-    });
+          return EMPTY;
+        })
+      )
+      .subscribe(() => {
+        this.router.navigateByUrl('/');
+      });
   }
 }

@@ -16,22 +16,24 @@ import { Photo } from '@models/photo.model';
 import { BackendResponse } from '@models/backend-response.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PhotoService {
-  photo$: BehaviorSubject<Photo | null> = new BehaviorSubject<Photo | null>(null);
+  photo$: BehaviorSubject<Photo | null> = new BehaviorSubject<Photo | null>(
+    null
+  );
   owned: boolean = false;
 
   constructor(
     private api: ApiService,
     private auth: AuthService,
     private errorHandler: ErrorHandlerService
-  ) { }
+  ) {}
 
   get(id: number, options?: PhotoGetConfig): Observable<Photo> {
     return this.api.getPhoto(id, options).pipe(
       map((photo: Photo) => {
-        this.owned = (this.auth.getUser()?.id === photo.ownerId);
+        this.owned = this.auth.getUser()?.id === photo.ownerId;
         this.photo$.next(photo);
 
         return photo;
@@ -48,11 +50,16 @@ export class PhotoService {
     return this.api.getPhotoNavigation(id);
   }
 
-  create(photo: Photo, propagateError: boolean = false): Observable<HttpEvent<BackendResponse>> {
+  create(
+    photo: Photo,
+    propagateError: boolean = false
+  ): Observable<HttpEvent<BackendResponse>> {
     return this.api.createPhoto(photo).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error?.msg === 'IMG_NOT_VALID') {
-          this.errorHandler.push($localize `:@@errors.invalidImg:Invalid image.`);
+          this.errorHandler.push(
+            $localize`:@@errors.invalidImg:Invalid image.`
+          );
         }
 
         if (propagateError) return throwError(() => error);
@@ -78,9 +85,8 @@ export class PhotoService {
 
   delete(id?: number): Observable<any> {
     if (!id) id = this.photo$.getValue()?.id;
-    
+
     if (id) return this.api.deletePhoto(id);
     else return EMPTY;
   }
-
 }

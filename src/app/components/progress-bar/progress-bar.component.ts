@@ -6,9 +6,8 @@ import { Component, Input } from '@angular/core';
   selector: 'lt-progress-bar',
   imports: [CommonModule],
   templateUrl: './progress-bar.component.html',
-  styleUrls: ['./progress-bar.component.scss']
+  styleUrls: ['./progress-bar.component.scss'],
 })
 export class ProgressBarComponent {
   @Input() progress: number = 0;
-
 }

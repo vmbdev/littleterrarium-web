@@ -32,20 +32,17 @@ import { AuthService } from '@services/auth.service';
     WizardComponent,
     WizardHeaderComponent,
     WizardPageComponent,
-    WizardPageDescriptionComponent
+    WizardPageDescriptionComponent,
   ],
   templateUrl: './user-password-recovery.component.html',
-  styleUrl: './user-password-recovery.component.scss'
+  styleUrl: './user-password-recovery.component.scss',
 })
 export class UserPasswordRecoveryComponent {
   userForm: FormGroup;
   checkError: boolean = false;
   recoveryStarted: boolean = false;
-  
-  constructor(
-    private fb: FormBuilder,
-    private auth: AuthService
-  ) {
+
+  constructor(private fb: FormBuilder, private auth: AuthService) {
     this.userForm = this.fb.group({
       userRef: ['', Validators.required],
     });
@@ -60,18 +57,18 @@ export class UserPasswordRecoveryComponent {
     const { userRef } = this.userForm.value;
 
     if (userRef) {
-      this.auth.forgotPassword(userRef).pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.checkError = true;
+      this.auth
+        .forgotPassword(userRef)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            this.checkError = true;
 
-          return EMPTY;
-        })
-      )
-      .subscribe(() => {
-        this.recoveryStarted = true;
-      })
+            return EMPTY;
+          })
+        )
+        .subscribe(() => {
+          this.recoveryStarted = true;
+        });
     }
-
   }
-
 }

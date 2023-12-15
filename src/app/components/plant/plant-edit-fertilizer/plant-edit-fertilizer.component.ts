@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, numberAttribute, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
 
@@ -10,32 +10,28 @@ import { Plant } from '@models/plant.model';
   selector: 'lt-plant-edit-fertilizer',
   imports: [ReactiveFormsModule],
   templateUrl: './plant-edit-fertilizer.component.html',
-  styleUrls: ['./plant-edit-fertilizer.component.scss']
+  styleUrls: ['./plant-edit-fertilizer.component.scss'],
 })
 export class PlantEditFertilizerComponent {
-  @Input() plantId?: number;
-  @Output() updated: EventEmitter<any> = new EventEmitter<any>();
+  @Input({ transform: numberAttribute }) plantId?: number;
+  @Output() updated = new EventEmitter<any>();
   id?: number;
   fertForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    public plantService: PlantService
-  ) {
+  constructor(private fb: FormBuilder, public plantService: PlantService) {
     this.fertForm = this.fb.group({
       fertFreq: [],
       fertLast: [DateTime.now().toFormat('yyyy-LL-dd')],
       fertType: [''],
-    })
+    });
   }
 
   ngOnInit(): void {
     if (this.plantId) {
       this.plantService.get(this.plantId).subscribe((plant: Plant) => {
-        this.updateForm(plant)
+        this.updateForm(plant);
       });
-    }
-    else {
+    } else {
       const plant = this.plantService.current();
 
       if (plant) this.updateForm(plant);
@@ -46,11 +42,11 @@ export class PlantEditFertilizerComponent {
     this.id = plant.id;
     this.fertForm.setValue({
       fertFreq: plant.fertFreq,
-      fertLast: DateTime
-        .fromISO(plant.fertLast as string)
-        .toFormat('yyyy-LL-dd'),
-      fertType: plant.fertType
-    })
+      fertLast: DateTime.fromISO(plant.fertLast as string).toFormat(
+        'yyyy-LL-dd'
+      ),
+      fertType: plant.fertType,
+    });
   }
 
   today(): string {

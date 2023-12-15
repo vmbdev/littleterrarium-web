@@ -4,14 +4,14 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, EMPTY, Observable, throwError } from 'rxjs';
+
 import { ErrorHandlerService } from '@services/error-handler.service';
 
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
-
   constructor(private errorHandler: ErrorHandlerService) {}
 
   intercept(
@@ -23,31 +23,32 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         let errorMsg: string | undefined;
 
         if (res.status === 400) {
+          const errorData = res.error.errorData;
+
           switch (res.error.msg) {
             case 'INCORRECT_FIELD': {
-              errorMsg = $localize `:@@errors.field:Incorrect field (${res.error.errorData.field}:field:).`;
-      
-              if (res.error.errorData.values) {
-                errorMsg += $localize `:@@errors.fieldValues:Possible values are ${res.error.errorData.values.join(',')}:values:`;
+              errorMsg = $localize`:@@errors.field:Incorrect field (${errorData.field}:field:).`;
+
+              if (errorData.values) {
+                errorMsg += $localize`:@@errors.fieldValues:Possible values are ${errorData.values.join(
+                  ','
+                )}:values:`;
               }
               break;
             }
             case 'MISSING_FIELD': {
-              errorMsg = $localize `:@@errors.missingField:Missing field (${res.error.errorData.field}:field:)`;
+              errorMsg = $localize`:@@errors.missingField:Missing field (${errorData.field}:field:)`;
               break;
             }
           }
-        }
-        else if (res.status === 500) {
-          errorMsg = $localize `:@@errors.server:Server error`;
+        } else if (res.status === 500) {
+          errorMsg = $localize`:@@errors.server:Server error`;
         }
 
         if (errorMsg) {
           this.errorHandler.push(errorMsg);
           return EMPTY;
-        }
-        else return throwError(() => res);
-
+        } else return throwError(() => res);
       })
     );
   }

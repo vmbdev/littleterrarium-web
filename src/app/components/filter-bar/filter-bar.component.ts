@@ -15,11 +15,9 @@ import { ThemeService } from '@services/theme.service';
 @Component({
   selector: 'lt-filter-bar',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './filter-bar.component.html',
-  styleUrls: ['./filter-bar.component.scss']
+  styleUrls: ['./filter-bar.component.scss'],
 })
 export class FilterBarComponent {
   /**
@@ -55,7 +53,7 @@ export class FilterBarComponent {
   /**
    * Given a column (name, date), toggle the order between ascending and
    * descending.
-   * 
+   *
    * @param {SortColumn} column  The column whose order is being toggled.
    */
   toggleSort(column: SortColumn) {
@@ -66,14 +64,12 @@ export class FilterBarComponent {
       else this.nameOrder = 'asc';
 
       order = this.nameOrder;
-    }
-    else if (column === 'date') {
+    } else if (column === 'date') {
       if (this.dateOrder === 'asc') this.dateOrder = 'desc';
       else this.dateOrder = 'asc';
 
       order = this.dateOrder;
-    }
-    else return;
+    } else return;
 
     this.sortingChanged.emit({ column, order });
   }
@@ -85,5 +81,4 @@ export class FilterBarComponent {
   filterItems(val: string): void {
     this.filterChanged.emit(val);
   }
-
 }

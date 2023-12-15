@@ -11,32 +11,27 @@ import {
 import { PasswordRequirements } from '@models/user.model';
 
 @Component({
-  selector: 'lt-confirm-password',
+  selector: 'lt-password-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './confirm-password.component.html',
-  styleUrl: './confirm-password.component.scss'
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './password-form.component.html',
+  styleUrl: './password-form.component.scss',
 })
-export class ConfirmPasswordComponent {
+export class PasswordFormComponent {
   @Input({ required: true }) requirements?: PasswordRequirements | null;
   @Input({ required: true }) passwordGroup!: FormGroup;
-  nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"\|,.\<>/?';
+  nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"|,.<>/?';
 
   ngOnInit(): void {
     this.passwordGroup.controls['password'].addValidators([
       Validators.required,
-      this.checkPasswordStrength.bind(this)
+      this.checkPasswordStrength.bind(this),
     ]);
-    this.passwordGroup.controls['password2'].addValidators(
-      Validators.required
-    );
+    this.passwordGroup.controls['password2'].addValidators(Validators.required);
     this.passwordGroup.addValidators(this.checkPasswordsEqual);
     this.passwordGroup.updateValueAndValidity();
   }
-  
+
   checkPasswordStrength(pwd: AbstractControl): ValidationErrors | null {
     const value = pwd.value;
     const errorObj: ValidationErrors = {};
@@ -45,21 +40,21 @@ export class ConfirmPasswordComponent {
       if (value.length < this.requirements.minLength) {
         errorObj['minLength'] = true;
       }
-      if (this.requirements.requireUppercase && !(/.*([A-Z]).*/).test(value)) {
+      if (this.requirements.requireUppercase && !/.*([A-Z]).*/.test(value)) {
         errorObj['missingUppercase'] = true;
       }
-      if (this.requirements.requireNumber && !(/.*(\d).*/).test(value)) {
+      if (this.requirements.requireNumber && !/.*(\d).*/.test(value)) {
         errorObj['missingNumber'] = true;
       }
       if (
-        this.requirements.requireNonAlphanumeric
-        && !(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/).test(value)
+        this.requirements.requireNonAlphanumeric &&
+        !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value)
       ) {
         errorObj['missingNonAlphanumeric'] = true;
       }
     }
 
-    return (Object.keys(errorObj).length > 0) ? errorObj : null;
+    return Object.keys(errorObj).length > 0 ? errorObj : null;
   }
 
   checkPasswordsEqual(group: AbstractControl): ValidationErrors | null {
@@ -73,23 +68,18 @@ export class ConfirmPasswordComponent {
 
   hasRequirements(): boolean {
     return !!(
-      this.requirements
-      && (
-        this.requirements.requireNumber
-        || this.requirements.requireUppercase
-        || this.requirements.requireNonAlphanumeric
-      )
+      this.requirements &&
+      (this.requirements.requireNumber ||
+        this.requirements.requireUppercase ||
+        this.requirements.requireNonAlphanumeric)
     );
   }
 
   hasError(error: string): boolean | undefined {
-    return this.passwordGroup
-      .get('password')
-      ?.hasError(error);
+    return this.passwordGroup.get('password')?.hasError(error);
   }
 
   arePasswordsEqual(): boolean {
     return !this.passwordGroup.hasError('different');
   }
-
 }

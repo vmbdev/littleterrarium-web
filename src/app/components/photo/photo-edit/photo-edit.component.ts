@@ -15,27 +15,20 @@ import { PhotoService } from '@services/photo.service';
 @Component({
   standalone: true,
   selector: 'lt-photo-edit',
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './photo-edit.component.html',
-  styleUrls: ['./photo-edit.component.scss']
+  styleUrls: ['./photo-edit.component.scss'],
 })
 export class PhotoEditComponent {
-  @Output() updated: EventEmitter<null> = new EventEmitter<null>();
+  @Output() updated = new EventEmitter<null>();
   photoForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    public photoService: PhotoService
-  ) {
+  constructor(private fb: FormBuilder, public photoService: PhotoService) {
     this.photoForm = this.fb.group({
       description: [],
       takenAt: [DateTime.now().toFormat('yyyy-LL-dd'), Validators.required],
-      public: []
-    })
+      public: [],
+    });
   }
 
   ngOnInit(): void {
@@ -43,13 +36,13 @@ export class PhotoEditComponent {
       if (photo) {
         this.photoForm.setValue({
           description: photo.description,
-          takenAt: DateTime
-            .fromISO(photo.takenAt as string)
-            .toFormat('yyyy-LL-dd'),
-          public: photo.public
-        })
+          takenAt: DateTime.fromISO(photo.takenAt as string).toFormat(
+            'yyyy-LL-dd'
+          ),
+          public: photo.public,
+        });
       }
-    })
+    });
   }
 
   today(): string {
@@ -62,11 +55,10 @@ export class PhotoEditComponent {
     if (current) {
       const updatedPhoto: Photo = this.photoForm.value;
       updatedPhoto.id = current.id;
-  
+
       this.photoService.update(updatedPhoto).subscribe(() => {
         this.updated.emit();
-      })
+      });
     }
   }
-
 }

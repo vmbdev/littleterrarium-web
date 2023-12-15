@@ -6,21 +6,20 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'lt-navigation',
   imports: [RouterModule],
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+  styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationComponent {
   @Input() previousLink?: any[];
   @Input() nextLink?: any[];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   @HostListener('window:keydown.ArrowLeft', ['$event'])
   @HostListener('window:keydown.ArrowRight', ['$event'])
   onKey(event: KeyboardEvent): void {
-    if ((event.key === 'ArrowLeft') && this.previousLink) {
+    if (event.key === 'ArrowLeft' && this.previousLink) {
       this.router.navigate(this.previousLink);
-    }
-    else if ((event.key === 'ArrowRight') && this.nextLink) {
+    } else if (event.key === 'ArrowRight' && this.nextLink) {
       this.router.navigate(this.nextLink);
     }
   }

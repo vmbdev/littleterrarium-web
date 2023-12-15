@@ -9,42 +9,48 @@ import {
   Observable,
   of
 } from 'rxjs';
-import { LocationService } from './location.service';
-import { PlantService } from './plant.service';
+
+import { LocationService } from '@services/location.service';
+import { PlantService } from '@services/plant.service';
 import { Location } from '@models/location.model';
 import { Plant } from '@models/plant.model';
 
 interface BreadcrumbLink {
-  selector: string,
-  name: string,
-  link?: string | any[]
+  selector: string;
+  name: string;
+  link?: string | any[];
 }
 
 interface BreadcrumbOptions {
-  attachTo?: string,
-  parent?: number
+  attachTo?: string;
+  parent?: number;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BreadcrumbService {
-  links$: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<BreadcrumbLink[]>([]);
+  links$: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<
+    BreadcrumbLink[]
+  >([]);
   prev: BreadcrumbLink[] = [];
 
   constructor(
     private router: Router,
     private locationService: LocationService,
-    private plantService: PlantService,
+    private plantService: PlantService
   ) {
-    this.router.events.pipe(
-      filter((event: Event): event is NavigationEnd =>
-        event instanceof NavigationEnd
+    this.router.events
+      .pipe(
+        filter(
+          (event: Event): event is NavigationEnd =>
+            event instanceof NavigationEnd
+        )
       )
-    ).subscribe(() => {
-      this.prev = this.links$.getValue();
-      this.links$.next([]);
-    })
+      .subscribe(() => {
+        this.prev = this.links$.getValue();
+        this.links$.next([]);
+      });
   }
 
   setNavigation(
@@ -56,7 +62,7 @@ export class BreadcrumbService {
       let found = false;
       let i = 0;
 
-      while ((i < this.prev.length) && !found) {
+      while (i < this.prev.length && !found) {
         // if there's already an id with the one inserting,
         // stop searching and attach there
         if (this.prev[i].selector === links[0].selector) found = true;
@@ -73,8 +79,8 @@ export class BreadcrumbService {
       if (!found && options.parent) {
         switch (options.attachTo) {
           case 'location': {
-            this.getParentLocation(options.parent)
-              .subscribe((parentLink: BreadcrumbLink) => {
+            this.getParentLocation(options.parent).subscribe(
+              (parentLink: BreadcrumbLink) => {
                 this.links$.next(newLinks.concat([parentLink], links));
               }
             );
@@ -83,22 +89,18 @@ export class BreadcrumbService {
           }
 
           case 'plant': {
-            this.getParentPlant(options.parent)
-              .subscribe((parentLinks: BreadcrumbLink[]) => {
+            this.getParentPlant(options.parent).subscribe(
+              (parentLinks: BreadcrumbLink[]) => {
                 this.links$.next(newLinks.concat(parentLinks, links));
               }
-            )
+            );
 
             break;
           }
         }
-
-      }
-      else this.links$.next(newLinks.concat([...links]));
-    }
-    else this.links$.next(links);
+      } else this.links$.next(newLinks.concat([...links]));
+    } else this.links$.next(links);
   }
-
 
   getParentLocation(id: number): Observable<BreadcrumbLink> {
     return this.locationService.get(id).pipe(
@@ -106,8 +108,8 @@ export class BreadcrumbService {
         return {
           selector: 'location',
           name: location.name,
-          link: ['/location', location.id]
-        }
+          link: ['/location', location.id],
+        };
       })
     );
   }
@@ -116,18 +118,17 @@ export class BreadcrumbService {
     return this.plantService.get(id).pipe(
       mergeMap((plant: Plant) => {
         return combineLatest([
-          of ({
+          of({
             selector: 'plant',
             name: this.plantService.getVisibleName(plant),
-            link: ['/plant', plant.id]
+            link: ['/plant', plant.id],
           }),
-          this.getParentLocation(plant.locationId)
-        ])
+          this.getParentLocation(plant.locationId),
+        ]);
       }),
       map(([plantlink, locationLink]) => {
-        return [locationLink, plantlink]
+        return [locationLink, plantlink];
       })
     );
   }
-
 }

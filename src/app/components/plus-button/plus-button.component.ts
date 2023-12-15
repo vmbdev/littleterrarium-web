@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'lt-plus-button',
   imports: [CommonModule],
   templateUrl: './plus-button.component.html',
-  styleUrls: ['./plus-button.component.scss']
+  styleUrls: ['./plus-button.component.scss'],
 })
 export class PlusButtonComponent {
   @Output() click: EventEmitter<null> = new EventEmitter<null>();
@@ -16,5 +16,4 @@ export class PlusButtonComponent {
     event.stopPropagation();
     this.click.emit();
   }
-
 }

@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 /**
  * Component that provides a closing button for other components such
@@ -10,13 +16,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'lt-close-button',
   imports: [CommonModule],
   templateUrl: './close-button.component.html',
-  styleUrls: ['./close-button.component.scss']
+  styleUrls: ['./close-button.component.scss'],
 })
 export class CloseButtonComponent {
   /**
    * The button will be rendered as a smaller version.
    */
-  @Input() small: boolean = false;
+  @Input({ transform: booleanAttribute }) small: boolean = false;
 
   /**
    * The button has been activated.
@@ -29,5 +35,4 @@ export class CloseButtonComponent {
   closeEvent(): void {
     this.close.emit();
   }
-
 }

@@ -11,7 +11,7 @@ import {
   selector: 'lt-toolbox-button',
   standalone: true,
   templateUrl: './toolbox-button.component.html',
-  styleUrls: ['./toolbox-button.component.scss']
+  styleUrls: ['./toolbox-button.component.scss'],
 })
 export class ToolboxButtonComponent {
   @Input({ required: true }) image!: string;
@@ -21,5 +21,4 @@ export class ToolboxButtonComponent {
   clickEvent(): void {
     this.click.emit();
   }
-
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { booleanAttribute, Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
@@ -18,7 +18,7 @@ import { AuthService } from '@services/auth.service';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent {
-  @Input() homepage: boolean = false;
+  @Input({ transform: booleanAttribute }) homepage: boolean = false;
   authInvalid: boolean = false;
   controls = {
     usernameEmpty: false,

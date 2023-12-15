@@ -12,8 +12,12 @@ import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, skipWhile } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
-import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import {
   FileUploaderComponent
 } from '@components/file-uploader/file-uploader.component';
@@ -32,10 +36,10 @@ import { User } from '@models/user.model';
     WizardPageDescriptionComponent,
     ReactiveFormsModule,
     RouterModule,
-    FileUploaderComponent
+    FileUploaderComponent,
   ],
   templateUrl: './user-edit.component.html',
-  styleUrls: ['./user-edit.component.scss']
+  styleUrls: ['./user-edit.component.scss'],
 })
 export class UserEditComponent {
   userForm: FormGroup;
@@ -55,13 +59,11 @@ export class UserEditComponent {
       bio: [''],
       avatarFile: [''],
       public: [''],
-    })
+    });
   }
 
   ngOnInit(): void {
-    this.auth.checked$.pipe(
-      skipWhile(val => val === false)
-    ).subscribe(() => {
+    this.auth.checked$.pipe(skipWhile((val) => val === false)).subscribe(() => {
       const user = this.auth.getUser();
 
       if (user) {
@@ -71,7 +73,7 @@ export class UserEditComponent {
           lastname: user.lastname,
           email: user.email,
           bio: user.bio,
-          public: user.public
+          public: user.public,
         });
       }
     });
@@ -79,7 +81,7 @@ export class UserEditComponent {
 
   fileChange(files: File[]) {
     this.userForm.patchValue({
-      avatarFile: files[0]
+      avatarFile: files[0],
     });
   }
 
@@ -88,27 +90,28 @@ export class UserEditComponent {
   submit(): void {
     const user: User = this.userForm.value;
 
-    this.api.editUser(user).pipe(
-      catchError((err: HttpErrorResponse) => {
-        const error = err.error;
+    this.api
+      .editUser(user)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          const error = err.error;
 
-        if (error.msg === 'USER_FIELD_EXISTS') {
-          if (error.errorData.field === 'username') {
-            
+          if (error.msg === 'USER_FIELD_EXISTS') {
+            if (error.errorData.field === 'username') {
+            }
           }
-        }
-        if (error.msg === 'IMG_NOT_VALID') {
-          this.errorHandler.push(
-            $localize `:@@errors.invalidImg:Invalid image.`
-          );
-        }
+          if (error.msg === 'IMG_NOT_VALID') {
+            this.errorHandler.push(
+              $localize`:@@errors.invalidImg:Invalid image.`
+            );
+          }
 
-        return EMPTY;
-      })
-    ).subscribe((user: User) => {
-      this.auth.updateUser(user);
-      this.router.navigate(['/']);
-    });
+          return EMPTY;
+        })
+      )
+      .subscribe((user: User) => {
+        this.auth.updateUser(user);
+        this.router.navigate(['/']);
+      });
   }
-
 }

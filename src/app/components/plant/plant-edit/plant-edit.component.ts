@@ -9,9 +9,15 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
-import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import {
+  WizardHeaderComponent
+} from '@components/wizard/wizard-header/wizard-header.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
   SpecieFinderComponent
@@ -32,10 +38,10 @@ import { Plant, Condition } from '@models/plant.model';
     WizardPageComponent,
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
-    SpecieFinderComponent
+    SpecieFinderComponent,
   ],
   templateUrl: './plant-edit.component.html',
-  styleUrls: ['./plant-edit.component.scss']
+  styleUrls: ['./plant-edit.component.scss'],
 })
 export class PlantEditComponent {
   id!: number;
@@ -58,7 +64,7 @@ export class PlantEditComponent {
       description: [],
       condition: [],
       locationId: [Validators.required],
-      public: []
+      public: [],
     });
 
     this.locations$ = this.api.getLocationList();
@@ -80,37 +86,38 @@ export class PlantEditComponent {
             description: plant.description,
             condition: plant.condition,
             locationId: plant.locationId,
-            public: plant.public
+            public: plant.public,
           });
 
-
-          this.breadcrumb.setNavigation([
-            { selector: 'plant-edit', name: 'Edit' }
-          ], { attachTo: 'plant' });
-        }
-      })
+          this.breadcrumb.setNavigation(
+            [{ selector: 'plant-edit', name: 'Edit' }],
+            { attachTo: 'plant' }
+          );
+        },
+      });
     }
   }
 
   selectSpecieId(id: any): void {
-    this.removeSpecie = (id === null);
+    this.removeSpecie = id === null;
 
     this.plantForm.patchValue({
-      specieId: id
+      specieId: id,
     });
   }
 
   submit(): void {
     this.plantForm.patchValue({
-      locationId: +this.plantForm.get('locationId')?.value
+      locationId: +this.plantForm.get('locationId')?.value,
     });
 
     const plant: Plant = this.plantForm.value;
     plant.id = this.id;
-    
-    this.plantService.update(plant, { removeSpecie: this.removeSpecie })
+
+    this.plantService
+      .update(plant, { removeSpecie: this.removeSpecie })
       .subscribe(() => {
-        this.router.navigate(['/plant', this.id])
+        this.router.navigate(['/plant', this.id]);
       });
   }
 
@@ -119,6 +126,6 @@ export class PlantEditComponent {
    * @returns 0
    */
   noSort() {
-    return 0
+    return 0;
   }
 }

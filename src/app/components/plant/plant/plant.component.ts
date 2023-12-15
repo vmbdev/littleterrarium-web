@@ -58,8 +58,8 @@ import { ModalService } from '@services/modal.service';
     PlantWidgetSoilComponent,
     PlantWidgetWaterComponent,
     PhotoListComponent,
-    PropertyBoxComponent
-  ]
+    PropertyBoxComponent,
+  ],
 })
 export class PlantComponent {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
@@ -84,7 +84,7 @@ export class PlantComponent {
     public plantService: PlantService,
     private errorHandler: ErrorHandlerService,
     private modal: ModalService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const paramId = this.route.snapshot.paramMap.get('plantId');
@@ -96,47 +96,51 @@ export class PlantComponent {
   fetchPlantData(): void {
     if (!this.id) return;
 
-    this.plantService.get(this.id, { photos: true }).pipe(
-      catchError((err: HttpErrorResponse) => {
-        if (err.error?.msg === 'PLANT_NOT_FOUND') {
-          this.errorHandler.push(
-            $localize `:@@plant.invalid:Plant not found.`
-          );
-        }
-        else this.errorHandler.push($localize `:@@errors.server:Server error`);
+    this.plantService
+      .get(this.id, { photos: true })
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          if (err.error?.msg === 'PLANT_NOT_FOUND') {
+            this.errorHandler.push(
+              $localize`:@@plant.invalid:Plant not found.`
+            );
+          } else {
+            this.errorHandler.push($localize`:@@errors.server:Server error`);
+          }
 
-        this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/');
 
-        return EMPTY;
-      })
-    ).subscribe((plant: Plant) => {
-      this.plantVisibility = plant.public;
+          return EMPTY;
+        })
+      )
+      .subscribe((plant: Plant) => {
+        this.plantVisibility = plant.public;
 
-      // if customName and/or specie exists, we use it for title and subtitle
-      // otherwise we use the plant visibleName
-      if (plant.customName) {
-        this.plantTitle = plant.customName;
+        // if customName and/or specie exists, we use it for title and subtitle
+        // otherwise we use the plant visibleName
+        if (plant.customName) {
+          this.plantTitle = plant.customName;
 
-        if (plant.specie) this.plantSubtitle = plant.specie.name;
-      }
-      else this.plantTitle = plant.visibleName;
+          if (plant.specie) this.plantSubtitle = plant.specie.name;
+        } else this.plantTitle = plant.visibleName;
 
-      this.breadcrumb.setNavigation(
-        [{
-          selector: 'plant',
-          name: this.plantService.getVisibleName(plant),
-          link: ['/plant', this.id]
-        }],
-        { attachTo: 'location', parent: plant.locationId }
-      );
-    });
-
+        this.breadcrumb.setNavigation(
+          [
+            {
+              selector: 'plant',
+              name: this.plantService.getVisibleName(plant),
+              link: ['/plant', this.id],
+            },
+          ],
+          { attachTo: 'location', parent: plant.locationId }
+        );
+      });
   }
 
   openDeleteModal(): void {
     this.modal.open(this.deleteModal, 'confirm').subscribe((res) => {
       if (res === 'accept') this.delete();
-    })
+    });
   }
 
   // openEditWaterModal(): void {
@@ -159,7 +163,7 @@ export class PlantComponent {
     if (plant) {
       this.plantService.delete().subscribe(() => {
         this.router.navigate(['/location', plant.locationId]);
-      })
+      });
     }
   }
 
@@ -171,9 +175,7 @@ export class PlantComponent {
 
   getConditionClass(plant: Plant): string | null {
     if (plant.condition) {
-      return `plant__condition-${ plant.condition?.toLowerCase() }`;
-    }
-    else return null;
+      return `plant__condition-${plant.condition?.toLowerCase()}`;
+    } else return null;
   }
-
 }

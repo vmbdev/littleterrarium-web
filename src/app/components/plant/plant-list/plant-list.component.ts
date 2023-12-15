@@ -25,8 +25,8 @@ import { User } from '@models/user.model';
     CommonModule,
     RouterModule,
     PictureListComponent,
-    FilterBarComponent
-  ]
+    FilterBarComponent,
+  ],
 })
 export class PlantListComponent {
   @Input() list?: Plant[];
@@ -45,27 +45,24 @@ export class PlantListComponent {
   constructor(
     private plantService: PlantService,
     private locationService: LocationService
-  ) { 
+  ) {
     const storedOrder = localStorage.getItem('LT_plantListOrder');
 
     if (storedOrder && (storedOrder === 'asc' || storedOrder === 'desc')) {
       this.order = storedOrder;
-    }
-    else this.order = 'asc';
+    } else this.order = 'asc';
 
     const storedSort = localStorage.getItem('LT_plantListSort');
 
     if (storedSort && (storedSort === 'name' || storedSort === 'date')) {
       this.column = storedSort;
-    }
-    else this.column = 'name';
+    } else this.column = 'name';
   }
 
   ngOnInit(): void {
     if (this.list) {
       this.pictureList = this.createPictureListFromPlants(this.list);
-    }
-    else this.changeSorting({ column: this.column, order: this.order });
+    } else this.changeSorting({ column: this.column, order: this.order });
   }
 
   fetchPlants(scroll: boolean = false): void {
@@ -74,20 +71,19 @@ export class PlantListComponent {
       cursor: scroll && this.cursor ? this.cursor : undefined,
       filter: this.filter ? this.filter : '',
       sort: this.column,
-      order: this.order
-    }
+      order: this.order,
+    };
 
     // in case of multiple bottom reached signals, we avoid asking twice
     if (this.cursor) this.lastCursor = this.cursor;
 
     if (this.locationId) {
       obs$ = this.locationService.getPlants(this.locationId, options);
-    }
-    else {
+    } else {
       options = {
         ...options,
         userId: this.user?.id,
-        cover: true
+        cover: true,
       };
 
       obs$ = this.plantService.getMany(options);
@@ -99,12 +95,11 @@ export class PlantListComponent {
       }
 
       if (scroll) {
-        this.pictureList = ([
+        this.pictureList = [
           ...this.pictureList,
-          ...this.createPictureListFromPlants(plants)
-        ]);
-      }
-      else this.pictureList = this.createPictureListFromPlants(plants);
+          ...this.createPictureListFromPlants(plants),
+        ];
+      } else this.pictureList = this.createPictureListFromPlants(plants);
     });
   }
 
@@ -121,10 +116,9 @@ export class PlantListComponent {
         link: ['/plant', plant.id],
         name: plant.visibleName,
         sortableOptions: {
-          date: plant.createdAt
-        }
+          date: plant.createdAt,
+        },
       });
-
     }
 
     return pictures;

@@ -1,27 +1,27 @@
-import { Route } from '@angular/router'
-import { AuthGuard } from '@guards/auth.guard'
+import { Route } from '@angular/router';
+import { AuthGuard } from '@guards/auth.guard';
 
 export const USER_ROUTES: Route[] = [
   {
     path: 'edit',
     loadComponent: () =>
       import('./user-edit/user-edit.component').then(
-        m => m.UserEditComponent
+        (m) => m.UserEditComponent
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'recover',
-    loadComponent: () => 
+    loadComponent: () =>
       import('./user-password-recovery/user-password-recovery.component').then(
-        m => m.UserPasswordRecoveryComponent
-      )
+        (m) => m.UserPasswordRecoveryComponent
+      ),
   },
   {
     path: 'reset/:userId/:token',
-    loadComponent: () => 
+    loadComponent: () =>
       import('./user-password-reset/user-password-reset.component').then(
-        m => m.UserPasswordResetComponent
-      )
-  }
+        (m) => m.UserPasswordResetComponent
+      ),
+  },
 ];

@@ -157,6 +157,7 @@
     "plant-widget-soil.potMaterial": "Your pot is made of {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}.",
     "plant-widget-soil.potSize": "It has a diameter of {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}",
     "plant-widget-soil.title": "Soil and Pot",
+    "plant-widget-water.button": "Water",
     "plant-widget-water.confirm": "This will update your {$START_BOLD_TEXT}last time watered{$CLOSE_BOLD_TEXT} to today.",
     "plant-widget-water.freq": "Water every {$START_BOLD_TEXT}{$INTERPOLATION} days{$CLOSE_BOLD_TEXT}",
     "plant-widget-water.warning": "If you haven't watered it yet, please check your soil. Never water your plants on a schedule!",

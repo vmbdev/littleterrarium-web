@@ -1,7 +1,7 @@
 <div class="error-toast">
   @for (error of errorList; let i = $index; track error) {
     <div class="error-toast__box">
-      <lt-close-button [small]="true" (close)="removeError(i)" />
+      <lt-close-button small="true" (close)="removeError(i)" />
       {{ error }}
     </div>
   }

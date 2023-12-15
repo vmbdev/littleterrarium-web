@@ -9,11 +9,8 @@ import { ThemeService } from '@services/theme.service';
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [
-    CommonModule,
-    DefaultLayoutComponent
-  ],
-  templateUrl: './app.component.html'
+  imports: [CommonModule, DefaultLayoutComponent],
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
   @ViewChild('mainElement') mainElement!: TemplateRef<any>;

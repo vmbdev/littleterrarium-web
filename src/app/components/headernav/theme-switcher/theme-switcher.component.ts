@@ -11,19 +11,15 @@ import { ThemeService } from '@services/theme.service';
 @Component({
   selector: 'lt-theme-switcher',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './theme-switcher.component.html',
-  styleUrls: ['./theme-switcher.component.scss']
+  styleUrls: ['./theme-switcher.component.scss'],
 })
 export class ThemeSwitcherComponent {
-
-  constructor(public theme: ThemeService) { }
+  constructor(public theme: ThemeService) {}
 
   switchTheme(): void {
     if (this.theme.getTheme() === 'light') this.theme.switchTheme('dark');
     else this.theme.switchTheme('light');
   }
-
 }

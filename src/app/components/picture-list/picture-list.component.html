@@ -2,7 +2,7 @@
   
   @if (!detailed) {
     @if (createAddItem && addItemLink) {
-      <lt-picture-box [add]="true" [link]="addItemLink">
+      <lt-picture-box add="true" [link]="addItemLink">
         <ng-content select="[addItem]" />
       </lt-picture-box>
     }
@@ -28,7 +28,7 @@
 
   @if (detailed) {
     @if (createAddItem && addItemLink) {
-      <lt-picture-detailed [add]="true" [link]="addItemLink">
+      <lt-picture-detailed add="true" [link]="addItemLink">
         <ng-content select="[addItem]" />
       </lt-picture-detailed>
     }

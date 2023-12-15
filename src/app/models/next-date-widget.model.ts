@@ -1,4 +1,4 @@
 export type NextDateWidget = {
-  text: string | null,
-  due: boolean
-}
+  text: string | null;
+  due: boolean;
+};

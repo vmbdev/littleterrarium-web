@@ -2,16 +2,14 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ErrorHandlerService implements ErrorHandler {
-  list$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  list$ = new BehaviorSubject<string | null>(null);
 
-  handleError(error: any) {
-    
-  }
+  handleError(error: any) {}
 
   push(error: string) {
-      this.list$.next(error);
+    this.list$.next(error);
   }
 }

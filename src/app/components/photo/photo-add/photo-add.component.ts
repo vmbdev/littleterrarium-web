@@ -44,10 +44,10 @@ import { Plant } from '@models/plant.model';
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
     FileUploaderComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
   ],
   templateUrl: './photo-add.component.html',
-  styleUrls: ['./photo-add.component.scss']
+  styleUrls: ['./photo-add.component.scss'],
 })
 export class PhotoAddComponent {
   photoForm: FormGroup;
@@ -67,38 +67,39 @@ export class PhotoAddComponent {
     this.photoForm = this.fb.group({
       public: [true, Validators.required],
       pictureFiles: [Validators.required],
-    })
+    });
   }
 
   ngOnInit(): void {
     this.plantId = +this.route.snapshot.params['plantId'];
 
     if (this.plantId) {
-      this.plantService.get(this.plantId).pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.router.navigateByUrl('/');
+      this.plantService
+        .get(this.plantId)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            this.router.navigateByUrl('/');
 
-          if (err.error?.msg === 'PLANT_NOT_FOUND') {
-            this.errorHandler.push(
-              $localize `:@@plant.invalid:Plant not found.`
-            );
+            if (err.error?.msg === 'PLANT_NOT_FOUND') {
+              this.errorHandler.push(
+                $localize`:@@plant.invalid:Plant not found.`
+              );
 
-            return EMPTY;
-          }
-          else return throwError(() => err);  
-        })
-      ).subscribe((plant: Plant) => {
-        this.plant = plant
-      });
-    }
-    else {
-      this.errorHandler.push($localize `:@@plant.invalid:Plant not found.`);
+              return EMPTY;
+            } else return throwError(() => err);
+          })
+        )
+        .subscribe((plant: Plant) => {
+          this.plant = plant;
+        });
+    } else {
+      this.errorHandler.push($localize`:@@plant.invalid:Plant not found.`);
     }
   }
 
   fileChange(files: File[]) {
     this.photoForm.patchValue({
-      pictureFiles: files
+      pictureFiles: files,
     });
   }
 
@@ -109,26 +110,29 @@ export class PhotoAddComponent {
       newPhoto.plantId = this.plantId;
       this.disableNavigation = true;
 
-      this.photoService.create(newPhoto).pipe(
-        finalize(() => {
-          this.disableNavigation = false;
-        })
-      ).subscribe((event) => {
-        switch (event.type) {
-          case HttpEventType.UploadProgress: {
-            const eventTotal = event.total ? event.total : 0;
-            this.uploadProgress = Math.round(event.loaded / eventTotal * 100);
-            break;
+      this.photoService
+        .create(newPhoto)
+        .pipe(
+          finalize(() => {
+            this.disableNavigation = false;
+          })
+        )
+        .subscribe((event) => {
+          switch (event.type) {
+            case HttpEventType.UploadProgress: {
+              const eventTotal = event.total ? event.total : 0;
+              this.uploadProgress = Math.round(
+                (event.loaded / eventTotal) * 100
+              );
+              break;
+            }
+            case HttpEventType.Response: {
+              this.uploadProgress = 0;
+              this.router.navigate(['plant', this.plantId]);
+              break;
+            }
           }
-          case HttpEventType.Response: {
-            this.uploadProgress = 0;
-            this.router.navigate(['plant', this.plantId])
-            break;
-          }
-
-        }
-      });
+        });
     }
   }
-
 }

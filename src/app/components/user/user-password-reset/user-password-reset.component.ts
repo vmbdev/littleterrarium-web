@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '@services/auth.service';
 import { catchError, EMPTY } from 'rxjs';
 
 import {
@@ -17,9 +17,11 @@ import {
 import {
   WizardComponent
 } from '@components/wizard/wizard/wizard.component';
-import { ActivatedRoute } from '@angular/router';
-import { ConfirmPasswordComponent } from '../confirm-password/confirm-password.component';
+import {
+  PasswordFormComponent
+} from '@components/user/password-form/password-form.component';
 import { ApiService } from '@services/api.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'lt-user-password-reset',
@@ -31,10 +33,10 @@ import { ApiService } from '@services/api.service';
     WizardHeaderComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
-    ConfirmPasswordComponent
+    PasswordFormComponent,
   ],
   templateUrl: './user-password-reset.component.html',
-  styleUrl: './user-password-reset.component.scss'
+  styleUrl: './user-password-reset.component.scss',
 })
 export class UserPasswordResetComponent {
   passwordGroup: FormGroup;
@@ -45,19 +47,17 @@ export class UserPasswordResetComponent {
   errorInvalidToken: boolean = false;
   errorInvalidPassword: boolean = false;
   passwordChanged: boolean = false;
-  
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private auth: AuthService,
     private api: ApiService
   ) {
-    this.passwordGroup = this.fb.group(
-      {
-        password: [''],
-        password2: ['']
-      },
-    );
+    this.passwordGroup = this.fb.group({
+      password: [''],
+      password2: [''],
+    });
   }
 
   ngOnInit(): void {
@@ -65,44 +65,42 @@ export class UserPasswordResetComponent {
     this.userId = +this.route.snapshot.paramMap.get('userId')!;
 
     if (this.token && this.userId) {
-      this.api.verifyToken(this.token, this.userId).pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.errorInvalidToken = true;
+      this.api
+        .verifyToken(this.token, this.userId)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            this.errorInvalidToken = true;
 
-          return EMPTY;
-        })
-      ).subscribe();
+            return EMPTY;
+          })
+        )
+        .subscribe();
     }
   }
 
   submit() {
-
-    if (
-      !this.passwordGroup.valid
-      || !(this.token && this.userId)
-    ) {
+    if (!this.passwordGroup.valid || !(this.token && this.userId)) {
       return;
     }
 
     const pwd = this.passwordGroup.get('password')?.value;
-    this.auth.recoverPassword(this.token, pwd, this.userId)
+    this.auth
+      .recoverPassword(this.token, pwd, this.userId)
       .pipe(
         catchError((err) => {
           const msg = err.error?.msg;
 
           if (msg === 'USER_TOKEN_EXPIRED' || msg === 'USER_TOKEN_INVALID') {
             this.errorInvalidToken = true;
-          }
-          else if (msg === 'USER_PASSWD_INVALID') {
+          } else if (msg === 'USER_PASSWD_INVALID') {
             this.errorInvalidPassword = true;
           }
 
           return EMPTY;
         })
       )
-    .subscribe((res) => {
-      this.passwordChanged = true;
-    })
-
+      .subscribe((res) => {
+        this.passwordChanged = true;
+      });
   }
 }

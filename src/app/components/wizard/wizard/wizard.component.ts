@@ -10,24 +10,25 @@ import {
   Input,
   Output,
   QueryList,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+
 import {
   WizardHeaderComponent
 } from '@components/wizard/wizard-header/wizard-header.component';
-import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
 
 // TODO: focus input on page change
 
 @Component({
   selector: 'lt-wizard',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './wizard.component.html',
-  styleUrls: ['./wizard.component.scss']
+  styleUrls: ['./wizard.component.scss'],
 })
 export class WizardComponent {
   @ContentChildren(WizardPageComponent, { descendants: true })
@@ -55,7 +56,7 @@ export class WizardComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['moveTo'] && (changes['moveTo'].currentValue !== undefined)) {
+    if (changes['moveTo'] && changes['moveTo'].currentValue !== undefined) {
       this.setIndex(changes['moveTo'].currentValue);
     }
   }
@@ -87,8 +88,8 @@ export class WizardComponent {
     }
 
     if (
-      !validationErrors
-      && (this.currentIndex < (this.pageList.toArray().length - 1))
+      !validationErrors &&
+      this.currentIndex < this.pageList.toArray().length - 1
     ) {
       this.setIndex(this.currentIndex + 1);
     }

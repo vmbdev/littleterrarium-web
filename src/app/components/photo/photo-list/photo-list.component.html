@@ -2,7 +2,7 @@
   <lt-picture-list
     [createAddItem]="(plantId !== undefined) && (plantId !== null) && owned"
     [addItemLink]="['/photo','create', plantId]"
-    [contentBelow]="true"
+    contentBelow="true"
     sortBy="date"
     sortOrder="desc"
     [list]="pictureList"

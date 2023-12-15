@@ -11,7 +11,7 @@
 <lt-picture-list
   [createAddItem]="(locationId !== undefined) && (locationId !== null) && owned"
   [addItemLink]="['/plant','create', locationId]"
-  [contentBelow]="true"
+  contentBelow="true"
   [list]="pictureList"
 >
   <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>

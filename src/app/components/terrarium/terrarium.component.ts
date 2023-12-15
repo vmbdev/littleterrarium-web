@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+
 import {
   LocationListComponent
 } from '@components/location/location-list/location-list.component';
@@ -15,13 +16,9 @@ import { User } from '@models/user.model';
 @Component({
   standalone: true,
   selector: 'lt-terrarium',
-  imports: [
-    CommonModule,
-    LocationListComponent,
-    PlantListComponent
-  ],
+  imports: [CommonModule, LocationListComponent, PlantListComponent],
   templateUrl: './terrarium.component.html',
-  styleUrls: ['./terrarium.component.scss']
+  styleUrls: ['./terrarium.component.scss'],
 })
 export class TerrariumComponent {
   user$ = new BehaviorSubject<User | null>(null);
@@ -30,7 +27,7 @@ export class TerrariumComponent {
     private route: ActivatedRoute,
     private api: ApiService,
     private imagePath: ImagePathService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const username = this.route.snapshot.paramMap.get('username');
@@ -44,24 +41,19 @@ export class TerrariumComponent {
     const user = this.user$.getValue();
 
     if (user) {
-      return (
-        user.avatar ?
-        this.imagePath.get(user.avatar, 'thumb') :
-        'assets/user.png'
-      );
-    }
-    else return null;
+      return user.avatar
+        ? this.imagePath.get(user.avatar, 'thumb')
+        : 'assets/user.png';
+    } else return null;
   }
 
   getFullName(): string | null {
     const user = this.user$.getValue();
-    
+
     if (user) {
       const firstname = user.firstname ? user.firstname + ' ' : '';
 
       return `${firstname}${user.lastname}`;
-    }
-    else return null;
+    } else return null;
   }
-
 }

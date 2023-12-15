@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { HttpEventType } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { HttpEventType } from '@angular/common/http';
 import { catchError, EMPTY, finalize, switchMap } from 'rxjs';
 import {
   FormBuilder,
@@ -48,10 +47,10 @@ import { ApiService } from '@services/api.service';
     FileUploaderComponent,
     ReactiveFormsModule,
     ProgressBarComponent,
-    SpecieFinderComponent
+    SpecieFinderComponent,
   ],
   templateUrl: './plant-add.component.html',
-  styleUrls: ['./plant-add.component.scss']
+  styleUrls: ['./plant-add.component.scss'],
 })
 export class PlantAddComponent {
   plantForm: FormGroup;
@@ -74,8 +73,8 @@ export class PlantAddComponent {
     this.plantForm = this.fb.group({
       specieId: [],
       customName: [],
-      public: [true, Validators.required]
-    })
+      public: [true, Validators.required],
+    });
   }
 
   ngOnInit(): void {
@@ -83,12 +82,14 @@ export class PlantAddComponent {
 
     if (this.locationId) {
       this.api.getLocation(this.locationId).subscribe({
-        next: (location: Location) => { this.location = location },
+        next: (location: Location) => {
+          this.location = location;
+        },
         error: () => {
           this.errorHandler.push(
-            $localize `:@@plant-add.location:Invalid location provided.`
-          )
-        }
+            $localize`:@@plant-add.location:Invalid location provided.`
+          );
+        },
       });
     }
   }
@@ -99,7 +100,7 @@ export class PlantAddComponent {
 
   selectSpecieId(id: any): void {
     this.plantForm.patchValue({
-      specieId: id
+      specieId: id,
     });
   }
 
@@ -110,56 +111,66 @@ export class PlantAddComponent {
 
     plant.locationId = this.locationId;
     this.disableNavigation = true;
-    
+
     const obs = this.plantService.create(plant);
-    
+
     if (this.photos.length > 0) {
-      obs.pipe(
-        switchMap((plant: Plant) => {
-          const photos = {
-            plantId: plant.id,
-            public: plant.public,
-            pictureFiles: this.photos
-          } as Photo;
-  
-          return this.photoService.create(photos, true).pipe(
-            catchError(() => {
-              // Plant is created even though photo upload may have failed.
-              // So we redirect to Plant.
-              this.router.navigate(['/plant', plant.id]);
-      
-              return EMPTY;
-            }))
-        }),
-        finalize(() => { this.disableNavigation = false }),
-      ).subscribe((event) => {
-        switch (event.type) {
-          case HttpEventType.UploadProgress: {
-            const eventTotal = event.total ? event.total : 0;
-            this.uploadProgress = Math.round(event.loaded / eventTotal * 100);
-            break;
+      obs
+        .pipe(
+          switchMap((plant: Plant) => {
+            const photos = {
+              plantId: plant.id,
+              public: plant.public,
+              pictureFiles: this.photos,
+            } as Photo;
+
+            return this.photoService.create(photos, true).pipe(
+              catchError(() => {
+                // Plant is created even though photo upload may have failed.
+                // So we redirect to Plant.
+                this.router.navigate(['/plant', plant.id]);
+
+                return EMPTY;
+              })
+            );
+          }),
+          finalize(() => {
+            this.disableNavigation = false;
+          })
+        )
+        .subscribe((event) => {
+          switch (event.type) {
+            case HttpEventType.UploadProgress: {
+              const eventTotal = event.total ? event.total : 0;
+              this.uploadProgress = Math.round(
+                (event.loaded / eventTotal) * 100
+              );
+              break;
+            }
+            case HttpEventType.Response: {
+              this.uploadProgress = 0;
+              this.router.navigate(['/plant', event.body?.data?.plantId]);
+              break;
+            }
           }
-          case HttpEventType.Response: {
-            this.uploadProgress = 0;
-            this.router.navigate(['/plant', event.body?.data?.plantId])
-            break;
-          }
-        }
-      });
-    }
-    else {
-      obs.pipe(
-        finalize(() => { this.disableNavigation = false })
-      ).subscribe({
-        next: (plant: Plant) => {
-          this.router.navigate(['/plant', plant.id], { replaceUrl: true });
-        },
-        error: () => {
-          this.errorHandler.push(
-            $localize `:@@plant-add.create:Error when creating the plant.`
-          );
-        }
-      })
+        });
+    } else {
+      obs
+        .pipe(
+          finalize(() => {
+            this.disableNavigation = false;
+          })
+        )
+        .subscribe({
+          next: (plant: Plant) => {
+            this.router.navigate(['/plant', plant.id], { replaceUrl: true });
+          },
+          error: () => {
+            this.errorHandler.push(
+              $localize`:@@plant-add.create:Error when creating the plant.`
+            );
+          },
+        });
     }
   }
 }

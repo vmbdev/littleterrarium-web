@@ -6,11 +6,10 @@ import { Component, Input } from '@angular/core';
   selector: 'lt-widget-box',
   imports: [CommonModule],
   templateUrl: './widget-box.component.html',
-  styleUrls: ['./widget-box.component.scss']
+  styleUrls: ['./widget-box.component.scss'],
 })
 export class WidgetBoxComponent {
   @Input() image?: string;
   @Input() title?: string;
   @Input() center: boolean = true;
-
 }

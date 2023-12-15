@@ -44,7 +44,7 @@ import { LocationService } from '@services/location.service';
     WizardHeaderComponent,
   ],
   templateUrl: './location-add-edit.component.html',
-  styleUrls: ['./location-add-edit.component.scss']
+  styleUrls: ['./location-add-edit.component.scss'],
 })
 export class LocationAddEditComponent {
   lightOptions = Light;
@@ -56,7 +56,7 @@ export class LocationAddEditComponent {
   edited: boolean = false;
   removePicture: boolean = false;
   disableNavigation: boolean = false;
-  
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -71,7 +71,7 @@ export class LocationAddEditComponent {
       light: ['FULLSUN', Validators.required],
       public: [true],
       pictureFile: [],
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -82,38 +82,41 @@ export class LocationAddEditComponent {
     if (!this.createNew && +paramId) {
       this.id = +paramId;
 
-      this.locationService.get(this.id).pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.errorHandler.push(
-            $localize `:@@location.invalid:Location invalid or not found`
+      this.locationService
+        .get(this.id)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            this.errorHandler.push(
+              $localize`:@@location.invalid:Location invalid or not found`
+            );
+
+            return EMPTY;
+          })
+        )
+        .subscribe((location: Location) => {
+          this.location = location;
+
+          Object.keys(this.locationForm.value).forEach((key) => {
+            this.locationForm.controls[key].setValue(
+              location[key as keyof Location]
+            );
+          });
+
+          this.breadcrumb.setNavigation(
+            [{ selector: 'location-edit', name: 'Edit location' }],
+            { attachTo: 'location' }
           );
-
-          return EMPTY;
-        })
-      )
-      .subscribe((location: Location) => {
-        this.location = location;
-
-        Object.keys(this.locationForm.value).forEach((key) => {
-          this.locationForm.controls[key]
-            .setValue(location[key as keyof Location]);
         });
-
-        this.breadcrumb.setNavigation(
-          [{ selector: 'location-edit', name: 'Edit location' }],
-          { attachTo: 'location' }
-        );
-      })
     }
   }
 
   control(name: string): FormControl {
     return this.locationForm.get(name) as FormControl;
-  };
+  }
 
   fileChange(files: File[]) {
     this.locationForm.patchValue({
-      pictureFile: files[0]
+      pictureFile: files[0],
     });
   }
 
@@ -127,34 +130,35 @@ export class LocationAddEditComponent {
     else if (this.id) {
       data.id = this.id;
       insert = this.locationService.update(data, {
-        removePicture: this.removePicture
+        removePicture: this.removePicture,
       });
     }
 
     this.disableNavigation = true;
 
     if (insert) {
-      insert.pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.error?.msg === 'IMG_NOT_VALID') {
-            this.errorHandler.push(
-              $localize `:@@errors.invalidImg:Invalid image.`
-            );
-          }
+      insert
+        .pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.error?.msg === 'IMG_NOT_VALID') {
+              this.errorHandler.push(
+                $localize`:@@errors.invalidImg:Invalid image.`
+              );
+            }
 
-          return EMPTY;
-        }),
-        finalize(() => {
-          this.disableNavigation = false;
-        })
-      ).subscribe((location: Location) => {
-        this.router.navigate([`location/${location.id}`]);
-      });
+            return EMPTY;
+          }),
+          finalize(() => {
+            this.disableNavigation = false;
+          })
+        )
+        .subscribe((location: Location) => {
+          this.router.navigate([`location/${location.id}`]);
+        });
     }
   }
 
   toggleRemovePicture(event: Event) {
     this.removePicture = (event.target as HTMLInputElement).checked;
   }
-
 }

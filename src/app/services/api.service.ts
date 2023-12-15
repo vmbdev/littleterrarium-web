@@ -8,58 +8,62 @@ import { Location } from '@models/location.model';
 import { Photo, NavigationData } from '@models/photo.model';
 import { CoverPhoto, Plant } from '@models/plant.model';
 import { Specie } from '@models/specie.model';
-import { PasswordRequirements, User, UsernameRequirements } from '@models/user.model';
+import {
+  PasswordRequirements,
+  User,
+  UsernameRequirements,
+} from '@models/user.model';
 import { BackendResponse } from '@models/backend-response.model';
 import { SortColumn, SortOrder } from '@models/sort-options.model';
 
 export interface LocationGetConfig {
-  plantCount?: boolean
-  userId?: number | null
-  limit?: number
+  plantCount?: boolean;
+  userId?: number | null;
+  limit?: number;
 }
 
 export interface LocationUpsertConfig {
-  update?: boolean
-  removePicture?: boolean
+  update?: boolean;
+  removePicture?: boolean;
 }
 
 export interface PlantGetConfig {
-  userId?: number
-  locationId?: number
-  photos?: boolean
-  cover?: boolean
-  limit?: number
-  filter?: string
-  cursor?: number
-  sort?: SortColumn
-  order?: SortOrder
+  userId?: number;
+  locationId?: number;
+  photos?: boolean;
+  cover?: boolean;
+  limit?: number;
+  filter?: string;
+  cursor?: number;
+  sort?: SortColumn;
+  order?: SortOrder;
 }
 
 export interface PlantUpdateConfig {
-  removeSpecie?: boolean
-  removeCover?: boolean
+  removeSpecie?: boolean;
+  removeCover?: boolean;
 }
 
 export interface PhotoGetConfig {
-  navigation?: boolean
-  cover?: boolean
+  navigation?: boolean;
+  cover?: boolean;
 }
 
 export interface AngularLocales {
-  locales: string[]
-  default: string
+  locales: string[];
+  default: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
   constructor(
     private http: HttpClient,
     @Inject(BACKEND_URL) public backendUrl: string
-  ) { }
+  ) {}
 
-  endpoint = (path: string) => {
+  endpoint(path: string): string {
     return `${this.backendUrl}${endpoint}/${path}`;
   }
 
@@ -72,7 +76,7 @@ export class ApiService {
    */
 
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>(this.endpoint('users'))
+    return this.http.get<User>(this.endpoint('users'));
   }
 
   getUser(id: number): Observable<User> {
@@ -86,7 +90,7 @@ export class ApiService {
   signIn(username: string, password: string): Observable<User> {
     return this.http.post<User>(this.endpoint('users/signin'), {
       username,
-      password
+      password,
     });
   }
 
@@ -106,14 +110,14 @@ export class ApiService {
     return this.http.post<any>(this.endpoint('users/restore'), {
       token,
       password,
-      userId
+      userId,
     });
   }
 
   verifyToken(token: string, userId: number): Observable<any> {
     return this.http.post<any>(this.endpoint('users/verifyToken'), {
       token,
-      userId
+      userId,
     });
   }
 
@@ -131,7 +135,8 @@ export class ApiService {
 
   checkPassword(password: string): Observable<BackendResponse> {
     return this.http.post<BackendResponse>(
-      this.endpoint('users/password/check'), { password }
+      this.endpoint('users/password/check'),
+      { password }
     );
   }
 
@@ -177,17 +182,13 @@ export class ApiService {
 
     if (options) {
       if (options.userId && +options.userId) url += `/user/${+options.userId}`;
-
       if (options.plantCount) url += '?plantcount=true';
     }
 
     return this.http.get<Location[]>(this.endpoint(url));
   }
 
-  getLocationPlants(
-    id: number,
-    options?: PlantGetConfig
-  ): Observable<Plant[]> {
+  getLocationPlants(id: number, options?: PlantGetConfig): Observable<Plant[]> {
     return this.getPlants({ ...options, locationId: id });
   }
 
@@ -218,14 +219,11 @@ export class ApiService {
       form.append('id', location.id.toString());
     }
 
-    if (options.update) observable = this.http.put<Location>(
-      this.endpoint('locations'),
-      form
-    );
-    else observable = this.http.post<Location>(
-      this.endpoint('locations'),
-      form
-    );
+    if (options.update) {
+      observable = this.http.put<Location>(this.endpoint('locations'), form);
+    } else {
+      observable = this.http.post<Location>(this.endpoint('locations'), form);
+    }
 
     return observable;
   }
@@ -253,24 +251,20 @@ export class ApiService {
     let url = 'plants/';
 
     if (options) {
-      // for location's plants it's location/:id/plants
-      if (options.locationId) {
-        url = `locations/${options.locationId}/${url}`;
-      }
-      // for plants of user it's plants/user/:id
-      else if (options.userId) {
-        url += `user/${options.userId}`;
-      }
+      const urlParams = new URLSearchParams();
 
-      url += '?';
+      // for plants of location: location/:id/plants
+      if (options.locationId) url = `locations/${options.locationId}/${url}`;
+      // for plants of user: plants/user/:id
+      else if (options.userId) url += `user/${options.userId}`;
 
-      if (options.cover) {
-        url += `cover=${options.cover ? true : false}&`;
-      }
-      if (options.cursor) url += `cursor=${options.cursor}&`;
-      if (options.filter) url += `filter=${options.filter}&`;
-      if (options.sort) url += `sort=${options.sort}&`;
-      if (options.order) url += `order=${options.order}&`;
+      if (options.cover) urlParams.append('cover', options.cover.toString());
+      if (options.cursor) urlParams.append('cursor', options.cursor.toString());
+      if (options.filter) urlParams.append('filter', options.filter.toString());
+      if (options.sort) urlParams.append('sort', options.sort);
+      if (options.order) urlParams.append('order', options.order);
+
+      url += `?${urlParams.toString()}`;
     }
 
     return this.http.get<Plant[]>(this.endpoint(url));
@@ -279,8 +273,8 @@ export class ApiService {
   getPlant(id: number, options?: PlantGetConfig): Observable<Plant> {
     let url = `plants/${id}`;
 
-    if (options && (options.photos || options.cover)) {
-      url += `?photos=${options.photos ? true : false}&cover=${options.cover ? true : false}`;
+    if (options?.photos || options?.cover) {
+      url += `?photos=${!!options.photos}&cover=${!!options.cover}`;
     }
 
     return this.http.get<Plant>(this.endpoint(url));
@@ -301,10 +295,8 @@ export class ApiService {
   updatePlant(plant: Plant, options?: PlantUpdateConfig): Observable<Plant> {
     const data = plant as any;
 
-    if (options) {
-      if (options.removeSpecie) data.removeSpecie = true;
-      if (options.removeCover) data.removeCover = true;
-    }
+    if (options?.removeSpecie) data.removeSpecie = true;
+    if (options?.removeCover) data.removeCover = true;
 
     return this.http.put<Plant>(this.endpoint('plants'), data);
   }
@@ -320,13 +312,16 @@ export class ApiService {
   getPhoto(id: number, options?: PhotoGetConfig): Observable<Photo> {
     let url = `photos/${id}`;
 
-    // TODO: create proper API to do this
     if (options) {
-      url += '?';
+      const urlParams = new URLSearchParams();
+
+      
       if (options.navigation) {
-        url += `navigation=${options.navigation ? 'true' : 'false' }&`;
+        urlParams.append('navigation', options.navigation.toString());
       }
-      if (options.cover) url += `cover=${options.cover ? 'true' : 'false'}&`;
+      if (options.cover) urlParams.append('cover', options.cover.toString());
+
+      url += `?${urlParams.toString()}`;
     }
 
     return this.http.get<Photo>(this.endpoint(url));
@@ -347,11 +342,10 @@ export class ApiService {
       form.append('photo', photo);
     });
 
-    return this.http.post<BackendResponse>(
-      this.endpoint('photos'),
-      form,
-      { reportProgress: true, observe: 'events' }
-    );
+    return this.http.post<BackendResponse>(this.endpoint('photos'), form, {
+      reportProgress: true,
+      observe: 'events',
+    });
   }
 
   updatePhoto(photo: Photo): Observable<Photo> {

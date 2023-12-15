@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.6] - 2023-12-15
+
+### Changes
+
+- Code cleanup.
+
+### Fixes
+
+- Updated missing translations.
+
 ## [1.0.5] - 2023-11-30
 
 ### Added

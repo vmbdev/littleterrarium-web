@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './property-box.component.html',
-  styleUrls: ['./property-box.component.scss']
+  styleUrls: ['./property-box.component.scss'],
 })
 export class PropertyBoxComponent {
   @Input() icon?: string;

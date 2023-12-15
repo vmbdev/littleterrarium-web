@@ -9,5 +9,4 @@ import {
   imports: [PlantListComponent],
   templateUrl: './plant-all.component.html',
 })
-export class PlantAllComponent {
-}
+export class PlantAllComponent {}

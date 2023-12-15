@@ -4,15 +4,14 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, EMPTY, Observable, throwError } from 'rxjs';
-import { ErrorHandlerService } from '@services/error-handler.service';
 
+import { ErrorHandlerService } from '@services/error-handler.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(private errorHandler: ErrorHandlerService) {}
 
   intercept(
@@ -20,18 +19,17 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     request = request.clone({
-      withCredentials: true
+      withCredentials: true,
     });
 
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 403) {
           this.errorHandler.push(
-            $localize `:@@auth-interceptor.forbidden:Insufficient permissions.`
+            $localize`:@@auth-interceptor.forbidden:Insufficient permissions.`
           );
           return EMPTY;
-        }
-        else return throwError(() => error);
+        } else return throwError(() => error);
       })
     );
   }

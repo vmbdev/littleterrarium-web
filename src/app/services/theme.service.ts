@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { theme, availableThemes } from '@config';
+import {
+  theme as configTheme,
+  availableThemes as configAvailableThemes,
+} from '@config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   theme$: BehaviorSubject<string>;
+  availableThemes: string[];
 
   /**
    * Defines the theme to use.
@@ -18,12 +22,15 @@ export class ThemeService {
     let newTheme: string;
     const storedTheme = localStorage.getItem('LT_theme');
 
-    if (storedTheme && availableThemes.includes(storedTheme)) {
+    this.availableThemes = configAvailableThemes;
+
+    if (storedTheme && this.availableThemes.includes(storedTheme)) {
       newTheme = storedTheme;
-    }
-    else if (availableThemes.includes(theme)) newTheme = theme;
-    else if (availableThemes.length > 0) newTheme = availableThemes[0];
-    else newTheme = '';
+    } else if (this.availableThemes.includes(configTheme)) {
+      newTheme = configTheme;
+    } else if (this.availableThemes.length > 0) {
+      newTheme = this.availableThemes[0];
+    } else newTheme = '';
 
     this.theme$ = new BehaviorSubject<string>(newTheme);
   }
@@ -33,7 +40,7 @@ export class ThemeService {
   }
 
   switchTheme(newTheme: string): void {
-    if (availableThemes.includes(newTheme)) {
+    if (this.availableThemes.includes(newTheme)) {
       this.theme$.next(newTheme);
 
       localStorage.setItem('LT_theme', newTheme);
@@ -41,6 +48,6 @@ export class ThemeService {
   }
 
   getAvailableThemes(): string[] {
-    return availableThemes;
+    return this.availableThemes;
   }
 }

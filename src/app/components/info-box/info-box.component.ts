@@ -9,11 +9,11 @@ import { Component, Input } from '@angular/core';
   selector: 'lt-info-box',
   imports: [CommonModule],
   templateUrl: './info-box.component.html',
-  styleUrls: ['./info-box.component.scss']
+  styleUrls: ['./info-box.component.scss'],
 })
-export class InfoBoxComponent  {
+export class InfoBoxComponent {
   /**
    * The title of the information box. By default, an empty string.
    */
-  @Input({ required: true }) title!: string;
+  @Input({ required: true }) title: string = '';
 }

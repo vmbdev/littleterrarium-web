@@ -25,9 +25,9 @@ import {
     LangSwitcherComponent,
     UserboxComponent,
     BreadcrumbNavigationComponent,
-    ErrorToastComponent
+    ErrorToastComponent,
   ],
   templateUrl: './mainnav.component.html',
-  styleUrls: ['./mainnav.component.scss']
+  styleUrls: ['./mainnav.component.scss'],
 })
-export class MainnavComponent { }
+export class MainnavComponent {}

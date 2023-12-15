@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfirmPasswordComponent } from './confirm-password.component';
+import { ConfirmPasswordComponent } from './password-form.component';
 
 describe('ConfirmPasswordComponent', () => {
   let component: ConfirmPasswordComponent;

@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'lt-footernav',
   standalone: true,
   templateUrl: './footernav.component.html',
-  styleUrls: ['./footernav.component.scss']
+  styleUrls: ['./footernav.component.scss'],
 })
-export class FooternavComponent { }
+export class FooternavComponent {}

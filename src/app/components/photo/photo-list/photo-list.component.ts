@@ -1,5 +1,11 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  Input,
+  numberAttribute,
+} from '@angular/core';
+
 import {
   PictureListComponent
 } from '@components/picture-list/picture-list.component';
@@ -11,23 +17,20 @@ import { PlantService } from '@services/plant.service';
 @Component({
   standalone: true,
   selector: 'lt-photo-list',
-  imports: [
-    CommonModule,
-    PictureListComponent
-  ],
+  imports: [CommonModule, PictureListComponent],
   templateUrl: './photo-list.component.html',
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class PhotoListComponent {
-  @Input() plantId?: number;
-  @Input() owned: boolean = true;
+  @Input({ transform: numberAttribute }) plantId?: number;
+  @Input({ transform: booleanAttribute }) owned: boolean = true;
   pictureList: PictureItem[] = [];
 
   constructor(
     public imagePath: ImagePathService,
     private datePipe: DatePipe,
     private plantService: PlantService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.plantId) {
@@ -35,7 +38,7 @@ export class PhotoListComponent {
 
       photos$.subscribe((photos: Photo[]) => {
         this.setPictureList(photos);
-      })
+      });
     }
   }
 
@@ -48,10 +51,9 @@ export class PhotoListComponent {
         link: ['/photo', photo.id],
         name: this.datePipe.transform(photo.takenAt)!,
         sortableOptions: {
-          date: photo.takenAt
-        }
+          date: photo.takenAt,
+        },
       });
     }
   }
-
 }

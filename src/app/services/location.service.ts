@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Location } from '@models/location.model';
-import { Plant } from '@models/plant.model';
 import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 import {
   ApiService,
   LocationGetConfig,
   LocationUpsertConfig,
-  PlantGetConfig
+  PlantGetConfig,
 } from '@services/api.service';
 import { AuthService } from '@services/auth.service';
 import { PlantService } from '@services/plant.service';
-
+import { Location } from '@models/location.model';
+import { Plant } from '@models/plant.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocationService {
   private location = new BehaviorSubject<Location | null>(null);
@@ -24,8 +23,8 @@ export class LocationService {
   constructor(
     private api: ApiService,
     private auth: AuthService,
-    private plantService: PlantService,
-  ) { }
+    private plantService: PlantService
+  ) {}
 
   create(location: Location): Observable<Location> {
     this.location.next(null);
@@ -36,7 +35,7 @@ export class LocationService {
 
         return location;
       })
-    )
+    );
   }
 
   get(id: number, options?: LocationGetConfig): Observable<Location> {
@@ -44,7 +43,7 @@ export class LocationService {
 
     return this.api.getLocation(id, options).pipe(
       map((location: Location) => {
-        this.owned = (this.auth.getUser()?.id === location.ownerId);
+        this.owned = this.auth.getUser()?.id === location.ownerId;
 
         this.location.next(location);
 
@@ -57,7 +56,7 @@ export class LocationService {
     return this.api.getLocationList(options);
   }
 
-  getPlants(id:number, options?: PlantGetConfig): Observable<Plant[]> {
+  getPlants(id: number, options?: PlantGetConfig): Observable<Plant[]> {
     return this.api.getLocationPlants(id, options).pipe(
       map((plants: Plant[]) => {
         for (const plant of plants) {
@@ -79,7 +78,7 @@ export class LocationService {
 
         return location;
       })
-    )
+    );
   }
 
   delete(id: number): Observable<any> {
@@ -89,7 +88,7 @@ export class LocationService {
 
         return EMPTY;
       })
-    )
+    );
   }
 
   current(): Location | null {
@@ -105,16 +104,16 @@ export class LocationService {
 
     switch (light) {
       case 'FULLSUN': {
-        desc = $localize `:@@light.fullsunDesc:Full sun`;
-        break;      
+        desc = $localize`:@@light.fullsunDesc:Full sun`;
+        break;
       }
       case 'PARTIALSUN': {
-        desc = $localize `:@@light.partialsunDesc:Partial sun`;
-        break;      
+        desc = $localize`:@@light.partialsunDesc:Partial sun`;
+        break;
       }
       default:
       case 'SHADE': {
-        desc = $localize `:@@light.shadeDesc:Shade`;
+        desc = $localize`:@@light.shadeDesc:Shade`;
         break;
       }
     }
@@ -127,16 +126,16 @@ export class LocationService {
 
     switch (light) {
       case 'FULLSUN': {
-        desc = $localize `:@@light.fullsunVerbose:Sun shines over the whole day`;
-        break;      
+        desc = $localize`:@@light.fullsunVerbose:Sun shines over the whole day`;
+        break;
       }
       case 'PARTIALSUN': {
-        desc = $localize `:@@light.partialsunVerbose:Sun is here for a few hours each day`;
-        break;      
+        desc = $localize`:@@light.partialsunVerbose:Sun is here for a few hours each day`;
+        break;
       }
       default:
       case 'SHADE': {
-        desc = $localize `:@@light.shadeVerbose:Sun is not allowed here`;
+        desc = $localize`:@@light.shadeVerbose:Sun is not allowed here`;
         break;
       }
     }

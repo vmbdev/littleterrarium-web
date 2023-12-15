@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
   Component,
   EventEmitter,
@@ -6,22 +7,18 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
+import { Observable, of } from 'rxjs';
+
 import { ApiService } from '@services/api.service';
 import { Specie } from '@models/specie.model';
-import { Observable, of } from 'rxjs';
+import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
 
 @Component({
   standalone: true,
   selector: 'lt-specie-finder',
-  imports: [
-    CommonModule,
-    FormsModule,
-    HighlightPipe
-  ],
+  imports: [CommonModule, FormsModule, HighlightPipe],
   templateUrl: './specie-finder.component.html',
-  styleUrls: ['./specie-finder.component.scss']
+  styleUrls: ['./specie-finder.component.scss'],
 })
 export class SpecieFinderComponent {
   @Input() selected?: number;
@@ -31,9 +28,7 @@ export class SpecieFinderComponent {
   inputValue: string = '';
   resultsHidden: boolean = false;
 
-  constructor(
-    private api: ApiService,
-  ) { }
+  constructor(private api: ApiService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     const specie = changes['selected'].currentValue;
@@ -51,8 +46,7 @@ export class SpecieFinderComponent {
 
     if (this.currentSearch.length >= 3) {
       this.results$ = this.api.findSpecie(this.currentSearch);
-    }
-    else if (this.currentSearch.length === 0) {
+    } else if (this.currentSearch.length === 0) {
       this.results$ = of([]);
     }
   }
@@ -77,5 +71,4 @@ export class SpecieFinderComponent {
     this.inputValue = name;
     this.hideResults();
   }
-
 }

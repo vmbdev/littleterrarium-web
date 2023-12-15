@@ -33,7 +33,6 @@ import { Plant } from '@models/plant.model';
 import { NavigationData, Photo } from '@models/photo.model';
 import { ModalService } from '@services/modal.service';
 
-
 @Component({
   standalone: true,
   selector: 'lt-photo',
@@ -48,14 +47,14 @@ import { ModalService } from '@services/modal.service';
     QuickModalComponent,
     InfoBoxComponent,
     NavigationComponent,
-    PropertyBoxComponent
-  ]
+    PropertyBoxComponent,
+  ],
 })
 export class PhotoComponent {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
   id?: number;
   enablePhotoEditing: boolean = false;
-  navigation: NavigationData = { };
+  navigation: NavigationData = {};
   plantCoverId?: number;
 
   constructor(
@@ -67,7 +66,7 @@ export class PhotoComponent {
     private errorHandler: ErrorHandlerService,
     public imagePath: ImagePathService,
     private modal: ModalService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     // Angular doesn't update a component when the route only changes its
@@ -75,65 +74,70 @@ export class PhotoComponent {
     this.route.params.subscribe((param: Params) => {
       this.id = param['photoId'];
       this.loadPhoto();
-    })
+    });
   }
 
   loadPhoto(): void {
     if (this.id) {
-      this.photoService.get(this.id, { navigation: true, cover: true }).pipe(
-        catchError((err: HttpErrorResponse) => {
-          if (err.error?.msg === 'PHOTO_NOT_FOUND') {
-            this.errorHandler.push(
-              $localize `:@@photo.invalid:Photo not found.`
+      this.photoService
+        .get(this.id, { navigation: true, cover: true })
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            if (err.error?.msg === 'PHOTO_NOT_FOUND') {
+              this.errorHandler.push(
+                $localize`:@@photo.invalid:Photo not found.`
+              );
+            } else {
+              this.errorHandler.push($localize`:@@errors.server:Server error`);
+            }
+
+            this.router.navigateByUrl('/');
+
+            return EMPTY;
+          }),
+          switchMap((photo: Photo) => {
+            const takenAt = DateTime.fromISO(
+              photo.takenAt as string
+            ).toLocaleString(DateTime.DATE_FULL);
+
+            this.breadcrumb.setNavigation(
+              [
+                {
+                  selector: 'photo',
+                  name: takenAt,
+                  link: ['/photo', this.id],
+                },
+              ],
+              { attachTo: 'plant', parent: photo.plantId }
             );
-          }
-          else this.errorHandler.push(
-            $localize `:@@errors.server:Server error`
-            );
-          
-          this.router.navigateByUrl('/');
-  
-          return EMPTY;
-        }),
-        switchMap((photo: Photo) => {
-          const takenAt = DateTime
-            .fromISO(photo.takenAt as string)
-            .toLocaleString(DateTime.DATE_FULL);
 
-          this.breadcrumb.setNavigation(
-            [{
-              selector: 'photo',
-              name: takenAt,
-              link: ['/photo', this.id]
-            }], { attachTo: 'plant', parent: photo.plantId }
-          )
+            return this.photoService.getNavigation(photo.id);
+          }),
+          switchMap((navigation: NavigationData) => {
+            this.navigation = navigation;
+            const photo = this.photoService.photo$.getValue();
 
-          return this.photoService.getNavigation(photo.id);
-        }),
-        switchMap((navigation: NavigationData) => {
-          this.navigation = navigation;
-          const photo = this.photoService.photo$.getValue();
-
-          if (photo?.plantId) return this.plantService.getCover(photo.plantId);
-          else return EMPTY;
-        })
-      ).subscribe((cover: any) => {
-        this.plantCoverId = cover.coverId;
-      });
+            if (photo?.plantId) {
+              return this.plantService.getCover(photo.plantId);
+            } else return EMPTY;
+          })
+        )
+        .subscribe((cover: any) => {
+          this.plantCoverId = cover.coverId;
+        });
     }
   }
 
   updateCoverPhoto(): void {
     const photo = this.photoService.photo$.getValue();
-    
+
     if (photo) {
       if (photo.id === this.plantCoverId) {
         const plant = { id: photo.plantId } as Plant;
         this.plantService.update(plant, { removeCover: true }).subscribe(() => {
           this.plantCoverId = undefined;
         });
-      }
-      else {
+      } else {
         const plant = { id: photo.plantId, coverId: photo.id } as Plant;
 
         this.plantService.update(plant).subscribe(() => {
@@ -146,7 +150,7 @@ export class PhotoComponent {
   openDeleteModal(): void {
     this.modal.open(this.deleteModal, 'confirm').subscribe((res) => {
       if (res === 'accept') this.delete();
-    })
+    });
   }
 
   delete(): void {
@@ -155,23 +159,22 @@ export class PhotoComponent {
     if (photo) {
       this.photoService.delete().subscribe({
         next: () => {
-            this.router.navigate(['/plant', photo.plantId]);
+          this.router.navigate(['/plant', photo.plantId]);
         },
         error: () => {
           this.errorHandler.push(
-            $localize `:@@photo.deleteError:Error while deleting the photo.`
+            $localize`:@@photo.deleteError:Error while deleting the photo.`
           );
-        }
-      })
+        },
+      });
     }
   }
 
   getVisibilityAsset(): string {
-    const name =
-      this.photoService.photo$.getValue()?.public ?
-      'public' :
-      'private';
-    
+    const name = this.photoService.photo$.getValue()?.public
+      ? 'public'
+      : 'private';
+
     return `assets/visibility-${name}.png`;
   }
 }

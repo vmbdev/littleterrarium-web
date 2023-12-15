@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { booleanAttribute, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import {
   PictureBoxComponent
 } from '@components/picture-box/picture-box.component';
@@ -20,15 +21,15 @@ import { FilterPipe } from '@pipes/filter/filter.pipe';
     PictureBoxComponent,
     SortPipe,
     FilterPipe,
-    PictureDetailedComponent
-  ]
+    PictureDetailedComponent,
+  ],
 })
 export class PictureListComponent {
-  @Input() createAddItem: boolean = false;
+  @Input({ transform: booleanAttribute }) createAddItem: boolean = false;
   @Input() addItemLink?: string | any[];
   @Input() list: PictureItem[] = [];
-  @Input() contentBelow: boolean = false;
-  @Input() detailed: boolean = false;
+  @Input({ transform: booleanAttribute }) contentBelow: boolean = false;
+  @Input({ transform: booleanAttribute }) detailed: boolean = false;
 
   getStyleClass(): string {
     if (this.detailed) return 'picture-list-detailed';
