@@ -1,18 +1,1 @@
 @use 'src/styles/form.scss';
-
-.location {
-  &__pic {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  &__currentpic {
-    text-align: center;
-  }
-
-  &__disablepic {
-    pointer-events: none;
-    background-color: lightgray;
-  }
-}

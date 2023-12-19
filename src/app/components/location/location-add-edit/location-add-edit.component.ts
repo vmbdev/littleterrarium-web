@@ -6,29 +6,22 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 
-import {
-  FileUploaderComponent
-} from '@components/file-uploader/file-uploader.component';
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
+import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { Location, Light } from '@models/location.model';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ImagePathService } from '@services/image-path.service';
 import { LocationService } from '@services/location.service';
+import { CurrentPicComponent } from '@components/current-pic/current-pic.component';
 
 @Component({
   standalone: true,
@@ -42,6 +35,7 @@ import { LocationService } from '@services/location.service';
     WizardPageComponent,
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
+    CurrentPicComponent,
   ],
   templateUrl: './location-add-edit.component.html',
   styleUrls: ['./location-add-edit.component.scss'],
@@ -58,13 +52,13 @@ export class LocationAddEditComponent {
   disableNavigation: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    public locationService: LocationService,
-    private breadcrumb: BreadcrumbService,
-    private errorHandler: ErrorHandlerService,
-    public imagePath: ImagePathService
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    public readonly locationService: LocationService,
+    private readonly breadcrumb: BreadcrumbService,
+    private readonly errorHandler: ErrorHandlerService,
+    public readonly imagePath: ImagePathService
   ) {
     this.locationForm = this.fb.group({
       name: ['', Validators.required],
@@ -114,6 +108,12 @@ export class LocationAddEditComponent {
     return this.locationForm.get(name) as FormControl;
   }
 
+  hasFormError(name: string): boolean {
+    return (
+      this.control('name').errors?.['required'] && this.control('name').dirty
+    );
+  }
+
   fileChange(files: File[]) {
     this.locationForm.patchValue({
       pictureFile: files[0],
@@ -158,7 +158,7 @@ export class LocationAddEditComponent {
     }
   }
 
-  toggleRemovePicture(event: Event) {
-    this.removePicture = (event.target as HTMLInputElement).checked;
+  toggleRemovePicture(val: boolean) {
+    this.removePicture = val;
   }
 }

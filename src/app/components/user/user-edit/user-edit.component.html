@@ -61,7 +61,19 @@
             Also known as profile picture. Just an image to present yourself.
           </p>
         </lt-wizard-page-description>
-        <lt-file-uploader [maxAmount]="1" (fileChange)="fileChange($event)" />
+
+        @if ((auth.user$ | async)?.avatar; as avatar) {
+          <lt-current-pic
+            [pic]="imagePath.get(avatar, 'thumb')"
+            (toggleRemove)="toggleRemoveAvatar($event)"
+          />
+        }
+
+        <lt-file-uploader
+          maxAmount="1"
+          (fileChange)="fileChange($event)"
+          [disabled]="removeAvatar"
+        />
       </lt-wizard-page>
 
       <lt-wizard-page title="Bio" i18n-title="@@general.bio">

@@ -49,6 +49,10 @@ export interface PhotoGetConfig {
   cover?: boolean;
 }
 
+export interface UserEditConfig {
+  removeAvatar?: boolean;
+}
+
 export interface AngularLocales {
   locales: string[];
   default: string;
@@ -144,7 +148,7 @@ export class ApiService {
     return this.http.post<User>(this.endpoint('users'), user);
   }
 
-  editUser(user: User, removeAvatar?: boolean): Observable<User> {
+  editUser(user: User, options: UserEditConfig = {}): Observable<User> {
     const form = new FormData();
 
     form.append('username', user.username);
@@ -155,7 +159,7 @@ export class ApiService {
     if (user.lastname) form.append('lastname', user.lastname);
     if (user.bio) form.append('bio', user.bio);
 
-    if (removeAvatar) form.append('removeAvatar', 'true');
+    if (options.removeAvatar) form.append('removeAvatar', 'true');
     else if (user.avatarFile) form.append('avatar', user.avatarFile);
 
     return this.http.put<User>(this.endpoint('users'), form);

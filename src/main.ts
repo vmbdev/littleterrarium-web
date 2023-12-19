@@ -3,7 +3,7 @@ import {
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
-  isDevMode
+  isDevMode,
 } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import {
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/routes';
-import { baseUrlDevelopment, baseUrlProduction } from "@config";
+import { baseUrlDevelopment, baseUrlProduction } from '@config';
 import { BACKEND_URL } from './tokens';
 
 if (environment.production) {
@@ -27,20 +27,22 @@ bootstrapApplication(AppComponent, {
   providers: [
     {
       provide: BACKEND_URL,
-      useValue: isDevMode() ? baseUrlDevelopment : baseUrlProduction
+      useValue: isDevMode() ? baseUrlDevelopment : baseUrlProduction,
     },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
-      multi: true
+      multi: true,
     },
-    importProvidersFrom(RouterModule.forRoot(APP_ROUTES, {
-      onSameUrlNavigation: 'reload'
-    })),
-    importProvidersFrom(HttpClientModule)
+    importProvidersFrom(
+      RouterModule.forRoot(APP_ROUTES, {
+        onSameUrlNavigation: 'reload',
+      })
+    ),
+    importProvidersFrom(HttpClientModule),
   ],
 }).catch((err) => {
-  console.error(err)
+  console.error(err);
 });

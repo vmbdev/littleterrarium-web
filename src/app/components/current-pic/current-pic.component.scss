@@ -1,0 +1,40 @@
+@use 'src/styles/form.scss';
+@use 'src/styles/theming.scss' as t;
+@use 'src/styles/media.scss' as m;
+
+.current-pic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em;
+
+  @include t.themify {
+    border: 1px solid t.theme(main_font_color);
+  }
+
+  &__title {
+    border-bottom: 1px solid black;
+    margin-bottom: 0.5em;
+  }
+
+  &__imgcontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  &__image {
+    @include t.themify {
+      border: 3px solid t.theme(main_color);
+    }
+    width: 128px;
+    height: auto;
+  }
+}
+
+@include m.media('mobile') {
+  .current-pic__imgcontainer {
+    flex-direction: column;
+  }
+}

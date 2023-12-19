@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.7] - 2023-12-19
+
+### Added
+
+- UserEdit now allows to remove the user avatar.
+- A README.md.
+
+### Changes
+
+- Visual update.
+
+### Fixes
+
+- FileUploader is now correctly themed.
+- Building now properly moves some assets to the root directory (such as
+manifest.json).
+
 ## [1.0.6] - 2023-12-15
 
 ### Changes

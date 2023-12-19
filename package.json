@@ -1,15 +1,14 @@
 {
   "name": "littleterrarium-web",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build": "ng build --localize",
+    "watch": "ng build --localize --watch --configuration development",
     "test": "ng test",
     "compodoc": "npx compodoc -p tsconfig.doc.json"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^17.0.1",
     "@angular/common": "^17.0.1",

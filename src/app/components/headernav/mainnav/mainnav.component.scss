@@ -9,7 +9,9 @@
   background-color: #82b04d;
   width: 100%;
 
-  &__left, &__right, &__collapsable {
+  &__left,
+  &__right,
+  &__collapsable {
     display: flex;
     flex-direction: row;
     gap: 40px;
@@ -32,12 +34,12 @@
       @include t.themify {
         color: t.theme(nav_link_color);
       }
+
       text-decoration: none;
     }
   }
 
   &__brand {
-
     img {
       max-height: 80px;
     }
@@ -47,14 +49,17 @@
     & {
       flex-direction: column;
     }
+
     &__right {
       flex-direction: column;
     }
   }
+
   @include m.media('tablet') {
     & {
       flex-direction: column;
     }
+
     &__right {
       flex-direction: column;
     }

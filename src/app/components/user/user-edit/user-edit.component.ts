@@ -21,9 +21,11 @@ import {
 import {
   FileUploaderComponent
 } from '@components/file-uploader/file-uploader.component';
+import { CurrentPicComponent } from '@components/current-pic/current-pic.component';
 import { AuthService } from '@services/auth.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
+import { ImagePathService } from '@services/image-path.service';
 import { User } from '@models/user.model';
 
 @Component({
@@ -37,19 +39,22 @@ import { User } from '@models/user.model';
     ReactiveFormsModule,
     RouterModule,
     FileUploaderComponent,
+    CurrentPicComponent,
   ],
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss'],
 })
 export class UserEditComponent {
   userForm: FormGroup;
+  removeAvatar: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private api: ApiService,
-    public auth: AuthService,
-    private errorHandler: ErrorHandlerService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly api: ApiService,
+    public readonly auth: AuthService,
+    private readonly errorHandler: ErrorHandlerService,
+    public readonly imagePath: ImagePathService,
   ) {
     this.userForm = this.fb.group({
       username: ['', Validators.required],
@@ -85,13 +90,17 @@ export class UserEditComponent {
     });
   }
 
+  toggleRemoveAvatar(val: boolean) {
+    this.removeAvatar = val;
+  }
+
   // TODO: detect errors in editing
   // TODO: merge a class for this and register
   submit(): void {
     const user: User = this.userForm.value;
 
     this.api
-      .editUser(user)
+      .editUser(user, { removeAvatar: this.removeAvatar })
       .pipe(
         catchError((err: HttpErrorResponse) => {
           const error = err.error;

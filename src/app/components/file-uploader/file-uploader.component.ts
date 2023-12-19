@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   EventEmitter,
   Input,
@@ -26,6 +27,11 @@ export class FileUploaderComponent {
    * Max amount of files the user can select. By default, 1.
    */
   @Input({ transform: numberAttribute }) maxAmount: number = 1;
+
+  /**
+   * When disabled, user can't select or drop any file.
+   */
+  @Input({ transform: booleanAttribute }) disabled: boolean = false;
 
   /**
    * Emitted when the files selected in the component have changed.

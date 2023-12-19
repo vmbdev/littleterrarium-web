@@ -1,8 +1,9 @@
-.theme-switcher {
+@use 'src/styles/variables.scss' as v;
 
+.theme-switcher {
   &__light {
-    width: 48px;
-    height: 48px;
+    width: v.$headerItemSize;
+    height: v.$headerItemSize;
     background-color: white;
     border: 1px solid black;
     border-radius: 50%;

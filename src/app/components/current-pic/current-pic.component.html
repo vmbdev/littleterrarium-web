@@ -1,0 +1,20 @@
+<div class="current-pic">
+  <div class="current-pic__title" i18n="@@currentPic.title">
+    Current picture
+  </div>
+
+  <div class="current-pic__imgcontainer">
+    <img class="current-pic__image" [src]="pic">
+    <div class="form__checkbox">
+      <input
+        #check
+        type="checkbox"
+        id="removepic"
+        (change)="toggle($event)"
+      >
+      <label for="removepic" i18n="@@currentPic.clear">
+        Clear picture
+      </label>
+    </div>
+  </div>
+</div>

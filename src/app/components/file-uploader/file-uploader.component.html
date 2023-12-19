@@ -5,11 +5,14 @@
   (dragend)="dragLeave($event)"
   (drop)="dropFile($event)"
   (dragstart)="$event.preventDefault()"
-  [ngClass]="{ 'file-uploader__over': dragOver }"
+  [ngClass]="{
+    'file-uploader__over': dragOver,
+    'file-uploader--disabled': disabled,
+  }"
 >
   @if (files.length === 0) {
-    <div>
-      <b i18n="@@fileUploader.select">Select a file or drag it here</b>
+    <div class="file-uploader__msg">
+      <span i18n="@@fileUploader.select">Select a file or drag it here</span>
     </div>
   }
 
@@ -36,7 +39,7 @@
     #fileInput
     type="file"
     (change)="fileInputChange($event)"
-    [disabled]="availableSlots() === 0"
+    [disabled]="availableSlots() === 0 || disabled"
     [multiple]="maxAmount > 1"
     accept="image/*"
     capture
@@ -47,7 +50,7 @@
       type="button"
       class="file-uploader__select"
       (click)="fileInput.click()"
-      i18n="@@fileUploader.select"
+      i18n="@@fileUploader.selectButton"
     >
       Select
     </button>

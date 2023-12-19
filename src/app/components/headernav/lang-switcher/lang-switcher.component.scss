@@ -1,8 +1,13 @@
 @use 'src/styles/theming.scss' as t;
+@use 'src/styles/variables.scss' as v;
+
+$listItemPadding: 10px;
 
 .ls {
+  width: v.$headerItemSize;
+  height: v.$headerItemSize;
+
   &__lang {
-    padding: 10px;
     cursor: pointer;
   }
 
@@ -11,22 +16,27 @@
   }
 
   &__flag {
-    width: 32px;
-    height: auto;
+    width: v.$headerItemSize;
+    height: v.$headerItemSize;
     border: 1px solid black;
     border-radius: 100%;
   }
 
   &__list {
     position: absolute;
+    margin-left: -$listItemPadding;
 
     @include t.themify {
       background-color: t.theme(main_background);
       border: 1px solid darken(t.theme(secondary_color), 25%);
     }
 
-    &-hidden {
-      visibility: hidden;
+    &--hidden {
+      display: none;
+    }
+
+    &> div {
+      padding: $listItemPadding;
     }
   }
 }

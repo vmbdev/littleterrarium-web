@@ -28,9 +28,7 @@
       </lt-wizard-page-description>
       <div
         class="form__textinput"
-        [ngClass]="{
-          'form-error': control('name').errors?.['required'] && control('name').dirty
-        }"
+        [ngClass]="{ 'form-error': hasFormError('name') }"
       >
         <input
           type="text"
@@ -49,32 +47,19 @@
         </p>
         <p i18n="@@location-add-edit.ornot">Or, well, don't. Up to you.</p>
       </lt-wizard-page-description>
-      <div
-        class="location__pic"
-        [ngClass]="{ 'location__disablepic': removePicture }"
-      >
-        <lt-file-uploader [maxAmount]="1" (fileChange)="fileChange($event)" />
-
+      <div>
         @if (!createNew && location && location.pictures) {
-          <div class="location__currentpic">
-            <p i18n="@@location-add-edit.currentPic">Your current picture</p>
-            <img [src]="imagePath.get(location.pictures, 'thumb')">
-          </div>
+          <lt-current-pic
+            [pic]="imagePath.get(location.pictures, 'thumb')"
+            (toggleRemove)="toggleRemovePicture($event)"
+          />
         }
+        <lt-file-uploader
+          maxAmount="1"
+          (fileChange)="fileChange($event)"
+          [disabled]="removePicture"
+        />
       </div>
-
-      @if (!createNew && location) {
-        <div class="location__removepic form__checkbox">
-          <input
-            type="checkbox"
-            id="removepic"
-            (change)="toggleRemovePicture($event)"
-          >
-          <label for="removepic" i18n="@@location-add-edit.removePic">
-            Remove picture
-          </label>
-        </div>
-      }
     </lt-wizard-page>
 
     <lt-wizard-page title="Light" control="light" i18n-title="@@general.light">
