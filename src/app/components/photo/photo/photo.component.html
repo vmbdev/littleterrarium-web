@@ -27,11 +27,10 @@
 
       <ng-container properties>
         <lt-property-box icon="assets/clock.png">
-          <b i18n="@@photo.takenAt">Taken at:</b> {{ photo.takenAt | date }}
+          {{ photo.takenAt | date }}
         </lt-property-box>
 
         <lt-property-box [icon]="getVisibilityAsset()">
-          <b i18n="@@general.visibility">Visibility:</b>
           @if (photo.public) {
             <span i18n="@@general.public">Public</span>
           }
@@ -39,26 +38,6 @@
             <span i18n="@@general.private">Private</span>
           }
         </lt-property-box>
-
-        @if (photoService.owned) {
-          <lt-property-box>
-            <div class="form__checkbox">
-              <input
-                type="checkbox"
-                class="photo__cover"
-                id="cover-checkbox"
-                [checked]="plantCoverId === photo.id"
-              >
-              <label
-                for="cover-checkbox"
-                (click)="updateCoverPhoto()"
-                i18n="@@photo.cover"
-              >
-                Cover photo
-              </label>
-            </div>
-          </lt-property-box>
-        }
       </ng-container>
 
     </lt-info-box>

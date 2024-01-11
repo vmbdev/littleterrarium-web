@@ -7,12 +7,14 @@
     <div>
       @if (plant.fertLast) {
         <p>
-          <b i18n="@@general.lastTime">Last time:</b> {{ plant.fertLast | date }}
+          <b i18n="@@general.lastTime">Last time:</b>
+          {{ plant.fertLast | date }}
         </p>
       }
       @if (plant.fertType) {
         <p>
-          <b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b> {{ plant.fertType }}
+          <b i18n="@@plant-widget-fertilizer.type">Fertiliser:</b>
+          {{ plant.fertType }}
         </p>
       }
     </div>
@@ -26,22 +28,27 @@
       @if (nextDate.text) {
         <p>
           <b i18n="@@general.nextTime">Next time:</b>&nbsp;
-          <span [ngStyle]="{ 'color' : nextDate.due ? 'red' : null }">
+          <span [ngStyle]="{ color: nextDate.due ? 'red' : null }">
             {{ nextDate.text }}
           </span>
         </p>
       }
       @if (this.plantService.owned) {
-        <lt-plus-button
-          type="add"
-          title="Fertilize"
-          (click)="openFertModal()"
-          i18n-title="@@plant-widget-fertilizer.button"
-        />
+        <p class="text-center">
+          <box-icon
+            name="plus-circle"
+            type="solid"
+            fixedWidth="true"
+            size="md"
+            (click)="openFertModal()"
+            i18n="@@plant-widget-fertilizer.button"
+          >
+            Fertilize
+          </box-icon>
+        </p>
       }
     </div>
   </lt-widget-box>
-
 }
 
 <ng-template #fertModal>

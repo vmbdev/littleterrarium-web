@@ -7,7 +7,8 @@
     <div>
       @if (plant.waterLast) {
         <p>
-          <b i18n="@@general.lastTime">Last time:</b> {{ plant.waterLast | date }}
+          <b i18n="@@general.lastTime">Last time:</b>
+          {{ plant.waterLast | date }}
         </p>
       }
     </div>
@@ -21,22 +22,27 @@
       @if (nextDate.text) {
         <p>
           <b i18n="@@general.nextTime">Next time:</b>&nbsp;
-          <span [ngStyle]="{ 'color' : nextDate.due ? 'red' : null }">
+          <span [ngStyle]="{ color: nextDate.due ? 'red' : null }">
             {{ nextDate.text }}
           </span>
         </p>
       }
       @if (this.plantService.owned) {
-        <lt-plus-button
-          type="add"
-          title="Water"
-          i18n-title="@@plant-widget-water.button"
-          (click)="openWaterModal()"
-        />
+        <p class="text-center">
+          <box-icon
+            name="plus-circle"
+            type="solid"
+            fixedWidth="true"
+            size="md"
+            (click)="openWaterModal()"
+            i18n="@@plant-widget-water.button"
+          >
+            Water
+          </box-icon>
+        </p>
       }
     </div>
   </lt-widget-box>
-
 }
 
 <ng-template #waterModal>

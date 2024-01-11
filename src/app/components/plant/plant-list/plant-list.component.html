@@ -4,6 +4,7 @@
   showSortByName="true"
   [nameOrder]="column === 'name' ? order : 'asc'"
   [dateOrder]="column === 'date' ? order : 'asc'"
+  [activeColumn]="column"
   (sortingChanged)="changeSorting($event)"
   (filterChanged)="changeFilter($event)"
 >

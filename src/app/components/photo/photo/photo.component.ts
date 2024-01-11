@@ -55,7 +55,6 @@ export class PhotoComponent {
   id?: number;
   enablePhotoEditing: boolean = false;
   navigation: NavigationData = {};
-  plantCoverId?: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -113,37 +112,11 @@ export class PhotoComponent {
 
             return this.photoService.getNavigation(photo.id);
           }),
-          switchMap((navigation: NavigationData) => {
-            this.navigation = navigation;
-            const photo = this.photoService.photo$.getValue();
-
-            if (photo?.plantId) {
-              return this.plantService.getCover(photo.plantId);
-            } else return EMPTY;
-          })
         )
-        .subscribe((cover: any) => {
-          this.plantCoverId = cover.coverId;
+        .subscribe((navigation: NavigationData) => {
+          this.navigation = navigation;
+          const photo = this.photoService.photo$.getValue();
         });
-    }
-  }
-
-  updateCoverPhoto(): void {
-    const photo = this.photoService.photo$.getValue();
-
-    if (photo) {
-      if (photo.id === this.plantCoverId) {
-        const plant = { id: photo.plantId } as Plant;
-        this.plantService.update(plant, { removeCover: true }).subscribe(() => {
-          this.plantCoverId = undefined;
-        });
-      } else {
-        const plant = { id: photo.plantId, coverId: photo.id } as Plant;
-
-        this.plantService.update(plant).subscribe(() => {
-          this.plantCoverId = photo.id;
-        });
-      }
     }
   }
 

@@ -1,12 +1,9 @@
 @if (theme.theme$ | async; as currentTheme) {
-  <div class="theme-switcher">
-    <div
-      class="theme-switcher__light"
-      [ngClass]="{ 'theme-switcher__light-turn': currentTheme === 'dark' }"
-      (click)="switchTheme()"
-    >
-      <div class="theme-switcher__light-on"></div>
-      <div class="theme-switcher__light-off"></div>
-    </div>
-  </div>
+  <box-icon
+    [name]="currentTheme === 'light' ? 'sun' : 'moon'"
+    size="md"
+    animation="tada"
+    hover="true"
+    (click)="switchTheme()"
+  />
 }

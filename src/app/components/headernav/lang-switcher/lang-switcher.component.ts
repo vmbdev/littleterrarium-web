@@ -3,7 +3,9 @@ import { NavigationStart, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { filter, map, switchMap } from 'rxjs';
 
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { ApiService } from '@services/api.service';
+import { CapitalizePipe } from '@pipes/capitalize/capitalize.pipe';
 
 type LocaleList = {
   default: string;
@@ -13,14 +15,14 @@ type LocaleList = {
 @Component({
   selector: 'lt-lang-switcher',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BoxIconComponent, CapitalizePipe],
   templateUrl: './lang-switcher.component.html',
   styleUrls: ['./lang-switcher.component.scss'],
 })
 export class LangSwitcherComponent {
   listHidden: boolean = true;
   currentUserLocale: string | null = null;
-  availableLocales?: LocaleList;
+  localeList?: LocaleList;
   currentUrl: string;
 
   constructor(
@@ -39,12 +41,12 @@ export class LangSwitcherComponent {
       .pipe(
         map((localesData) => {
           const storedLocale = localStorage.getItem('LT_locale');
-          this.availableLocales = localesData;
+          this.localeList = localesData;
 
           if (
             storedLocale &&
             storedLocale !== this.currentLocale &&
-            this.getFullLocaleList().includes(storedLocale)
+            this.localeList.locales.includes(storedLocale)
           ) {
             this.changeLocale(storedLocale);
           }
@@ -65,11 +67,11 @@ export class LangSwitcherComponent {
   }
 
   changeLocale(locale: string) {
-    if (this.getFullLocaleList().includes(locale)) {
+    if (this.localeList?.locales.includes(locale)) {
       localStorage.setItem('LT_locale', locale);
 
       const newUrl =
-        (this.availableLocales?.default !== locale ? `/${locale}` : '') +
+        (this.localeList?.default !== locale ? `/${locale}` : '') +
         this.currentUrl;
 
       this.navigateTo(newUrl);
@@ -81,11 +83,9 @@ export class LangSwitcherComponent {
       `${window.location.protocol}//${window.location.host}${url}`;
   }
 
-  getFullLocaleList(): string[] {
-    if (this.availableLocales) {
-      return [...this.availableLocales.locales, this.availableLocales.default];
-    }
+  getLanguageName(locale: string): string | undefined {
+    let dn = new Intl.DisplayNames([locale], { type: 'language' });
 
-    return [];
+    return dn.of(locale.toUpperCase());
   }
 }

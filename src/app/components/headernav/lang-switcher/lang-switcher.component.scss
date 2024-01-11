@@ -4,22 +4,12 @@
 $listItemPadding: 10px;
 
 .ls {
-  width: v.$headerItemSize;
-  height: v.$headerItemSize;
-
   &__lang {
     cursor: pointer;
   }
 
   &__current {
     position: relative;
-  }
-
-  &__flag {
-    width: v.$headerItemSize;
-    height: v.$headerItemSize;
-    border: 1px solid black;
-    border-radius: 100%;
   }
 
   &__list {

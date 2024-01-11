@@ -1,0 +1,18 @@
+@if (themeService.theme$ | async; as theme) {
+  <i
+    (click)="handleClick($event)"
+    [ngClass]="classList"
+    [ngStyle]="{
+      color: disabled
+        ? 'lightgrey'
+        : color
+          ? color
+          : theme === 'dark'
+            ? 'white'
+            : 'black'
+    }"
+  ></i>
+  <span [ngClass]="{'cbx--clickable': click.observed }">
+    <ng-content />
+  </span>
+}

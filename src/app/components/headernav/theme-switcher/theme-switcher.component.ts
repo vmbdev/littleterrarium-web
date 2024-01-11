@@ -6,14 +6,15 @@
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { ThemeService } from '@services/theme.service';
 
 @Component({
   selector: 'lt-theme-switcher',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BoxIconComponent],
   templateUrl: './theme-switcher.component.html',
-  styleUrls: ['./theme-switcher.component.scss'],
 })
 export class ThemeSwitcherComponent {
   constructor(public theme: ThemeService) {}

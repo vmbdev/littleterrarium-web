@@ -2,7 +2,7 @@
   <div class="navigation__arrow navigation__prev">
     @if (previousLink) {
       <a [routerLink]="previousLink">
-        <img class="navigation__img" src="/assets/next.png">
+        <box-icon name="left-arrow" type="solid" size="lg" />
       </a>
     }
   </div>
@@ -10,7 +10,7 @@
   <div class="navigation__arrow navigation__next">
     @if (nextLink) {
       <a [routerLink]="nextLink">
-        <img class="navigation__img" src="/assets/next.png">
+        <box-icon name="right-arrow" type="solid" size="lg" />
       </a>
     }
   </div>

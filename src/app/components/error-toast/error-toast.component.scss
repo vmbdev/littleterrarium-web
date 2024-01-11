@@ -3,7 +3,7 @@
 
 .error-toast {
   position: fixed;
-  bottom: 30px;
+  bottom: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,10 +13,10 @@
   &__box {
     position: relative;
     animation: fadeIn 0.3s;
-    margin-bottom: 10px;
-    padding: 10px 15px;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.9rem;
     text-align: center;
-    width: 300px;
+    width: 50vw;
 
     @include t.themify {
       border: 1px solid darken(t.theme(error), 30%);

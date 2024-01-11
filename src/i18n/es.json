@@ -21,7 +21,9 @@
     "fileUploader.selectButton": "Seleccionar",
     "filter-bar.sortByDate": "Ordenar por fecha",
     "filter-bar.sortByName": "Ordenar por nombre",
-    "footer.msg": "©Little Terrarium 2022 - Código fuente disponible en {$START_LINK}GitHub{$CLOSE_LINK}",
+    "footer.copyright": "Copyright © Little Terrarium 2022-PRESENTE.",
+    "footer.license": "Publicado bajo la licencia MIT.",
+    "footer.sourceCode": "Código fuente disponible en {$START_LINK}GitHub{$CLOSE_LINK}",
     "general.accept": "Aceptar",
     "general.avatar": "Avatar",
     "general.bio": "Bio",
@@ -210,7 +212,6 @@
     "user-register.usernameReq": "Debe tener entre {$INTERPOLATION} y {$INTERPOLATION_1} caracteres, y contener solo letras, números, puntos (.), guiones (-) y barras bajas (_).",
     "user-register.usernameTaken": "Lo sentimos, este usuario ya está en uso. Por favor, elige otro.",
     "userbox.profile": "Editar perfil",
-    "userbox.terrarium": "Tu Terrarium",
-    "userbox.username": "Hola {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}"
+    "userbox.terrarium": "Tu Terrarium"
   }
 }

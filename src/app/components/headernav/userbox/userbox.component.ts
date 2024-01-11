@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { ImagePathService } from '@services/image-path.service';
 import { User } from '@models/user.model';
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 @Component({
   selector: 'lt-userbox',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, BoxIconComponent],
   templateUrl: './userbox.component.html',
   styleUrls: ['./userbox.component.scss'],
 })

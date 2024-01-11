@@ -1,13 +1,18 @@
 @if (auth.user$ | async; as user) {
   <div class="userbox" (mouseover)="enableMenu()" (mouseout)="disableMenu()">
     <div class="userbox__user">
-      <div
-        class="userbox__avatar"
-        [ngStyle]="{ 'background-image': 'url(' + getUserAvatar(user) + ')' }"
-      >
-      </div>
-      <div class="userbox__link" i18n="@@userbox.username">
-        Hi <b>{{ user.username }}</b>
+
+      @if (user.avatar) {
+        <div
+          class="userbox__avatar"
+          [ngStyle]="{ 'background-image': 'url(' + getUserAvatar(user) + ')' }"
+        >
+        </div>
+      } @else {
+        <box-icon name="user" size="md" type="solid" />
+      }
+      <div class="userbox__link">
+        {{ user.username }}
       </div>
     </div>
     <div

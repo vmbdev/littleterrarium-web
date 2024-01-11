@@ -1,16 +1,20 @@
-@if (availableLocales) {
+@if (localeList) {
   <div class="ls">
-    <div class="ls__lang ls__current" (click)="toggleList()">
-      <img class="ls__flag" src="/assets/flags/{{ currentLocale }}.png">
+    <div class="ls__lang ls__current">
+      <box-icon
+        name="globe"
+        size="md"
+        animation="tada"
+        hover="true"
+        (click)="toggleList()"
+      />
     </div>
     <div class="ls__list" [ngClass]="{ 'ls__list--hidden': listHidden }">
-
-      @for (locale of getFullLocaleList(); track locale) {
+      @for (locale of localeList.locales; track locale) {
         <div class="ls__lang" (click)="changeLocale(locale)">
-          <img class="ls__flag" src="/assets/flags/{{ locale }}.png">
+          <span>{{ getLanguageName(locale) | capitalize }}</span>
         </div>
       }
-
     </div>
   </div>
 }

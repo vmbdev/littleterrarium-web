@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.8] - next
+
+Happy new year! Some interesting changes in 1.0.8.
+
+### Changes
+
+- A much needed visual update, now it looks a little bit clearer and more
+responsive.
+- That includes moving away from the horrid ThemeSwitcher and LangSwitcher
+looks into something simpler. I don't know what was I thinking when I designed
+them.
+- New component BoxIcon, and a lot of (well, some) icons from BoxIcons.
+- Photo cover update is now updated in PhotoEdit, not in Photo.
+
 ## [1.0.7] - 2023-12-19
 
 ### Added

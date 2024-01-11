@@ -17,6 +17,18 @@
       </p>
       <input type="date" [max]="today()" formControlName="takenAt">
     </div>
+
+    <div class="form__checkbox">
+      <input
+        type="checkbox"
+        id="cover-checkbox"
+        formControlName="coverId"
+      >
+      <label for="cover-checkbox" i18n="@@photo.cover">
+        Cover photo
+      </label>
+    </div>
+
     <div class="form__checkbox">
       <input type="checkbox" formControlName="public" id="public-checkbox">
       <label for="public-checkbox" i18n="@@general.visibilityPublic">

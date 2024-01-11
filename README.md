@@ -10,6 +10,16 @@ Little Terrarium project.
 You can access the live app on
 [https://littleterrarium.one](https://littleterrarium.one).
 
+- [Little Terrarium Web UI](#little-terrarium-web-ui)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Setup](#setup)
+  - [Deployment](#deployment)
+  - [Built with](#built-with)
+  - [License](#license)
+  - [Credits](#credits)
+
 ## Getting Started
 
 You can get the latest code from
@@ -51,7 +61,7 @@ production.
 - **theme**: Default theme when first accesed.
 - **availableThemes**: List of available themes.
 
-## Usage
+## Deployment
 
 To serve the UI locally, run:
 
@@ -65,9 +75,11 @@ To build Little Terrarium Web with its translations, run:
 npm run build
 ```
 
-This will produce a **dist** folder with the static content. If you move this
-folder (or make a symlink) into Little Terrarium backend it will detect it on
-start and serve it under the base URL.
+This will produce a **dist** folder with the static content. Place it in the
+LT backend root directory and when started, it will detect the content and
+serve it in the base URL. If i18n is used, the backend will detect it and
+automatically serve the necessary paths (i.e. /fr/ if a French build is
+detected).
 
 ## Built with
 

@@ -1,10 +1,11 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 @Component({
   standalone: true,
   selector: 'lt-navigation',
-  imports: [RouterModule],
+  imports: [RouterModule, BoxIconComponent],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
 })

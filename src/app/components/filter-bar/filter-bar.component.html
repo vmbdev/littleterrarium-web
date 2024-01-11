@@ -1,51 +1,40 @@
 <div class="filter-bar">
   @if (showSearchBar) {
-    <div class="filter-bar__search">
+    <div class="filter-bar__search form__textinput">
       <input
         #search
         (input)="filterItems(search.value)"
         type="search"
         placeholder="Search"
         i18n-placeholder="@@general.search"
-      >
+      />
     </div>
   }
 
-
   @if (showSortByName) {
-    <div class="filter-bar__sortbutton" (click)="toggleSort('name')">
-      @if (nameOrder === 'asc' || nameOrder === 'desc') {
-        <img
-          src="assets/sort-an-{{nameOrder}}.png"
-          [ngClass]="{
-            'filter-bar__sortbutton-inverted': (themeService.theme$ | async) === 'dark'
-          }"
-          alt="Sort by name"
-          title="Sort by name"
-          i18n-alt="@@filter-bar.sortByName"
-          i18n-title="@@filter-bar.sortByName"
-        >
-      }
+    <div
+      class="filter-bar__sortbutton"
+      [ngClass]="{ 'filter-bar__sortbutton--active': activeColumn === 'name' }"
+    >
+      <box-icon
+        [name]="nameOrder === 'asc' ? 'sort-a-z' : 'sort-z-a'"
+        size="md"
+        (click)="toggleSort('name')"
+      />
     </div>
   }
 
   @if (showSortByDate) {
-    <div class="filter-bar__sortbutton" (click)="toggleSort('date')">
-      @if (dateOrder === 'asc' || dateOrder === 'desc') {
-        <img
-          src="assets/sort-date-asc.png"
-          [ngClass]="{
-            'filter-bar__sortbutton-inverted': (themeService.theme$ | async) === 'dark'
-          }"
-          [ngStyle]="{
-            'transform': (dateOrder === 'desc') ? 'scaleX(-1)' : 'none'
-          }"
-          alt="Sort by date"
-          title="Sort by date"
-          i18n-alt="@@filter-bar.sortByDate"
-          i18n-title="@@filter-bar.sortByDate"
-        >
-      }
+    <div
+      class="filter-bar__sortbutton"
+      [ngClass]="{ 'filter-bar__sortbutton--active': activeColumn === 'date' }"
+    >
+      <box-icon
+        name="time"
+        size="md"
+        [flip]="dateOrder === 'desc' ? 'horizontal' : undefined"
+        (click)="toggleSort('date')"
+      />
     </div>
   }
 </div>

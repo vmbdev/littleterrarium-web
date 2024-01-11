@@ -1,8 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ErrorToastComponent } from '@components/error-toast/error-toast.component';
+
+import {
+  BreadcrumbNavigationComponent
+} from '@components/breadcrumb-navigation/breadcrumb-navigation.component';
+import {
+  ErrorToastComponent
+} from '@components/error-toast/error-toast.component';
 import { FooternavComponent } from '@components/footernav/footernav.component';
-import { MainnavComponent } from '@components/headernav/mainnav/mainnav.component';
+import {
+  MainnavComponent
+} from '@components/headernav/mainnav/mainnav.component';
 
 /**
  * Component providing the default layout.
@@ -15,6 +23,7 @@ import { MainnavComponent } from '@components/headernav/mainnav/mainnav.componen
     MainnavComponent,
     FooternavComponent,
     ErrorToastComponent,
+    BreadcrumbNavigationComponent,
   ],
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss'],

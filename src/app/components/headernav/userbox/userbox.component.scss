@@ -16,19 +16,16 @@
     height: v.$headerItemSize;
     background-size: contain;
     border: 1px solid black;
+    border-radius: 100%;
   }
 
   &__link {
+    font-weight: 700;
+
     @include t.themify {
       color: t.theme(nav_link_color);
     }
 
-    a {
-      @include t.themify {
-        color: t.theme(nav_link_color);
-      }
-      text-decoration: none;
-    }
   }
 
   &__menulink {

@@ -5,18 +5,20 @@ import { DateTime } from 'luxon';
 import {
   WidgetBoxComponent
 } from '@components/widget-box/widget-box.component';
-import {
-  PlusButtonComponent
-} from '@components/plus-button/plus-button.component';
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { PlantService } from '@services/plant.service';
+import { ModalService } from '@services/modal.service';
 import { Plant } from '@models/plant.model';
 import { NextDateWidget } from '@models/next-date-widget.model';
-import { ModalService } from '@services/modal.service';
 
 @Component({
   standalone: true,
   selector: 'lt-plant-widget-water',
-  imports: [CommonModule, WidgetBoxComponent, PlusButtonComponent],
+  imports: [
+    CommonModule,
+    WidgetBoxComponent,
+    BoxIconComponent,
+  ],
   templateUrl: './plant-widget-water.component.html',
 })
 export class PlantWidgetWaterComponent {

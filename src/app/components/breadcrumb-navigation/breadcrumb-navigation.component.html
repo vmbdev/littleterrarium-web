@@ -1,21 +1,37 @@
 @if (breadcrumb.links$ | async; as links) {
-  <nav class="breadcrumb">
+  @if (links.length > 0) {
+    <nav class="breadcrumb">
 
-    @if (links.length > 0) {
       @if (router.url !== '/') {
         <div class="breadcrumb__link">
-          <a routerLink="/" i18n="@@mainnav.home">Home</a>
+          <a routerLink="/" i18n="@@mainnav.home">
+            <box-icon name="home" size="sm" border="square" />
+          </a>
         </div>
       }
 
       @for (link of links; track link.name) {
+        <box-icon name="chevron-right" size="md" />
+
+        @switch (link.selector) {
+          @case ('location') {
+            <box-icon name="window" size="sm" />
+          }
+          @case ('plant') {
+            <box-icon name="leaf" size="sm" />
+          }
+          @case ('photo') {
+            <box-icon name="image-alt" size="sm" />
+          }
+        }
+
         <div class="breadcrumb__link">
           <a [routerLink]="link.link">
             {{ link.name }}
           </a>
         </div>
       }
-    }
-
-  </nav>
+      
+    </nav>
+  }
 }

@@ -5,41 +5,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
-import {
-  QuickModalComponent
-} from '@components/modals/quick-modal/quick-modal.component';
-import {
-  PlantEditWateringComponent
-} from '@components/plant/plant-edit-watering/plant-edit-watering.component';
-import {
-  PlantEditFertilizerComponent
-} from '@components/plant/plant-edit-fertilizer/plant-edit-fertilizer.component';
-import {
-  PlantWidgetFertilizerComponent
-} from '@components/plant/plant-widget-fertilizer/plant-widget-fertilizer.component';
-import {
-  PlantWidgetSoilComponent
-} from '@components/plant/plant-widget-soil/plant-widget-soil.component';
-import {
-  PlantWidgetWaterComponent
-} from '@components/plant/plant-widget-water/plant-widget-water.component';
-import {
-  PhotoListComponent
-} from '@components/photo/photo-list/photo-list.component';
-import {
-  PropertyBoxComponent
-} from '@components/property-box/property-box.component';
-import {
-  ToolboxComponent
-} from '@components/toolbox/toolbox/toolbox.component';
-import {
-  ToolboxButtonComponent
-} from '@components/toolbox/toolbox-button/toolbox-button.component';
+import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
+import { PlantEditWateringComponent } from '@components/plant/plant-edit-watering/plant-edit-watering.component';
+import { PlantEditFertilizerComponent } from '@components/plant/plant-edit-fertilizer/plant-edit-fertilizer.component';
+import { PlantWidgetFertilizerComponent } from '@components/plant/plant-widget-fertilizer/plant-widget-fertilizer.component';
+import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/plant-widget-soil.component';
+import { PlantWidgetWaterComponent } from '@components/plant/plant-widget-water/plant-widget-water.component';
+import { PhotoListComponent } from '@components/photo/photo-list/photo-list.component';
+import { PropertyBoxComponent } from '@components/property-box/property-box.component';
+import { ToolboxComponent } from '@components/toolbox/toolbox/toolbox.component';
+import { ToolboxButtonComponent } from '@components/toolbox/toolbox-button/toolbox-button.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { Plant, Condition } from '@models/plant.model';
 import { ModalService } from '@services/modal.service';
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 @Component({
   standalone: true,
@@ -59,6 +40,7 @@ import { ModalService } from '@services/modal.service';
     PlantWidgetWaterComponent,
     PhotoListComponent,
     PropertyBoxComponent,
+    BoxIconComponent,
   ],
 })
 export class PlantComponent {
@@ -77,13 +59,15 @@ export class PlantComponent {
   enableFertilizerEditing: boolean = false;
   enableEditing: boolean = false;
 
+  public conditionColor?: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
     public plantService: PlantService,
     private errorHandler: ErrorHandlerService,
-    private modal: ModalService
+    private modal: ModalService,
   ) {}
 
   ngOnInit(): void {
@@ -102,7 +86,7 @@ export class PlantComponent {
         catchError((err: HttpErrorResponse) => {
           if (err.error?.msg === 'PLANT_NOT_FOUND') {
             this.errorHandler.push(
-              $localize`:@@plant.invalid:Plant not found.`
+              $localize`:@@plant.invalid:Plant not found.`,
             );
           } else {
             this.errorHandler.push($localize`:@@errors.server:Server error`);
@@ -111,10 +95,11 @@ export class PlantComponent {
           this.router.navigateByUrl('/');
 
           return EMPTY;
-        })
+        }),
       )
       .subscribe((plant: Plant) => {
         this.plantVisibility = plant.public;
+        this.conditionColor = this.getConditionColor(plant.condition);
 
         // if customName and/or specie exists, we use it for title and subtitle
         // otherwise we use the plant visibleName
@@ -132,7 +117,7 @@ export class PlantComponent {
               link: ['/plant', this.id],
             },
           ],
-          { attachTo: 'location', parent: plant.locationId }
+          { attachTo: 'location', parent: plant.locationId },
         );
       });
   }
@@ -142,12 +127,6 @@ export class PlantComponent {
       if (res === 'accept') this.delete();
     });
   }
-
-  // openEditWaterModal(): void {
-  //   this.modal.open(this.editWaterModal, 'quick', {
-  //     title: $localize `:@@general.watering:Watering`
-  //   }).subscribe();
-  // }
 
   edit(): void {
     this.router.navigate(['/plant/edit', this.id]);
@@ -173,9 +152,27 @@ export class PlantComponent {
     return `assets/visibility-${name}.png`;
   }
 
-  getConditionClass(plant: Plant): string | null {
-    if (plant.condition) {
-      return `plant__condition-${plant.condition?.toLowerCase()}`;
-    } else return null;
+  getConditionColor(condition: Condition | null): string {
+    let color: string;
+
+    switch (condition) {
+      case 'BAD':
+        color = 'red';
+        break;
+      case 'POOR':
+        color = 'yellow';
+        break;
+      case 'GREAT':
+        color = 'greenyellow';
+        break;
+      case 'EXCELLENT':
+        color = 'green';
+        break;
+      default:
+        color = 'grey';
+        break;
+    }
+
+    return color;
   }
 }

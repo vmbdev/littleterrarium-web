@@ -6,7 +6,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, 350px);
     grid-auto-rows: minmax(min-content, max-content);
-    gap: 15px;
+    grid-row-gap: 2rem;
     justify-content: center;
     padding-top: 10px;
   }
@@ -17,25 +17,4 @@
     text-align: justify;
   }
 
-  &__condition {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-
-    &-bad:before { background-color: red; }
-    &-poor:before { background-color: yellow; }
-    &-good:before { background-color: grey; }
-    &-great:before { background-color: greenyellow; }
-    &-excellent:before { background-color: green; }
-
-    &:before {
-      display: inline-block;
-      content: '';
-      border: 1px solid black;
-      height: 48px;
-      width: 48px;
-      margin-right: 5px;
-      border-radius: 100%;
-    }
-  }
 }

@@ -30,9 +30,10 @@ interface BreadcrumbOptions {
   providedIn: 'root',
 })
 export class BreadcrumbService {
-  links$: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<
+  links: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<
     BreadcrumbLink[]
   >([]);
+  links$ = this.links.asObservable();
   prev: BreadcrumbLink[] = [];
 
   constructor(
@@ -48,8 +49,8 @@ export class BreadcrumbService {
         )
       )
       .subscribe(() => {
-        this.prev = this.links$.getValue();
-        this.links$.next([]);
+        this.prev = this.links.getValue();
+        this.links.next([]);
       });
   }
 
@@ -81,7 +82,7 @@ export class BreadcrumbService {
           case 'location': {
             this.getParentLocation(options.parent).subscribe(
               (parentLink: BreadcrumbLink) => {
-                this.links$.next(newLinks.concat([parentLink], links));
+                this.links.next(newLinks.concat([parentLink], links));
               }
             );
 
@@ -91,15 +92,15 @@ export class BreadcrumbService {
           case 'plant': {
             this.getParentPlant(options.parent).subscribe(
               (parentLinks: BreadcrumbLink[]) => {
-                this.links$.next(newLinks.concat(parentLinks, links));
+                this.links.next(newLinks.concat(parentLinks, links));
               }
             );
 
             break;
           }
         }
-      } else this.links$.next(newLinks.concat([...links]));
-    } else this.links$.next(links);
+      } else this.links.next(newLinks.concat([...links]));
+    } else this.links.next(links);
   }
 
   getParentLocation(id: number): Observable<BreadcrumbLink> {

@@ -6,8 +6,10 @@ import {
   Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SortColumn, SortOrder } from '@models/sort-options.model';
+
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { ThemeService } from '@services/theme.service';
+import { SortColumn, SortOrder } from '@models/sort-options.model';
 
 /**
  * Toolbar component providing sorting and filtering options.
@@ -15,7 +17,7 @@ import { ThemeService } from '@services/theme.service';
 @Component({
   selector: 'lt-filter-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BoxIconComponent],
   templateUrl: './filter-bar.component.html',
   styleUrls: ['./filter-bar.component.scss'],
 })
@@ -37,6 +39,7 @@ export class FilterBarComponent {
 
   @Input() nameOrder: SortOrder = 'asc';
   @Input() dateOrder: SortOrder = 'asc';
+  @Input() activeColumn: SortColumn = 'name';
 
   /**
    * Emitted when the column or the order has changed.
@@ -47,6 +50,7 @@ export class FilterBarComponent {
    * Emitted when the search bar text has changed.
    */
   @Output() filterChanged = new EventEmitter<any>();
+
 
   constructor(public themeService: ThemeService) {}
 

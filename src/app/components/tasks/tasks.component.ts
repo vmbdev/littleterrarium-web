@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { PlantService } from '@services/plant.service';
 import { TaskService } from '@services/task.service';
 import { ModalService } from '@services/modal.service';
@@ -10,7 +11,11 @@ import { Plant } from '@models/plant.model';
 @Component({
   standalone: true,
   selector: 'lt-tasks',
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    BoxIconComponent,
+  ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
 })

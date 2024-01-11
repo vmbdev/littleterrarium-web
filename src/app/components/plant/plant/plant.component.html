@@ -57,15 +57,20 @@
         <ng-container properties>
           <lt-property-box>
             @if (plant.condition) {
-              <div class="plant__condition {{ getConditionClass(plant) }}">
-                <b i18n="@@plant.condition">Condition:</b>
-                &nbsp;{{ plantCondition[plant.condition] }}
-              </div>
+
+              <box-icon
+                name="heart-circle"
+                type="solid"
+                size="lg"
+                fixedWidth="true"
+                [color]="conditionColor"
+              >
+              {{ plantCondition[plant.condition] }}
+              </box-icon>
             }
           </lt-property-box>
 
           <lt-property-box [icon]="getVisibilityAsset()">
-            <b i18n="@@general.visibility">Visibility:</b>
             @if (plant.public) {
               <span i18n="@@general.public">
                 Public
@@ -118,7 +123,3 @@
     </strong>
   </p>
 </ng-template>
-
-<!-- <ng-template #editWaterModal>
-  <lt-plant-edit-watering #editWaterModal />
-</ng-template> -->

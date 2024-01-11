@@ -21,6 +21,10 @@ body {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
 @include m.media(mobile) {
   .section-header {
     h1, h2, h3 {

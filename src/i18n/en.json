@@ -21,7 +21,9 @@
     "fileUploader.selectButton": "Select",
     "filter-bar.sortByDate": "Sort by date",
     "filter-bar.sortByName": "Sort by name",
-    "footer.msg": "©Little Terrarium 2022 - Source code available at {$START_LINK}GitHub{$CLOSE_LINK}",
+    "footer.copyright": "Copyright © Little Terrarium 2022-PRESENT.",
+    "footer.license": "Released under the MIT License.",
+    "footer.sourceCode": "Source code available at {$START_LINK}GitHub{$CLOSE_LINK}",
     "general.accept": "Accept",
     "general.avatar": "Avatar",
     "general.bio": "Bio",
@@ -107,7 +109,7 @@
     "location.remove": "This will remove this location along with its plants and photos. Are you sure?",
     "mainnav.home": "Home",
     "mainnav.plants": "Plants",
-    "mainnav.tasks": "Pending Tasks",
+    "mainnav.tasks": "Tasks",
     "photo-add.addMsg": "Time to brag about our well-cared, personal jungle.",
     "photo-add.addMsgLimit": "Up to {$START_BOLD_TEXT}10 pictures{$CLOSE_BOLD_TEXT} at once! Once they're up, you can edit their description and if you need them in a specific order you can define when they were taken.",
     "photo-add.header": "Adding photos to {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}",
@@ -210,7 +212,6 @@
     "user-register.usernameReq": "It must be {$INTERPOLATION} to {$INTERPOLATION_1} characters long, and contain only alphanumeric characters, dot (.), dash (-) and underscore (_).",
     "user-register.usernameTaken": "Sorry, your username already exists. Please choose another.",
     "userbox.profile": "Edit profile",
-    "userbox.terrarium": "Your Terrarium",
-    "userbox.username": "Hi {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}"
+    "userbox.terrarium": "Your Terrarium"
   }
 }

@@ -52,7 +52,7 @@ export class LocationService {
     );
   }
 
-  getMany(options?: any): Observable<Location[]> {
+  getMany(options?: LocationGetConfig): Observable<Location[]> {
     return this.api.getLocationList(options);
   }
 
@@ -111,8 +111,7 @@ export class LocationService {
         desc = $localize`:@@light.partialsunDesc:Partial sun`;
         break;
       }
-      default:
-      case 'SHADE': {
+      default: {
         desc = $localize`:@@light.shadeDesc:Shade`;
         break;
       }
@@ -133,8 +132,7 @@ export class LocationService {
         desc = $localize`:@@light.partialsunVerbose:Sun is here for a few hours each day`;
         break;
       }
-      default:
-      case 'SHADE': {
+      default: {
         desc = $localize`:@@light.shadeVerbose:Sun is not allowed here`;
         break;
       }
