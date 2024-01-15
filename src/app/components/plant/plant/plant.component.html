@@ -25,22 +25,18 @@
     <div class="plant">
       <lt-toolbox [title]="plantTitle" [subtitle]="plantSubtitle">
         @if (this.plantService.owned) {
-          <ng-container>
-            <lt-toolbox-button
-              image="assets/water.png"
-              (click)="enableWaterEditing = true"
-            />
-            <lt-toolbox-button
-              image="assets/fertilizer.png"
-              (click)="enableFertilizerEditing = true"
-            />
-            <lt-toolbox-button image="assets/pot.png" (click)="editSoil()" />
-            <lt-toolbox-button image="assets/edit.png" (click)="edit()" />
-            <lt-toolbox-button
-              image="assets/delete.png"
-              (click)="openDeleteModal()"
-            />
-          </ng-container>
+          <lt-toolbox-button
+            name="droplet"
+            (click)="enableWaterEditing = true"
+          />
+          <lt-toolbox-button
+            name="pizza"
+            type="solid"
+            (click)="enableFertilizerEditing = true"
+          />
+          <lt-toolbox-button name="sushi" (click)="editSoil()" />
+          <lt-toolbox-button name="edit" (click)="edit()" />
+          <lt-toolbox-button name="trash" (click)="openDeleteModal()" />
         }
       </lt-toolbox>
 
@@ -55,33 +51,18 @@
         }
 
         <ng-container properties>
-          <lt-property-box>
-            @if (plant.condition) {
-
-              <box-icon
-                name="heart-circle"
-                type="solid"
-                size="lg"
-                fixedWidth="true"
-                [color]="conditionColor"
-              >
+          @if (plant.condition) {
+            <box-icon
+              name="heart-circle"
+              type="solid"
+              infoProperty="true"
+              [color]="conditionColor"
+            >
               {{ plantCondition[plant.condition] }}
-              </box-icon>
-            }
-          </lt-property-box>
+            </box-icon>
+          }
 
-          <lt-property-box [icon]="getVisibilityAsset()">
-            @if (plant.public) {
-              <span i18n="@@general.public">
-                Public
-              </span>
-            } @else {
-              <span i18n="@@general.private">
-                Private
-              </span>
-            }
-          </lt-property-box>
-
+          <lt-property-public [public]="plant.public" />
         </ng-container>
       </lt-info-box>
 

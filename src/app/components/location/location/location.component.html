@@ -2,8 +2,8 @@
   <div class="location">
     <lt-toolbox [title]="location.name">
       @if (locationService.isOwned()) {
-        <lt-toolbox-button image="assets/edit.png" (click)="edit()" />
-        <lt-toolbox-button image="assets/delete.png" (click)="openDeleteModal()" />
+        <lt-toolbox-button name="edit" (click)="edit()" />
+        <lt-toolbox-button name="trash" (click)="openDeleteModal()" />
       }
     </lt-toolbox>
 
@@ -13,29 +13,19 @@
     >
 
       <ng-container properties>
-        <lt-property-box [icon]="locationService.getLightAsset(location.light)">
-          {{ locationService.getLightName(location.light) }}
-        </lt-property-box>
+        @if (getLightAsset(location.light); as light) {
+          <box-icon [name]="light.icon" [type]="light.type" infoProperty="true">
+            {{ light.title }}
+          </box-icon>
+        }
 
-        <lt-property-box [icon]="getVisibilityAsset(location.public)">
-          @if (location.public) {
-            <span i18n="@@general.public">
-              Public
-            </span>
-          } @else {
-            <span i18n="@@general.private">
-              Private
-            </span>
-          }
-        </lt-property-box>
+        <lt-property-public [public]="location.public" />
 
-        <lt-property-box [icon]="getPlantsAsset(location._count?.plants)">
-          @if (location._count?.plants; as count) {
-            <span i18n="@@location.plants">{{ count }} plants</span>
-          } @else {
-            <span i18n="@@location.noPlants">No plants yet!</span>
-          }
-        </lt-property-box>
+        @if (location._count?.plants; as count) {
+          <box-icon name="leaf" type="solid" infoProperty="true" i18n="@@location.plants">{{ count }} plants</box-icon>
+        } @else {
+          <box-icon name="leaf" infoProperty="true" i18n="@@location.noPlants">No plants yet!</box-icon>
+        }
       </ng-container>
 
     </lt-info-box>

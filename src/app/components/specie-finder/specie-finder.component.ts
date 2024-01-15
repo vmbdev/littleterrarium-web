@@ -12,11 +12,12 @@ import { Observable, of } from 'rxjs';
 import { ApiService } from '@services/api.service';
 import { Specie } from '@models/specie.model';
 import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 @Component({
   standalone: true,
   selector: 'lt-specie-finder',
-  imports: [CommonModule, FormsModule, HighlightPipe],
+  imports: [CommonModule, BoxIconComponent, FormsModule, HighlightPipe],
   templateUrl: './specie-finder.component.html',
   styleUrls: ['./specie-finder.component.scss'],
 })

@@ -4,9 +4,6 @@ import { CommonModule } from '@angular/common';
 import {
   PictureBoxComponent
 } from '@components/picture-box/picture-box.component';
-import {
-  PictureDetailedComponent
-} from '@components/picture-detailed/picture-detailed.component';
 import { PictureItem } from '@models/picture-item.model';
 import { SortPipe } from '@pipes/sort/sort.pipe';
 import { FilterPipe } from '@pipes/filter/filter.pipe';
@@ -21,7 +18,6 @@ import { FilterPipe } from '@pipes/filter/filter.pipe';
     PictureBoxComponent,
     SortPipe,
     FilterPipe,
-    PictureDetailedComponent,
   ],
 })
 export class PictureListComponent {
@@ -29,10 +25,4 @@ export class PictureListComponent {
   @Input() addItemLink?: string | any[];
   @Input() list: PictureItem[] = [];
   @Input({ transform: booleanAttribute }) contentBelow: boolean = false;
-  @Input({ transform: booleanAttribute }) detailed: boolean = false;
-
-  getStyleClass(): string {
-    if (this.detailed) return 'picture-list-detailed';
-    else return 'picture-list-grid';
-  }
 }

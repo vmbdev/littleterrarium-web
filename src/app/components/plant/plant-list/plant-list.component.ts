@@ -140,6 +140,7 @@ export class PlantListComponent {
     this.fetchPlants();
   }
 
+  // TODO: show total, show current count, don't show if nothing left
   loadMore(): void {
     if (this.cursor !== this.lastCursor) this.fetchPlants(true);
   }

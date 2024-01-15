@@ -1,11 +1,31 @@
-@use 'src/styles/variables.scss' as var;
-@use 'src/styles/theming.scss' as t;
-@use 'src/styles/media.scss' as m;
+@use 'variables.scss' as var;
+@use 'theming.scss' as t;
+@use 'media.scss' as m;
+
+$fontSizeBig: 1.2rem;
+$fontSizeSmall: 1rem;
+$inputWidth: 22rem;
+
+@mixin input-common() {
+  font-size: $fontSizeBig;
+  height: 2.3rem;
+  width: $inputWidth;
+  text-align: center;
+}
+
+@mixin button-common() {
+  border: none;
+  color: white;
+  font-weight: 400;
+  font-size: $fontSizeSmall;
+  width: 7rem;
+  height: 2.3rem;
+}
 
 @mixin styledInput($type, $radius: 0) {
   input[type=#{$type}] {
-    font-size: 14pt;
-    margin-bottom: 25px;
+    font-size: $fontSizeBig;
+    margin-bottom: 1.5rem;
     opacity: 0;
 
     +label:before {
@@ -14,16 +34,16 @@
       top: 0.4em;
       width: 1.5em;
       height: 1.5em;
-
       content: '';
+      border-radius: #{$radius};
+      margin-right: 0.3rem;
+      cursor: pointer;
+      transition: all 250ms ease;
+
       @include t.themify {
         background-color: t.theme(input_background);
         border: 1px solid darken(t.theme(input_accent), 25%);
       }
-      border-radius: #{$radius};
-      margin-right: 5px;
-      cursor: pointer;
-      transition: all 250ms ease;
     }
 
     &:checked {
@@ -49,13 +69,10 @@
   &__textinput, &__number, &__select, &__textarea {
     width: 100%;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 0.7rem;
 
     input, select, textarea {
-      font-size: 14pt;
-      height: 40px;
-      width: 350px;
-      text-align: center;
+      @include input-common();
       outline: none;
 
       &::placeholder {
@@ -75,7 +92,7 @@
       width: 100%;
       text-align: justify;
       height: auto;
-      font-size: 12pt;
+      font-size: $fontSizeSmall;
     }
   }
 
@@ -85,7 +102,7 @@
     align-items: center;
 
     input {
-      width: 300px;
+      width: $inputWidth;
     }
 
     datalist {
@@ -93,7 +110,7 @@
       flex-direction: column;
       justify-content: space-between;
       writing-mode: vertical-lr;
-      width: 300px;
+      width: $inputWidth;
     }
   }
 
@@ -106,10 +123,7 @@
     text-align: center;
 
     input {
-      font-size: 14pt;
-      width: 350px;
-      height: 40px;
-      text-align: center;
+      @include input-common();
     }
   }
 
@@ -130,30 +144,23 @@
   &__submit {
     width: 100%;
     text-align: center;
-    margin: 15px 0;
+    margin: 1rem 0;
 
     button, input[type="submit"] {
       @include t.themify {
         background-color: t.theme(main_color)
       }
-      border: none;
-      color: white;
-      font-weight: 400;
-      font-size: 12pt;
-      width: 100px;
-      height: 40px;
+      @include button-common();
     }
   }
 
   &__button {
     button {
-      background-color: #42855B;
-      border: none;
-      color: white;
-      font-weight: 400;
-      font-size: 12pt;
-      width: 100px;
-      height: 40px;
+      @include t.themify {
+        background-color: t.theme(input_accent);
+      }
+
+      @include button-common();
     }
   }
 

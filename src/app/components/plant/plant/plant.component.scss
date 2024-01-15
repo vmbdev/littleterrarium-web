@@ -1,5 +1,5 @@
-@use 'src/styles/variables.scss' as var;
-@use 'src/styles/media.scss' as m;
+@use 'variables.scss' as var;
+@use 'media.scss' as m;
 
 .plant {
   &__row {
@@ -8,13 +8,12 @@
     grid-auto-rows: minmax(min-content, max-content);
     grid-row-gap: 2rem;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: 0.7rem;
   }
 
   &__description {
-    padding: 20px;
+    padding: 1.3rem;
     font-style: italic;
     text-align: justify;
   }
-
 }

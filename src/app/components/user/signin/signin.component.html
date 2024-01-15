@@ -7,16 +7,12 @@
   <div class="signin">
     <div class="signin__container">
       <div class="signin__center">
-        @if (homepage) {
-          <h1 i18n="@@signin.homepageTitle">Welcome to Little Terrarium!</h1>
-          <p i18n="@@signin.homepageMsg">
-            We are really happy to have you here. Sign in or
-            <b class="signin__link" routerLink="/register">sign up</b> and
-            start taking care of your plants!
-          </p>
-        } @else {
-          <h1 i18n="@@signin.welcomeBack">Welcome back!</h1>
-        }
+        <h1 i18n="@@signin.homepageTitle">Welcome to Little Terrarium!</h1>
+        <p i18n="@@signin.homepageMsg">
+          We are really happy to have you here. Sign in or
+          <b class="signin__link" routerLink="/register">sign up</b> and
+          start taking care of your plants!
+        </p>
       </div>
       <div class="form__textinput">
         <p i18n="@@signin.identification">Username or email</p>

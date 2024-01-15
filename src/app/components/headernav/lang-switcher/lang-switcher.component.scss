@@ -1,32 +1,5 @@
-@use 'src/styles/theming.scss' as t;
-@use 'src/styles/variables.scss' as v;
-
-$listItemPadding: 10px;
-
 .ls {
-  &__lang {
-    cursor: pointer;
-  }
-
-  &__current {
-    position: relative;
-  }
-
-  &__list {
-    position: absolute;
-    margin-left: -$listItemPadding;
-
-    @include t.themify {
-      background-color: t.theme(main_background);
-      border: 1px solid darken(t.theme(secondary_color), 25%);
-    }
-
-    &--hidden {
-      display: none;
-    }
-
-    &> div {
-      padding: $listItemPadding;
-    }
+  &__icon {
+    text-align: center;
   }
 }

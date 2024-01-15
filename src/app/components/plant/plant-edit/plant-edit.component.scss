@@ -1,11 +1,9 @@
-@use 'src/styles/form.scss';
+@use 'form.scss';
 
 .plantedit {
-
   &__conditions {
     display: flex;
     flex-direction: row;
     justify-content: center;
-
   }
 }

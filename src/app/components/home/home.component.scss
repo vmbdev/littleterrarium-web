@@ -2,34 +2,9 @@
 @use 'src/styles/theming.scss' as t;
 
 .home {
-  background-image: url('/assets/home.jpg');
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: calc(100% - 50px);
 
-  &__signin {
-    width: 40%;
-    margin-top: 60px;
-    margin-left: auto;
-    margin-right: auto;
-
-    @include t.themify {
-      background-color: t.theme(signin_background);
-      color: t.theme(signin_text)
-    }
-
-  }
 }
 
 @include m.media(mobile) {
-  .home__signin {
-    margin-top: 0;
-    width: 100%;
-    height: 100%;
-  }
+
 }

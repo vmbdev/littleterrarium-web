@@ -9,7 +9,7 @@
   padding: 0.5rem;
 
   @include t.themify {
-    border: 1px solid t.theme(main_font_color);
+    border: 1px solid t.theme(main_text);
   }
 
   &__title {

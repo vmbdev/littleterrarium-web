@@ -1,5 +1,5 @@
 <div class="navigation">
-  <div class="navigation__arrow navigation__prev">
+  <div class="navigation__prev">
     @if (previousLink) {
       <a [routerLink]="previousLink">
         <box-icon name="left-arrow" type="solid" size="lg" />
@@ -7,7 +7,7 @@
     }
   </div>
   <ng-content />
-  <div class="navigation__arrow navigation__next">
+  <div class="navigation__next">
     @if (nextLink) {
       <a [routerLink]="nextLink">
         <box-icon name="right-arrow" type="solid" size="lg" />

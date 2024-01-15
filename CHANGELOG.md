@@ -7,12 +7,25 @@ Happy new year! Some interesting changes in 1.0.8.
 ### Changes
 
 - A much needed visual update, now it looks a little bit clearer and more
-responsive.
+responsive with small devices (tablets and smartphones, mainly).
 - That includes moving away from the horrid ThemeSwitcher and LangSwitcher
 looks into something simpler. I don't know what was I thinking when I designed
 them.
-- New component BoxIcon, and a lot of (well, some) icons from BoxIcons.
+- And a new logo.
+- Main navigation bar redesigned, revamped (into smaller components) and
+reinvented (into something more functional).
+- Dropdown menus now unified into one component (FloatingList) and integrated
+with the navigation bar when visited on small devices.
+- New component BoxIcon, and a lot of (well, some) icons from BoxIcons
+replacing most of the (too much) colorful icons used previously.
 - Photo cover update is now updated in PhotoEdit, not in Photo.
+- Cleanup of theme related variables.
+- Cleanup of modal code into something more shareable and common.
+- Picture lists (used in locations, plants and photos) will now use a
+multi-column layout in small devices (rather than one huge column).
+- Also photos in PhotoList won't show the date below the icon anymore.
+- Cleanup of many observables in services.
+- Updated translations.
 
 ## [1.0.7] - 2023-12-19
 

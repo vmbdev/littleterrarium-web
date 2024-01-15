@@ -1,5 +1,6 @@
 @use 'src/styles/theming.scss' as t;
 @use 'src/styles/media.scss' as m;
+@use 'src/styles/variables.scss' as v;
 
 .body-wrapper {
   display: flex;
@@ -8,7 +9,7 @@
 
   @include t.themify {
     background-color: t.theme(main_background);
-    color: t.theme(main_font_color);
+    color: t.theme(main_text);
 
     a {
       color: t.theme(link_color) !important;
@@ -18,9 +19,10 @@
 }
 
 .content-wrapper {
+  position: relative;
   flex: 1;
   margin: 0 auto;
-  width: 80%;
+  width: v.$layoutContentWidth;
 }
 
 @include m.media(mobile) {

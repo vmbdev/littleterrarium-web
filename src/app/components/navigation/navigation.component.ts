@@ -1,5 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 @Component({

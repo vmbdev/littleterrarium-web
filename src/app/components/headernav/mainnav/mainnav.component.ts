@@ -12,6 +12,12 @@ import {
 import {
   UserboxComponent
 } from '@components/headernav/userbox/userbox.component';
+import {
+  MainnavDivisorComponent
+} from '@components/headernav/mainnav-divisor/mainnav-divisor.component';
+import {
+  MainnavItemComponent
+} from '@components/headernav/mainnav-item/mainnav-item.component';
 
 @Component({
   selector: 'lt-mainnav',
@@ -23,6 +29,8 @@ import {
     LangSwitcherComponent,
     UserboxComponent,
     BoxIconComponent,
+    MainnavDivisorComponent,
+    MainnavItemComponent,
   ],
   templateUrl: './mainnav.component.html',
   styleUrls: ['./mainnav.component.scss'],

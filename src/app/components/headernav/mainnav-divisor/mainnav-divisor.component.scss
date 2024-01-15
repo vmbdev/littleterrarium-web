@@ -1,0 +1,30 @@
+@use 'media.scss' as m;
+
+.mainnav-divisor {
+  &::before {
+    background-color: #2e2e32;
+    margin: 0 2px;
+    width: 1px;
+    height: 30px;
+    content: '';
+    display: block;
+  }
+}
+
+@mixin small-devices {
+  .mainnav-divisor {
+    &::before {
+      margin: 0;
+      width: 50vw;
+      height: 1px;
+    }
+  }
+}
+
+@include m.media('mobile') {
+  @include small-devices();
+}
+
+@include m.media('tablet') {
+  @include small-devices();
+}

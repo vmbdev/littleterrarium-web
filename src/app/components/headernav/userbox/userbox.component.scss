@@ -1,14 +1,15 @@
-@use 'src/styles/theming.scss' as t;
-@use 'src/styles/variables.scss' as v;
+@use 'theming.scss' as t;
+@use 'variables.scss' as v;
 
 .userbox {
-  position: relative;
+  cursor: pointer;
 
   &__user {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 0.7rem;
   }
 
   &__avatar {
@@ -24,48 +25,6 @@
 
     @include t.themify {
       color: t.theme(nav_link_color);
-    }
-
-  }
-
-  &__menulink {
-    a {
-      text-decoration: none;
-
-      @include t.themify {
-        color: t.theme(link_color);
-      }
-    }
-  }
-
-  &__menu {
-    position: absolute;
-    width: 100%;
-
-    @include t.themify {
-      background-color: t.theme(main_background);
-      border: 1px solid darken(t.theme(secondary_color), 25%);
-    }
-
-    &-hidden {
-      visibility: hidden;
-    }
-  }
-
-  &__menulink {
-    text-align: center;
-    padding: 5px 0;
-
-    &:not(:last-child) {
-      @include t.themify {
-        border-bottom: 1px solid darken(t.theme(secondary_color), 25%);
-      }
-    }
-
-    &:hover {
-      @include t.themify {
-        background-color: lighten(t.theme(secondary_color), 25%);
-      }
     }
   }
 }

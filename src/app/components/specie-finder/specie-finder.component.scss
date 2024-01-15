@@ -2,18 +2,14 @@
 @use 'src/styles/theming.scss' as t;
 @use 'src/styles/media.scss' as m;
 
-.sf {
-  position: relative;
+$width: 30vw;
 
+.sf {
   &__searchbox {
     border: 1px solid rgb(118, 118, 118);
-    width: 400px;
-    height: 50px;
+    width: $width;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    position: relative;
     text-align: center;
 
     margin-left: auto;
@@ -32,7 +28,6 @@
     background-color: transparent;
     border: 0 !important;
     width: 100% !important;
-
   }
 
   &__clear {
@@ -46,9 +41,8 @@
       background-color: t.theme(search_results_background);
       color: t.theme(search_results_text);
     }
-    position: absolute;
     border: 1px solid black;
-    width: 400px;
+    width: $width;
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -62,7 +56,7 @@
   }
 
   &__item {
-    padding: 5px 0;
+    padding: 0.5rem;
     display: flex;
     flex-direction: row;
 
@@ -81,16 +75,6 @@
     &:first-letter {
       text-transform: uppercase;
     }
-  }
-
-  &__image {
-    background-image: url('/assets/plants-empty.png');
-    background-size: 40px 40px;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
-    margin-right: 5px;
   }
 
   &__itemtext {

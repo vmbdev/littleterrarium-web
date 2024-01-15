@@ -30,11 +30,11 @@ interface BreadcrumbOptions {
   providedIn: 'root',
 })
 export class BreadcrumbService {
-  links: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<
+  private links: BehaviorSubject<BreadcrumbLink[]> = new BehaviorSubject<
     BreadcrumbLink[]
   >([]);
-  links$ = this.links.asObservable();
-  prev: BreadcrumbLink[] = [];
+  public readonly links$ = this.links.asObservable();
+  private prev: BreadcrumbLink[] = [];
 
   constructor(
     private router: Router,

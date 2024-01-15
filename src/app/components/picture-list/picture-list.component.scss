@@ -1,29 +1,31 @@
-@use 'src/styles/variables.scss' as var;
-@use 'src/styles/media.scss' as m;
+@use 'variables.scss' as var;
+@use 'media.scss' as m;
 
 .picture-list-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, var.$pictureBoxSize);
-  gap: 15px;
+  gap: 1rem;
 
-  margin: 20px 0;
+  margin: 1.3rem 0;
 
   &-center{
     justify-content: center;
   }
 }
 
-.picture-list-detailed {
-  display: flex;
-  flex-direction: column;
-
-  gap: 10px;
-}
-
-@include m.media(mobile) {
+@mixin small-devices {
   .picture-list-grid {
     justify-content: center;
-    grid-template-columns: none;
-    margin: 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    margin: 1.3rem 0;
   }
+}
+
+@include m.media('tablet') {
+  @include small-devices();
+}
+
+@include m.media('mobile') {
+  @include small-devices();
 }

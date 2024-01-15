@@ -1,5 +1,5 @@
-@use 'src/styles/variables.scss' as var;
-@use 'src/styles/media.scss' as m;
+@use 'variables.scss' as var;
+@use 'media.scss' as m;
 
 body {
   font-family: 'Inter', sans-serif;

@@ -1,0 +1,21 @@
+@use 'theming.scss' as t;
+
+.mainnav-item {
+  font-size: 1.2rem;
+  position: relative;
+  text-align: center;
+
+  &__islink {
+    cursor: pointer;
+
+    @include t.themify {
+      color: t.theme(nav_link_color) !important;
+    }
+    
+    &:hover {
+      @include t.themify {
+        color: t.theme(nav_link_color-hover) !important;
+      }
+    }
+  }
+}

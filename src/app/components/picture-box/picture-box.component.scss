@@ -1,6 +1,6 @@
-@use 'src/styles/variables.scss' as var;
-@use 'src/styles/theming.scss' as t;
-@use 'src/styles/media.scss' as m;
+@use 'variables.scss' as var;
+@use 'theming.scss' as t;
+@use 'media.scss' as m;
 
 .picturebox-wrapper {
   @include t.themify {
@@ -26,7 +26,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: var.$pictureBoxSize;
+    height: 100%;
     width: 100%;
 
     @include t.themify {
@@ -39,7 +39,7 @@
     text-decoration: none;
 
     @include t.themify {
-      color: t.theme(main_font_color);
+      color: t.theme(main_text);
     }
   }
 
@@ -48,17 +48,25 @@
   }
 
   &__add {
-    font-size: 150px;
+    font-size: 10rem;
   }
 }
 
-@include m.media(mobile) {
-  .picturebox { 
-    height: 95vw;
-    width: 95vw;
+@mixin small-devices {
+  .picturebox {
+    height: 50vw;
+    width: 50vw;
 
-    &__content {
-      height: 100%;
+    &__add {
+      font-size: 8rem;
     }
   }
+}
+
+@include m.media('tablet') {
+  @include small-devices();
+}
+
+@include m.media('mobile') {
+  @include small-devices();
 }

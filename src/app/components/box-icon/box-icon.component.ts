@@ -9,6 +9,9 @@ import {
 } from '@angular/core';
 import { ThemeService } from '@services/theme.service';
 
+export type BoxIconType = 'regular' | 'solid' | 'logo';
+export type BoxIconSize = 'xs' | 'sm' | 'md' | 'lg';
+
 @Component({
   selector: 'box-icon',
   standalone: true,
@@ -17,10 +20,10 @@ import { ThemeService } from '@services/theme.service';
   styleUrl: './box-icon.component.scss',
 })
 export class BoxIconComponent {
-  @Input() type: 'regular' | 'solid' | 'logo' = 'regular';
+  @Input() type: BoxIconType = 'regular';
   @Input({ required: true }) name?: string;
   @Input() color?: string;
-  @Input() size?: 'xs' | 'sm' | 'md' | 'lg';
+  @Input() size?: BoxIconSize;
   @Input({ transform: numberAttribute }) rotate?: 90 | 180 | 270;
   @Input() flip?: 'horizontal' | 'vertical';
   @Input() border?: 'square' | 'circle';
@@ -35,6 +38,7 @@ export class BoxIconComponent {
   @Input({ transform: booleanAttribute }) hover: boolean = false;
   @Input({ transform: booleanAttribute }) fixedWidth: boolean = false;
   @Input({ transform: booleanAttribute }) disabled: boolean = false;
+  @Input({ transform: booleanAttribute }) infoProperty: boolean = false;
   @Output() click: EventEmitter<void> = new EventEmitter();
 
   classList: string[] = [];
@@ -64,6 +68,10 @@ export class BoxIconComponent {
       this.classList.push(`bx-${this.animation}${this.hover ? '-hover' : ''}`);
     }
     if (this.click.observed) this.classList.push('cbx--clickable');
+    if (this.infoProperty) {
+      if (!this.size) this.classList.push('bx-lg');
+      if (!this.fixedWidth) this.classList.push('bx-fw');
+    }
   }
 
   getTypeClass(): string {

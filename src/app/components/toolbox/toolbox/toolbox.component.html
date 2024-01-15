@@ -10,10 +10,8 @@
     </div>
     @if (buttons) {
       <div class="toolbox__buttons">
-        @for (button of buttons; track button.image) {
-          <div>
-            <ng-template [ngTemplateOutlet]="button.buttonTemplate" />
-          </div>
+        @for (button of buttons; track button.name) {
+          <ng-template [ngTemplateOutlet]="button.buttonTemplate" />
         }
       </div>
     }

@@ -7,9 +7,7 @@
         <ng-container *ngTemplateOutlet="content" />
       </div>
     </div>
-  }
-
-  @if (!add) {
+  } @else {
     <div
       class="picturebox"
       [ngStyle]="{ 'background-image': image ? 'url(' + image + ')' : null }"
@@ -27,7 +25,6 @@
       </div>
     }
   }
-
 </a>
 
 <ng-template #content><ng-content /></ng-template>

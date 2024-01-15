@@ -49,9 +49,14 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
+              "src/global.scss",
               "node_modules/boxicons/css/boxicons.min.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

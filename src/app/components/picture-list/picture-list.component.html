@@ -1,52 +1,26 @@
-<div [ngClass]="getStyleClass()">
-  
-  @if (!detailed) {
-    @if (createAddItem && addItemLink) {
-      <lt-picture-box add="true" [link]="addItemLink">
-        <ng-content select="[addItem]" />
+<div class="picture-list-grid">
+  @if (createAddItem && addItemLink) {
+    <lt-picture-box add="true" [link]="addItemLink">
+      <ng-content select="[addItem]" />
+    </lt-picture-box>
+  }
+
+  @if (list) {
+    @for (item of list; track item.link) {
+      <lt-picture-box
+        [contentBelow]="contentBelow"
+        [image]="item.image ? item.image : null"
+        [link]="item.link"
+      >
+        @if (item.name) {
+          <div>{{ item.name }}</div>
+        }
+
+        @for (text of item.description; track text) {
+          <div>{{ text }}</div>
+        }
       </lt-picture-box>
     }
-
-    @if (list) {
-      @for (item of list; track item.link) {
-        <lt-picture-box
-          [contentBelow]="contentBelow"
-          [image]="item.image ? item.image : null"
-          [link]="item.link"
-        >
-          @if (item.name) {
-            <div>{{ item.name }}</div>
-          }
-
-          @for (text of item.description; track text) {
-            <div>{{ text }}</div>
-          }
-        </lt-picture-box>
-      }
-    }
   }
 
-  @if (detailed) {
-    @if (createAddItem && addItemLink) {
-      <lt-picture-detailed add="true" [link]="addItemLink">
-        <ng-content select="[addItem]" />
-      </lt-picture-detailed>
-    }
-
-    @if (list) {
-      @for (item of list; track item.link) {
-        <lt-picture-detailed
-          [image]="item.image ? item.image : null"
-          [link]="item.link"
-        >
-          @if (item.name) {
-            <div>{{ item.name }}</div>
-          }
-          @for (text of item.description; track text) {
-            <div>{{ text }}</div>
-          }
-        </lt-picture-detailed>
-      }
-    }
-  }
 </div>

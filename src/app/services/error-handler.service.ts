@@ -5,11 +5,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ErrorHandlerService implements ErrorHandler {
-  list$ = new BehaviorSubject<string | null>(null);
+  private list = new BehaviorSubject<string | null>(null);
+  public readonly list$ = this.list.asObservable();
 
   handleError(error: any) {}
 
   push(error: string) {
-    this.list$.next(error);
+    this.list.next(error);
   }
 }

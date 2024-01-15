@@ -69,7 +69,7 @@ export class PhotoEditComponent {
   }
 
   updateCoverPhoto(): void {
-    const photo = this.photoService.photo$.getValue();
+    const photo = this.photoService.getValue();
 
     if (photo) {
       if (photo.id === this.plantCoverId) {
@@ -88,7 +88,7 @@ export class PhotoEditComponent {
   }
 
   submit(): void {
-    const currentPhoto = this.photoService.photo$.getValue();
+    const currentPhoto = this.photoService.getValue();
 
     if (currentPhoto) {
       let plant: Plant;

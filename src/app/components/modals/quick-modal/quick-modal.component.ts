@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+
 import {
   CloseButtonComponent
 } from '@components/close-button/close-button.component';

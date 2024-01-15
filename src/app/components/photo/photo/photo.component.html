@@ -8,13 +8,8 @@
 
     <lt-toolbox title="{{ photo.takenAt | date }}">
       @if (photoService.owned) {
-        <lt-toolbox-button image="assets/edit.png"
-          (click)="enablePhotoEditing = true"
-        />
-        <lt-toolbox-button
-          image="assets/delete.png"
-          (click)="openDeleteModal()"
-        />
+        <lt-toolbox-button name="edit" (click)="enablePhotoEditing = true" />
+        <lt-toolbox-button name="trash" (click)="openDeleteModal()"/>
       }
     </lt-toolbox>
 
@@ -26,18 +21,11 @@
       }
 
       <ng-container properties>
-        <lt-property-box icon="assets/clock.png">
+        <box-icon name="calendar" infoProperty="true">
           {{ photo.takenAt | date }}
-        </lt-property-box>
-
-        <lt-property-box [icon]="getVisibilityAsset()">
-          @if (photo.public) {
-            <span i18n="@@general.public">Public</span>
-          }
-          @else {
-            <span i18n="@@general.private">Private</span>
-          }
-        </lt-property-box>
+        </box-icon>
+        
+        <lt-property-public [public]="photo.public" />
       </ng-container>
 
     </lt-info-box>

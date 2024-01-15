@@ -10,8 +10,8 @@
 >
 </lt-filter-bar>
 <lt-picture-list
-  [createAddItem]="(locationId !== undefined) && (locationId !== null) && owned"
-  [addItemLink]="['/plant','create', locationId]"
+  [createAddItem]="locationId && owned"
+  [addItemLink]="['/plant', 'create', locationId]"
   contentBelow="true"
   [list]="pictureList"
 >

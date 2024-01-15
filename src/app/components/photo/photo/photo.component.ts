@@ -13,9 +13,6 @@ import {
   PhotoEditComponent
 } from '@components/photo/photo-edit/photo-edit.component';
 import {
-  PropertyBoxComponent
-} from '@components/property-box/property-box.component';
-import {
   NavigationComponent
 } from '@components/navigation/navigation.component';
 import {
@@ -24,12 +21,12 @@ import {
 import {
   ToolboxButtonComponent
 } from '@components/toolbox/toolbox-button/toolbox-button.component';
+import { PropertyPublicComponent } from '@components/property-public/property-public.component';
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PhotoService } from '@services/photo.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ImagePathService } from '@services/image-path.service';
-import { PlantService } from '@services/plant.service';
-import { Plant } from '@models/plant.model';
 import { NavigationData, Photo } from '@models/photo.model';
 import { ModalService } from '@services/modal.service';
 
@@ -47,7 +44,8 @@ import { ModalService } from '@services/modal.service';
     QuickModalComponent,
     InfoBoxComponent,
     NavigationComponent,
-    PropertyBoxComponent,
+    PropertyPublicComponent,
+    BoxIconComponent,
   ],
 })
 export class PhotoComponent {
@@ -61,7 +59,6 @@ export class PhotoComponent {
     private router: Router,
     private breadcrumb: BreadcrumbService,
     public photoService: PhotoService,
-    private plantService: PlantService,
     private errorHandler: ErrorHandlerService,
     public imagePath: ImagePathService,
     private modal: ModalService
@@ -115,7 +112,7 @@ export class PhotoComponent {
         )
         .subscribe((navigation: NavigationData) => {
           this.navigation = navigation;
-          const photo = this.photoService.photo$.getValue();
+          // const photo = this.photoService.getValue();
         });
     }
   }
@@ -127,7 +124,7 @@ export class PhotoComponent {
   }
 
   delete(): void {
-    const photo = this.photoService.photo$.getValue();
+    const photo = this.photoService.getValue();
 
     if (photo) {
       this.photoService.delete().subscribe({
@@ -144,7 +141,7 @@ export class PhotoComponent {
   }
 
   getVisibilityAsset(): string {
-    const name = this.photoService.photo$.getValue()?.public
+    const name = this.photoService.getValue()?.public
       ? 'public'
       : 'private';
 

@@ -1,11 +1,13 @@
-<div class="quick-modal">
-  <div class="quick-modal__title">
-    {{ title }}
-    <lt-close-button (close)="onClose()" />
-  </div>
-  <div class="quick-modal__container">
-    <div class="quick-modal__content">
-      <ng-content />
+<div class="base-modal">
+  <div class="quick-modal">
+    <div class="quick-modal__title">
+      {{ title }}
+      <lt-close-button (close)="onClose()" />
+    </div>
+    <div class="quick-modal__container">
+      <div class="quick-modal__content">
+        <ng-content />
+      </div>
     </div>
   </div>
 </div>

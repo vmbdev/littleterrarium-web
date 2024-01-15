@@ -1,7 +1,6 @@
-@use 'src/styles/form.scss';
+@use 'form.scss';
 
 .plant-add {
-
   &__progress {
     display: flex;
     flex-direction: column;

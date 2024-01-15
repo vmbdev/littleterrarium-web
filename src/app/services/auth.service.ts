@@ -20,13 +20,13 @@ export class AuthService {
   // signedIn$ exists just for convenience.
   // We can achieve the same checking if user$ is null
   private signedIn = new BehaviorSubject<boolean>(false);
-  public signedIn$ = this.signedIn.asObservable();
+  public readonly signedIn$ = this.signedIn.asObservable();
 
   private checked = new BehaviorSubject<boolean>(false);
-  public checked$ = this.checked.asObservable();
+  public readonly checked$ = this.checked.asObservable();
 
   private user = new BehaviorSubject<User | null>(null);
-  public user$ = this.user.asObservable();
+  public readonly user$ = this.user.asObservable();
 
   constructor(private api: ApiService) {
     this.api.getCurrentUser().subscribe({

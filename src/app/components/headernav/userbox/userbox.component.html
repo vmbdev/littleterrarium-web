@@ -1,5 +1,5 @@
 @if (auth.user$ | async; as user) {
-  <div class="userbox" (mouseover)="enableMenu()" (mouseout)="disableMenu()">
+  <div class="userbox" (click)="toggleMenu()">
     <div class="userbox__user">
 
       @if (user.avatar) {
@@ -15,28 +15,24 @@
         {{ user.username }}
       </div>
     </div>
-    <div
-      class="userbox__menu"
-      [ngClass]="{ 'userbox__menu-hidden' : !menuVisible }"
-    >
-      <div class="userbox__menulink">
-        <a
-          [routerLink]="['/terrarium', user.username]"
-          i18n="@@userbox.terrarium"
-        >
-          Your Terrarium
-        </a>
-      </div>
-      <div class="userbox__menulink">
-        <a routerLink="/user/edit" i18n="@@userbox.profile">Edit profile</a>
-      </div>
-      <div class="userbox__menulink">
-        <a routerLink="/logout" i18n="@@general.logout">Log out</a>
-      </div>
-    </div>
+
+    <lt-floating-list [visible]="menuVisible">
+      <lt-mainnav-item
+        [routerLink]="['/terrarium', user.username]"
+        i18n="@@userbox.terrarium"
+      >
+        Your Terrarium
+      </lt-mainnav-item>
+      <lt-mainnav-item routerLink="/user/edit" i18n="@@userbox.profile">
+        Edit profile
+      </lt-mainnav-item>
+      <lt-mainnav-item routerLink="/logout" i18n="@@general.logout">
+        Log out
+      </lt-mainnav-item>
+    </lt-floating-list>
   </div>
 } @else {
-  <div class="userbox__link">
-    <a routerLink="/signin" i18n="@@general.signin">Sign in</a>
-  </div>
+  <a routerLink="/signin" i18n="@@general.signin">
+    Sign in
+  </a>
 }

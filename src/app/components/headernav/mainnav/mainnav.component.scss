@@ -27,14 +27,6 @@
       }
     }
 
-    &__divisor {
-      &::before {
-        margin: 0;
-        width: 50vw;
-        height: 1px;
-      }
-    }
-
     &__hidden {
       display: none;
     }
@@ -47,23 +39,8 @@
   margin-bottom: 2rem;
   width: 100%;
 
-  @include t.themify {
-    background-color: t.theme(nav_bg);
-  }
-
   &__hamburger {
     display: none;
-  }
-
-  &__divisor {
-    &::before {
-      background-color: #2e2e32;
-      margin: 0 2px;
-      width: 1px;
-      height: 30px;
-      content: '';
-      display: block;
-    }
   }
 
   &__left, &__right {
@@ -79,22 +56,6 @@
 
   &__right {
     margin-right: 1.5rem;
-  }
-
-  &__item {
-    font-size: 1.2rem;
-
-    @include t.themify {
-      color: t.theme(nav_link_color);
-    }
-
-    a {
-      @include t.themify {
-        color: t.theme(nav_link_color);
-      }
-
-      text-decoration: none;
-    }
   }
 
   &__brand {

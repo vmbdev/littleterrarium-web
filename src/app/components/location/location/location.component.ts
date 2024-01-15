@@ -9,18 +9,17 @@ import {
   PlantListComponent
 } from '@components/plant/plant-list/plant-list.component';
 import {
-  PropertyBoxComponent
-} from '@components/property-box/property-box.component';
-import {
   ToolboxComponent
 } from '@components/toolbox/toolbox/toolbox.component';
 import {
   ToolboxButtonComponent
 } from '@components/toolbox/toolbox-button/toolbox-button.component';
+import { PropertyPublicComponent } from '@components/property-public/property-public.component';
+import { BoxIconComponent, BoxIconType } from '@components/box-icon/box-icon.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LocationService } from '@services/location.service';
-import { Location } from '@models/location.model';
+import { Light, Location } from '@models/location.model';
 import { ModalService } from '@services/modal.service';
 
 /**
@@ -37,7 +36,8 @@ import { ModalService } from '@services/modal.service';
     ToolboxComponent,
     ToolboxButtonComponent,
     InfoBoxComponent,
-    PropertyBoxComponent
+    PropertyPublicComponent,
+    BoxIconComponent,
   ]
 })
 export class LocationComponent {
@@ -120,13 +120,29 @@ export class LocationComponent {
     }
   }
 
-  getVisibilityAsset(visible: boolean): string {
-    const name = visible ? 'public' : 'private';
-    
-    return `assets/visibility-${name}.png`;
-  }
+  getLightAsset(light: Light): { icon: string, type: BoxIconType, title: string } {
+    let icon: string;
+    let type: BoxIconType;
+    let title = this.locationService.getLightName(light);
 
-  getPlantsAsset(count?: number): string {
-    return `assets/plants-${count && (count > 0) ? 'exists' : 'empty'}.png`;
+    switch (light) {
+      case 'FULLSUN':  {
+        icon = 'sun';
+        type = 'solid';
+        break;
+      }
+      case 'PARTIALSUN': {
+        icon = 'sun';
+        type = 'regular';
+        break;
+      }
+      default: {
+        icon = 'moon';
+        type = 'solid';
+        break;
+      }
+    }
+
+    return { icon, type, title };
   }
 }

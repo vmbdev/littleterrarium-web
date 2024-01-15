@@ -12,15 +12,15 @@ import { PlantWidgetFertilizerComponent } from '@components/plant/plant-widget-f
 import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/plant-widget-soil.component';
 import { PlantWidgetWaterComponent } from '@components/plant/plant-widget-water/plant-widget-water.component';
 import { PhotoListComponent } from '@components/photo/photo-list/photo-list.component';
-import { PropertyBoxComponent } from '@components/property-box/property-box.component';
 import { ToolboxComponent } from '@components/toolbox/toolbox/toolbox.component';
 import { ToolboxButtonComponent } from '@components/toolbox/toolbox-button/toolbox-button.component';
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
+import { PropertyPublicComponent } from '@components/property-public/property-public.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
-import { Plant, Condition } from '@models/plant.model';
 import { ModalService } from '@services/modal.service';
-import { BoxIconComponent } from '@components/box-icon/box-icon.component';
+import { Plant, Condition } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -39,8 +39,8 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
     PlantWidgetSoilComponent,
     PlantWidgetWaterComponent,
     PhotoListComponent,
-    PropertyBoxComponent,
     BoxIconComponent,
+    PropertyPublicComponent,
   ],
 })
 export class PlantComponent {

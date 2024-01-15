@@ -6,6 +6,8 @@ import { filter, map, switchMap } from 'rxjs';
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { ApiService } from '@services/api.service';
 import { CapitalizePipe } from '@pipes/capitalize/capitalize.pipe';
+import { FloatingListComponent } from '../floating-list/floating-list.component';
+import { MainnavItemComponent } from '../mainnav-item/mainnav-item.component';
 
 type LocaleList = {
   default: string;
@@ -15,12 +17,18 @@ type LocaleList = {
 @Component({
   selector: 'lt-lang-switcher',
   standalone: true,
-  imports: [CommonModule, BoxIconComponent, CapitalizePipe],
+  imports: [
+    CommonModule,
+    BoxIconComponent,
+    CapitalizePipe,
+    FloatingListComponent,
+    MainnavItemComponent,
+  ],
   templateUrl: './lang-switcher.component.html',
   styleUrls: ['./lang-switcher.component.scss'],
 })
 export class LangSwitcherComponent {
-  listHidden: boolean = true;
+  listVisible: boolean = false;
   currentUserLocale: string | null = null;
   localeList?: LocaleList;
   currentUrl: string;
@@ -63,7 +71,7 @@ export class LangSwitcherComponent {
   }
 
   toggleList() {
-    this.listHidden = !this.listHidden;
+    this.listVisible = !this.listVisible;
   }
 
   changeLocale(locale: string) {
@@ -84,7 +92,7 @@ export class LangSwitcherComponent {
   }
 
   getLanguageName(locale: string): string | undefined {
-    let dn = new Intl.DisplayNames([locale], { type: 'language' });
+    const dn = new Intl.DisplayNames([locale], { type: 'language' });
 
     return dn.of(locale.toUpperCase());
   }

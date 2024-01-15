@@ -15,8 +15,8 @@ import { Plant } from '@models/plant.model';
   providedIn: 'root',
 })
 export class PlantService {
-  plant = new BehaviorSubject<Plant | null>(null);
-  plant$ = this.plant.asObservable();
+  private plant = new BehaviorSubject<Plant | null>(null);
+  public readonly plant$ = this.plant.asObservable();
   owned: boolean = false;
 
   constructor(

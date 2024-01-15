@@ -17,7 +17,7 @@ import { Plant } from '@models/plant.model';
 })
 export class LocationService {
   private location = new BehaviorSubject<Location | null>(null);
-  public location$ = this.location.asObservable();
+  public readonly location$ = this.location.asObservable();
   private owned: boolean = false;
 
   constructor(
@@ -139,15 +139,5 @@ export class LocationService {
     }
 
     return desc;
-  }
-
-  getLightAsset(light: string): string {
-    let name: string;
-
-    if (light === 'FULLSUN') name = 'fullsun';
-    else if (light === 'PARTIALSUN') name = 'partial';
-    else name = 'shade';
-
-    return `assets/light-${name}.png`;
   }
 }

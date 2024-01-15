@@ -14,7 +14,6 @@ import { PictureItem } from '@models/picture-item.model';
 import { ImagePathService } from '@services/image-path.service';
 import { PlantService } from '@services/plant.service';
 
-// TODO: check on possible weird ordering
 @Component({
   standalone: true,
   selector: 'lt-photo-list',
@@ -50,7 +49,6 @@ export class PhotoListComponent {
       this.pictureList.push({
         image: this.imagePath.get(photo.images, 'thumb'),
         link: ['/photo', photo.id],
-        name: this.datePipe.transform(photo.takenAt)!,
         sortableOptions: {
           date: photo.takenAt,
         },

@@ -15,34 +15,33 @@
   </div>
 
   @if (results$ | async; as results) {
-  <div
-    class="sf__results"
-    [ngClass]="{'sf__results-hidden': results.length === 0 || resultsHidden }"
-  >
-    @for (specie of results; track specie.name) {
-      <div
-        class="sf__item"
-        (click)="selectSpecie(specie.id, specie.name)"
-      >
-        <div class="sf__image"></div>
-        <div class="sf__itemtext">
-          <div
-            class="sf__title"
-            [innerHtml]="(specie.commonName ? specie.commonName : specie.name) | highlight:currentSearch"
-          >
-          </div>
-
-          @if (specie.commonName) {
+    <div
+      class="sf__results"
+      [ngClass]="{'sf__results-hidden': results.length === 0 || resultsHidden }"
+    >
+      @for (specie of results; track specie.name) {
+        <div
+          class="sf__item"
+          (click)="selectSpecie(specie.id, specie.name)"
+        >
+          <div class="sf__itemtext">
             <div
-              class="sf__subtitle"
-              [innerHtml]="specie.name | highlight:currentSearch"
+              class="sf__title"
+              [innerHtml]="(specie.commonName ? specie.commonName : specie.name) | highlight:currentSearch"
             >
             </div>
-          }
+
+            @if (specie.commonName) {
+              <div
+                class="sf__subtitle"
+                [innerHtml]="specie.name | highlight:currentSearch"
+              >
+              </div>
+            }
+          </div>
         </div>
-      </div>
-    }
-  </div>
+      }
+    </div>
   }
   
 </div>
