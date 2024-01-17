@@ -9,10 +9,11 @@
           ? color
           : theme === 'dark'
             ? 'white'
-            : 'black'
+            : 'black',
+      visibility: hidden ? 'hidden' : 'visible'
     }"
   ></i>
-  <span [ngClass]="{'cbx--clickable': click.observed }">
+  <span [ngClass]="{ 'cbx--clickable': click.observed }">
     <ng-content />
   </span>
 }

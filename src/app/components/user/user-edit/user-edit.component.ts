@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
-import { catchError, EMPTY, skipWhile } from 'rxjs';
+import { catchError, EMPTY, skipWhile, switchMap } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
@@ -27,6 +27,7 @@ import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
 import { ImagePathService } from '@services/image-path.service';
 import { User } from '@models/user.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -47,6 +48,7 @@ import { User } from '@models/user.model';
 export class UserEditComponent {
   userForm: FormGroup;
   removeAvatar: boolean = false;
+  currentAvatar?: string | null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -68,10 +70,16 @@ export class UserEditComponent {
   }
 
   ngOnInit(): void {
-    this.auth.checked$.pipe(skipWhile((val) => val === false)).subscribe(() => {
-      const user = this.auth.getUser();
-
+    this.auth.checked$.pipe(
+      skipWhile((val) => val === false),
+      switchMap(() => this.auth.user$)
+    ).subscribe((user: User | null) => {
       if (user) {
+
+        if (user.avatar) {
+          this.currentAvatar = this.imagePath.get(user.avatar, 'thumb');
+        }
+
         this.userForm.patchValue({
           username: user.username,
           firstname: user.firstname,

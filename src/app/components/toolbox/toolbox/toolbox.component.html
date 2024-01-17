@@ -1,4 +1,4 @@
-<div class="toolbox">
+<article class="toolbox">
   <div class="toolbox__divider">
     <div class="toolbox__title">
       @if (title) {
@@ -9,11 +9,13 @@
       }
     </div>
     @if (buttons) {
-      <div class="toolbox__buttons">
+      <ul class="toolbox__buttons">
         @for (button of buttons; track button.name) {
-          <ng-template [ngTemplateOutlet]="button.buttonTemplate" />
+          <li>
+            <ng-template [ngTemplateOutlet]="button.buttonTemplate" />
+          </li>
         }
-      </div>
+      </ul>
     }
   </div>
-</div>
+</article>

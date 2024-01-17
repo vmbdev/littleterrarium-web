@@ -1,21 +1,22 @@
-@use 'src/styles/theming.scss' as t;
+@use 'themify.scss' as t;
 
 .breadcrumb {
-  margin-left: 1rem;
+  margin-left: 0.3rem;
   margin-bottom: 1em;
   display: flex;
   flex-direction: row;
   align-items: center;
 
   .breadcrumb__link {
+    display: block;
     margin-left: 0.3rem;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
-    a {
-      text-decoration: none;
-
-      @include t.themify {
-        color: t.theme(link_color);
-      }
+    @include t.themify {
+      color: t.theme(link_color);
     }
   }
 }

@@ -1,17 +1,17 @@
-<div class="widget-box">
+<article class="widget-box">
   <div 
     class="widget-box__image"
     [ngStyle]="{ 'background-image': image ? 'url(' + image + ')' : 'none' }"
-    [ngClass]="{ 'widget-box__image-center': center === true }">
+    [ngClass]="{ 'widget-box__image--center': center === true }">
   </div>
 
-  <div class="widget-box__content">
+  <section class="widget-box__content">
+    @if (title) {
+      <h1 class="widget-box__title">{{ title }}</h1>
+    }
     <div class="widget-box__content-top">
-      @if (title) {
-        <h1 class="widget-box__title">{{ title }}</h1>
-      }
       <ng-content />
     </div>
     <ng-content  select="[bottom]" />
-  </div>
-</div>
+  </section>
+</article>

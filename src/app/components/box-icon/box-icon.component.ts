@@ -38,6 +38,7 @@ export class BoxIconComponent {
   @Input({ transform: booleanAttribute }) hover: boolean = false;
   @Input({ transform: booleanAttribute }) fixedWidth: boolean = false;
   @Input({ transform: booleanAttribute }) disabled: boolean = false;
+  @Input({ transform: booleanAttribute }) hidden: boolean = false;
   @Input({ transform: booleanAttribute }) infoProperty: boolean = false;
   @Output() click: EventEmitter<void> = new EventEmitter();
 
@@ -93,7 +94,7 @@ export class BoxIconComponent {
   }
 
   handleClick(event: Event): void {
-    event.stopPropagation();
+    if (this.click.observed) event.stopPropagation();
 
     if (!this.disabled) this.click.emit();
   }

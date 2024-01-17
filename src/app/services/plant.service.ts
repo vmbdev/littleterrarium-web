@@ -9,7 +9,7 @@ import {
 import { AuthService } from '@services/auth.service';
 import { ImagePathService } from '@services/image-path.service';
 import { Photo } from '@models/photo.model';
-import { Plant } from '@models/plant.model';
+import { Condition, Plant } from '@models/plant.model';
 
 @Injectable({
   providedIn: 'root',
@@ -146,7 +146,7 @@ export class PlantService {
     return this.plant.getValue();
   }
 
-  coverPhoto(plant?: Plant): string {
+  coverPhoto(plant?: Plant): string | null {
     let workingPlant;
 
     if (!plant) workingPlant = this.plant.getValue();
@@ -163,9 +163,33 @@ export class PlantService {
         workingPlant.photos[0].images
       ) {
         image = this.imagePath.get(workingPlant.photos[0].images, 'thumb');
-      } else image = 'assets/nopic.png';
+      } else image = null;
 
       return image;
-    } else return 'assets/nopic.png';
+    } else return null;
+  }
+
+  getConditionColor(condition: Condition | null): string {
+    let color: string;
+
+    switch (condition) {
+      case 'BAD':
+        color = 'red';
+        break;
+      case 'POOR':
+        color = 'yellow';
+        break;
+      case 'GREAT':
+        color = 'greenyellow';
+        break;
+      case 'EXCELLENT':
+        color = 'green';
+        break;
+      default:
+        color = 'grey';
+        break;
+    }
+
+    return color;
   }
 }

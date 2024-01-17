@@ -1,4 +1,4 @@
-<div class="sf">
+<article class="sf">
   <div class="sf__searchbox form__textinput">
     <input
       (focus)="showResults()"
@@ -20,7 +20,7 @@
       [ngClass]="{'sf__results-hidden': results.length === 0 || resultsHidden }"
     >
       @for (specie of results; track specie.name) {
-        <div
+        <article
           class="sf__item"
           (click)="selectSpecie(specie.id, specie.name)"
         >
@@ -39,9 +39,9 @@
               </div>
             }
           </div>
-        </div>
+        </article>
       }
     </div>
   }
   
-</div>
+</article>

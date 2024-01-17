@@ -1,6 +1,6 @@
-@use 'src/styles/form.scss';
-@use 'src/styles/theming.scss' as t;
-@use 'src/styles/media.scss' as m;
+@use 'form.scss';
+@use 'themify.scss' as t;
+@use 'media.scss' as m;
 
 $width: 30vw;
 

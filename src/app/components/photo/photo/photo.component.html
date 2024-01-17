@@ -1,5 +1,5 @@
 @if (photoService.photo$ | async; as photo) {
-  <div class="photo">
+  <article class="photo">
     @if (enablePhotoEditing) {
       <lt-quick-modal (close)="enablePhotoEditing = false" title="Edit photo">
         <lt-photo-edit (updated)="enablePhotoEditing = false" />
@@ -30,9 +30,8 @@
 
     </lt-info-box>
 
-  <!-- TODO: make the navigation buttons occupy the whole height -->
     <div class="photo__imagebox">
-      <lt-navigation
+      <lt-content-navigator
         [previousLink]="
           navigation.prev ? ['/photo', navigation.prev.id] : undefined
         "
@@ -41,13 +40,13 @@
         "
       >
         <div class="photo__image">
-          <a [href]="imagePath.get(photo.images, 'full')" target="_blank">
-            <img [src]="imagePath.get(photo.images, 'mid')">
+          <a [href]="imageFull" target="_blank">
+            <img [src]="imageMid">
           </a>
         </div>
-      </lt-navigation>
+      </lt-content-navigator>
     </div>
-  </div>
+  </article>
 }
 
 <ng-template #deleteModal>

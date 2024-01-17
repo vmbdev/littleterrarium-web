@@ -11,7 +11,7 @@ import {
 import { SortColumn, SortOption, SortOrder } from '@models/sort-options.model';
 import { PlantService } from '@services/plant.service';
 import { LocationService } from '@services/location.service';
-import { PlantGetConfig } from '@services/api.service';
+import { DataCount, PlantGetConfig } from '@services/api.service';
 import { PictureItem } from '@models/picture-item.model';
 import { Plant } from '@models/plant.model';
 import { User } from '@models/user.model';
@@ -38,13 +38,16 @@ export class PlantListComponent {
 
   cursor?: number;
   lastCursor?: number;
+  loadedPlants: number = 0;
 
   filter?: string;
   pictureList: PictureItem[] = [];
 
+  locationPlantCount$?: Observable<DataCount>;
+
   constructor(
-    private plantService: PlantService,
-    private locationService: LocationService
+    private readonly plantService: PlantService,
+    public readonly locationService: LocationService
   ) {
     const storedOrder = localStorage.getItem('LT_plantListOrder');
 
@@ -63,16 +66,23 @@ export class PlantListComponent {
     if (this.list) {
       this.pictureList = this.createPictureListFromPlants(this.list);
     } else this.changeSorting({ column: this.column, order: this.order });
+
+    if (this.locationId) {
+      this.locationPlantCount$ =
+        this.locationService.countPlants(this.locationId);
+    }
   }
 
   fetchPlants(scroll: boolean = false): void {
     let obs$: Observable<Plant[]>;
     let options: PlantGetConfig = {
       cursor: scroll && this.cursor ? this.cursor : undefined,
-      filter: this.filter ? this.filter : '',
+      filter: this.filter ?? '',
       sort: this.column,
       order: this.order,
     };
+
+    if (!scroll) this.loadedPlants = 0;
 
     // in case of multiple bottom reached signals, we avoid asking twice
     if (this.cursor) this.lastCursor = this.cursor;
@@ -92,6 +102,7 @@ export class PlantListComponent {
     obs$.subscribe((plants: Plant[]) => {
       if (plants.length > 0) {
         this.cursor = plants[plants.length - 1].id;
+        this.loadedPlants += plants.length;
       }
 
       if (scroll) {
@@ -104,7 +115,7 @@ export class PlantListComponent {
   }
 
   createPictureListFromPlants(plants: Plant[]): PictureItem[] {
-    const pictures = [];
+    const pictures: PictureItem[] = [];
 
     for (const plant of plants) {
       if (!plant.visibleName) {
@@ -140,7 +151,6 @@ export class PlantListComponent {
     this.fetchPlants();
   }
 
-  // TODO: show total, show current count, don't show if nothing left
   loadMore(): void {
     if (this.cursor !== this.lastCursor) this.fetchPlants(true);
   }

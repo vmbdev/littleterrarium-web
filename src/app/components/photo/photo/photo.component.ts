@@ -3,7 +3,6 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
-import { DateTime } from 'luxon';
 
 import {
   QuickModalComponent
@@ -13,8 +12,8 @@ import {
   PhotoEditComponent
 } from '@components/photo/photo-edit/photo-edit.component';
 import {
-  NavigationComponent
-} from '@components/navigation/navigation.component';
+  ContentNavigatorComponent
+} from '@components/content-navigator/content-navigator.component';
 import {
   ToolboxComponent
 } from '@components/toolbox/toolbox/toolbox.component';
@@ -43,7 +42,7 @@ import { ModalService } from '@services/modal.service';
     ToolboxButtonComponent,
     QuickModalComponent,
     InfoBoxComponent,
-    NavigationComponent,
+    ContentNavigatorComponent,
     PropertyPublicComponent,
     BoxIconComponent,
   ],
@@ -54,13 +53,16 @@ export class PhotoComponent {
   enablePhotoEditing: boolean = false;
   navigation: NavigationData = {};
 
+  imageFull: string | null = null;
+  imageMid: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
     public photoService: PhotoService,
     private errorHandler: ErrorHandlerService,
-    public imagePath: ImagePathService,
+    private imagePath: ImagePathService,
     private modal: ModalService
   ) {}
 
@@ -92,15 +94,14 @@ export class PhotoComponent {
             return EMPTY;
           }),
           switchMap((photo: Photo) => {
-            const takenAt = DateTime.fromISO(
-              photo.takenAt as string
-            ).toLocaleString(DateTime.DATE_FULL);
+            this.imageFull = this.imagePath.get(photo.images, 'full');
+            this.imageMid = this.imagePath.get(photo.images, 'mid');
 
             this.breadcrumb.setNavigation(
               [
                 {
                   selector: 'photo',
-                  name: takenAt,
+                  name: $localize `:@@general.photo:Photo`,
                   link: ['/photo', this.id],
                 },
               ],

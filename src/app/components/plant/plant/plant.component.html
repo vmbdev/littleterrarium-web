@@ -1,97 +1,94 @@
 @if (plantService.plant$ | async; as plant) {
-  <ng-container>
-    @if (enableWaterEditing) {
-      <lt-quick-modal
-        (close)="enableWaterEditing = false"
-        title="Watering"
-        i18n-title="@@general.watering"
-      >
-        <lt-plant-edit-watering (updated)="enableWaterEditing = false" />
-      </lt-quick-modal>
-    }
+  @if (enableWaterEditing) {
+    <lt-quick-modal
+      (close)="enableWaterEditing = false"
+      title="Watering"
+      i18n-title="@@general.watering"
+    >
+      <lt-plant-edit-watering (updated)="enableWaterEditing = false" />
+    </lt-quick-modal>
+  }
 
-    @if (enableFertilizerEditing) {
-      <lt-quick-modal
-        (close)="enableFertilizerEditing = false"
-        title="Fertiliser"
-        i18n-title="@@general.fertilizer"
-      >
-        <lt-plant-edit-fertilizer
-          (updated)="enableFertilizerEditing = false"
-        />
-      </lt-quick-modal>
-    }
-
-    <div class="plant">
-      <lt-toolbox [title]="plantTitle" [subtitle]="plantSubtitle">
-        @if (this.plantService.owned) {
-          <lt-toolbox-button
-            name="droplet"
-            (click)="enableWaterEditing = true"
-          />
-          <lt-toolbox-button
-            name="pizza"
-            type="solid"
-            (click)="enableFertilizerEditing = true"
-          />
-          <lt-toolbox-button name="sushi" (click)="editSoil()" />
-          <lt-toolbox-button name="edit" (click)="edit()" />
-          <lt-toolbox-button name="trash" (click)="openDeleteModal()" />
-        }
-      </lt-toolbox>
-
-      <lt-info-box
-        i18n-title="@@plant.plantInformation"
-        title="Plant information"
-      >
-        @if (plant.description) {
-          <div class="plant__description">
-            {{ plant.description }}
-          </div>
-        }
-
-        <ng-container properties>
-          @if (plant.condition) {
-            <box-icon
-              name="heart-circle"
-              type="solid"
-              infoProperty="true"
-              [color]="conditionColor"
-            >
-              {{ plantCondition[plant.condition] }}
-            </box-icon>
-          }
-
-          <lt-property-public [public]="plant.public" />
-        </ng-container>
-      </lt-info-box>
-
-      <div class="plant__row">
-        @if (plant.waterFreq || plant.waterLast) {
-          <lt-plant-widget-water />
-        }
-
-        @if (plant.fertFreq || plant.fertLast || plant.fertType) {
-          <lt-plant-widget-fertilizer />
-        }
-
-        @if (plant.potSize || plant.potType || plant.soil) {
-          <lt-plant-widget-soil />
-        }
-      </div>
-
-      <div class="section-header">
-        <h2 i18n="@@plant.photoList">
-          Photos taken for {{ plant.visibleName }}
-        </h2>
-      </div>
-      <lt-photo-list
-        [owned]="this.plantService.owned"
-        [plantId]="this.id"
+  @if (enableFertilizerEditing) {
+    <lt-quick-modal
+      (close)="enableFertilizerEditing = false"
+      title="Fertiliser"
+      i18n-title="@@general.fertilizer"
+    >
+      <lt-plant-edit-fertilizer
+        (updated)="enableFertilizerEditing = false"
       />
+    </lt-quick-modal>
+  }
+
+  <div class="plant">
+    <lt-toolbox [title]="plantTitle" [subtitle]="plantSubtitle">
+      @if (this.plantService.owned) {
+        <lt-toolbox-button
+          name="droplet"
+          (click)="enableWaterEditing = true"
+        />
+        <lt-toolbox-button
+          name="pizza"
+          type="solid"
+          (click)="enableFertilizerEditing = true"
+        />
+        <lt-toolbox-button name="sushi" (click)="editSoil()" />
+        <lt-toolbox-button name="edit" (click)="edit()" />
+        <lt-toolbox-button name="trash" (click)="openDeleteModal()" />
+      }
+    </lt-toolbox>
+
+    <lt-info-box
+      i18n-title="@@plant.plantInformation"
+      title="Plant information"
+    >
+      @if (plant.description) {
+        <div class="plant__description">
+          {{ plant.description }}
+        </div>
+      }
+
+      <ng-container properties>
+        @if (plant.condition) {
+          <box-icon
+            name="heart-circle"
+            type="solid"
+            infoProperty="true"
+            [color]="conditionColor"
+          >
+            {{ plantCondition[plant.condition] }}
+          </box-icon>
+        }
+
+        <lt-property-public [public]="plant.public" />
+      </ng-container>
+    </lt-info-box>
+
+    <div class="plant__row">
+      @if (plant.waterFreq || plant.waterLast) {
+        <lt-plant-widget-water />
+      }
+
+      @if (plant.fertFreq || plant.fertLast || plant.fertType) {
+        <lt-plant-widget-fertilizer />
+      }
+
+      @if (plant.potSize || plant.potType || plant.soil) {
+        <lt-plant-widget-soil />
+      }
     </div>
 
-  </ng-container>
+    <section class="section-header">
+      <h2 i18n="@@plant.photoList">
+        Photos taken for {{ plant.visibleName }}
+      </h2>
+    </section>
+    <lt-photo-list
+      [owned]="this.plantService.owned"
+      [plantId]="this.id"
+    />
+  </div>
 }
 
 <ng-template #deleteModal>

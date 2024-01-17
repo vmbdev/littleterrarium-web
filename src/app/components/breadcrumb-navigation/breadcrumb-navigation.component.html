@@ -4,7 +4,7 @@
 
       @if (router.url !== '/') {
         <div class="breadcrumb__link">
-          <a routerLink="/" i18n="@@mainnav.home">
+          <a routerLink="/">
             <box-icon name="home" size="sm" border="square" />
           </a>
         </div>
@@ -13,25 +13,23 @@
       @for (link of links; track link.name) {
         <box-icon name="chevron-right" size="md" />
 
-        @switch (link.selector) {
-          @case ('location') {
-            <box-icon name="window" size="sm" />
+        
+        <a [routerLink]="link.link" class="breadcrumb__link">
+          @switch (link.selector) {
+            @case ('location') {
+              <box-icon name="window" size="sm" fixedWidth="true" />
+            }
+            @case ('plant') {
+              <box-icon name="leaf" size="sm" fixedWidth="true" />
+            }
+            @case ('photo') {
+              <box-icon name="image-alt" size="sm" fixedWidth="true" />
+            }
           }
-          @case ('plant') {
-            <box-icon name="leaf" size="sm" />
-          }
-          @case ('photo') {
-            <box-icon name="image-alt" size="sm" />
-          }
-        }
-
-        <div class="breadcrumb__link">
-          <a [routerLink]="link.link">
-            {{ link.name }}
-          </a>
-        </div>
+          {{ link.name }}
+        </a>
       }
-      
+
     </nav>
   }
 }

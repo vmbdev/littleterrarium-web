@@ -1,6 +1,6 @@
-@use 'src/styles/form.scss';
-@use 'src/styles/theming.scss' as t;
-@use 'src/styles/media.scss' as m;
+@use 'form.scss';
+@use 'themify.scss' as t;
+@use 'media.scss' as m;
 
 .current-pic {
   display: flex;
@@ -10,23 +10,16 @@
 
   @include t.themify {
     border: 1px solid t.theme(main_text);
+    border-radius: 1rem;
   }
 
   &__title {
-    border-bottom: 1px solid black;
     margin-bottom: 0.5em;
   }
 
-  &__imgcontainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-  
   &__image {
     @include t.themify {
-      border: 3px solid t.theme(main_color);
+      border: 1px solid t.theme(main_text);
     }
     width: 12rem;
     height: auto;

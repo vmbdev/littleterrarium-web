@@ -58,6 +58,10 @@ export interface AngularLocales {
   default: string;
 }
 
+export interface DataCount {
+  count: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -194,6 +198,10 @@ export class ApiService {
 
   getLocationPlants(id: number, options?: PlantGetConfig): Observable<Plant[]> {
     return this.getPlants({ ...options, locationId: id });
+  }
+
+  countLocationPlants(id: number): Observable<DataCount> {
+    return this.http.get<DataCount>(this.endpoint(`locations/${id}/plants/count`));
   }
 
   /**

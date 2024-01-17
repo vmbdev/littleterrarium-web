@@ -1,19 +1,21 @@
-<form
-  #signinForm="ngForm"
-  (ngSubmit)="submit(signinForm)"
-  class="form"
-  novalidate
->
-  <div class="signin">
+<article class="signin">
+  <form
+    #signinForm="ngForm"
+    (ngSubmit)="submit(signinForm)"
+    class="form"
+    novalidate
+  >
     <div class="signin__container">
-      <div class="signin__center">
-        <h1 i18n="@@signin.homepageTitle">Welcome to Little Terrarium!</h1>
+      <section class="text-center">
+        <h1 class="signin__title" i18n="@@signin.homepageTitle">
+          Welcome to Little Terrarium!
+        </h1>
         <p i18n="@@signin.homepageMsg">
           We are really happy to have you here. Sign in or
-          <b class="signin__link" routerLink="/register">sign up</b> and
-          start taking care of your plants!
+          <b class="signin__link" routerLink="/register">sign up</b> and start
+          taking care of your plants!
         </p>
-      </div>
+      </section>
       <div class="form__textinput">
         <p i18n="@@signin.identification">Username or email</p>
         <input
@@ -22,8 +24,8 @@
           ngModel
           name="username"
           placeholder="PlantLover95"
-          [ngClass]="{ 'form__error': controls.usernameEmpty }"
-        >
+          [ngClass]="{ form__error: controls.usernameEmpty }"
+        />
       </div>
       <div class="form__textinput">
         <p i18n="@@general.password">Password</p>
@@ -33,13 +35,13 @@
           ngModel
           name="password"
           placeholder="Password"
-          [ngClass]="{ 'form__error': controls.passwordEmpty }"
+          [ngClass]="{ form__error: controls.passwordEmpty }"
           i18n-placeholder="@@general.password"
-        >
+        />
       </div>
 
       @if (authInvalid) {
-        <div class="signin__center form__errormsg">
+        <div class="text-center form__errormsg">
           <p i18n="@@signin.invalidCredentials">
             Sorry, the credentials are not valid.
           </p>
@@ -51,27 +53,23 @@
           Sign in
         </button>
       </div>
-      <div class="signin__center">
-        <p>
-          <span
-            class="signin__link"
-            routerLink="/register"
-            i18n="@@signin.createAccount"
-          >
-            Don't have an account? <b>Sign up!</b>
-          </span>
-        </p>
-        <p>
-          <span
-            class="signin__link"
-            routerLink="/user/recover"
-            i18n="@@signin.forgottenPassword"
-          >
-            Forgot your password?
-          </span>
-        </p>
 
+      <div class="text-center">
+        <a
+          class="signin__link"
+          routerLink="/register"
+          i18n="@@signin.createAccount"
+        >
+          Don't have an account? <b>Sign up!</b>
+        </a>
+        <a
+          class="signin__link"
+          routerLink="/user/recover"
+          i18n="@@signin.forgottenPassword"
+        >
+          Forgot your password?
+        </a>
       </div>
     </div>
-  </div>
-</form>
+  </form>
+</article>

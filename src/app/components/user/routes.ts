@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AuthGuard } from '@guards/auth.guard';
+import { SignedInGuard } from '@guards/signed-in.guard';
 
 export const USER_ROUTES: Route[] = [
   {
@@ -8,7 +8,7 @@ export const USER_ROUTES: Route[] = [
       import('./user-edit/user-edit.component').then(
         (m) => m.UserEditComponent
       ),
-    canActivate: [AuthGuard],
+    canActivate: [SignedInGuard],
   },
   {
     path: 'recover',

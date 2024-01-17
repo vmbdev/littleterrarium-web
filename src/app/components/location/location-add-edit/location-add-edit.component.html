@@ -48,9 +48,9 @@
         <p i18n="@@location-add-edit.ornot">Or, well, don't. Up to you.</p>
       </lt-wizard-page-description>
       <div>
-        @if (!createNew && location && location.pictures) {
+        @if (!createNew && location && locationPicture) {
           <lt-current-pic
-            [pic]="imagePath.get(location.pictures, 'thumb')"
+            [pic]="locationPicture"
             (toggleRemove)="toggleRemovePicture($event)"
           />
         }
@@ -73,19 +73,21 @@
         </p>
       </lt-wizard-page-description>
 
-      @for (option of lightOptions | keyvalue; let i = $index; track option.key) {
-        <div class="form__radio">
-          <input
-            type="radio"
-            formControlName="light" [id]="'light' + i"
-            [value]="option.key"
-          >
-          <label [for]="'light' + i">
-            <b>{{ locationService.getLightName(option.key) }}</b>:
-            {{ locationService.getLightVerbose(option.key) }}
-          </label>
-        </div>
-      }
+      <ul class="location-add-edit__lightoptions">
+        @for (option of lightOptions | keyvalue; let i = $index; track option.key) {
+          <li class="form__radio">
+            <input
+              type="radio"
+              formControlName="light" [id]="'light' + i"
+              [value]="option.key"
+            >
+            <label [for]="'light' + i">
+              <b>{{ locationService.getLightName(option.key) }}</b>:
+              {{ locationService.getLightVerbose(option.key) }}
+            </label>
+          </li>
+        }
+      </ul>
     </lt-wizard-page>
 
     <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">

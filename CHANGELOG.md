@@ -18,14 +18,22 @@ reinvented (into something more functional).
 with the navigation bar when visited on small devices.
 - New component BoxIcon, and a lot of (well, some) icons from BoxIcons
 replacing most of the (too much) colorful icons used previously.
+- Breadcrumb now shows nice icons, and doesn't overflow anymore.
 - Photo cover update is now updated in PhotoEdit, not in Photo.
-- Cleanup of theme related variables.
-- Cleanup of modal code into something more shareable and common.
 - Picture lists (used in locations, plants and photos) will now use a
 multi-column layout in small devices (rather than one huge column).
 - Also photos in PhotoList won't show the date below the icon anymore.
+- New layout for Sign In page.
+- Plant list "load more" button will now show how many plants are remaining and
+will hide when everything is loaded.
+- Content navigator (the prev/next buttons for photos) now occupies the whole
+space vertically, and it's easier to click.
+- Improved markup semantics.
+- Cleanup of theme related variables.
+- Cleanup of modal code into something more shareable and common.
 - Cleanup of many observables in services.
 - Updated translations.
+- Reduced function calls from templates.
 
 ## [1.0.7] - 2023-12-19
 

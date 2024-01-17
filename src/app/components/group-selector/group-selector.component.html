@@ -1,0 +1,21 @@
+<ul class="gs" [ngStyle]="{ 'grid-template-columns': 'repeat(' + columns + ', 1fr)' }">
+  @for (option of group; track option.id) {
+    <li
+      class="gs__option"
+      (click)="selectPot(option.id)"
+      [ngClass]="{ 'gs__option--selected': selectedOption === option.id }"
+    >
+    @if (assetType === 'image') {
+      <img [src]="option.asset">
+    } @else {
+      <box-icon
+        [name]="option.asset"
+        size="lg"
+        type="solid"
+        [color]="option.color"
+      />
+    }
+      <p>{{ option.name }}</p>
+    </li>
+  }
+</ul>

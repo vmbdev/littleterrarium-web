@@ -90,20 +90,13 @@
             Let's keep track of its health, would you?
           </p>
         </lt-wizard-page-description>
-        <div class="plantedit__conditions">
-
-          @for (cond of plantConditions | keyvalue: noSort; track cond.key) {
-            <div class="form__radio">
-              <input
-                type="radio"
-                formControlName="condition" [id]="'cond' + cond.key"
-                [value]="cond.key"
-              >
-              <label [for]="'cond' + cond.key">{{ cond.value }}</label>
-            </div>
-          }
-
-        </div>
+          <lt-group-selector
+            [group]="conditions"
+            [default]="defaultCondition"
+            assetType="icon"
+            columns="5"
+            (change)="handleChange($event)"
+          />
       </lt-wizard-page>
 
       <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">

@@ -11,17 +11,27 @@ import {
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 
-import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
-import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
-import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import {
+  FileUploaderComponent
+} from '@components/file-uploader/file-uploader.component';
+import {
+  WizardHeaderComponent
+} from '@components/wizard/wizard-header/wizard-header.component';
+import {
+  WizardPageDescriptionComponent
+} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import {
+  WizardPageComponent
+} from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
+import {
+  CurrentPicComponent
+} from '@components/current-pic/current-pic.component';
 import { Location, Light } from '@models/location.model';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ImagePathService } from '@services/image-path.service';
 import { LocationService } from '@services/location.service';
-import { CurrentPicComponent } from '@components/current-pic/current-pic.component';
 
 @Component({
   standalone: true,
@@ -44,6 +54,7 @@ export class LocationAddEditComponent {
   lightOptions = Light;
   locationForm: FormGroup;
   location?: Location;
+  locationPicture?: string | null;
   id?: number;
   createNew: boolean = false;
   created: boolean = false;
@@ -75,7 +86,7 @@ export class LocationAddEditComponent {
     // editing
     if (!this.createNew && +paramId) {
       this.id = +paramId;
-
+      
       this.locationService
         .get(this.id)
         .pipe(
@@ -89,6 +100,10 @@ export class LocationAddEditComponent {
         )
         .subscribe((location: Location) => {
           this.location = location;
+
+          if (location.pictures) {
+            this.locationPicture = this.imagePath.get(location.pictures, 'thumb');
+          }
 
           Object.keys(this.locationForm.value).forEach((key) => {
             this.locationForm.controls[key].setValue(

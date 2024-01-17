@@ -1,5 +1,5 @@
 @use 'variables.scss' as var;
-@use 'theming.scss' as t;
+@use 'themify.scss' as t;
 @use 'media.scss' as m;
 
 .picturebox-wrapper {
@@ -12,7 +12,7 @@
 .picturebox {
   background-size: cover;
   background-position: center;
-  background-color: grey;
+  background-color: lightgrey;
   height: var.$pictureBoxSize;
   width: var.$pictureBoxSize;
 

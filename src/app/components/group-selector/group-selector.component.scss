@@ -1,0 +1,38 @@
+@use 'themify.scss' as t;
+@use 'media.scss' as m;
+
+.gs {
+  display: grid;
+  gap: 0.6rem;
+  text-align: center;
+  width: 100%;
+
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+
+  &__option {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+
+    img {
+      max-width: 100%;
+    }
+
+    &--selected {
+      box-sizing: border-box;
+      border: 1px solid black;
+
+      @include t.themify {
+        background-color: t.theme(secondary_color);
+      }
+    }
+  }
+}
+
+@include m.media('mobile') {
+  .gs {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}

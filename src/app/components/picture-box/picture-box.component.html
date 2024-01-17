@@ -1,14 +1,14 @@
 <a class="picturebox-wrapper" [routerLink]="link">
 
   @if (add) {
-    <div class="picturebox">
+    <article class="picturebox">
       <div class="picturebox__content picturebox__black">
         <div class="picturebox__add">+</div>
         <ng-container *ngTemplateOutlet="content" />
       </div>
-    </div>
+    </article>
   } @else {
-    <div
+    <article
       class="picturebox"
       [ngStyle]="{ 'background-image': image ? 'url(' + image + ')' : null }"
     >
@@ -17,7 +17,7 @@
           <ng-container *ngTemplateOutlet="content" />
         </div>
       }
-    </div>
+    </article>
 
     @if (contentBelow) {
       <div class="picturebox__contentbelow">

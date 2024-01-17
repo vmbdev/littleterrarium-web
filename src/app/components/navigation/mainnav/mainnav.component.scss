@@ -1,0 +1,87 @@
+@use 'themify.scss' as t;
+@use 'media.scss' as m;
+
+@mixin small-devices {
+  .mainnav {
+    flex-direction: column;
+    border-bottom: 1px solid #c3c3c3;
+
+    &__hamburger {
+      display: block;
+      margin-right: 1.4rem;
+    }
+
+    &__brand {
+      flex: 1;
+    }
+
+    &__left, &__right {
+      gap: 1.4rem;
+    }
+
+    &__right {
+      flex-direction: column;
+
+      &:last-child {
+        padding-bottom: 1.4rem;
+      }
+    }
+
+    &__hidden {
+      display: none;
+    }
+  }
+}
+
+.mainnav {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  width: 100%;
+
+  &__hamburger {
+    display: none;
+  }
+
+  &__left, &__right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2.4rem;
+
+  }
+  &__list {
+    display: contents;
+    list-style: none;
+    margin-block: 0;
+    padding-inline-start: 0;
+  }
+
+  &__left {
+    flex: 1;
+    margin-left: 1rem;
+  }
+
+  &__right {
+    margin-right: 1rem;
+  }
+
+  &__brand {
+    img {
+      height: 5rem;
+    }
+  }
+
+  // this class shouldn't have any effect on full view
+  &__hidden {
+    display: flex;
+  }
+}
+
+@include m.media('mobile') {
+  @include small-devices();
+}
+
+@include m.media('tablet') {
+  @include small-devices();
+}

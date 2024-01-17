@@ -1,0 +1,30 @@
+@use 'themify.scss' as t;
+@use 'variables.scss' as v;
+
+.userbox {
+  cursor: pointer;
+
+  &__user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+  }
+
+  &__avatar {
+    width: v.$headerItemSize;
+    height: v.$headerItemSize;
+    background-size: contain;
+    border: 1px solid black;
+    border-radius: 100%;
+  }
+
+  &__link {
+    font-weight: 700;
+
+    @include t.themify {
+      color: t.theme(nav_link_color);
+    }
+  }
+}

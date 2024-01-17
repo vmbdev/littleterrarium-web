@@ -1,5 +1,5 @@
 @use 'media.scss' as m;
-@use 'theming.scss' as t;
+@use 'themify.scss' as t;
 
 .toolbox {
   margin: 0.7rem;
@@ -41,6 +41,10 @@
     justify-content: flex-end;
     align-items: center;
     gap: 0.7rem;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   @include m.media('mobile') {

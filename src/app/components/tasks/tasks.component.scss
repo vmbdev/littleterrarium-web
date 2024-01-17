@@ -1,4 +1,4 @@
-@use 'src/styles/theming.scss' as t;
+@use 'themify.scss' as t;
 
 .tasks {
   width: 100%;
@@ -8,9 +8,12 @@
     flex-direction: column;
     width: 100%;
     align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
-  &__plant {
+  &__item {
     display: flex;
     flex-direction: row;
     align-items: center;

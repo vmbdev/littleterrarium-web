@@ -15,18 +15,14 @@
         <p i18n="@@plant-edit-soil.material">
           What kind of <b>material</b> is your plant sitting on?
         </p>
-        <div class="pot-selector">
-          @for (pot of pots; track pot.id) {
-            <div
-              class="pot-selector__material"
-              (click)="selectPot(pot.id)"
-              [ngClass]="{ 'pot-selector__material-selected': selectedPot === pot.id }"
-            >
-              <img [src]="pot.image">
-              <p>{{ pot.name }}</p>
-            </div>
-          }
-        </div>
+
+        <lt-group-selector
+          [group]="pots"
+          [default]="defaultPot"
+          assetType="image"
+          (change)="handleChange($event)"
+        />
+        
       </lt-wizard-page>
 
       <lt-wizard-page title="Pot size" i18n-title="@@general.potSize">

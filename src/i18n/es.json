@@ -38,7 +38,7 @@
     "general.irreversible": "Está acción no se puede deshacer.",
     "general.lastTime": "Última vez:",
     "general.light": "Luz",
-    "general.loadMore": "Cargar más",
+    "general.loadMore": "Cargar más ({$INTERPOLATION} restantes)",
     "general.location": "Lugar",
     "general.locations": "Lugares",
     "general.logout": "Salir",

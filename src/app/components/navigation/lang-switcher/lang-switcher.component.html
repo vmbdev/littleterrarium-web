@@ -1,0 +1,20 @@
+@if (localeList) {
+  <article class="ls">
+    <div class="ls__icon">
+      <box-icon
+        name="globe"
+        size="md"
+        animation="tada"
+        hover="true"
+        (click)="toggleList()"
+      />
+    </div>
+    <lt-floating-list [visible]="listVisible">
+      @for (locale of localeList.locales; track locale) {
+        <lt-mainnav-item (click)="changeLocale(locale)">
+          <span>{{ getLanguageName(locale) | capitalize }}</span>
+        </lt-mainnav-item>
+      }
+    </lt-floating-list>
+  </article>
+}

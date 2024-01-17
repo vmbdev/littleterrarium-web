@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject } from 'rxjs';
 
 import {
@@ -22,38 +23,38 @@ import { User } from '@models/user.model';
 })
 export class TerrariumComponent {
   user$ = new BehaviorSubject<User | null>(null);
+  imageThumb: string | null = null;
+  fullName: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private api: ApiService,
     private imagePath: ImagePathService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     const username = this.route.snapshot.paramMap.get('username');
 
     if (username) {
-      this.api.getUserByName(username).subscribe(this.user$);
+      this.api.getUserByName(username)
+      .pipe(takeUntilDestroyed())
+      .subscribe((user: User | null) => {
+        if (user) {
+          this.user$.next(user);
+          this.imageThumb = this.getUserAvatar(user);
+          this.fullName = this.getFullName(user);
+        }
+      });
     }
   }
 
-  getUserAvatar(): string | null {
-    const user = this.user$.getValue();
-
-    if (user) {
-      return user.avatar
-        ? this.imagePath.get(user.avatar, 'thumb')
-        : 'assets/user.png';
-    } else return null;
+  getUserAvatar(user: User): string | null {
+    return user.avatar
+      ? this.imagePath.get(user.avatar, 'thumb')
+      : null;
   }
 
-  getFullName(): string | null {
-    const user = this.user$.getValue();
+  getFullName(user: User): string {
+    const firstname = user.firstname ? user.firstname + ' ' : '';
 
-    if (user) {
-      const firstname = user.firstname ? user.firstname + ' ' : '';
-
-      return `${firstname}${user.lastname}`;
-    } else return null;
+    return `${firstname}${user.lastname}`;
   }
 }

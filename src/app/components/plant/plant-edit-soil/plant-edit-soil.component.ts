@@ -18,6 +18,10 @@ import {
   WizardPageComponent
 } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
+import {
+  GroupSelectorData,
+  GroupSelectorComponent
+} from '@components/group-selector/group-selector.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
 import { Plant, potChoices } from '@models/plant.model';
@@ -32,6 +36,7 @@ import { Plant, potChoices } from '@models/plant.model';
     WizardPageComponent,
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
+    GroupSelectorComponent,
   ],
   templateUrl: './plant-edit-soil.component.html',
   styleUrls: ['./plant-edit-soil.component.scss'],
@@ -39,8 +44,9 @@ import { Plant, potChoices } from '@models/plant.model';
 export class PlantEditSoilComponent {
   id!: number;
   potForm: FormGroup;
-  selectedPot: string | null = null;
-  pots: any[] = [];
+
+  defaultPot: string | null = null;
+  pots: GroupSelectorData<string>[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -55,6 +61,8 @@ export class PlantEditSoilComponent {
       potType: [],
       soil: [],
     });
+
+    this.pots = this.getPots();
   }
 
   ngOnInit(): void {
@@ -63,9 +71,7 @@ export class PlantEditSoilComponent {
     if (this.id) {
       this.plantService.get(this.id).subscribe({
         next: (plant: Plant) => {
-          this.pots = this.getPots();
-          this.selectPot(plant.potType);
-
+          this.defaultPot = plant.potType;
           this.potForm.patchValue({
             potSize: plant.potSize,
             soil: plant.soil,
@@ -80,20 +86,18 @@ export class PlantEditSoilComponent {
     }
   }
 
-  selectPot(id: any): void {
-    // deselect
-    if (id === this.selectedPot) this.selectedPot = null;
-    else this.selectedPot = id;
-
+  handleChange(id: any): void {
     this.potForm.patchValue({
-      potType: this.selectedPot,
+      potType: id,
     });
   }
 
-  getPots(): any[] {
-    return Object.keys(potChoices).map((key) => {
-      return { id: key, ...potChoices[key] };
-    });
+  getPots(): GroupSelectorData<string>[] {
+    return Object.keys(potChoices).map((key) => ({
+      id: key,
+      asset: potChoices[key].image,
+      name: potChoices[key].name,
+    }));
   }
 
   submit(): void {

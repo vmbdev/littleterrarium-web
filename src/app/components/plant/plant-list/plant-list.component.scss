@@ -5,5 +5,10 @@
     display: flex;
     justify-content: center;
     width: 100%;
+
+    & > button {
+      width: 12rem;
+      height: 2.6rem;
+    }
   }
 }

@@ -38,7 +38,7 @@
     "general.irreversible": "This action is irreversible.",
     "general.lastTime": "Last time:",
     "general.light": "Light",
-    "general.loadMore": "Load more",
+    "general.loadMore": "Load more ({$INTERPOLATION} left)",
     "general.location": "Location",
     "general.locations": "Locations",
     "general.logout": "Log out",

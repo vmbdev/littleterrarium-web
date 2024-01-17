@@ -62,9 +62,9 @@
           </p>
         </lt-wizard-page-description>
 
-        @if ((auth.user$ | async)?.avatar; as avatar) {
+        @if (currentAvatar) {
           <lt-current-pic
-            [pic]="imagePath.get(avatar, 'thumb')"
+            [pic]="currentAvatar"
             (toggleRemove)="toggleRemoveAvatar($event)"
           />
         }

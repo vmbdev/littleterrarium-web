@@ -59,7 +59,7 @@ export class PlantComponent {
   enableFertilizerEditing: boolean = false;
   enableEditing: boolean = false;
 
-  public conditionColor?: string;
+  conditionColor?: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -99,7 +99,8 @@ export class PlantComponent {
       )
       .subscribe((plant: Plant) => {
         this.plantVisibility = plant.public;
-        this.conditionColor = this.getConditionColor(plant.condition);
+        this.conditionColor =
+          this.plantService.getConditionColor(plant.condition);
 
         // if customName and/or specie exists, we use it for title and subtitle
         // otherwise we use the plant visibleName
@@ -150,29 +151,5 @@ export class PlantComponent {
     const name = this.plantVisibility ? 'public' : 'private';
 
     return `assets/visibility-${name}.png`;
-  }
-
-  getConditionColor(condition: Condition | null): string {
-    let color: string;
-
-    switch (condition) {
-      case 'BAD':
-        color = 'red';
-        break;
-      case 'POOR':
-        color = 'yellow';
-        break;
-      case 'GREAT':
-        color = 'greenyellow';
-        break;
-      case 'EXCELLENT':
-        color = 'green';
-        break;
-      default:
-        color = 'grey';
-        break;
-    }
-
-    return color;
   }
 }

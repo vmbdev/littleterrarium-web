@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   preserveWhitespaces: true,
 })
 export class PictureBoxComponent {
-  @Input() image: string | null = null;
+  @Input() image?: string | null;
   @Input({ transform: booleanAttribute }) contentBelow: boolean = false;
   @Input({ transform: booleanAttribute }) add: boolean = false;
   @Input() link?: string | any[];

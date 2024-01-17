@@ -1,7 +1,7 @@
 <ng-template #pageTemplate>
-  <div class="page">
+  <section class="page">
     @if (title) {
-      <div class="page__title">{{ title }}</div>
+      <h1 class="page__title">{{ title }}</h1>
     }
 
     @if (description) {
@@ -11,5 +11,5 @@
     <div class="page__content">
       <ng-content />
     </div>
-  </div>
+  </section>
 </ng-template>

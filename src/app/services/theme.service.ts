@@ -10,7 +10,7 @@ import {
 })
 export class ThemeService {
   theme$: BehaviorSubject<string>;
-  availableThemes: string[];
+  availableThemes: string[] = configAvailableThemes;
 
   /**
    * Defines the theme to use.
@@ -21,8 +21,6 @@ export class ThemeService {
   constructor() {
     let newTheme: string;
     const storedTheme = localStorage.getItem('LT_theme');
-
-    this.availableThemes = configAvailableThemes;
 
     if (storedTheme && this.availableThemes.includes(storedTheme)) {
       newTheme = storedTheme;

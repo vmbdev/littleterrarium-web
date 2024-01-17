@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import {
   ApiService,
+  DataCount,
   LocationGetConfig,
   LocationUpsertConfig,
   PlantGetConfig,
@@ -40,11 +41,11 @@ export class LocationService {
 
   get(id: number, options?: LocationGetConfig): Observable<Location> {
     this.location.next(null);
-
+    
     return this.api.getLocation(id, options).pipe(
       map((location: Location) => {
         this.owned = this.auth.getUser()?.id === location.ownerId;
-
+        
         this.location.next(location);
 
         return location;
@@ -66,6 +67,10 @@ export class LocationService {
         return plants;
       })
     );
+  }
+
+  countPlants(id: number): Observable<DataCount> {
+    return this.api.countLocationPlants(id);
   }
 
   update(

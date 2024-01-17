@@ -1,13 +1,16 @@
 @if (taskService.tasks$ | async; as tasks) {
   <div class="tasks">
-    <p i18n="@@tasks.msg">
-      According to your plant settings, these are the tasks left to do. Blue
-      drop, plant needs to drink; green spoon, plants need to eat!
-    </p>
+    <section class="section-header">
+      <h1 i18n="@@general.tasks">Tasks</h1>
+      <p i18n="@@tasks.msg">
+        According to your plant settings, these are the tasks left to do. Blue
+        drop, plant needs to drink; green spoon, plants need to eat!
+      </p>
+    </section>
 
-    <div class="tasks__list">
+    <ul class="tasks__list">
       @for (task of tasks; track task) {
-        <div class="tasks__plant">
+        <li class="tasks__item">
           <img
             class="tasks__plantpic"
             [src]="plantService.coverPhoto(task)"
@@ -32,9 +35,9 @@
               (click)="openFertModal(task.id)"
             />
           </div>
-        </div>
+        </li>
       }
-    </div>
+    </ul>
   </div>
 } @else {
   <p i18n="@@tasks.noTasks">Hooray! Nothing left to do!</p>

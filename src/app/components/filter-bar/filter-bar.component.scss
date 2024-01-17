@@ -1,6 +1,6 @@
-@use 'src/styles/form.scss';
-@use 'src/styles/media.scss' as m;
-@use 'src/styles/theming.scss' as t;
+@use 'form.scss';
+@use 'media.scss' as m;
+@use 'themify.scss' as t;
 
 .filter-bar {
   display: flex;

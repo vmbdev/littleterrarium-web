@@ -30,10 +30,10 @@
 
     </lt-info-box>
 
-    <div class="section-header">
+    <section class="section-header">
       <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
-    </div>
-    <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id" />
+      <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id" />
+    </section>
   </div>
 }
 

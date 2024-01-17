@@ -1,4 +1,4 @@
-@use 'theming.scss' as t;
+@use 'themify.scss' as t;
 @use 'media.scss' as m;
 @use 'modal.scss' as modal;
 
@@ -14,11 +14,15 @@
 
   &__title {
     position: relative;
-    font-size: 1.3rem;
-    font-weight: 600;
     padding: 0.7rem;
     box-sizing: border-box;
     border-bottom: 0;
+
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+    }
 
     @include t.themify {
       background-color: t.theme(main_color);

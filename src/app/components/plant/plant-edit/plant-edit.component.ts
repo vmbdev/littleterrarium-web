@@ -22,6 +22,10 @@ import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
   SpecieFinderComponent
 } from '@components/specie-finder/specie-finder.component';
+import {
+  GroupSelectorData,
+  GroupSelectorComponent
+} from '@components/group-selector/group-selector.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ApiService } from '@services/api.service';
 import { PlantService } from '@services/plant.service';
@@ -39,6 +43,7 @@ import { Plant, Condition } from '@models/plant.model';
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
     SpecieFinderComponent,
+    GroupSelectorComponent,
   ],
   templateUrl: './plant-edit.component.html',
   styleUrls: ['./plant-edit.component.scss'],
@@ -47,8 +52,11 @@ export class PlantEditComponent {
   id!: number;
   locations$: Observable<Location[]>;
   plantForm: FormGroup;
-  plantConditions = Condition;
+  plantCondition = Condition;
   removeSpecie: boolean = false;
+
+  conditions: GroupSelectorData<string>[] = [];
+  defaultCondition?: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -68,6 +76,7 @@ export class PlantEditComponent {
     });
 
     this.locations$ = this.api.getLocationList();
+    this.conditions = this.getConditions();
   }
 
   ngOnInit(): void {
@@ -80,6 +89,8 @@ export class PlantEditComponent {
 
       this.plantService.get(this.id).subscribe({
         next: (plant: Plant) => {
+          this.defaultCondition = plant.condition;
+
           this.plantForm.patchValue({
             customName: plant.customName,
             specieId: plant.specieId,
@@ -104,6 +115,21 @@ export class PlantEditComponent {
     this.plantForm.patchValue({
       specieId: id,
     });
+  }
+
+  handleChange(id: string): void {
+    this.plantForm.patchValue({
+      condition: id,
+    });
+  }
+
+  getConditions(): GroupSelectorData<string>[] {
+    return Object.keys(this.plantCondition).map((key) => ({
+      id: key,
+      asset: 'heart-circle',
+      color: this.plantService.getConditionColor(key),
+      name: this.plantCondition[key],
+    }));
   }
 
   submit(): void {

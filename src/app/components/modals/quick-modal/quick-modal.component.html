@@ -1,13 +1,14 @@
 <div class="base-modal">
-  <div class="quick-modal">
-    <div class="quick-modal__title">
-      {{ title }}
+  <article class="quick-modal">
+    <header class="quick-modal__title">
+      <h1>{{ title }}</h1>
       <lt-close-button (close)="onClose()" />
-    </div>
+    </header>
+
     <div class="quick-modal__container">
-      <div class="quick-modal__content">
+      <article class="quick-modal__content">
         <ng-content />
-      </div>
+      </article>
     </div>
-  </div>
+  </article>
 </div>

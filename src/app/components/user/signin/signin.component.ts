@@ -20,7 +20,7 @@ export class SigninComponent {
     passwordEmpty: false,
   };
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(public auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.auth.signedIn$.subscribe((val: boolean) => {
