@@ -15,7 +15,14 @@ import { UnitPipe } from '@pipes/unit/unit.pipe';
   templateUrl: './plant-widget-soil.component.html',
 })
 export class PlantWidgetSoilComponent {
-  constructor(public plantService: PlantService) {}
+  potName?: string;
+
+  constructor(public plantService: PlantService) {
+  }
+  
+  ngOnInit(): void {
+    this.potName = this.getPotName();
+  }
 
   getPotName(): string {
     let potName;

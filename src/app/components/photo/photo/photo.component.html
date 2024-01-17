@@ -40,8 +40,8 @@
         "
       >
         <div class="photo__image">
-          <a [href]="imageFull" target="_blank">
-            <img [src]="imageMid">
+          <a [href]="photo.images | imagePath:'full'" target="_blank">
+            <img [src]="photo.images | imagePath:'mid'">
           </a>
         </div>
       </lt-content-navigator>

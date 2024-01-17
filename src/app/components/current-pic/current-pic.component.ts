@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './current-pic.component.scss',
 })
 export class CurrentPicComponent {
-  @Input({ required: true }) pic!: string;
+  @Input({ required: true }) pic: string | null = null;
   @Output() toggleRemove = new EventEmitter<boolean>(false);
 
   toggle(event: Event): void {

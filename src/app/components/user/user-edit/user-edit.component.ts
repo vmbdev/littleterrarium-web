@@ -27,7 +27,6 @@ import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
 import { ImagePathService } from '@services/image-path.service';
 import { User } from '@models/user.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,

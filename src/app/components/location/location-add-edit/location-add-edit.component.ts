@@ -30,8 +30,8 @@ import {
 import { Location, Light } from '@models/location.model';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { BreadcrumbService } from '@services/breadcrumb.service';
-import { ImagePathService } from '@services/image-path.service';
 import { LocationService } from '@services/location.service';
+import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
 
 @Component({
   standalone: true,
@@ -46,6 +46,7 @@ import { LocationService } from '@services/location.service';
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
     CurrentPicComponent,
+    ImagePathPipe,
   ],
   templateUrl: './location-add-edit.component.html',
   styleUrls: ['./location-add-edit.component.scss'],
@@ -54,7 +55,6 @@ export class LocationAddEditComponent {
   lightOptions = Light;
   locationForm: FormGroup;
   location?: Location;
-  locationPicture?: string | null;
   id?: number;
   createNew: boolean = false;
   created: boolean = false;
@@ -69,7 +69,6 @@ export class LocationAddEditComponent {
     public readonly locationService: LocationService,
     private readonly breadcrumb: BreadcrumbService,
     private readonly errorHandler: ErrorHandlerService,
-    public readonly imagePath: ImagePathService
   ) {
     this.locationForm = this.fb.group({
       name: ['', Validators.required],
@@ -100,10 +99,6 @@ export class LocationAddEditComponent {
         )
         .subscribe((location: Location) => {
           this.location = location;
-
-          if (location.pictures) {
-            this.locationPicture = this.imagePath.get(location.pictures, 'thumb');
-          }
 
           Object.keys(this.locationForm.value).forEach((key) => {
             this.locationForm.controls[key].setValue(

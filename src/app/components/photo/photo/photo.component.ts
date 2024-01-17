@@ -25,9 +25,9 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PhotoService } from '@services/photo.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
-import { ImagePathService } from '@services/image-path.service';
 import { NavigationData, Photo } from '@models/photo.model';
 import { ModalService } from '@services/modal.service';
+import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
 
 @Component({
   standalone: true,
@@ -45,6 +45,7 @@ import { ModalService } from '@services/modal.service';
     ContentNavigatorComponent,
     PropertyPublicComponent,
     BoxIconComponent,
+    ImagePathPipe,
   ],
 })
 export class PhotoComponent {
@@ -53,16 +54,12 @@ export class PhotoComponent {
   enablePhotoEditing: boolean = false;
   navigation: NavigationData = {};
 
-  imageFull: string | null = null;
-  imageMid: string | null = null;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumb: BreadcrumbService,
     public photoService: PhotoService,
     private errorHandler: ErrorHandlerService,
-    private imagePath: ImagePathService,
     private modal: ModalService
   ) {}
 
@@ -94,9 +91,6 @@ export class PhotoComponent {
             return EMPTY;
           }),
           switchMap((photo: Photo) => {
-            this.imageFull = this.imagePath.get(photo.images, 'full');
-            this.imageMid = this.imagePath.get(photo.images, 'mid');
-
             this.breadcrumb.setNavigation(
               [
                 {

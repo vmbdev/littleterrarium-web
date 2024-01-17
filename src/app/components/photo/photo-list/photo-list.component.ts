@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -19,7 +19,6 @@ import { PlantService } from '@services/plant.service';
   selector: 'lt-photo-list',
   imports: [CommonModule, PictureListComponent],
   templateUrl: './photo-list.component.html',
-  providers: [DatePipe],
 })
 export class PhotoListComponent {
   @Input({ transform: numberAttribute }) plantId?: number;
@@ -28,7 +27,6 @@ export class PhotoListComponent {
 
   constructor(
     public imagePath: ImagePathService,
-    private datePipe: DatePipe,
     private plantService: PlantService
   ) {}
 

@@ -1,6 +1,8 @@
+import { ImagePath } from './image-path.model';
+
 export interface Photo {
   id: number;
-  images: any;
+  images: ImagePath;
   description: string | null;
   public: boolean;
   takenAt: Date | string;

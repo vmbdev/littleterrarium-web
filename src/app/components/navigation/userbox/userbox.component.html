@@ -5,7 +5,7 @@
       @if (user.avatar) {
         <div
           class="userbox__avatar"
-          [ngStyle]="{ 'background-image': 'url(' + avatar + ')' }"
+          [ngStyle]="{ 'background-image': 'url(' + (user.avatar | imagePath:'thumb') + ')' }"
         >
         </div>
       } @else {

@@ -1,18 +1,20 @@
-<article class="current-pic">
-  <h1 class="current-pic__title" i18n="@@currentPic.title">
-    Current picture
-  </h1>
+@if (pic) {
+  <article class="current-pic">
+    <h1 class="current-pic__title" i18n="@@currentPic.title">
+      Current picture
+    </h1>
 
-    <img class="current-pic__image" [src]="pic">
-    <div class="form__checkbox">
-      <input
-        #check
-        type="checkbox"
-        id="removepic"
-        (change)="toggle($event)"
-      >
-      <label for="removepic" i18n="@@currentPic.clear">
-        Clear picture
-      </label>
-    </div>
-</article>
+      <img class="current-pic__image" [src]="pic">
+      <div class="form__checkbox">
+        <input
+          #check
+          type="checkbox"
+          id="removepic"
+          (change)="toggle($event)"
+        >
+        <label for="removepic" i18n="@@currentPic.clear">
+          Clear picture
+        </label>
+      </div>
+  </article>
+}

@@ -48,9 +48,9 @@
         <p i18n="@@location-add-edit.ornot">Or, well, don't. Up to you.</p>
       </lt-wizard-page-description>
       <div>
-        @if (!createNew && location && locationPicture) {
+        @if (!createNew && location && location.pictures) {
           <lt-current-pic
-            [pic]="locationPicture"
+            [pic]="location.pictures | imagePath:'thumb'"
             (toggleRemove)="toggleRemovePicture($event)"
           />
         }

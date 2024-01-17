@@ -7,7 +7,7 @@ import {
 } from '@components/picture-list/picture-list.component';
 import {
   FilterBarComponent
-} from "@components/filter-bar/filter-bar.component";
+} from '@components/filter-bar/filter-bar.component';
 import { SortColumn, SortOption, SortOrder } from '@models/sort-options.model';
 import { PlantService } from '@services/plant.service';
 import { LocationService } from '@services/location.service';
