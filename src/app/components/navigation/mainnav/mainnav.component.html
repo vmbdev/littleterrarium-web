@@ -1,47 +1,31 @@
 <nav class="mainnav">
-  <div class="mainnav__left">
-    <ul class="mainnav__list">
-      <div class="mainnav__brand">
-        <a routerLink="/">
-          <img src="assets/logo.svg" />
-        </a>
-      </div>
-      <div class="mainnav__hamburger">
-        <box-icon
-          [name]="hideMenu ? 'menu' : 'x'"
-          size="md"
-          border="square"
-          (click)="toggleMenu()"
-        />
-      </div>
-    </ul>
-  </div>
-  <div class="mainnav__right" [ngClass]="{ mainnav__hidden: hideMenu }">
-    <ul class="mainnav__list">
-      <lt-mainnav-item routerLink="/" i18n="@@mainnav.home">
-        Home
-      </lt-mainnav-item>
-      <lt-mainnav-item routerLink="/plant/all" i18n="@@mainnav.plants">
-        Plants
-      </lt-mainnav-item>
-      <lt-mainnav-item routerLink="/tasks" i18n="@@mainnav.tasks">
-        Tasks
-      </lt-mainnav-item>
-    </ul>
-    <lt-mainnav-divisor />
-    <ul class="mainnav__list">
-      <lt-mainnav-item>
-        <lt-theme-switcher />
-      </lt-mainnav-item>
-      <lt-mainnav-item>
-        <lt-lang-switcher />
-      </lt-mainnav-item>
-    </ul>
-    <lt-mainnav-divisor />
-    <ul class="mainnav__list">
-      <lt-mainnav-item>
-        <lt-userbox />
-      </lt-mainnav-item>
-    </ul>
+  @if (leftSide) {
+    <div class="mainnav__left">
+      <ul class="content-list">
+        @if (brand) {
+          <li>
+            <a routerLink="/">
+              <img src="assets/logo.svg" class="mainnav__brand" />
+            </a>
+          </li>
+        }
+        <li>
+          <div class="mainnav__hamburger">
+            <box-icon
+              [name]="hideMenu ? 'menu' : 'x'"
+              size="md"
+              border="square"
+              (click)="toggleMenu()"
+            />
+          </div>
+        </li>
+      </ul>
+    </div>
+  }
+  <div class="mainnav__right" [ngClass]="{
+    'mainnav--hidden': hideMenu && leftSide,
+    'mainnav--no-column': noColumn
+  }">
+    <ng-content select="[right]" />
   </div>
 </nav>

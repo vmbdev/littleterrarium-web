@@ -1,23 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, booleanAttribute } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
-import {
-  LangSwitcherComponent
-} from '@components/navigation/lang-switcher/lang-switcher.component';
-import {
-  ThemeSwitcherComponent
-} from '@components/navigation/theme-switcher/theme-switcher.component';
-import {
-  UserboxComponent
-} from '@components/navigation/userbox/userbox.component';
-import {
-  MainnavDivisorComponent
-} from '@components/navigation/mainnav-divisor/mainnav-divisor.component';
-import {
-  MainnavItemComponent
-} from '@components/navigation/mainnav-item/mainnav-item.component';
 
 @Component({
   selector: 'lt-mainnav',
@@ -25,22 +10,34 @@ import {
   imports: [
     CommonModule,
     RouterModule,
-    ThemeSwitcherComponent,
-    LangSwitcherComponent,
-    UserboxComponent,
     BoxIconComponent,
-    MainnavDivisorComponent,
-    MainnavItemComponent,
   ],
   templateUrl: './mainnav.component.html',
   styleUrls: ['./mainnav.component.scss'],
 })
 export class MainnavComponent {
   /**
+   * Path (absolute or relative) of the brand image.
+   */
+  @Input() brand?: string;
+
+  /**
+   * Whether to have the left side of the nav (brand and hamburger)
+   */
+  @Input({ transform: booleanAttribute }) leftSide: boolean = true;
+
+  /**
+   * Whether the navbar should display as a column in small devices.
+   * When it's very small (i.e. a couple of BoxIcons) it's useful to set it
+   * false.
+   */
+  @Input({ transform: booleanAttribute }) noColumn: boolean = false;
+
+  /**
    * Hides the menu. As per the current style definition, it doesn't do
    * anything on full view.
    */
-  hideMenu: boolean = true;
+  hideMenu: boolean = this.leftSide;
 
   /**
    * Toggles menu visibility

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, booleanAttribute } from '@angular/core';
+
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 @Component({
@@ -8,4 +9,6 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
   templateUrl: './footernav.component.html',
   styleUrls: ['./footernav.component.scss'],
 })
-export class FooternavComponent {}
+export class FooternavComponent {
+  @Input({ transform: booleanAttribute }) short: boolean = false;
+}

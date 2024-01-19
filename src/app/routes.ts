@@ -6,26 +6,31 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/layouts/default-layout/default-layout.component').then((m) => m.DefaultLayoutComponent),
+      import(
+        './components/layouts/default-layout/default-layout.component'
+      ).then((m) => m.DefaultLayoutComponent),
     loadChildren: () => [
       {
         path: '',
         loadComponent: () =>
-          import('./components/home/home.component').then((m) => m.HomeComponent),
+          import('./components/home/home.component').then(
+            (m) => m.HomeComponent,
+          ),
+        canActivate: [SignedInGuard],
       },
       {
         path: 'logout',
         loadComponent: () =>
           import('./components/user/user-logout/user-logout.component').then(
-            (m) => m.UserLogoutComponent
+            (m) => m.UserLogoutComponent,
           ),
       },
       {
         path: 'register',
         loadComponent: () =>
-          import('./components/user/user-register/user-register.component').then(
-            (m) => m.UserRegisterComponent
-          ),
+          import(
+            './components/user/user-register/user-register.component'
+          ).then((m) => m.UserRegisterComponent),
       },
       {
         path: 'user',
@@ -51,24 +56,24 @@ export const APP_ROUTES: Routes = [
         path: 'terrarium/:username',
         loadComponent: () =>
           import('./components/terrarium/terrarium.component').then(
-            (m) => m.TerrariumComponent
+            (m) => m.TerrariumComponent,
           ),
       },
       {
         path: 'tasks',
         loadComponent: () =>
           import('./components/tasks/tasks.component').then(
-            (m) => m.TasksComponent
+            (m) => m.TasksComponent,
           ),
         canActivate: [SignedInGuard],
       },
-    ]
+    ],
   },
   {
     path: 'signin',
     loadComponent: () =>
       import('./components/layouts/signin-layout/signin-layout.component').then(
-        (m) => m.SigninLayoutComponent
+        (m) => m.SigninLayoutComponent,
       ),
     canActivate: [NotSignedInGuard],
   },

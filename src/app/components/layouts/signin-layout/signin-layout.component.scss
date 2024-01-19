@@ -1,0 +1,85 @@
+@use 'themify.scss' as t;
+@use 'media.scss' as m;
+
+.signin-layout {
+  display: flex;
+  flex-direction: row;
+
+  width: 100vw;
+  height: 100vh;
+
+  @include t.themify {
+    background-color: t.theme(main_background);
+    color: t.theme(main_text);
+  }
+
+  & > a {
+    @include t.themify {
+      color: t.theme(link_color) !important;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 1rem 1rem;
+  }
+
+  &__logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1;
+    height: 100%;
+
+    box-sizing: border-box;
+    background-color: rgba(239, 149, 149, 76%);
+
+    color: white;
+    font-size: 10vw;
+    text-align: right;
+    text-shadow: 5px 5px rgba(0, 0, 0, 10%);
+
+    padding: 2rem;
+  }
+
+  &__form {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: max(30rem, 50vw);
+    height: 100%;
+    padding: 0 0.3rem;
+  }
+
+  &__main {
+    flex: 1;
+  }
+}
+
+@include m.media('mobile') {
+  .signin-layout {
+    &__logo {
+      display: none;
+    }
+
+    &__form {
+      width: 100vw;
+      height: 100%;
+    }
+  }
+}
+
+@include m.media('tablet') {
+  .signin-layout {
+    &__logo {
+      display: none;
+    }
+
+    &__form {
+      width: 100vw;
+      height: 100%;
+    }
+  }
+}

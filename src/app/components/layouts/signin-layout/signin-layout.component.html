@@ -1,3 +1,28 @@
-<div class="signin-layout">
-  
-</div>
+
+<main role="main" class="signin-layout">
+  <div class="signin-layout__logo">
+    Little
+    Terrarium
+  </div>
+
+  <div class="signin-layout__form">
+    <header>
+      <nav class="signin-layout__nav">
+        <ul class="content-list">
+          <li>
+            <lt-theme-switcher />
+          </li>
+          <li>
+            <lt-lang-switcher />
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="signin-layout__main">
+      <lt-signin />
+    </div>
+    <footer>
+      <lt-footernav short="true" />
+    </footer>
+  </div>
+</main>

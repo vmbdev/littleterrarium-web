@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
 
 import { SigninComponent } from '@components/user/signin/signin.component';
+import { LangSwitcherComponent } from "@components/lang-switcher/lang-switcher.component";
+import { ThemeSwitcherComponent } from "@components/theme-switcher/theme-switcher.component";
+import { FooternavComponent } from '@components/footernav/footernav.component';
 
 @Component({
   selector: 'lt-signin-layout',
   standalone: true,
+  templateUrl: './signin-layout.component.html',
+  styleUrl: './signin-layout.component.scss',
   imports: [
     SigninComponent,
-  ],
-  templateUrl: './signin-layout.component.html',
-  styleUrl: './signin-layout.component.scss'
+    LangSwitcherComponent,
+    ThemeSwitcherComponent,
+    FooternavComponent
+  ]
 })
-export class SigninLayoutComponent {
-
-}
-// DC8686 FF8080
+export class SigninLayoutComponent {}

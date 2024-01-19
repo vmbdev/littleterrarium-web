@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, booleanAttribute } from '@angular/core';
 
 @Component({
   selector: 'lt-floating-list',
@@ -11,5 +11,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './floating-list.component.scss'
 })
 export class FloatingListComponent {
-  @Input() visible: boolean = false;
+  @Input({ transform: booleanAttribute }) visible: boolean = false;
 }

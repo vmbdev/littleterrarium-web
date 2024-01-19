@@ -1,10 +1,56 @@
 <div class="body-wrapper">
   <header>
-    <lt-mainnav />
+    <lt-mainnav brand="assets/logo.svg">
+      <ng-container right>
+        <ul class="content-list">
+          <li>
+            <lt-mainnav-item routerLink="/" i18n="@@mainnav.home">
+              Home
+            </lt-mainnav-item>
+          </li>
+          <li>
+            <lt-mainnav-item routerLink="/plant/all" i18n="@@mainnav.plants">
+              Plants
+            </lt-mainnav-item>
+          </li>
+          <li>
+            <lt-mainnav-item routerLink="/tasks" i18n="@@mainnav.tasks">
+              Tasks
+            </lt-mainnav-item>
+          </li>
+        </ul>
+        <lt-mainnav-divisor />
+        <ul class="content-list">
+          <li>
+            <lt-mainnav-item>
+              <lt-theme-switcher />
+            </lt-mainnav-item>
+          </li>
+          <li>
+            <lt-mainnav-item>
+              <lt-lang-switcher />
+            </lt-mainnav-item>
+          </li>
+        </ul>
+        <lt-mainnav-divisor />
+        <ul class="content-list">
+          <li>
+            <lt-mainnav-item>
+              <lt-userbox />
+            </lt-mainnav-item>
+          </li>
+        </ul>
+      </ng-container>
+    </lt-mainnav>
     <lt-breadcrumb-navigation />
   </header>
-  <main class="content-wrapper">
+
+  <main role="main" class="content-wrapper">
     <router-outlet />
   </main>
-  <lt-footernav />
+
+  <footer>
+    <lt-footernav />
+  </footer>
+
 </div>

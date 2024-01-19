@@ -1,6 +1,48 @@
 @use 'themify.scss' as t;
 @use 'media.scss' as m;
 
+.mainnav {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  min-height: 5em;
+  width: 100%;
+
+  &__hamburger {
+    display: none;
+  }
+
+  &__left, &__right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.4rem;
+  }
+
+  &__left {
+    flex: 1;
+    margin-left: 1rem;
+  }
+
+  &__right {
+    margin-right: 1rem;
+  }
+
+  &__brand {
+    height: 5rem;
+  }
+
+  &--no-column {
+    flex-direction: row !important;
+  }
+
+  // this class shouldn't have any effect on full view
+  &--hidden {
+    display: flex;
+  }
+}
+
 @mixin small-devices {
   .mainnav {
     flex-direction: column;
@@ -27,54 +69,9 @@
       }
     }
 
-    &__hidden {
+    &--hidden {
       display: none;
     }
-  }
-}
-
-.mainnav {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 2rem;
-  width: 100%;
-
-  &__hamburger {
-    display: none;
-  }
-
-  &__left, &__right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 2.4rem;
-
-  }
-  &__list {
-    display: contents;
-    list-style: none;
-    margin-block: 0;
-    padding-inline-start: 0;
-  }
-
-  &__left {
-    flex: 1;
-    margin-left: 1rem;
-  }
-
-  &__right {
-    margin-right: 1rem;
-  }
-
-  &__brand {
-    img {
-      height: 5rem;
-    }
-  }
-
-  // this class shouldn't have any effect on full view
-  &__hidden {
-    display: flex;
   }
 }
 

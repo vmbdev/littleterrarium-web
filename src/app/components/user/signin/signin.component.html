@@ -1,10 +1,10 @@
-<article class="signin">
-  <form
-    #signinForm="ngForm"
-    (ngSubmit)="submit(signinForm)"
-    class="form"
-    novalidate
-  >
+<form
+  #signinForm="ngForm"
+  (ngSubmit)="submit(signinForm)"
+  class="form"
+  novalidate
+>
+  <article class="signin">
     <div class="signin__container">
       <section class="text-center">
         <h1 class="signin__title" i18n="@@signin.homepageTitle">
@@ -12,7 +12,7 @@
         </h1>
         <p i18n="@@signin.homepageMsg">
           We are really happy to have you here. Sign in or
-          <b class="signin__link" routerLink="/register">sign up</b> and start
+          <b routerLink="/register">sign up</b> and start
           taking care of your plants!
         </p>
       </section>
@@ -71,5 +71,5 @@
         </a>
       </div>
     </div>
-  </form>
-</article>
+  </article>
+</form>

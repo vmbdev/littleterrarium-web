@@ -11,9 +11,11 @@
     </div>
     <lt-floating-list [visible]="listVisible">
       @for (locale of localeList.locales; track locale) {
-        <lt-mainnav-item (click)="changeLocale(locale)">
-          <span>{{ getLanguageName(locale) | capitalize }}</span>
-        </lt-mainnav-item>
+        <li>
+          <lt-mainnav-item (click)="changeLocale(locale)">
+            <span>{{ getLanguageName(locale) | capitalize }}</span>
+          </lt-mainnav-item>
+        </li>
       }
     </lt-floating-list>
   </article>
