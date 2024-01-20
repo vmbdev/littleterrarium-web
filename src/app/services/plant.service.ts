@@ -9,7 +9,7 @@ import {
 import { AuthService } from '@services/auth.service';
 import { ImagePathService } from '@services/image-path.service';
 import { Photo } from '@models/photo.model';
-import { Condition, Plant } from '@models/plant.model';
+import { Condition, Plant, Pot } from '@models/plant.model';
 
 @Injectable({
   providedIn: 'root',
@@ -169,27 +169,122 @@ export class PlantService {
     } else return null;
   }
 
-  getConditionColor(condition: Condition | null): string {
-    let color: string;
+getPotInfo(key: string): Pot {
+  let pot: Pot;
 
-    switch (condition) {
-      case 'BAD':
-        color = 'red';
-        break;
-      case 'POOR':
-        color = 'yellow';
-        break;
-      case 'GREAT':
-        color = 'greenyellow';
-        break;
-      case 'EXCELLENT':
-        color = 'green';
-        break;
-      default:
-        color = 'grey';
-        break;
+  switch (key) {
+    case 'LT_POT_TERRACOTTA': {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.terracotta:Terracotta`,
+        image: 'assets/pot-terracotta.jpg',
+      };
+      break;
     }
-
-    return color;
+    case 'LT_POT_PLASTIC': {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.plastic:Plastic`,
+        image: 'assets/pot-plastic.jpg',
+      };
+      break;
+    }
+    case 'LT_POT_CERAMIC': {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.ceramic:Ceramic`,
+        image: 'assets/pot-ceramic.jpg',
+      };
+      break;
+    }
+    case 'LT_POT_METAL': {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.metal:Metal`,
+        image: 'assets/pot-metal.jpg',
+      };
+      break;
+    }
+    case 'LT_POT_GLASS': {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.glass:Glass`,
+        image: 'assets/pot-glass.jpg',
+      };
+      break;
+    }
+    case 'LT_POT_WOOD': {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.wood:Wood`,
+        image: 'assets/pot-wood.jpg',
+      };
+      break;
+    }
+    case 'LT_POT_CONCRETE': {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.concrete:Concrete`,
+        image: 'assets/pot-concrete.jpg',
+      };
+      break;
+    }
+    default: {
+      pot = {
+        name: $localize`:@@interfaces.potMaterial.other:Other`,
+        image: 'assets/pot-other.jpg',
+      };
+      break;
+    }
   }
+
+  return pot;
+}
+
+getConditionDesc(condition: Condition | string): string {
+  let desc: string;
+
+  switch (condition) {
+    case 'BAD': {
+      desc = $localize`:@@interfaces.condition.bad:On the line`; // red
+      break;
+    }
+    case 'POOR': {
+      desc = $localize`:@@interfaces.condition.poor:Holding on to life`; // yellow
+      break;
+    }
+    case 'GREAT': {
+      desc = $localize`:@@interfaces.condition.great:Looks great`; // l;ght green
+      break;
+    }
+    case 'EXCELLENT': {
+      desc = $localize`:@@interfaces.condition.excellent:Prime example of its specie`; // vib;ant green
+      break;
+    }
+    default:
+    case 'GOOD': {
+      desc = $localize`:@@interfaces.condition.good:Looks good`; // grey
+      break;
+    }
+  }
+  return desc;
+}
+
+getConditionColor(condition: Condition | string): string {
+  let color: string;
+
+  switch (condition) {
+    case 'BAD':
+      color = 'red';
+      break;
+    case 'POOR':
+      color = 'yellow';
+      break;
+    case 'GREAT':
+      color = 'greenyellow';
+      break;
+    case 'EXCELLENT':
+      color = 'green';
+      break;
+    default:
+      color = 'grey';
+      break;
+  }
+
+  return color;
+}
+
 }

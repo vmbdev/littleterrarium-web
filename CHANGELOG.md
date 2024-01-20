@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.0.8] - next
+## [1.1.0] - next
 
-Happy new year! Some interesting changes in 1.0.8.
+Happy new year! Some interesting changes in 1.1.0.
+
+### Added
+
+- New component BoxIcon, and a lot of (well, some) icons from BoxIcons
+replacing most of the (too much) colorful icons used previously.
+- New Badge component, currently used to show remaining tasks in the nav bar.
+with the navigation bar when visited on small devices.
+- New PasswordService to manage API calls related to the user password.
 
 ### Changes
 
@@ -15,9 +23,6 @@ them.
 - Main navigation bar redesigned, revamped (into smaller components) and
 reinvented (into something more functional).
 - Dropdown menus now unified into one component (FloatingList) and integrated
-with the navigation bar when visited on small devices.
-- New component BoxIcon, and a lot of (well, some) icons from BoxIcons
-replacing most of the (too much) colorful icons used previously.
 - Breadcrumb now shows nice icons, and doesn't overflow anymore.
 - Photo cover update is now updated in PhotoEdit, not in Photo.
 - Picture lists (used in locations, plants and photos) will now use a
@@ -34,6 +39,7 @@ space vertically, and it's easier to click.
 - Cleanup of many observables in services.
 - Updated translations.
 - Reduced function calls from templates.
+- Cleanup of many models and enums that were wrongly placed and defined.
 
 ## [1.0.7] - 2023-12-19
 

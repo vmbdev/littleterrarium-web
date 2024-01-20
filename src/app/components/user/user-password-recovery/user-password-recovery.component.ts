@@ -21,7 +21,7 @@ import {
 import {
   WizardPageDescriptionComponent
 } from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import { AuthService } from '@services/auth.service';
+import { PasswordService } from '@services/password.service';
 
 @Component({
   selector: 'lt-user-password-recovery',
@@ -42,7 +42,10 @@ export class UserPasswordRecoveryComponent {
   checkError: boolean = false;
   recoveryStarted: boolean = false;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly pws: PasswordService
+  ) {
     this.userForm = this.fb.group({
       userRef: ['', Validators.required],
     });
@@ -57,7 +60,7 @@ export class UserPasswordRecoveryComponent {
     const { userRef } = this.userForm.value;
 
     if (userRef) {
-      this.auth
+      this.pws
         .forgotPassword(userRef)
         .pipe(
           catchError((err: HttpErrorResponse) => {

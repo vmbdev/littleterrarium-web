@@ -26,6 +26,7 @@ export class PhotoEditComponent {
   @Output() updated = new EventEmitter<null>();
   photoForm: FormGroup;
   plantCoverId?: number;
+  today = DateTime.now().toFormat('yyyy-LL-dd');
 
   constructor(
     private readonly fb: FormBuilder,
@@ -62,10 +63,6 @@ export class PhotoEditComponent {
         });
       }
     });
-  }
-
-  today(): string {
-    return DateTime.now().toFormat('yyyy-LL-dd');
   }
 
   updateCoverPhoto(): void {

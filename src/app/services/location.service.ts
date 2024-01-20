@@ -19,7 +19,8 @@ import { Plant } from '@models/plant.model';
 export class LocationService {
   private location = new BehaviorSubject<Location | null>(null);
   public readonly location$ = this.location.asObservable();
-  private owned: boolean = false;
+  private owned = new BehaviorSubject<boolean>(false);
+  public owned$ = this.owned.asObservable();
 
   constructor(
     private api: ApiService,
@@ -44,7 +45,7 @@ export class LocationService {
     
     return this.api.getLocation(id, options).pipe(
       map((location: Location) => {
-        this.owned = this.auth.getUser()?.id === location.ownerId;
+        this.owned.next(this.auth.getUser()?.id === location.ownerId);
         
         this.location.next(location);
 
@@ -98,10 +99,6 @@ export class LocationService {
 
   current(): Location | null {
     return this.location.getValue();
-  }
-
-  isOwned(): boolean {
-    return this.owned;
   }
 
   getLightName(light: string): string {

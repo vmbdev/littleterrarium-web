@@ -6,9 +6,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, EMPTY } from 'rxjs';
 
 import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
   WizardPageDescriptionComponent
 } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import {
@@ -20,8 +17,7 @@ import {
 import {
   PasswordFormComponent
 } from '@components/user/password-form/password-form.component';
-import { ApiService } from '@services/api.service';
-import { AuthService } from '@services/auth.service';
+import { PasswordService } from '@services/password.service';
 
 @Component({
   selector: 'lt-user-password-reset',
@@ -30,7 +26,6 @@ import { AuthService } from '@services/auth.service';
     CommonModule,
     ReactiveFormsModule,
     WizardComponent,
-    WizardHeaderComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
     PasswordFormComponent,
@@ -40,7 +35,7 @@ import { AuthService } from '@services/auth.service';
 })
 export class UserPasswordResetComponent {
   passwordGroup: FormGroup;
-  pwdReq$ = this.api.getPasswordRequirements();
+  pwdReq$ = this.pws.getPasswordRequirements();
   token?: string | null;
   userId?: number | null;
 
@@ -51,8 +46,7 @@ export class UserPasswordResetComponent {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private auth: AuthService,
-    private api: ApiService
+    private readonly pws: PasswordService,
   ) {
     this.passwordGroup = this.fb.group({
       password: [''],
@@ -65,7 +59,7 @@ export class UserPasswordResetComponent {
     this.userId = +this.route.snapshot.paramMap.get('userId')!;
 
     if (this.token && this.userId) {
-      this.api
+      this.pws
         .verifyToken(this.token, this.userId)
         .pipe(
           catchError((err: HttpErrorResponse) => {
@@ -84,7 +78,7 @@ export class UserPasswordResetComponent {
     }
 
     const pwd = this.passwordGroup.get('password')?.value;
-    this.auth
+    this.pws
       .recoverPassword(this.token, pwd, this.userId)
       .pipe(
         catchError((err) => {

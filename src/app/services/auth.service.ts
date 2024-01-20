@@ -11,7 +11,6 @@ import {
 
 import { ApiService } from '@services/api.service';
 import { User } from '@models/user.model';
-import { BackendResponse } from '@models/backend-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -80,22 +79,6 @@ export class AuthService {
 
   updateUser(user: User): void {
     this.user.next(user);
-  }
-
-  forgotPassword(userRef: string): Observable<any> {
-    return this.api.forgotPassword(userRef);
-  }
-
-  recoverPassword(
-    token: string,
-    password: string,
-    userId: number
-  ): Observable<any> {
-    return this.api.recoverPassword(token, password, userId);
-  }
-
-  checkPassword(password: string): Observable<BackendResponse> {
-    return this.api.checkPassword(password);
   }
 
   isSameUser(param: 'username' | 'id', val: string | number): boolean {

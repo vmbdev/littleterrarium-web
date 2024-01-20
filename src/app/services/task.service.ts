@@ -10,7 +10,8 @@ import { Plant } from '@models/plant.model';
 export class TaskService {
   private tasks = new BehaviorSubject<Plant[]>([]);
   public readonly tasks$ = this.tasks.asObservable();
-  count: number = 0;
+  private count = new BehaviorSubject<number>(0);
+  public readonly count$ = this.count.asObservable();
 
   constructor(private api: ApiService) {
     this.loadTasks();
@@ -28,15 +29,13 @@ export class TaskService {
    * task each.
    */
   countTasks(plants: Plant[]): void {
-    this.count = 0;
-
+    let recount = 0;
+    
     for (const plant of plants) {
-      if (plant.waterNext) this.count++;
-      if (plant.fertNext) this.count++;
+      if (plant.waterNext) recount++;
+      if (plant.fertNext) recount++;
     }
-  }
 
-  getCount(): number {
-    return this.count;
+    this.count.next(recount);
   }
 }

@@ -20,7 +20,7 @@ import { BreadcrumbService } from '@services/breadcrumb.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { ModalService } from '@services/modal.service';
-import { Plant, Condition } from '@models/plant.model';
+import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -51,7 +51,6 @@ export class PlantComponent {
 
   plantTitle?: string;
   plantSubtitle?: string;
-  plantCondition = Condition;
   plantVisibility?: boolean;
 
   // Quick modals
@@ -59,6 +58,7 @@ export class PlantComponent {
   enableFertilizerEditing: boolean = false;
   enableEditing: boolean = false;
 
+  conditionDesc?: string;
   conditionColor?: string;
 
   constructor(
@@ -99,8 +99,15 @@ export class PlantComponent {
       )
       .subscribe((plant: Plant) => {
         this.plantVisibility = plant.public;
-        this.conditionColor =
-          this.plantService.getConditionColor(plant.condition);
+
+        if (plant.condition) {
+          this.conditionDesc = this.plantService.getConditionDesc(
+            plant.condition,
+          );
+          this.conditionColor = this.plantService.getConditionColor(
+            plant.condition,
+          );
+        }
 
         // if customName and/or specie exists, we use it for title and subtitle
         // otherwise we use the plant visibleName

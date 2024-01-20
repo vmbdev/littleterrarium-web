@@ -15,7 +15,9 @@
           </li>
           <li>
             <lt-mainnav-item routerLink="/tasks" i18n="@@mainnav.tasks">
-              Tasks
+              <lt-badge [value]="taskService.count$ | async">
+                Tasks
+              </lt-badge>
             </lt-mainnav-item>
           </li>
         </ul>

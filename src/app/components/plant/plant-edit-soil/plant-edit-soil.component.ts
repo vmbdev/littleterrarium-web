@@ -24,7 +24,7 @@ import {
 } from '@components/group-selector/group-selector.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
-import { Plant, potChoices } from '@models/plant.model';
+import { Plant, PotNames } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -93,11 +93,14 @@ export class PlantEditSoilComponent {
   }
 
   getPots(): GroupSelectorData<string>[] {
-    return Object.keys(potChoices).map((key) => ({
-      id: key,
-      asset: potChoices[key].image,
-      name: potChoices[key].name,
-    }));
+    return Object.keys(PotNames).map((key) => {
+      const pot = this.plantService.getPotInfo(key);
+      return {
+        id: key,
+        asset: pot.image,
+        name: pot.name,
+      }
+    });
   }
 
   submit(): void {

@@ -26,6 +26,9 @@ import {
 import {
   UserboxComponent
 } from '@components/userbox/userbox.component';
+import { BadgeComponent } from '@components/badge/badge.component';
+import { TaskService } from '@services/task.service';
+import { CommonModule } from '@angular/common';
 
 /**
  * Component providing the default layout.
@@ -34,6 +37,7 @@ import {
   standalone: true,
   selector: 'lt-default-layout',
   imports: [
+    CommonModule,
     RouterModule,
     MainnavComponent,
     FooternavComponent,
@@ -45,8 +49,11 @@ import {
     UserboxComponent,
     MainnavDivisorComponent,
     MainnavItemComponent,
+    BadgeComponent,
   ],
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss'],
 })
-export class DefaultLayoutComponent {}
+export class DefaultLayoutComponent {
+  constructor(public readonly taskService: TaskService) {}
+}

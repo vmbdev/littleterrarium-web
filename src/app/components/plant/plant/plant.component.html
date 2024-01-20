@@ -50,14 +50,14 @@
       }
 
       <ng-container properties>
-        @if (plant.condition) {
+        @if (conditionDesc) {
           <box-icon
             name="heart-circle"
             type="solid"
             infoProperty="true"
             [color]="conditionColor"
           >
-            {{ plantCondition[plant.condition] }}
+            {{ conditionDesc }}
           </box-icon>
         }
 

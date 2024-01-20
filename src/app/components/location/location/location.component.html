@@ -1,7 +1,7 @@
 @if (locationService.location$ | async; as location) {
   <div class="location">
     <lt-toolbox [title]="location.name">
-      @if (locationService.isOwned()) {
+      @if (locationService.owned$ | async) {
         <lt-toolbox-button name="edit" (click)="edit()" />
         <lt-toolbox-button name="trash" (click)="openDeleteModal()" />
       }
@@ -32,7 +32,7 @@
 
     <section class="section-header">
       <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
-      <lt-plant-list [owned]="locationService.isOwned()" [locationId]="location.id" />
+      <lt-plant-list [owned]="!!(locationService.owned$ | async)" [locationId]="location.id" />
     </section>
   </div>
 }

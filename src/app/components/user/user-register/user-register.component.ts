@@ -23,6 +23,7 @@ import {
 import { AuthService } from '@services/auth.service';
 import { ApiService } from '@services/api.service';
 import { UserRegisterErrors, User } from '@models/user.model';
+import { PasswordService } from '@services/password.service';
 
 @Component({
   standalone: true,
@@ -43,13 +44,14 @@ export class UserRegisterComponent {
   userForm: FormGroup;
   passwordGroup: FormGroup;
 
-  pwdReq$ = this.api.getPasswordRequirements();
+  pwdReq$ = this.pws.getPasswordRequirements();
   usernameReq$ = this.api.getUsernameRequirements();
 
   wizardPage: number | undefined = undefined;
   errors: UserRegisterErrors = this.resetErrors();
 
   constructor(
+    private pws: PasswordService,
     private api: ApiService,
     private fb: FormBuilder,
     private router: Router,
@@ -111,7 +113,7 @@ export class UserRegisterComponent {
 
     const pwd = this.passwordGroup.get('password')?.value;
 
-    this.api
+    this.pws
       .checkPassword(pwd)
       .pipe(
         switchMap(() => {

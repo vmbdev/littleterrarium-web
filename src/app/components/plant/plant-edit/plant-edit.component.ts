@@ -124,11 +124,11 @@ export class PlantEditComponent {
   }
 
   getConditions(): GroupSelectorData<string>[] {
-    return Object.keys(this.plantCondition).map((key) => ({
+    return Object.keys(Condition).map((key) => ({
       id: key,
       asset: 'heart-circle',
       color: this.plantService.getConditionColor(key),
-      name: this.plantCondition[key],
+      name: this.plantService.getConditionDesc(key),
     }));
   }
 
