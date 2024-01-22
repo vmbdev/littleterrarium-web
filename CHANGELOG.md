@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.0] - next
+## [1.1.0] - 2024-01-23
 
 Happy new year! Main highlight of this release is a total visual revamp, making
 it much more responsive and less saturated.

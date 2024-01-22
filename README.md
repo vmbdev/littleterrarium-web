@@ -88,6 +88,7 @@ detected).
 - [TypeScript](https://www.typescriptlang.org/) - JavaScript with syntax for
 types
 - [Luxon](https://moment.github.io/luxon/) - Date management library
+- [BoxIcons](https://boxicons.com/) - High Quality Web Icons
 - [Compodoc](https://compodoc.app/) - Documentation tool for Angular
 - [RxJS](https://rxjs.dev/) - Reactive Extensions Library for JavaScript
 
