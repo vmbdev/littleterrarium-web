@@ -23,7 +23,7 @@
 
   <div class="plant">
     <lt-toolbox [title]="plantTitle" [subtitle]="plantSubtitle">
-      @if (this.plantService.owned) {
+      @if (this.plantService.owned$ | async) {
         <lt-toolbox-button
           name="droplet"
           (click)="enableWaterEditing = true"
@@ -83,11 +83,11 @@
       <h2 i18n="@@plant.photoList">
         Photos taken for {{ plant.visibleName }}
       </h2>
+      <lt-photo-list
+        [owned]="this.plantService.owned$ | async"
+        [plantId]="this.id"
+      />
     </section>
-    <lt-photo-list
-      [owned]="this.plantService.owned"
-      [plantId]="this.id"
-    />
   </div>
 }
 

@@ -3,6 +3,7 @@
 
 .error-toast {
   position: fixed;
+  left: 0;
   bottom: 2rem;
   display: flex;
   flex-direction: column;
@@ -16,7 +17,7 @@
     margin-bottom: 1rem;
     padding: 0.5rem 0.9rem;
     text-align: center;
-    width: 50vw;
+    width: 30vw;
 
     @include t.themify {
       border: 1px solid darken(t.theme(error), 30%);
@@ -30,4 +31,12 @@
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+@include m.media('mobile') {
+  .error-toast {
+    &__box {
+      width: 80vw;
+    }
+  }
 }

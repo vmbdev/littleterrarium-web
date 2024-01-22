@@ -21,7 +21,7 @@ export class QuickModalComponent {
   @Input() title: string = '';
   @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private readonly elementRef: ElementRef) {}
 
   onClose(): void {
     this.elementRef.nativeElement.remove();

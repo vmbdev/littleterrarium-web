@@ -2,34 +2,31 @@ import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { DateTime } from 'luxon';
 
-import {
-  WidgetBoxComponent
-} from '@components/widget-box/widget-box.component';
+import { WidgetBoxComponent } from '@components/widget-box/widget-box.component';
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { PlantService } from '@services/plant.service';
+import { ModalService } from '@services/modal.service';
 import { Plant } from '@models/plant.model';
 import { NextDateWidget } from '@models/next-date-widget.model';
-import { ModalService } from '@services/modal.service';
 
 @Component({
   standalone: true,
   selector: 'lt-plant-widget-fertilizer',
-  imports: [
-    CommonModule,
-    WidgetBoxComponent,
-    BoxIconComponent,
-  ],
+  imports: [CommonModule, WidgetBoxComponent, BoxIconComponent],
   templateUrl: './plant-widget-fertilizer.component.html',
 })
 export class PlantWidgetFertilizerComponent {
   @ViewChild('fertModal') fertModal!: TemplateRef<any>;
 
-  nextDate: NextDateWidget = {
+  protected nextDate: NextDateWidget = {
     text: null,
     due: false,
   };
 
-  constructor(public plantService: PlantService, private modal: ModalService) {}
+  constructor(
+    public readonly plantService: PlantService,
+    private readonly modal: ModalService,
+  ) {}
 
   ngOnInit(): void {
     this.plantService.plant$.subscribe((plant: Plant | null) => {

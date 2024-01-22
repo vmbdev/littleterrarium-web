@@ -2,5 +2,9 @@
   class="floating-list"
   [ngClass]="{ 'floating-list--hidden': !visible }"
 >
-  <ng-content />
+  @for (item of content; track item) {
+    <li class="floating-list__item">
+      <ng-template [ngTemplateOutlet]="item.template" />
+    </li>
+  }
 </ul>

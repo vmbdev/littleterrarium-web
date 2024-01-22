@@ -7,6 +7,15 @@ body {
   margin: 0;
 }
 
+a {
+  color: inherit;
+  text-decoration-line: none;
+
+  &:visited {
+    color: inherit;
+  }
+}
+
 .modal-text {
   text-align: justify;
 }

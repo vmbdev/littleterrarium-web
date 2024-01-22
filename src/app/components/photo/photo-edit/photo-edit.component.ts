@@ -24,22 +24,20 @@ import { Plant } from '@models/plant.model';
 })
 export class PhotoEditComponent {
   @Output() updated = new EventEmitter<null>();
-  photoForm: FormGroup;
-  plantCoverId?: number;
-  today = DateTime.now().toFormat('yyyy-LL-dd');
+  protected photoForm: FormGroup = this.fb.group({
+    description: [],
+    takenAt: [DateTime.now().toFormat('yyyy-LL-dd'), Validators.required],
+    coverId: [],
+    public: [],
+  });
+  private plantCoverId?: number;
+  protected today = DateTime.now().toFormat('yyyy-LL-dd');
 
   constructor(
     private readonly fb: FormBuilder,
     public readonly photoService: PhotoService,
     private readonly plantService: PlantService,
-  ) {
-    this.photoForm = this.fb.group({
-      description: [],
-      takenAt: [DateTime.now().toFormat('yyyy-LL-dd'), Validators.required],
-      coverId: [],
-      public: [],
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     const obs$ = this.photoService.photo$;

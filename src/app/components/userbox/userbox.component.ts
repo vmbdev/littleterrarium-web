@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
-import {
-  FloatingListComponent
-} from '@components/navigation/floating-list/floating-list.component';
-import {
-  MainnavItemComponent
-} from '@components/navigation/mainnav-item/mainnav-item.component';
+import { FloatingListComponent } from '@components/navigation/floating-list/floating-list.component';
+import { MainnavItemComponent } from '@components/navigation/mainnav-item/mainnav-item.component';
 import { AuthService } from '@services/auth.service';
 import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
 
@@ -27,9 +23,9 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
   styleUrls: ['./userbox.component.scss'],
 })
 export class UserboxComponent {
-  menuVisible: boolean = false;
+  protected menuVisible: boolean = false;
 
-  constructor(public auth: AuthService) {}
+  constructor(public readonly auth: AuthService) {}
 
   toggleMenu(): void {
     this.menuVisible = !this.menuVisible;

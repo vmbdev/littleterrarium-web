@@ -6,7 +6,7 @@ import {
   EMPTY,
   map,
   Observable,
-  throwError
+  throwError,
 } from 'rxjs';
 
 import { AuthService } from '@services/auth.service';
@@ -19,22 +19,21 @@ import { BackendResponse } from '@models/backend-response.model';
   providedIn: 'root',
 })
 export class PhotoService {
-  private photo: BehaviorSubject<Photo | null> = new BehaviorSubject<Photo | null>(
-    null
-  );
+  private photo = new BehaviorSubject<Photo | null>(null);
   public readonly photo$ = this.photo.asObservable();
-  owned: boolean = false;
+  private owned = new BehaviorSubject<boolean>(false);
+  public readonly owned$ = this.owned.asObservable();
 
   constructor(
-    private api: ApiService,
-    private auth: AuthService,
-    private errorHandler: ErrorHandlerService
+    private readonly api: ApiService,
+    private readonly auth: AuthService,
+    private readonly errorHandler: ErrorHandlerService,
   ) {}
 
   get(id: number, options?: PhotoGetConfig): Observable<Photo> {
     return this.api.getPhoto(id, options).pipe(
       map((photo: Photo) => {
-        this.owned = this.auth.getUser()?.id === photo.ownerId;
+        this.owned.next(this.auth.getUser()?.id === photo.ownerId);
         this.photo.next(photo);
 
         return photo;
@@ -43,7 +42,7 @@ export class PhotoService {
         this.photo.next(null);
 
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -53,19 +52,19 @@ export class PhotoService {
 
   create(
     photo: Photo,
-    propagateError: boolean = false
+    propagateError: boolean = false,
   ): Observable<HttpEvent<BackendResponse>> {
     return this.api.createPhoto(photo).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error?.msg === 'IMG_NOT_VALID') {
           this.errorHandler.push(
-            $localize`:@@errors.invalidImg:Invalid image.`
+            $localize`:@@errors.invalidImg:Invalid image.`,
           );
         }
 
         if (propagateError) return throwError(() => error);
         else return EMPTY;
-      })
+      }),
     );
   }
 
@@ -80,7 +79,7 @@ export class PhotoService {
         this.photo.next(null);
 
         return throwError(() => HttpError);
-      })
+      }),
     );
   }
 

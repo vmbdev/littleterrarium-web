@@ -6,11 +6,11 @@ import { catchError, EMPTY } from 'rxjs';
 
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
-import { PlantEditWateringComponent } from '@components/plant/plant-edit-watering/plant-edit-watering.component';
-import { PlantEditFertilizerComponent } from '@components/plant/plant-edit-fertilizer/plant-edit-fertilizer.component';
-import { PlantWidgetFertilizerComponent } from '@components/plant/plant-widget-fertilizer/plant-widget-fertilizer.component';
-import { PlantWidgetSoilComponent } from '@components/plant/plant-widget-soil/plant-widget-soil.component';
-import { PlantWidgetWaterComponent } from '@components/plant/plant-widget-water/plant-widget-water.component';
+import { PlantEditWateringComponent } from '@components/plant/editing/plant-edit-watering/plant-edit-watering.component';
+import { PlantEditFertilizerComponent } from '@components/plant/editing/plant-edit-fertilizer/plant-edit-fertilizer.component';
+import { PlantWidgetFertilizerComponent } from '@components/plant/widgets/plant-widget-fertilizer/plant-widget-fertilizer.component';
+import { PlantWidgetSoilComponent } from '@components/plant/widgets/plant-widget-soil/plant-widget-soil.component';
+import { PlantWidgetWaterComponent } from '@components/plant/widgets/plant-widget-water/plant-widget-water.component';
 import { PhotoListComponent } from '@components/photo/photo-list/photo-list.component';
 import { ToolboxComponent } from '@components/toolbox/toolbox/toolbox.component';
 import { ToolboxButtonComponent } from '@components/toolbox/toolbox-button/toolbox-button.component';
@@ -47,27 +47,27 @@ export class PlantComponent {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
   @ViewChild('editWaterModal') editWaterModal!: TemplateRef<any>;
 
-  id?: number;
+  protected id?: number;
 
-  plantTitle?: string;
-  plantSubtitle?: string;
-  plantVisibility?: boolean;
+  protected plantTitle?: string;
+  protected plantSubtitle?: string;
+  protected plantVisibility?: boolean;
 
   // Quick modals
-  enableWaterEditing: boolean = false;
-  enableFertilizerEditing: boolean = false;
-  enableEditing: boolean = false;
+  protected enableWaterEditing: boolean = false;
+  protected enableFertilizerEditing: boolean = false;
+  protected enableEditing: boolean = false;
 
-  conditionDesc?: string;
-  conditionColor?: string;
+  protected conditionDesc?: string;
+  protected conditionColor?: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private breadcrumb: BreadcrumbService,
-    public plantService: PlantService,
-    private errorHandler: ErrorHandlerService,
-    private modal: ModalService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly breadcrumb: BreadcrumbService,
+    public readonly plantService: PlantService,
+    private readonly errorHandler: ErrorHandlerService,
+    private readonly modal: ModalService,
   ) {}
 
   ngOnInit(): void {
@@ -152,11 +152,5 @@ export class PlantComponent {
         this.router.navigate(['/location', plant.locationId]);
       });
     }
-  }
-
-  getVisibilityAsset(): string {
-    const name = this.plantVisibility ? 'public' : 'private';
-
-    return `assets/visibility-${name}.png`;
   }
 }

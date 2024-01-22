@@ -4,6 +4,7 @@ import { SigninComponent } from '@components/user/signin/signin.component';
 import { LangSwitcherComponent } from "@components/lang-switcher/lang-switcher.component";
 import { ThemeSwitcherComponent } from "@components/theme-switcher/theme-switcher.component";
 import { FooternavComponent } from '@components/footernav/footernav.component';
+import { ErrorToastComponent } from '@components/error-toast/error-toast.component';
 
 @Component({
   selector: 'lt-signin-layout',
@@ -14,7 +15,8 @@ import { FooternavComponent } from '@components/footernav/footernav.component';
     SigninComponent,
     LangSwitcherComponent,
     ThemeSwitcherComponent,
-    FooternavComponent
+    FooternavComponent,
+    ErrorToastComponent,
   ]
 })
 export class SigninLayoutComponent {}

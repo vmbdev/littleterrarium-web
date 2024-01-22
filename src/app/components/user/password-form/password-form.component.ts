@@ -5,7 +5,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
-  Validators
+  Validators,
 } from '@angular/forms';
 
 import { PasswordRequirements } from '@models/user.model';
@@ -20,7 +20,7 @@ import { PasswordRequirements } from '@models/user.model';
 export class PasswordFormComponent {
   @Input({ required: true }) requirements?: PasswordRequirements | null;
   @Input({ required: true }) passwordGroup!: FormGroup;
-  nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"|,.<>/?';
+  protected nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"|,.<>/?';
 
   ngOnInit(): void {
     this.passwordGroup.controls['password'].addValidators([

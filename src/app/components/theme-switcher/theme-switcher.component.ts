@@ -17,7 +17,7 @@ import { ThemeService } from '@services/theme.service';
   templateUrl: './theme-switcher.component.html',
 })
 export class ThemeSwitcherComponent {
-  constructor(public theme: ThemeService) {}
+  constructor(public readonly theme: ThemeService) {}
 
   switchTheme(): void {
     if (this.theme.getTheme() === 'light') this.theme.switchTheme('dark');

@@ -2,16 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import {
-  PictureListComponent
-} from '@components/picture-list/picture-list.component';
-import {
-  FilterBarComponent
-} from '@components/filter-bar/filter-bar.component';
-import { SortColumn, SortOption, SortOrder } from '@models/sort-options.model';
+
+import { PictureListComponent } from '@components/picture-list/picture-list.component';
+import { FilterBarComponent } from '@components/filter-bar/filter-bar.component';
 import { PlantService } from '@services/plant.service';
 import { LocationService } from '@services/location.service';
 import { DataCount, PlantGetConfig } from '@services/api.service';
+import { SortColumn, SortOption, SortOrder } from '@models/sort-options.model';
 import { PictureItem } from '@models/picture-item.model';
 import { Plant } from '@models/plant.model';
 import { User } from '@models/user.model';
@@ -33,21 +30,21 @@ export class PlantListComponent {
   @Input() locationId?: number;
   @Input() user?: User;
   @Input() owned: boolean = true;
-  order: SortOrder;
-  column: SortColumn;
+  protected order: SortOrder;
+  protected column: SortColumn;
 
-  cursor?: number;
-  lastCursor?: number;
-  loadedPlants: number = 0;
+  protected cursor?: number;
+  protected lastCursor?: number;
+  protected loadedPlants: number = 0;
 
-  filter?: string;
-  pictureList: PictureItem[] = [];
+  protected filter?: string;
+  protected pictureList: PictureItem[] = [];
 
-  locationPlantCount$?: Observable<DataCount>;
+  protected locationPlantCount$?: Observable<DataCount>;
 
   constructor(
     private readonly plantService: PlantService,
-    public readonly locationService: LocationService
+    public readonly locationService: LocationService,
   ) {
     const storedOrder = localStorage.getItem('LT_plantListOrder');
 
@@ -68,8 +65,9 @@ export class PlantListComponent {
     } else this.changeSorting({ column: this.column, order: this.order });
 
     if (this.locationId) {
-      this.locationPlantCount$ =
-        this.locationService.countPlants(this.locationId);
+      this.locationPlantCount$ = this.locationService.countPlants(
+        this.locationId,
+      );
     }
   }
 

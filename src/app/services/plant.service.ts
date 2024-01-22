@@ -17,12 +17,13 @@ import { Condition, Plant, Pot } from '@models/plant.model';
 export class PlantService {
   private plant = new BehaviorSubject<Plant | null>(null);
   public readonly plant$ = this.plant.asObservable();
-  owned: boolean = false;
+  private owned = new BehaviorSubject<boolean>(false);
+  public readonly owned$ = this.owned.asObservable();
 
   constructor(
-    private api: ApiService,
-    private auth: AuthService,
-    private imagePath: ImagePathService
+    private readonly api: ApiService,
+    private readonly auth: AuthService,
+    private readonly imagePath: ImagePathService
   ) {}
 
   create(plant: Plant): Observable<Plant> {
@@ -34,7 +35,7 @@ export class PlantService {
 
     return this.api.getPlant(id, options).pipe(
       map((plant: Plant) => {
-        this.owned = this.auth.getUser()?.id === plant.ownerId;
+        this.owned.next(this.auth.getUser()?.id === plant.ownerId);
         plant.visibleName = this.getVisibleName(plant);
 
         this.plant.next(plant);

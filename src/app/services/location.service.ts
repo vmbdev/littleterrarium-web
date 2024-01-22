@@ -23,9 +23,9 @@ export class LocationService {
   public owned$ = this.owned.asObservable();
 
   constructor(
-    private api: ApiService,
-    private auth: AuthService,
-    private plantService: PlantService
+    private readonly api: ApiService,
+    private readonly auth: AuthService,
+    private readonly plantService: PlantService
   ) {}
 
   create(location: Location): Observable<Location> {
@@ -122,7 +122,7 @@ export class LocationService {
     return desc;
   }
 
-  getLightVerbose(light: string): string {
+  getLightDesc(light: string): string {
     let desc: string;
 
     switch (light) {

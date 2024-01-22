@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { ApiService } from '@services/api.service';
 import { BackendResponse } from '@models/backend-response.model';
-import { PasswordRequirements } from '@models/user.model';
+import { PasswordRequirements, User } from '@models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +33,14 @@ export class PasswordService {
 
   getPasswordRequirements(): Observable<PasswordRequirements> {
     return this.api.getPasswordRequirements();
+  }
+
+  changePassword(password: string, userId: number): Observable<User> {
+    const user = {
+      id: userId,
+      password
+    } as User;
+
+    return this.api.editUser(user);
   }
 }

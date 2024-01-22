@@ -1,6 +1,13 @@
-<div
-  class="mainnav-item"
-  [ngClass]="{ 'mainnav-item__islink': !!routerLink || click.observed }"
->
-  <ng-content />
-</div>
+<ng-template #template>
+  <div
+    (click)="handleClick()"
+    class="mainnav-item"
+    [ngClass]="{ 'mainnav-item__islink': !!routerLinkS || click.observed }"
+  >
+    <a [routerLink]="routerLink">
+      <ng-content />
+    </a>
+  </div>
+</ng-template>
+
+<ng-template [ngTemplateOutlet]="template" />

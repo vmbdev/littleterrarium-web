@@ -50,19 +50,19 @@ import { Plant } from '@models/plant.model';
   styleUrls: ['./photo-add.component.scss'],
 })
 export class PhotoAddComponent {
-  photoForm: FormGroup;
-  plantId?: number;
-  plant?: Plant;
-  uploadProgress: number = 0;
-  disableNavigation: boolean = false;
+  protected photoForm: FormGroup;
+  private plantId?: number;
+  protected plant?: Plant;
+  protected uploadProgress: number = 0;
+  protected disableNavigation: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private photoService: PhotoService,
-    private plantService: PlantService,
-    private errorHandler: ErrorHandlerService
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly photoService: PhotoService,
+    private readonly plantService: PlantService,
+    private readonly errorHandler: ErrorHandlerService,
   ) {
     this.photoForm = this.fb.group({
       public: [true, Validators.required],

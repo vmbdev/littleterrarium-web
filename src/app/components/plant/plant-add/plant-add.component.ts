@@ -5,36 +5,24 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import {
-  FileUploaderComponent
-} from '@components/file-uploader/file-uploader.component';
-import {
-  ProgressBarComponent
-} from '@components/progress-bar/progress-bar.component';
-import {
-  SpecieFinderComponent
-} from '@components/specie-finder/specie-finder.component';
+import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
+import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
+import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
 import { Plant } from '@models/plant.model';
 import { Location } from '@models/location.model';
 import { Photo } from '@models/photo.model';
 import { PhotoService } from '@services/photo.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
-import { ApiService } from '@services/api.service';
+import { LocationService } from '@services/location.service';
 
 @Component({
   standalone: true,
@@ -53,41 +41,39 @@ import { ApiService } from '@services/api.service';
   styleUrls: ['./plant-add.component.scss'],
 })
 export class PlantAddComponent {
-  plantForm: FormGroup;
-  locationId?: number;
-  newPlantId?: number;
-  location?: Location;
-  photos: File[] = [];
-  uploadProgress: number = 0;
-  disableNavigation: boolean = false;
+  protected plantForm: FormGroup = this.fb.group({
+    specieId: [],
+    customName: [],
+    public: [true, Validators.required],
+  });
+  private locationId?: number;
+  protected newPlantId?: number;
+  protected location?: Location;
+  private photos: File[] = [];
+  protected uploadProgress: number = 0;
+  protected disableNavigation: boolean = false;
 
   constructor(
-    private api: ApiService,
-    private plantService: PlantService,
-    private photoService: PhotoService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private fb: FormBuilder,
-    private errorHandler: ErrorHandlerService
-  ) {
-    this.plantForm = this.fb.group({
-      specieId: [],
-      customName: [],
-      public: [true, Validators.required],
-    });
-  }
+    private readonly locationService: LocationService,
+    private readonly plantService: PlantService,
+    private readonly photoService: PhotoService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly errorHandler: ErrorHandlerService,
+  ) {}
 
   ngOnInit(): void {
     this.locationId = +this.route.snapshot.params['locationId'];
 
     if (this.locationId) {
-      this.api.getLocation(this.locationId).subscribe({
+      this.locationService.get(this.locationId).subscribe({
         next: (location: Location) => {
           this.location = location;
         },
         error: () => {
           this.errorHandler.push(
-            $localize`:@@plant-add.location:Invalid location provided.`
+            $localize`:@@plant-add.location:Invalid location provided.`,
           );
         },
       });
@@ -131,19 +117,19 @@ export class PlantAddComponent {
                 this.router.navigate(['/plant', plant.id]);
 
                 return EMPTY;
-              })
+              }),
             );
           }),
           finalize(() => {
             this.disableNavigation = false;
-          })
+          }),
         )
         .subscribe((event) => {
           switch (event.type) {
             case HttpEventType.UploadProgress: {
               const eventTotal = event.total ? event.total : 0;
               this.uploadProgress = Math.round(
-                (event.loaded / eventTotal) * 100
+                (event.loaded / eventTotal) * 100,
               );
               break;
             }
@@ -159,7 +145,7 @@ export class PlantAddComponent {
         .pipe(
           finalize(() => {
             this.disableNavigation = false;
-          })
+          }),
         )
         .subscribe({
           next: (plant: Plant) => {
@@ -167,7 +153,7 @@ export class PlantAddComponent {
           },
           error: () => {
             this.errorHandler.push(
-              $localize`:@@plant-add.create:Error when creating the plant.`
+              $localize`:@@plant-add.create:Error when creating the plant.`,
             );
           },
         });

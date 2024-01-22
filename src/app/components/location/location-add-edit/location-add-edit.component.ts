@@ -11,27 +11,23 @@ import {
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 
-import {
-  FileUploaderComponent
-} from '@components/file-uploader/file-uploader.component';
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
+import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import {
-  CurrentPicComponent
-} from '@components/current-pic/current-pic.component';
-import { Location, Light } from '@models/location.model';
+import { CurrentPicComponent } from '@components/current-pic/current-pic.component';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { LocationService } from '@services/location.service';
+import { Location, Light } from '@models/location.model';
 import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
+
+type LightOptionType = {
+  value: string;
+  name: string;
+  desc: string;
+};
 
 @Component({
   standalone: true,
@@ -52,15 +48,18 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
   styleUrls: ['./location-add-edit.component.scss'],
 })
 export class LocationAddEditComponent {
-  lightOptions = Light;
-  locationForm: FormGroup;
-  location?: Location;
-  id?: number;
-  createNew: boolean = false;
-  created: boolean = false;
-  edited: boolean = false;
-  removePicture: boolean = false;
-  disableNavigation: boolean = false;
+  protected locationForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    light: ['FULLSUN', Validators.required],
+    public: [true],
+    pictureFile: [],
+  });
+  protected location?: Location;
+  protected createNew: boolean = false;
+  protected removePicture: boolean = false;
+  protected disableNavigation: boolean = false;
+  protected lightOptions: LightOptionType[] = [];
+  private id?: number;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -69,14 +68,7 @@ export class LocationAddEditComponent {
     public readonly locationService: LocationService,
     private readonly breadcrumb: BreadcrumbService,
     private readonly errorHandler: ErrorHandlerService,
-  ) {
-    this.locationForm = this.fb.group({
-      name: ['', Validators.required],
-      light: ['FULLSUN', Validators.required],
-      public: [true],
-      pictureFile: [],
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     const paramId = this.route.snapshot.params['locationId'];
@@ -85,33 +77,35 @@ export class LocationAddEditComponent {
     // editing
     if (!this.createNew && +paramId) {
       this.id = +paramId;
-      
+
       this.locationService
         .get(this.id)
         .pipe(
           catchError((err: HttpErrorResponse) => {
             this.errorHandler.push(
-              $localize`:@@location.invalid:Location invalid or not found`
+              $localize`:@@location.invalid:Location invalid or not found`,
             );
 
             return EMPTY;
-          })
+          }),
         )
         .subscribe((location: Location) => {
           this.location = location;
 
           Object.keys(this.locationForm.value).forEach((key) => {
             this.locationForm.controls[key].setValue(
-              location[key as keyof Location]
+              location[key as keyof Location],
             );
           });
 
           this.breadcrumb.setNavigation(
             [{ selector: 'location-edit', name: 'Edit location' }],
-            { attachTo: 'location' }
+            { attachTo: 'location' },
           );
         });
     }
+
+    this.lightOptions = this.createLightOptions();
   }
 
   control(name: string): FormControl {
@@ -122,6 +116,20 @@ export class LocationAddEditComponent {
     return (
       this.control('name').errors?.['required'] && this.control('name').dirty
     );
+  }
+
+  createLightOptions(): LightOptionType[] {
+    const opts: LightOptionType[] = [];
+
+    for (const option of Object.keys(Light)) {
+      opts.push({
+        value: option,
+        name: this.locationService.getLightName(option),
+        desc: this.locationService.getLightDesc(option),
+      });
+    }
+
+    return opts;
   }
 
   fileChange(files: File[]) {
@@ -152,7 +160,7 @@ export class LocationAddEditComponent {
           catchError((error: HttpErrorResponse) => {
             if (error.error?.msg === 'IMG_NOT_VALID') {
               this.errorHandler.push(
-                $localize`:@@errors.invalidImg:Invalid image.`
+                $localize`:@@errors.invalidImg:Invalid image.`,
               );
             }
 
@@ -160,7 +168,7 @@ export class LocationAddEditComponent {
           }),
           finalize(() => {
             this.disableNavigation = false;
-          })
+          }),
         )
         .subscribe((location: Location) => {
           this.router.navigate([`location/${location.id}`]);

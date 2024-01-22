@@ -6,7 +6,6 @@
   @include t.themify {
     color: t.theme(picturebox_content);
   }
-  text-decoration: none;
 }
 
 .picturebox {
@@ -15,10 +14,10 @@
   background-color: lightgrey;
   height: var.$pictureBoxSize;
   width: var.$pictureBoxSize;
+  text-decoration: none;
 
   a {
     color: white;
-    text-decoration: none;
   }
 
   &__content {
@@ -36,7 +35,6 @@
 
   &__contentbelow {
     text-align: center;
-    text-decoration: none;
 
     @include t.themify {
       color: t.theme(main_text);

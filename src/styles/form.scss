@@ -164,7 +164,7 @@ $inputWidth: 22rem;
     }
   }
 
-  &-error input {
+  &--error input {
     @include t.themify {
       box-shadow: 0 0 5px t.theme(error);
       border: 1px solid t.theme(error);

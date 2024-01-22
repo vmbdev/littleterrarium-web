@@ -9,7 +9,7 @@ import { AuthService } from '@services/auth.service';
   templateUrl: './user-logout.component.html',
 })
 export class UserLogoutComponent {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private readonly auth: AuthService, private readonly router: Router) {}
 
   ngOnInit(): void {
     this.auth.logOut().subscribe(() => {

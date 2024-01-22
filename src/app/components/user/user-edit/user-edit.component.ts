@@ -45,9 +45,9 @@ import { User } from '@models/user.model';
   styleUrls: ['./user-edit.component.scss'],
 })
 export class UserEditComponent {
-  userForm: FormGroup;
-  removeAvatar: boolean = false;
-  currentAvatar?: string | null;
+  protected userForm: FormGroup;
+  protected removeAvatar: boolean = false;
+  protected currentAvatar?: string | null;
 
   constructor(
     private readonly fb: FormBuilder,

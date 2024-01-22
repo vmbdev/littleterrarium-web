@@ -14,12 +14,8 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 
 // TODO: focus input on page change
 
@@ -43,9 +39,9 @@ export class WizardComponent {
   @Input({ transform: booleanAttribute }) singlePage: boolean = false;
   @Input() disableNavigation: boolean = false;
   @Output() indexChange = new EventEmitter();
-  currentIndex: number = 0;
+  protected currentIndex: number = 0;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngAfterContentInit(): void {
     if (this.start) this.setIndex(this.start);

@@ -5,18 +5,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, EMPTY } from 'rxjs';
 
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
-import {
-  WizardComponent
-} from '@components/wizard/wizard/wizard.component';
-import {
-  PasswordFormComponent
-} from '@components/user/password-form/password-form.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
+import { PasswordFormComponent } from '@components/user/password-form/password-form.component';
 import { PasswordService } from '@services/password.service';
 
 @Component({
@@ -34,21 +26,21 @@ import { PasswordService } from '@services/password.service';
   styleUrl: './user-password-reset.component.scss',
 })
 export class UserPasswordResetComponent {
-  passwordGroup: FormGroup;
-  pwdReq$ = this.pws.getPasswordRequirements();
-  token?: string | null;
-  userId?: number | null;
+  protected form: FormGroup;
+  protected pwdReq$ = this.pws.getPasswordRequirements();
+  private token?: string | null;
+  private userId?: number | null;
 
-  errorInvalidToken: boolean = false;
-  errorInvalidPassword: boolean = false;
-  passwordChanged: boolean = false;
+  protected errorInvalidToken: boolean = false;
+  protected errorInvalidPassword: boolean = false;
+  protected passwordChanged: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
     private readonly pws: PasswordService,
   ) {
-    this.passwordGroup = this.fb.group({
+    this.form = this.fb.group({
       password: [''],
       password2: [''],
     });
@@ -66,18 +58,18 @@ export class UserPasswordResetComponent {
             this.errorInvalidToken = true;
 
             return EMPTY;
-          })
+          }),
         )
         .subscribe();
     }
   }
 
   submit() {
-    if (!this.passwordGroup.valid || !(this.token && this.userId)) {
+    if (!this.form.valid || !(this.token && this.userId)) {
       return;
     }
 
-    const pwd = this.passwordGroup.get('password')?.value;
+    const pwd = this.form.get('password')?.value;
     this.pws
       .recoverPassword(this.token, pwd, this.userId)
       .pipe(
@@ -91,7 +83,7 @@ export class UserPasswordResetComponent {
           }
 
           return EMPTY;
-        })
+        }),
       )
       .subscribe((res) => {
         this.passwordChanged = true;

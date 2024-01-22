@@ -6,13 +6,12 @@ import {
   numberAttribute,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Location } from '@models/location.model';
-import { ApiService } from '@services/api.service';
+
+import { PictureListComponent } from '@components/picture-list/picture-list.component';
 import { ImagePathService } from '@services/image-path.service';
+import { LocationService } from '@services/location.service';
+import { Location } from '@models/location.model';
 import { PictureItem } from '@models/picture-item.model';
-import {
-  PictureListComponent
-} from '@components/picture-list/picture-list.component';
 
 @Component({
   standalone: true,
@@ -23,25 +22,25 @@ import {
 export class LocationListComponent {
   @Input({ transform: numberAttribute }) userId?: number;
   @Input({ transform: booleanAttribute }) owned: boolean = true;
-  pictureList: PictureItem[] = [];
+  protected pictureList: PictureItem[] = [];
 
   constructor(
-    private apiService: ApiService,
-    public imagePath: ImagePathService
+    private readonly locationService: LocationService,
+    public imagePath: ImagePathService,
   ) {}
 
   ngOnInit(): void {
     const options = {
       plantCount: true,
-      userId: this.userId ? this.userId : null,
+      userId: this.userId ?? null,
     };
-    const list$ = this.apiService.getLocationList(options);
+    const list$ = this.locationService.getMany(options);
 
     list$.subscribe((locations: Location[]) => {
       this.pictureList = [];
 
       for (const location of locations) {
-        const plantCount = location._count?.plants ? location._count.plants : 0;
+        const plantCount = location._count?.plants ?? 0;
 
         this.pictureList.push({
           image: location.pictures

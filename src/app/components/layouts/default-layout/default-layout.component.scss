@@ -2,33 +2,48 @@
 @use 'media.scss' as m;
 @use 'variables.scss' as v;
 
+@mixin color-settings {
+  @include t.themify {
+    background-color: t.theme(main_background);
+    color: t.theme(main_text);
+  }
+  
+  & > a {
+    text-decoration: none;
+
+    @include t.themify {
+      color: t.theme(link_color) !important;
+    }
+  }
+}
+
+.content {
+  &__header,
+  &__wrapper,
+  &__footer {
+    @include color-settings();
+  }
+
+  &__wrapper {
+    position: relative;
+    flex: 1;
+    margin: 0 auto;
+    width: v.$layoutContentWidth;
+  }
+}
+
+@include m.media(mobile) {
+  .content {
+    &__wrapper {
+      width: 95%;
+    }
+  }
+}
+
 .body-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 
-  @include t.themify {
-    background-color: t.theme(main_background);
-    color: t.theme(main_text);
-  }
-
-  & > a {
-    @include t.themify {
-      color: t.theme(link_color) !important;
-    }
-  }
-
-}
-
-.content-wrapper {
-  position: relative;
-  flex: 1;
-  margin: 0 auto;
-  width: v.$layoutContentWidth;
-}
-
-@include m.media(mobile) {
-  .content-wrapper {
-    width: 95%;
-  }
+  @include color-settings();
 }

@@ -5,21 +5,15 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  PasswordFormComponent
-} from '@components/user/password-form/password-form.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { PasswordFormComponent } from '@components/user/password-form/password-form.component';
 import { AuthService } from '@services/auth.service';
 import { ApiService } from '@services/api.service';
 import { UserRegisterErrors, User } from '@models/user.model';
@@ -41,24 +35,24 @@ import { PasswordService } from '@services/password.service';
   styleUrls: ['./user-register.component.scss'],
 })
 export class UserRegisterComponent {
-  userForm: FormGroup;
-  passwordGroup: FormGroup;
+  protected userForm: FormGroup;
+  protected pwdForm: FormGroup;
 
-  pwdReq$ = this.pws.getPasswordRequirements();
-  usernameReq$ = this.api.getUsernameRequirements();
+  protected pwdReq$ = this.pws.getPasswordRequirements();
+  protected usernameReq$ = this.api.getUsernameRequirements();
 
-  wizardPage: number | undefined = undefined;
-  errors: UserRegisterErrors = this.resetErrors();
+  protected wizardPage: number | undefined = undefined;
+  protected errors: UserRegisterErrors = this.resetErrors();
 
   constructor(
-    private pws: PasswordService,
-    private api: ApiService,
-    private fb: FormBuilder,
-    private router: Router,
-    private cd: ChangeDetectorRef,
-    private auth: AuthService
+    private readonly pws: PasswordService,
+    private readonly api: ApiService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly cd: ChangeDetectorRef,
+    private readonly auth: AuthService,
   ) {
-    this.passwordGroup = this.fb.group({
+    this.pwdForm = this.fb.group({
       password: [''],
       password2: [''],
     });
@@ -107,11 +101,11 @@ export class UserRegisterComponent {
   }
 
   submit(): void {
-    if (!this.userForm.valid || !this.passwordGroup.valid) return;
+    if (!this.userForm.valid || !this.pwdForm.valid) return;
 
     this.errors = this.resetErrors();
 
-    const pwd = this.passwordGroup.get('password')?.value;
+    const pwd = this.pwdForm.get('password')?.value;
 
     this.pws
       .checkPassword(pwd)
@@ -157,7 +151,7 @@ export class UserRegisterComponent {
           }
 
           return EMPTY;
-        })
+        }),
       )
       .subscribe(() => {
         this.router.navigateByUrl('/');

@@ -6,7 +6,6 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { PlantService } from '@services/plant.service';
 import { TaskService } from '@services/task.service';
 import { ModalService } from '@services/modal.service';
-import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -23,12 +22,10 @@ export class TasksComponent {
   @ViewChild('fertModal') fertModal!: TemplateRef<any>;
   @ViewChild('waterModal') waterModal!: TemplateRef<any>;
 
-  tasks: Plant[] = [];
-
   constructor(
-    public taskService: TaskService,
-    public plantService: PlantService,
-    private modal: ModalService
+    public readonly taskService: TaskService,
+    public readonly plantService: PlantService,
+    private readonly modal: ModalService
   ) {}
 
   openFertModal(id: number): void {

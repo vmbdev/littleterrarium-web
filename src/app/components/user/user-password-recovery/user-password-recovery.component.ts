@@ -5,22 +5,14 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { catchError, EMPTY } from 'rxjs';
 
-import {
-  WizardComponent
-} from '@components/wizard/wizard/wizard.component';
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardComponent } from '@components/wizard/wizard/wizard.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { PasswordService } from '@services/password.service';
 
 @Component({
@@ -38,18 +30,16 @@ import { PasswordService } from '@services/password.service';
   styleUrl: './user-password-recovery.component.scss',
 })
 export class UserPasswordRecoveryComponent {
-  userForm: FormGroup;
-  checkError: boolean = false;
-  recoveryStarted: boolean = false;
+  protected userForm: FormGroup = this.fb.group({
+    userRef: ['', Validators.required],
+  });
+  protected checkError: boolean = false;
+  protected recoveryStarted: boolean = false;
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly pws: PasswordService
-  ) {
-    this.userForm = this.fb.group({
-      userRef: ['', Validators.required],
-    });
-  }
+    private readonly pws: PasswordService,
+  ) {}
 
   submit() {
     this.checkError = false;
@@ -67,7 +57,7 @@ export class UserPasswordRecoveryComponent {
             this.checkError = true;
 
             return EMPTY;
-          })
+          }),
         )
         .subscribe(() => {
           this.recoveryStarted = true;

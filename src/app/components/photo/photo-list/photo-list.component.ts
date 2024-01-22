@@ -6,9 +6,7 @@ import {
   numberAttribute,
 } from '@angular/core';
 
-import {
-  PictureListComponent
-} from '@components/picture-list/picture-list.component';
+import { PictureListComponent } from '@components/picture-list/picture-list.component';
 import { Photo } from '@models/photo.model';
 import { PictureItem } from '@models/picture-item.model';
 import { ImagePathService } from '@services/image-path.service';
@@ -23,11 +21,11 @@ import { PlantService } from '@services/plant.service';
 export class PhotoListComponent {
   @Input({ transform: numberAttribute }) plantId?: number;
   @Input({ transform: booleanAttribute }) owned: boolean = true;
-  pictureList: PictureItem[] = [];
+  protected pictureList: PictureItem[] = [];
 
   constructor(
     public imagePath: ImagePathService,
-    private plantService: PlantService
+    private plantService: PlantService,
   ) {}
 
   ngOnInit(): void {

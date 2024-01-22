@@ -25,7 +25,7 @@ export class GroupSelectorComponent {
   @Input() assetType: 'image' | 'icon' = 'image';
   @Input({ transform: numberAttribute }) columns: number = 4;
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
-  selectedOption: any | null = null;
+  protected selectedOption: any | null = null;
 
   ngOnInit(): void {
     this.selectedOption = this.default;

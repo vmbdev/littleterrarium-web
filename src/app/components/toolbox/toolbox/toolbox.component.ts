@@ -4,12 +4,10 @@ import {
   Component,
   ContentChildren,
   Input,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  ToolboxButtonComponent
-} from '@components/toolbox/toolbox-button/toolbox-button.component';
+import { ToolboxButtonComponent } from '@components/toolbox/toolbox-button/toolbox-button.component';
 import { CapitalizePipe } from '@pipes/capitalize/capitalize.pipe';
 
 @Component({
@@ -25,7 +23,7 @@ export class ToolboxComponent {
   @Input() title?: string;
   @Input() subtitle?: string;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();

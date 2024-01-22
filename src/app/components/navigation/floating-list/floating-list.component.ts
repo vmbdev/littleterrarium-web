@@ -1,15 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, booleanAttribute } from '@angular/core';
+import {
+  Component,
+  ContentChildren,
+  Input,
+  QueryList,
+  booleanAttribute,
+} from '@angular/core';
+
+import { MainnavBaseContentComponent } from '@components/navigation/mainnav-base-content/mainnav-base-content.component';
 
 @Component({
   selector: 'lt-floating-list',
   standalone: true,
-  imports: [
-    CommonModule,
-  ],
+  imports: [CommonModule],
   templateUrl: './floating-list.component.html',
-  styleUrl: './floating-list.component.scss'
+  styleUrl: './floating-list.component.scss',
 })
 export class FloatingListComponent {
+  @ContentChildren(MainnavBaseContentComponent)
+  content!: QueryList<MainnavBaseContentComponent>;
+
   @Input({ transform: booleanAttribute }) visible: boolean = false;
 }

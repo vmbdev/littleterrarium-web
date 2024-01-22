@@ -8,16 +8,26 @@
   gap: 0.7rem;
   padding: 0.7rem;
   z-index: 10000;
-  width: 9rem;
+  min-width: 11rem;
   right: 0vw;
 
   list-style: none;
   margin-block: 0;
-  padding-inline-start: 0;
   
   @include t.themify {
     background-color: t.theme(main_background);
     border: 1px solid darken(t.theme(secondary_color), 25%);
+  }
+
+  &__item {
+    padding: 0.1rem 0;
+
+    &:hover {
+      @include t.themify {
+        background-color: lighten(t.theme(secondary_color), 15%);
+        border-radius: 4px;
+      }
+    }
   }
 
   &--hidden {
@@ -30,8 +40,12 @@
     position: unset;
     display: contents;
     z-index: 0;
-    width: auto;
+    min-width: auto;
     right: auto;
+
+    &__item {
+      padding: 0.2rem 0;
+    }
 
     &--hidden {
       display: none;

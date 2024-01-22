@@ -27,7 +27,7 @@ export class AuthService {
   private user = new BehaviorSubject<User | null>(null);
   public readonly user$ = this.user.asObservable();
 
-  constructor(private api: ApiService) {
+  constructor(private readonly api: ApiService) {
     this.api.getCurrentUser().subscribe({
       next: (user: User) => {
         this.signedIn.next(true);

@@ -3,6 +3,8 @@
     <ng-content />
   </div>
   @if (value) {
-    <div class="badge__content">{{ value }}</div>
+    <div class="badge__content-wrapper">
+      <span class="badge__content">{{ value }}</span>
+    </div>
   }
 </div>

@@ -41,17 +41,17 @@ export class FileUploaderComponent {
   /**
    * Files currently selected in the component.
    */
-  files: File[] = [];
+  protected files: File[] = [];
 
   /**
    * Thumbnails for the current file selection, in the same order.
    */
-  previews: string[] = new Array<string>(this.maxAmount);
+  protected previews: string[] = new Array<string>(this.maxAmount);
 
   /**
    * Mouse is over the component containing a file.
    */
-  dragOver: boolean = false;
+  protected dragOver: boolean = false;
 
   /**
    * Mouse is dragging a file over the component.

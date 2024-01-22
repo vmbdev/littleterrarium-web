@@ -24,17 +24,14 @@
           when they were taken.
         </p>
       </lt-wizard-page-description>
-      <lt-file-uploader
-        [maxAmount]="10"
-        (fileChange)="fileChange($event)"
-      />
+      <lt-file-uploader [maxAmount]="10" (fileChange)="fileChange($event)" />
     </lt-wizard-page>
 
     <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
       <lt-wizard-page-description>
         <p i18n="@@photo-add.visibility">
-          When your picture is <b>publicly visible</b>, other users will be
-          able to see it when visiting your user profile (given that it's
+          When your picture is <b>publicly visible</b>, other users will be able
+          to see it when visiting your user profile (given that it's
           <b>public</b>).
         </p>
         <p i18n="@@photo-add.visibilityNote">
@@ -45,7 +42,7 @@
       </lt-wizard-page-description>
 
       <div class="form__checkbox">
-        <input type="checkbox" formControlName="public" id="public-checkbox">
+        <input type="checkbox" formControlName="public" id="public-checkbox" />
         <label for="public-checkbox" i18n="@@general.visibilityPublic">
           Publicly visible
         </label>
@@ -64,4 +61,3 @@
     </lt-wizard-page>
   </lt-wizard>
 </form>
-

@@ -28,7 +28,7 @@
       </lt-wizard-page-description>
       <div
         class="form__textinput"
-        [ngClass]="{ 'form-error': hasFormError('name') }"
+        [ngClass]="{ 'form--error': hasFormError('name') }"
       >
         <input
           type="text"
@@ -74,16 +74,16 @@
       </lt-wizard-page-description>
 
       <ul class="location-add-edit__lightoptions">
-        @for (option of lightOptions | keyvalue; let i = $index; track option.key) {
+        @for (option of lightOptions; let i = $index; track option.value) {
           <li class="form__radio">
             <input
               type="radio"
               formControlName="light" [id]="'light' + i"
-              [value]="option.key"
+              [value]="option.value"
             >
             <label [for]="'light' + i">
-              <b>{{ locationService.getLightName(option.key) }}</b>:
-              {{ locationService.getLightVerbose(option.key) }}
+              <b>{{ option.name }}</b>:
+              {{ option.desc }}
             </label>
           </li>
         }

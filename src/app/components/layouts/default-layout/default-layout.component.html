@@ -1,5 +1,6 @@
 <div class="body-wrapper">
-  <header>
+  <lt-error-toast />
+  <header class="content__header">
     <lt-mainnav brand="assets/logo.svg">
       <ng-container right>
         <ul class="content-list">
@@ -47,11 +48,11 @@
     <lt-breadcrumb-navigation />
   </header>
 
-  <main role="main" class="content-wrapper">
+  <main role="main" class="content__wrapper">
     <router-outlet />
   </main>
 
-  <footer>
+  <footer class="content__footer">
     <lt-footernav />
   </footer>
 

@@ -8,6 +8,7 @@ import { FloatingListComponent } from '@components/navigation/floating-list/floa
 import { MainnavItemComponent } from '@components/navigation/mainnav-item/mainnav-item.component';
 import { ApiService } from '@services/api.service';
 import { CapitalizePipe } from '@pipes/capitalize/capitalize.pipe';
+import { IntlPipe } from '@pipes/intl/intl.pipe';
 
 type LocaleList = {
   default: string;
@@ -23,21 +24,21 @@ type LocaleList = {
     CapitalizePipe,
     FloatingListComponent,
     MainnavItemComponent,
+    IntlPipe,
   ],
   templateUrl: './lang-switcher.component.html',
   styleUrls: ['./lang-switcher.component.scss'],
 })
 export class LangSwitcherComponent {
-  listVisible: boolean = false;
-  currentUserLocale: string | null = null;
-  localeList?: LocaleList;
-  currentUrl: string;
+  protected listVisible: boolean = false;
+  protected localeList?: LocaleList;
+  private currentUrl: string;
 
   constructor(
-    @Inject(LOCALE_ID) public currentLocale: string,
-    private router: Router,
-    private api: ApiService,
-    private location: Location
+    @Inject(LOCALE_ID) public readonly currentLocale: string,
+    private readonly router: Router,
+    private readonly api: ApiService,
+    private readonly location: Location,
   ) {
     this.currentUrl = location.path();
   }
@@ -63,7 +64,7 @@ export class LangSwitcherComponent {
         // for the switcher to send you to the current url
         switchMap(() => this.router.events),
         filter((event) => event instanceof NavigationStart),
-        map((event) => event as NavigationStart)
+        map((event) => event as NavigationStart),
       )
       .subscribe((event: NavigationStart) => {
         this.currentUrl = event.url;
@@ -87,13 +88,6 @@ export class LangSwitcherComponent {
   }
 
   navigateTo(url: string) {
-    window.location.href =
-      `${window.location.protocol}//${window.location.host}${url}`;
-  }
-
-  getLanguageName(locale: string): string | undefined {
-    const dn = new Intl.DisplayNames([locale], { type: 'language' });
-
-    return dn.of(locale.toUpperCase());
+    window.location.href = `${window.location.protocol}//${window.location.host}${url}`;
   }
 }

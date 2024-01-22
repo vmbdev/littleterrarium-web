@@ -1,5 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import {
+  Component,
+  Inject,
+  Renderer2,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 
 import { ThemeService } from '@services/theme.service';
@@ -12,6 +19,26 @@ import { ThemeService } from '@services/theme.service';
 })
 export class AppComponent {
   @ViewChild('mainElement') mainElement!: TemplateRef<any>;
+  private currentTheme?: string;
 
-  constructor(public theme: ThemeService) {}
+  constructor(
+    @Inject(DOCUMENT) private readonly document: Document,
+    private readonly renderer: Renderer2,
+    public readonly theme: ThemeService,
+  ) {
+    this.theme.theme$
+      .pipe(takeUntilDestroyed())
+      .subscribe((newTheme: string) => {
+        if (this.currentTheme) {
+          this.renderer.removeClass(
+            this.document.body,
+            `theme-${this.currentTheme}`,
+          );
+        }
+
+        this.renderer.addClass(this.document.body, `theme-${newTheme}`);
+
+        this.currentTheme = newTheme;
+      });
+  }
 }

@@ -12,9 +12,9 @@ import { ErrorHandlerService } from '@services/error-handler.service';
   styleUrls: ['./error-toast.component.scss'],
 })
 export class ErrorToastComponent {
-  errorList: string[] = [];
+  protected errorList: string[] = [];
 
-  constructor(private errorHandler: ErrorHandlerService) {}
+  constructor(private readonly errorHandler: ErrorHandlerService) {}
 
   ngOnInit(): void {
     this.errorHandler.list$.subscribe((error: string | null) => {

@@ -197,10 +197,11 @@
     "user-password-recovery.error": "No pudimos encontrar un usuario o correo con esos datos.",
     "user-password-recovery.info": "Introduce tu usuario o correo electrónico y te mandaremos un enlace para recuperar tu contraseña.",
     "user-password-recovery.success": "Hemos enviado un correo con un enlace para recuperar tu contraseña. Por si acaso, ¡mira en SPAM!",
-    "user-password-reset.desc": "Crea una nueva contraseña",
-    "user-password-reset.invalidPassword": "La contraseña es inválida. Por favor, revisa las reglas de arriba.",
-    "user-password-reset.invalidToken": "El enlace ha caducado o no es válido. Por favor, inicia de nuevo el proceso de recuperación de contraseña.",
-    "user-password-reset.passwordChanged": "Has cambiado la contraseña. Vuelve a identificarte con la nueva contraseña.",
+    "user-password.desc": "Crea una nueva contraseña",
+    "user-password.invalidPassword": "La contraseña es inválida. Por favor, revisa las reglas de arriba.",
+    "user-password.invalidToken": "El enlace ha caducado o no es válido. Por favor, inicia de nuevo el proceso de recuperación de contraseña.",
+    "user-password.reset": "Has cambiado la contraseña. Vuelve a identificarte con la nueva contraseña.",
+    "user-password.changed": "Has cambiado la contraseña. Recuerda usar la nueva la próxima vez que accedas.",
     "user-register.emailDesc": "Así te identificamos de forma única, y es necesario para recibir notificaciones y recuperar tu cuenta si olvidas tu contraseña.",
     "user-register.emailInvalid": "Lo sentimos, tu dirección de correo no tiene el formato adecuado.",
     "user-register.emailTaken": "Lo sentimos, tu correo electrónico ya está en nuestro sistema. ¿Seguro que no tienes ya una cuenta?",
@@ -210,6 +211,7 @@
     "user-register.usernameInvalid": "Tu nombre de usuario no es correcto. Por favor, revisa el formato.",
     "user-register.usernameReq": "Debe tener entre {$INTERPOLATION} y {$INTERPOLATION_1} caracteres, y contener solo letras, números, puntos (.), guiones (-) y barras bajas (_).",
     "user-register.usernameTaken": "Lo sentimos, este usuario ya está en uso. Por favor, elige otro.",
+    "userbox.changePassword": "Cambiar contraseña",
     "userbox.profile": "Editar perfil",
     "userbox.terrarium": "Tu Terrarium"
   }

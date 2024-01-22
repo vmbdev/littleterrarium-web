@@ -5,32 +5,22 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
 
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import {
-  SpecieFinderComponent
-} from '@components/specie-finder/specie-finder.component';
+import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
 import {
   GroupSelectorData,
-  GroupSelectorComponent
+  GroupSelectorComponent,
 } from '@components/group-selector/group-selector.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
-import { ApiService } from '@services/api.service';
 import { PlantService } from '@services/plant.service';
-import { Location } from '@models/location.model';
 import { Plant, Condition } from '@models/plant.model';
+import { LocationService } from '@services/location.service';
 
 @Component({
   standalone: true,
@@ -49,44 +39,33 @@ import { Plant, Condition } from '@models/plant.model';
   styleUrls: ['./plant-edit.component.scss'],
 })
 export class PlantEditComponent {
-  id!: number;
-  locations$: Observable<Location[]>;
-  plantForm: FormGroup;
-  plantCondition = Condition;
-  removeSpecie: boolean = false;
-
-  conditions: GroupSelectorData<string>[] = [];
-  defaultCondition?: string | null = null;
+  private id?: number;
+  protected locations$ = this.locationService.getMany();
+  protected plantForm: FormGroup = this.fb.group({
+    customName: [],
+    specieId: [],
+    description: [],
+    condition: [],
+    locationId: [Validators.required],
+    public: [],
+  });
+  protected removeSpecie: boolean = false;
+  protected conditions = this.getConditions();
+  protected defaultCondition: string | null = null;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    public plantService: PlantService,
-    private api: ApiService,
-    private breadcrumb: BreadcrumbService
-  ) {
-    this.plantForm = this.fb.group({
-      customName: [],
-      specieId: [],
-      description: [],
-      condition: [],
-      locationId: [Validators.required],
-      public: [],
-    });
-
-    this.locations$ = this.api.getLocationList();
-    this.conditions = this.getConditions();
-  }
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    public readonly plantService: PlantService,
+    private readonly locationService: LocationService,
+    private readonly breadcrumb: BreadcrumbService,
+  ) {}
 
   ngOnInit(): void {
     this.id = +this.route.snapshot.params['plantId'];
 
     if (this.id) {
-      // this.api.getLocationList().subscribe((locations: Location[]) => {
-      //   this.locations = locations;
-      // });
-
       this.plantService.get(this.id).subscribe({
         next: (plant: Plant) => {
           this.defaultCondition = plant.condition;
@@ -102,7 +81,7 @@ export class PlantEditComponent {
 
           this.breadcrumb.setNavigation(
             [{ selector: 'plant-edit', name: 'Edit' }],
-            { attachTo: 'plant' }
+            { attachTo: 'plant' },
           );
         },
       });
@@ -133,6 +112,8 @@ export class PlantEditComponent {
   }
 
   submit(): void {
+    if (!this.id) return;
+
     this.plantForm.patchValue({
       locationId: +this.plantForm.get('locationId')?.value,
     });

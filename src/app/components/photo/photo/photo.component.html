@@ -7,7 +7,7 @@
     }
 
     <lt-toolbox title="{{ photo.takenAt | date }}">
-      @if (photoService.owned) {
+      @if (photoService.owned$ | async) {
         <lt-toolbox-button name="edit" (click)="enablePhotoEditing = true" />
         <lt-toolbox-button name="trash" (click)="openDeleteModal()"/>
       }

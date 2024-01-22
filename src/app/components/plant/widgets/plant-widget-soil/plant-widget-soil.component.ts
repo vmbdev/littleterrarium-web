@@ -12,9 +12,9 @@ import { UnitPipe } from '@pipes/unit/unit.pipe';
   templateUrl: './plant-widget-soil.component.html',
 })
 export class PlantWidgetSoilComponent {
-  potName?: string;
+  protected potName?: string;
 
-  constructor(public plantService: PlantService) {}
+  constructor(public readonly plantService: PlantService) {}
 
   ngOnInit(): void {
     this.potName = this.getPotName();

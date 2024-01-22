@@ -4,23 +4,17 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import {
   GroupSelectorData,
-  GroupSelectorComponent
+  GroupSelectorComponent,
 } from '@components/group-selector/group-selector.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
@@ -42,18 +36,18 @@ import { Plant, PotNames } from '@models/plant.model';
   styleUrls: ['./plant-edit-soil.component.scss'],
 })
 export class PlantEditSoilComponent {
-  id!: number;
-  potForm: FormGroup;
+  private id?: number;
+  protected potForm: FormGroup;
 
-  defaultPot: string | null = null;
-  pots: GroupSelectorData<string>[] = [];
+  protected defaultPot: string | null = null;
+  protected pots: GroupSelectorData<string>[] = [];
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    public plantService: PlantService,
-    private breadcrumb: BreadcrumbService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    public readonly plantService: PlantService,
+    private readonly breadcrumb: BreadcrumbService,
   ) {
     this.potForm = this.fb.group({
       potSize: [],
@@ -79,7 +73,7 @@ export class PlantEditSoilComponent {
 
           this.breadcrumb.setNavigation(
             [{ selector: 'plant-edit-soil', name: 'Edit pot and soil' }],
-            { attachTo: 'plant' }
+            { attachTo: 'plant' },
           );
         },
       });
@@ -99,11 +93,13 @@ export class PlantEditSoilComponent {
         id: key,
         asset: pot.image,
         name: pot.name,
-      }
+      };
     });
   }
 
   submit(): void {
+    if (!this.id) return;
+
     const plant: Plant = this.potForm.value;
     plant.id = this.id;
 
@@ -114,10 +110,8 @@ export class PlantEditSoilComponent {
           : plant.potSize;
     }
 
-    this.plantService.update(plant).subscribe({
-      next: () => {
-        this.router.navigate(['/plant', this.id]);
-      },
+    this.plantService.update(plant).subscribe(() => {
+      this.router.navigate(['/plant', this.id]);
     });
   }
 }

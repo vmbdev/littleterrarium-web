@@ -14,7 +14,7 @@ export class ContentNavigatorComponent {
   @Input() previousLink?: any[];
   @Input() nextLink?: any[];
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   @HostListener('window:keydown.ArrowLeft', ['$event'])
   @HostListener('window:keydown.ArrowRight', ['$event'])

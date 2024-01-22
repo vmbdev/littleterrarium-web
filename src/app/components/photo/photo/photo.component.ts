@@ -4,29 +4,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 
-import {
-  QuickModalComponent
-} from '@components/modals/quick-modal/quick-modal.component';
+import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
-import {
-  PhotoEditComponent
-} from '@components/photo/photo-edit/photo-edit.component';
-import {
-  ContentNavigatorComponent
-} from '@components/content-navigator/content-navigator.component';
-import {
-  ToolboxComponent
-} from '@components/toolbox/toolbox/toolbox.component';
-import {
-  ToolboxButtonComponent
-} from '@components/toolbox/toolbox-button/toolbox-button.component';
+import { PhotoEditComponent } from '@components/photo/photo-edit/photo-edit.component';
+import { ContentNavigatorComponent } from '@components/content-navigator/content-navigator.component';
+import { ToolboxComponent } from '@components/toolbox/toolbox/toolbox.component';
+import { ToolboxButtonComponent } from '@components/toolbox/toolbox-button/toolbox-button.component';
 import { PropertyPublicComponent } from '@components/property-public/property-public.component';
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PhotoService } from '@services/photo.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
-import { NavigationData, Photo } from '@models/photo.model';
 import { ModalService } from '@services/modal.service';
+import { NavigationData, Photo } from '@models/photo.model';
 import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
 
 @Component({
@@ -50,17 +40,17 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
 })
 export class PhotoComponent {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
-  id?: number;
-  enablePhotoEditing: boolean = false;
-  navigation: NavigationData = {};
+  private id?: number;
+  protected enablePhotoEditing: boolean = false;
+  protected navigation: NavigationData = {};
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private breadcrumb: BreadcrumbService,
-    public photoService: PhotoService,
-    private errorHandler: ErrorHandlerService,
-    private modal: ModalService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly breadcrumb: BreadcrumbService,
+    public readonly photoService: PhotoService,
+    private readonly errorHandler: ErrorHandlerService,
+    private readonly modal: ModalService,
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +70,7 @@ export class PhotoComponent {
           catchError((err: HttpErrorResponse) => {
             if (err.error?.msg === 'PHOTO_NOT_FOUND') {
               this.errorHandler.push(
-                $localize`:@@photo.invalid:Photo not found.`
+                $localize`:@@photo.invalid:Photo not found.`,
               );
             } else {
               this.errorHandler.push($localize`:@@errors.server:Server error`);
@@ -95,11 +85,11 @@ export class PhotoComponent {
               [
                 {
                   selector: 'photo',
-                  name: $localize `:@@general.photo:Photo`,
+                  name: $localize`:@@general.photo:Photo`,
                   link: ['/photo', this.id],
                 },
               ],
-              { attachTo: 'plant', parent: photo.plantId }
+              { attachTo: 'plant', parent: photo.plantId },
             );
 
             return this.photoService.getNavigation(photo.id);
@@ -128,18 +118,10 @@ export class PhotoComponent {
         },
         error: () => {
           this.errorHandler.push(
-            $localize`:@@photo.deleteError:Error while deleting the photo.`
+            $localize`:@@photo.deleteError:Error while deleting the photo.`,
           );
         },
       });
     }
-  }
-
-  getVisibilityAsset(): string {
-    const name = this.photoService.getValue()?.public
-      ? 'public'
-      : 'private';
-
-    return `assets/visibility-${name}.png`;
   }
 }

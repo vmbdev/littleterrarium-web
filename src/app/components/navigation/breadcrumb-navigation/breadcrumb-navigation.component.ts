@@ -13,5 +13,8 @@ import { BreadcrumbService } from '@services/breadcrumb.service';
   styleUrls: ['./breadcrumb-navigation.component.scss'],
 })
 export class BreadcrumbNavigationComponent {
-  constructor(public router: Router, public breadcrumb: BreadcrumbService) {}
+  constructor(
+    public readonly router: Router,
+    public readonly breadcrumb: BreadcrumbService,
+  ) {}
 }

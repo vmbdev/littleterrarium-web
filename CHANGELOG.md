@@ -2,7 +2,8 @@
 
 ## [1.1.0] - next
 
-Happy new year! Some interesting changes in 1.1.0.
+Happy new year! Main highlight of this release is a total visual revamp, making
+it much more responsive and less saturated.
 
 ### Added
 
@@ -11,9 +12,13 @@ replacing most of the (too much) colorful icons used previously.
 - New Badge component, currently used to show remaining tasks in the nav bar.
 with the navigation bar when visited on small devices.
 - New PasswordService to manage API calls related to the user password.
+- New component to easily change own's password.
+- WebP support detector: if the browser doesn't support WebP and the backend
+is set up to also send traditional image formats, images will use the later.
 
 ### Changes
 
+- Updated to Angular 17.1.0.
 - A much needed visual update, now it looks a little bit clearer and more
 responsive with small devices (tablets and smartphones, mainly).
 - That includes moving away from the horrid ThemeSwitcher and LangSwitcher
@@ -34,11 +39,12 @@ will hide when everything is loaded.
 - Content navigator (the prev/next buttons for photos) now occupies the whole
 space vertically, and it's easier to click.
 - Improved markup semantics.
+- Improved methods and properties protection.
+- Updated translations.
+- Reduced function calls from templates.
 - Cleanup of theme related variables.
 - Cleanup of modal code into something more shareable and common.
 - Cleanup of many observables in services.
-- Updated translations.
-- Reduced function calls from templates.
 - Cleanup of many models and enums that were wrongly placed and defined.
 
 ## [1.0.7] - 2023-12-19

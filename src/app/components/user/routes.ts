@@ -6,7 +6,7 @@ export const USER_ROUTES: Route[] = [
     path: 'edit',
     loadComponent: () =>
       import('./user-edit/user-edit.component').then(
-        (m) => m.UserEditComponent
+        (m) => m.UserEditComponent,
       ),
     canActivate: [SignedInGuard],
   },
@@ -14,14 +14,27 @@ export const USER_ROUTES: Route[] = [
     path: 'recover',
     loadComponent: () =>
       import('./user-password-recovery/user-password-recovery.component').then(
-        (m) => m.UserPasswordRecoveryComponent
+        (m) => m.UserPasswordRecoveryComponent,
       ),
   },
   {
-    path: 'reset/:userId/:token',
-    loadComponent: () =>
-      import('./user-password-reset/user-password-reset.component').then(
-        (m) => m.UserPasswordResetComponent
-      ),
+    path: 'reset',
+    loadChildren: () => [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./user-password-change/user-password-change.component').then(
+            (m) => m.UserPasswordChangeComponent,
+          ),
+        canActivate: [SignedInGuard],
+      },
+      {
+        path: ':userId/:token',
+        loadComponent: () =>
+          import('./user-password-reset/user-password-reset.component').then(
+            (m) => m.UserPasswordResetComponent,
+          ),
+      },
+    ],
   },
 ];

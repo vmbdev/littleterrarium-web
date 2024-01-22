@@ -37,9 +37,9 @@ export class BreadcrumbService {
   private prev: BreadcrumbLink[] = [];
 
   constructor(
-    private router: Router,
-    private locationService: LocationService,
-    private plantService: PlantService
+    private readonly router: Router,
+    private readonly locationService: LocationService,
+    private readonly plantService: PlantService
   ) {
     this.router.events
       .pipe(

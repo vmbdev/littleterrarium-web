@@ -27,7 +27,7 @@
           </span>
         </p>
       }
-      @if (this.plantService.owned) {
+      @if (this.plantService.owned$ | async) {
         <p class="text-center">
           <box-icon
             name="plus-circle"

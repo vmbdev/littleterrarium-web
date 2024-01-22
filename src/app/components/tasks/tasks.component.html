@@ -13,12 +13,12 @@
         <li class="tasks__item">
           <img
             class="tasks__plantpic"
-            [src]="plantService.coverPhoto(task)"
-            [routerLink]="['/plant', task.id]"
+            [src]="task.picture"
+            [routerLink]="['/plant', task.plantId]"
           />
 
-          <div class="tasks__plantname" [routerLink]="['/plant', task.id]">
-            {{ plantService.getVisibleName(task) }}
+          <div class="tasks__plantname" [routerLink]="['/plant', task.plantId]">
+            {{ task.plantName }}
           </div>
 
           <div class="tasks__actions">
@@ -26,13 +26,13 @@
               name="drink"
               size="md"
               [disabled]="!task.waterNext"
-              (click)="openWaterModal(task.id)"
+              (click)="openWaterModal(task.plantId)"
             />
             <box-icon
               name="bowl-hot"
               size="md"
               [disabled]="!task.fertNext"
-              (click)="openFertModal(task.id)"
+              (click)="openFertModal(task.plantId)"
             />
           </div>
         </li>

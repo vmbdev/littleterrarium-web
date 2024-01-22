@@ -23,11 +23,11 @@ type ModalOptions = {
   providedIn: 'root',
 })
 export class ModalService {
-  modalSubs?: Subject<string>;
+  private modalSubs?: Subject<string>;
 
   constructor(
-    private injector: EnvironmentInjector,
-    private app: ApplicationRef
+    private readonly injector: EnvironmentInjector,
+    private readonly app: ApplicationRef
   ) {}
 
   open(content: TemplateRef<any>, type: ModalType, options?: ModalOptions) {

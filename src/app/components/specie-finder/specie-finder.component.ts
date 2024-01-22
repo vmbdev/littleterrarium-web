@@ -24,12 +24,12 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 export class SpecieFinderComponent {
   @Input() selected?: number;
   @Output() selectSpecieId = new EventEmitter<number | null>();
-  results$: Observable<Specie[]> = of([]);
-  currentSearch: string = '';
-  inputValue: string = '';
-  resultsHidden: boolean = false;
+  protected results$: Observable<Specie[]> = of([]);
+  protected currentSearch: string = '';
+  protected inputValue: string = '';
+  protected resultsHidden: boolean = false;
 
-  constructor(private api: ApiService) {}
+  constructor(private readonly api: ApiService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     const specie = changes['selected'].currentValue;

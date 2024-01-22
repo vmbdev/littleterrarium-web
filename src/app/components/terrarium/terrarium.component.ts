@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 import {
   LocationListComponent
@@ -27,22 +27,23 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
   styleUrls: ['./terrarium.component.scss'],
 })
 export class TerrariumComponent {
-  user$ = new BehaviorSubject<User | null>(null);
-  fullName: string = '';
+  protected user$?: Observable<User>;
+  protected fullName: string = '';
 
   constructor(private route: ActivatedRoute, private api: ApiService) {
     const username = this.route.snapshot.paramMap.get('username');
 
     if (username) {
-      this.api
+      this.user$ = this.api
         .getUserByName(username)
-        .pipe(takeUntilDestroyed())
-        .subscribe((user: User | null) => {
-          if (user) {
-            this.user$.next(user);
+        .pipe(
+          takeUntilDestroyed(),
+          map((user: User) => {
             this.fullName = this.getFullName(user);
-          }
-        });
+
+            return user;
+          })
+        );
     }
   }
 

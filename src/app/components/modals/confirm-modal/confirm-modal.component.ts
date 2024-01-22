@@ -12,7 +12,7 @@ export class ConfirmModalComponent {
   @Output() accept: EventEmitter<null> = new EventEmitter<null>();
   @Output() cancel: EventEmitter<null> = new EventEmitter<null>();
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private readonly elementRef: ElementRef) {}
 
   onAccept(): void {
     this.elementRef.nativeElement.remove();

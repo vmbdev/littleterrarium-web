@@ -1,8 +1,7 @@
 <form
-  #signinForm="ngForm"
-  (ngSubmit)="submit(signinForm)"
+  [formGroup]="form"
+  (ngSubmit)="submit()"
   class="form"
-  novalidate
 >
   <article class="signin">
     <div class="signin__container">
@@ -16,26 +15,34 @@
           taking care of your plants!
         </p>
       </section>
-      <div class="form__textinput">
+      <div
+        class="form__textinput"
+        [ngClass]="{
+          'form--error': 
+            form.controls['username'].touched
+            && !!form.controls['username'].errors?.['required']
+        }"
+      >
         <p i18n="@@signin.identification">Username or email</p>
         <input
           type="text"
-          required
-          ngModel
-          name="username"
+          formControlName="username"
           placeholder="PlantLover95"
-          [ngClass]="{ form__error: controls.usernameEmpty }"
         />
       </div>
-      <div class="form__textinput">
+      <div
+        class="form__textinput"
+        [ngClass]="{
+          'form--error': 
+            form.controls['password'].touched
+            && !!form.controls['password'].errors?.['required']
+        }"
+      >
         <p i18n="@@general.password">Password</p>
         <input
           type="password"
-          required
-          ngModel
-          name="password"
+          formControlName="password"
           placeholder="Password"
-          [ngClass]="{ form__error: controls.passwordEmpty }"
           i18n-placeholder="@@general.password"
         />
       </div>
@@ -49,7 +56,11 @@
       }
 
       <div class="form__submit">
-        <button [disabled]="!signinForm.valid" i18n="@@general.signin">
+        <button
+          type="submit"
+          i18n="@@general.signin"
+          [disabled]="!form.valid"
+        >
           Sign in
         </button>
       </div>

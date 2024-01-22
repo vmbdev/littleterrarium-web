@@ -67,8 +67,8 @@ export interface DataCount {
 })
 export class ApiService {
   constructor(
-    private http: HttpClient,
-    @Inject(BACKEND_URL) public backendUrl: string
+    private readonly http: HttpClient,
+    @Inject(BACKEND_URL) public readonly backendUrl: string
   ) {}
 
   endpoint(path: string): string {
@@ -155,13 +155,13 @@ export class ApiService {
   editUser(user: User, options: UserEditConfig = {}): Observable<User> {
     const form = new FormData();
 
-    form.append('username', user.username);
-    form.append('email', user.email);
-    form.append('public', user.public.toString());
-
+    if (user.username) form.append('username', user.username);
+    if (user.email) form.append('email', user.email);
+    if (user.public) form.append('public', user.public.toString());
     if (user.firstname) form.append('firstname', user.firstname);
     if (user.lastname) form.append('lastname', user.lastname);
     if (user.bio) form.append('bio', user.bio);
+    if (user.password) form.append('password', user.password);
 
     if (options.removeAvatar) form.append('removeAvatar', 'true');
     else if (user.avatarFile) form.append('avatar', user.avatarFile);

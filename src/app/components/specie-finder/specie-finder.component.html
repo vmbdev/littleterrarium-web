@@ -27,7 +27,7 @@
           <div class="sf__itemtext">
             <div
               class="sf__title"
-              [innerHtml]="(specie.commonName ? specie.commonName : specie.name) | highlight:currentSearch"
+              [innerHtml]="(specie.commonName ?? specie.name) | highlight:currentSearch"
             >
             </div>
 

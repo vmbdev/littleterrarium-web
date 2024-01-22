@@ -42,8 +42,8 @@ export class BoxIconComponent {
   @Input({ transform: booleanAttribute }) infoProperty: boolean = false;
   @Output() click: EventEmitter<void> = new EventEmitter();
 
-  classList: string[] = [];
-  clickHasHandler: boolean = false;
+  protected classList: string[] = [];
+  protected clickHasHandler: boolean = false;
 
   constructor(public readonly themeService: ThemeService) {}
 
