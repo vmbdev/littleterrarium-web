@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AdminGuard } from '@guards/admin.guard';
 import { NotSignedInGuard } from '@guards/not-signed-in.guard';
 import { SignedInGuard } from '@guards/signed-in.guard';
 
@@ -31,6 +32,7 @@ export const APP_ROUTES: Routes = [
           import(
             './components/user/user-register/user-register.component'
           ).then((m) => m.UserRegisterComponent),
+        canActivate: [NotSignedInGuard],
       },
       {
         path: 'user',
@@ -51,6 +53,13 @@ export const APP_ROUTES: Routes = [
         path: 'photo',
         loadChildren: () =>
           import('./components/photo/routes').then((m) => m.PHOTO_ROUTES),
+      },
+      {
+        path: 'admin',
+        loadChildren: () =>
+          import('./components/admin/routes').then((m) => m.ADMIN_ROUTES),
+        canActivate: [AdminGuard],
+        canActivateChild: [AdminGuard],
       },
       {
         path: 'terrarium/:username',

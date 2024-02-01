@@ -40,4 +40,8 @@ import { TaskService } from '@services/task.service';
 })
 export class DefaultLayoutComponent {
   constructor(public readonly taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.taskService.loadTasks();
+  }
 }

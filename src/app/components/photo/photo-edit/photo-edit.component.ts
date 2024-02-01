@@ -63,27 +63,9 @@ export class PhotoEditComponent {
     });
   }
 
-  updateCoverPhoto(): void {
-    const photo = this.photoService.getValue();
-
-    if (photo) {
-      if (photo.id === this.plantCoverId) {
-        const plant = { id: photo.plantId } as Plant;
-        this.plantService.update(plant, { removeCover: true }).subscribe(() => {
-          this.plantCoverId = undefined;
-        });
-      } else {
-        const plant = { id: photo.plantId, coverId: photo.id } as Plant;
-
-        this.plantService.update(plant).subscribe(() => {
-          this.plantCoverId = photo.id;
-        });
-      }
-    }
-  }
 
   submit(): void {
-    const currentPhoto = this.photoService.getValue();
+    const currentPhoto = this.photoService.current();
 
     if (currentPhoto) {
       let plant: Plant;

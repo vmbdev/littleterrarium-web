@@ -3,6 +3,10 @@
   class="close-button"
   (click)="closeEvent()"
   [ngClass]="{ 'close-button-small': small }"
+  [ngStyle]="{
+    'background-color': color ?? undefined,
+    'border-color': color ?? undefined,
+  }"
 >
   &#10006;
 </button>

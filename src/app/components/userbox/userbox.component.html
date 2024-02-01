@@ -18,6 +18,11 @@
     </div>
 
     <lt-floating-list [visible]="menuVisible">
+      @if (user.role == 'ADMIN') {
+        <lt-mainnav-item routerLink="/admin" i18n="@@userbox.admin">
+          Administration
+        </lt-mainnav-item>
+      }
         <lt-mainnav-item
           [routerLink]="['/terrarium', user.username]"
           i18n="@@userbox.terrarium"

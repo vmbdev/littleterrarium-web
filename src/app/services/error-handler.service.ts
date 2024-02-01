@@ -13,4 +13,8 @@ export class ErrorHandlerService implements ErrorHandler {
   push(error: string) {
     this.list.next(error);
   }
+
+  empty(): void {
+    this.list.next(null);
+  }
 }

@@ -3,6 +3,9 @@
     class="widget-box__image"
     [ngStyle]="{ 'background-image': image ? 'url(' + image + ')' : 'none' }"
     [ngClass]="{ 'widget-box__image--center': center === true }">
+    @if (!image && icon) {
+      <box-icon [name]="icon" type="solid" size="lg" />
+    }
   </div>
 
   <section class="widget-box__content">

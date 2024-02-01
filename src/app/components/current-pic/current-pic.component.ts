@@ -1,19 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+
+import { CloseButtonComponent } from '@components/close-button/close-button.component';
 
 @Component({
   selector: 'lt-current-pic',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CloseButtonComponent],
   templateUrl: './current-pic.component.html',
   styleUrl: './current-pic.component.scss',
 })
 export class CurrentPicComponent {
   @Input({ required: true }) pic: string | null = null;
-  @Output() toggleRemove = new EventEmitter<boolean>(false);
+  @Output() remove = new EventEmitter<boolean>(false);
 
-  toggle(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    this.toggleRemove.emit(checkbox.checked);
+  removePic(): void {
+    this.remove.emit(true);
   }
 }

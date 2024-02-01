@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1] - 2024-01-31
+
+### Fixes
+
+- Logging out now clears the private date of the services.
+- Task count/list is now loaded correctly when signing in with another user.
+
 ## [1.1.0] - 2024-01-23
 
 Happy new year! Main highlight of this release is a total visual revamp, making

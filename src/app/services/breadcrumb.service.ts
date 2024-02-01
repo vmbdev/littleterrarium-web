@@ -132,4 +132,8 @@ export class BreadcrumbService {
       })
     );
   }
+
+  empty(): void {
+    this.links.next([]);
+  }
 }

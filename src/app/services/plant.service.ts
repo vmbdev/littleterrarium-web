@@ -4,7 +4,7 @@ import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
 import {
   ApiService,
   PlantGetConfig,
-  PlantUpdateConfig
+  PlantUpdateConfig,
 } from '@services/api.service';
 import { AuthService } from '@services/auth.service';
 import { ImagePathService } from '@services/image-path.service';
@@ -147,6 +147,11 @@ export class PlantService {
     return this.plant.getValue();
   }
 
+  empty(): void {
+    this.plant.next(null);
+    this.owned.next(false);
+  }
+
   coverPhoto(plant?: Plant): string | null {
     let workingPlant;
 
@@ -170,122 +175,121 @@ export class PlantService {
     } else return null;
   }
 
-getPotInfo(key: string): Pot {
-  let pot: Pot;
+  getPotInfo(key: string): Pot {
+    let pot: Pot;
 
-  switch (key) {
-    case 'LT_POT_TERRACOTTA': {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.terracotta:Terracotta`,
-        image: 'assets/pot-terracotta.jpg',
-      };
-      break;
+    switch (key) {
+      case 'LT_POT_TERRACOTTA': {
+        pot = {
+          name: $localize`:@@potMaterial.terracotta:Terracotta`,
+          image: 'assets/pot-terracotta.jpg',
+        };
+        break;
+      }
+      case 'LT_POT_PLASTIC': {
+        pot = {
+          name: $localize`:@@potMaterial.plastic:Plastic`,
+          image: 'assets/pot-plastic.jpg',
+        };
+        break;
+      }
+      case 'LT_POT_CERAMIC': {
+        pot = {
+          name: $localize`:@@potMaterial.ceramic:Ceramic`,
+          image: 'assets/pot-ceramic.jpg',
+        };
+        break;
+      }
+      case 'LT_POT_METAL': {
+        pot = {
+          name: $localize`:@@potMaterial.metal:Metal`,
+          image: 'assets/pot-metal.jpg',
+        };
+        break;
+      }
+      case 'LT_POT_GLASS': {
+        pot = {
+          name: $localize`:@@potMaterial.glass:Glass`,
+          image: 'assets/pot-glass.jpg',
+        };
+        break;
+      }
+      case 'LT_POT_WOOD': {
+        pot = {
+          name: $localize`:@@potMaterial.wood:Wood`,
+          image: 'assets/pot-wood.jpg',
+        };
+        break;
+      }
+      case 'LT_POT_CONCRETE': {
+        pot = {
+          name: $localize`:@@potMaterial.concrete:Concrete`,
+          image: 'assets/pot-concrete.jpg',
+        };
+        break;
+      }
+      default: {
+        pot = {
+          name: $localize`:@@potMaterial.other:Other`,
+          image: 'assets/pot-other.jpg',
+        };
+        break;
+      }
     }
-    case 'LT_POT_PLASTIC': {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.plastic:Plastic`,
-        image: 'assets/pot-plastic.jpg',
-      };
-      break;
-    }
-    case 'LT_POT_CERAMIC': {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.ceramic:Ceramic`,
-        image: 'assets/pot-ceramic.jpg',
-      };
-      break;
-    }
-    case 'LT_POT_METAL': {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.metal:Metal`,
-        image: 'assets/pot-metal.jpg',
-      };
-      break;
-    }
-    case 'LT_POT_GLASS': {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.glass:Glass`,
-        image: 'assets/pot-glass.jpg',
-      };
-      break;
-    }
-    case 'LT_POT_WOOD': {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.wood:Wood`,
-        image: 'assets/pot-wood.jpg',
-      };
-      break;
-    }
-    case 'LT_POT_CONCRETE': {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.concrete:Concrete`,
-        image: 'assets/pot-concrete.jpg',
-      };
-      break;
-    }
-    default: {
-      pot = {
-        name: $localize`:@@interfaces.potMaterial.other:Other`,
-        image: 'assets/pot-other.jpg',
-      };
-      break;
-    }
+
+    return pot;
   }
 
-  return pot;
-}
+  getConditionDesc(condition: Condition | string): string {
+    let desc: string;
 
-getConditionDesc(condition: Condition | string): string {
-  let desc: string;
-
-  switch (condition) {
-    case 'BAD': {
-      desc = $localize`:@@interfaces.condition.bad:On the line`; // red
-      break;
+    switch (condition) {
+      case 'BAD': {
+        desc = $localize`:@@condition.bad:On the line`; // red
+        break;
+      }
+      case 'POOR': {
+        desc = $localize`:@@condition.poor:Holding on to life`; // yellow
+        break;
+      }
+      case 'GREAT': {
+        desc = $localize`:@@condition.great:Looks great`; // l;ght green
+        break;
+      }
+      case 'EXCELLENT': {
+        desc = $localize`:@@condition.excellent:Prime example of its specie`; // vib;ant green
+        break;
+      }
+      default:
+      case 'GOOD': {
+        desc = $localize`:@@condition.good:Looks good`; // grey
+        break;
+      }
     }
-    case 'POOR': {
-      desc = $localize`:@@interfaces.condition.poor:Holding on to life`; // yellow
-      break;
-    }
-    case 'GREAT': {
-      desc = $localize`:@@interfaces.condition.great:Looks great`; // l;ght green
-      break;
-    }
-    case 'EXCELLENT': {
-      desc = $localize`:@@interfaces.condition.excellent:Prime example of its specie`; // vib;ant green
-      break;
-    }
-    default:
-    case 'GOOD': {
-      desc = $localize`:@@interfaces.condition.good:Looks good`; // grey
-      break;
-    }
-  }
-  return desc;
-}
-
-getConditionColor(condition: Condition | string): string {
-  let color: string;
-
-  switch (condition) {
-    case 'BAD':
-      color = 'red';
-      break;
-    case 'POOR':
-      color = 'yellow';
-      break;
-    case 'GREAT':
-      color = 'greenyellow';
-      break;
-    case 'EXCELLENT':
-      color = 'green';
-      break;
-    default:
-      color = 'grey';
-      break;
+    return desc;
   }
 
-  return color;
-}
+  getConditionColor(condition: Condition | string): string {
+    let color: string;
 
+    switch (condition) {
+      case 'BAD':
+        color = 'red';
+        break;
+      case 'POOR':
+        color = 'yellow';
+        break;
+      case 'GREAT':
+        color = 'greenyellow';
+        break;
+      case 'EXCELLENT':
+        color = 'green';
+        break;
+      default:
+        color = 'grey';
+        break;
+    }
+
+    return color;
+  }
 }

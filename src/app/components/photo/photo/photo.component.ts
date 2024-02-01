@@ -109,7 +109,7 @@ export class PhotoComponent {
   }
 
   delete(): void {
-    const photo = this.photoService.getValue();
+    const photo = this.photoService.current();
 
     if (photo) {
       this.photoService.delete().subscribe({

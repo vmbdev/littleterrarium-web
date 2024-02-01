@@ -20,12 +20,12 @@ export class LocationService {
   private location = new BehaviorSubject<Location | null>(null);
   public readonly location$ = this.location.asObservable();
   private owned = new BehaviorSubject<boolean>(false);
-  public owned$ = this.owned.asObservable();
+  public readonly owned$ = this.owned.asObservable();
 
   constructor(
     private readonly api: ApiService,
     private readonly auth: AuthService,
-    private readonly plantService: PlantService
+    private readonly plantService: PlantService,
   ) {}
 
   create(location: Location): Observable<Location> {
@@ -99,6 +99,11 @@ export class LocationService {
 
   current(): Location | null {
     return this.location.getValue();
+  }
+
+  empty(): void {
+    this.location.next(null);
+    this.owned.next(false);
   }
 
   getLightName(light: string): string {

@@ -28,6 +28,10 @@ export class TasksComponent {
     private readonly modal: ModalService
   ) {}
 
+  ngOnInit(): void {
+    this.taskService.loadTasks();
+  }
+
   openFertModal(id: number): void {
     this.modal.open(this.fertModal, 'confirm').subscribe((res) => {
       if (res === 'accept') this.addFertilizer(id);

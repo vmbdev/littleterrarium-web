@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
+import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { ApiService } from '@services/api.service';
 import { Specie } from '@models/specie.model';
 import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
-import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 @Component({
   standalone: true,

@@ -89,6 +89,7 @@ export class PlantEditSoilComponent {
   getPots(): GroupSelectorData<string>[] {
     return Object.keys(PotNames).map((key) => {
       const pot = this.plantService.getPotInfo(key);
+
       return {
         id: key,
         asset: pot.image,

@@ -41,7 +41,11 @@
       >
         <div class="photo__image">
           <a [href]="photo.images | imagePath:'full'" target="_blank">
-            <img [src]="photo.images | imagePath:'mid'">
+            <img
+              [src]="photo.images | imagePath:'mid'"
+              alt="Picture"
+              i18n-alt="@@general.picture"
+            />
           </a>
         </div>
       </lt-content-navigator>

@@ -25,6 +25,11 @@ export class CloseButtonComponent {
   @Input({ transform: booleanAttribute }) small: boolean = false;
 
   /**
+   * Color of the button background and border.
+   */
+  @Input() color?: string;
+
+  /**
    * The button has been activated.
    */
   @Output() close: EventEmitter<any> = new EventEmitter<any>();

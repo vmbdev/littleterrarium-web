@@ -6,7 +6,10 @@
       [ngClass]="{ 'gs__option--selected': selectedOption === option.id }"
     >
     @if (assetType === 'image') {
-      <img [src]="option.asset">
+      <img
+        [src]="option.asset"
+        [alt]="option.name ?? option.id"
+      />
     } @else {
       <box-icon
         [name]="option.asset"

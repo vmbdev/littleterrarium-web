@@ -24,7 +24,7 @@
 
     &:hover {
       @include t.themify {
-        outline: 1px solid t.theme(main_color);
+        outline: 1px solid #dbdbdb;
       }
     }
   }

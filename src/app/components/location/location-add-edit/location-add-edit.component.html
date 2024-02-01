@@ -48,17 +48,18 @@
         <p i18n="@@location-add-edit.ornot">Or, well, don't. Up to you.</p>
       </lt-wizard-page-description>
       <div>
-        @if (!createNew && location && location.pictures) {
+        @if (!createNew && location && location.pictures && !removePicture) {
           <lt-current-pic
             [pic]="location.pictures | imagePath:'thumb'"
-            (toggleRemove)="toggleRemovePicture($event)"
+            (remove)="toggleRemovePicture(true)"
           />
         }
-        <lt-file-uploader
-          maxAmount="1"
-          (fileChange)="fileChange($event)"
-          [disabled]="removePicture"
-        />
+        @if (createNew || removePicture) {
+          <lt-file-uploader
+            maxAmount="1"
+            (fileChange)="fileChange($event)"
+          />
+        }
       </div>
     </lt-wizard-page>
 

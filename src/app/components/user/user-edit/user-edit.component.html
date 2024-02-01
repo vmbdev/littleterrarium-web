@@ -6,6 +6,7 @@
     enctype="multipart/form-data"
   >
     <lt-wizard [form]="userForm" singlePage="true">
+<!--       
       <lt-wizard-page title="Username" i18n-title="@@general.username">
         <lt-wizard-page-description>
           <p i18n="@@user-edit.usernameDesc">
@@ -53,7 +54,7 @@
             placeholder="john@lovingplants.com"
           >
         </div>
-      </lt-wizard-page>
+      </lt-wizard-page> -->
 
       <lt-wizard-page title="Avatar" i18n-title="@@general.avatar">
         <lt-wizard-page-description>
@@ -62,18 +63,14 @@
           </p>
         </lt-wizard-page-description>
 
-        @if (currentAvatar) {
+        @if (currentAvatar && !removeAvatar) {
           <lt-current-pic
             [pic]="currentAvatar"
-            (toggleRemove)="toggleRemoveAvatar($event)"
+            (remove)="toggleRemoveAvatar(true)"
           />
+        } @else {
+          <lt-file-uploader maxAmount="1" (fileChange)="fileChange($event)" />
         }
-
-        <lt-file-uploader
-          maxAmount="1"
-          (fileChange)="fileChange($event)"
-          [disabled]="removeAvatar"
-        />
       </lt-wizard-page>
 
       <lt-wizard-page title="Bio" i18n-title="@@general.bio">

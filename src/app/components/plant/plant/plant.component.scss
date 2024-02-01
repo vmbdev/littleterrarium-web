@@ -4,7 +4,7 @@
 .plant {
   &__row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 350px);
+    grid-template-columns: repeat(auto-fit, 28rem);
     grid-auto-rows: minmax(min-content, max-content);
     grid-row-gap: 2rem;
     justify-content: center;

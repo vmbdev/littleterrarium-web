@@ -1,0 +1,18 @@
+.admin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  &__menu {
+
+    ul {
+      list-style-type: none;
+      margin-block: 0;
+      padding-inline: 0;
+
+      li {
+        padding: 1rem 0;
+      }
+    }
+  }
+}

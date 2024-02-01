@@ -90,7 +90,12 @@ export class PhotoService {
     else return EMPTY;
   }
 
-  getValue(): Photo | null {
+  current(): Photo | null {
     return this.photo.getValue();
+  }
+
+  empty(): void {
+    this.photo.next(null);
+    this.owned.next(false);
   }
 }

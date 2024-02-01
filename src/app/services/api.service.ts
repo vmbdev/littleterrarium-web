@@ -15,6 +15,7 @@ import {
 } from '@models/user.model';
 import { BackendResponse } from '@models/backend-response.model';
 import { SortColumn, SortOrder } from '@models/sort-options.model';
+import { AdminSummary } from '@models/admin.model';
 
 export interface LocationGetConfig {
   plantCount?: boolean;
@@ -386,5 +387,13 @@ export class ApiService {
 
   getTasks(): Observable<Plant[]> {
     return this.http.get<Plant[]>(this.endpoint('tasks'));
+  }
+
+  /**
+   * Admin related calls
+   */
+
+  getAdminSummary(): Observable<AdminSummary> {
+    return this.http.get<AdminSummary>(this.endpoint('admin'));
   }
 }

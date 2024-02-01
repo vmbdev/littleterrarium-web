@@ -1,20 +1,13 @@
 @if (pic) {
   <article class="current-pic">
-    <h1 class="current-pic__title" i18n="@@currentPic.title">
-      Current picture
-    </h1>
-
-      <img class="current-pic__image" [src]="pic">
-      <div class="form__checkbox">
-        <input
-          #check
-          type="checkbox"
-          id="removepic"
-          (change)="toggle($event)"
-        >
-        <label for="removepic" i18n="@@currentPic.clear">
-          Clear picture
-        </label>
-      </div>
+    <div class="current-pic__container">
+      <img
+        class="current-pic__image"
+        [src]="pic"
+        i18n-alt="@@currentPic.title"
+        alt="Current picture"
+      />
+      <lt-close-button small="true" color="red" (close)="removePic()" />
+    </div>
   </article>
 }

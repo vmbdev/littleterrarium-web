@@ -16,6 +16,7 @@ export abstract class PlantEditActionComponent {
   @Output() updated = new EventEmitter<any>();
   protected id?: number;
   protected form!: FormGroup;
+  protected today = DateTime.now().toFormat('yyyy-LL-dd');
 
   constructor(
     protected readonly fb: FormBuilder,
@@ -36,10 +37,6 @@ export abstract class PlantEditActionComponent {
 
   updateForm(plant: Plant): void {
     this.id = plant.id;
-  }
-
-  today(): string {
-    return DateTime.now().toFormat('yyyy-LL-dd');
   }
 
   submit(): void {

@@ -3,8 +3,8 @@
     <section class="section-header">
       <h1 i18n="@@general.tasks">Tasks</h1>
       <p i18n="@@tasks.msg">
-        According to your plant settings, these are the tasks left to do. Blue
-        drop, plant needs to drink; green spoon, plants need to eat!
+        According to your plant settings, these are the tasks left to do. Glass
+        of water, plant needs to drink; bowl of soup, plants need to eat!
       </p>
     </section>
 
@@ -15,6 +15,7 @@
             class="tasks__plantpic"
             [src]="task.picture"
             [routerLink]="['/plant', task.plantId]"
+            [alt]="task.plantName"
           />
 
           <div class="tasks__plantname" [routerLink]="['/plant', task.plantId]">
