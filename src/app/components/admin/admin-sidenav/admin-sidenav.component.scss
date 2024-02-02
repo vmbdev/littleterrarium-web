@@ -1,0 +1,16 @@
+.admin-sidenav {
+  min-width: 11rem;
+  border-width: 0 1px 0 0;
+  border-color: white;
+  border-style: solid;
+
+  ul {
+    list-style-type: none;
+    margin-block: 0;
+    padding-inline: 0;
+
+    li {
+      padding: 1rem 0;
+    }
+  }
+}

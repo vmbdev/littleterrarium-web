@@ -21,6 +21,7 @@ export const AdminGuard: CanActivateFn = () => {
           $localize`:@@auth-interceptor.forbidden:Insufficient permissions.`
         );
         router.navigate(['/']);
+
         return false;
       }
     })

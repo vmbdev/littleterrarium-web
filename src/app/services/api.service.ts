@@ -81,12 +81,8 @@ export class ApiService {
   }
 
   /**
-   * Auth and user API functions
+   * User API functions
    */
-
-  getCurrentUser(): Observable<User> {
-    return this.http.get<User>(this.endpoint('users'));
-  }
 
   getUser(id: number): Observable<User> {
     return this.http.get<User>(this.endpoint(`users/id/${id}`));
@@ -94,40 +90,6 @@ export class ApiService {
 
   getUserByName(username: string): Observable<User> {
     return this.http.get<User>(this.endpoint(`users/username/${username}`));
-  }
-
-  signIn(username: string, password: string): Observable<User> {
-    return this.http.post<User>(this.endpoint('users/signin'), {
-      username,
-      password,
-    });
-  }
-
-  logOut(): Observable<any> {
-    return this.http.post<any>(this.endpoint('users/logout'), null);
-  }
-
-  forgotPassword(userRef: string): Observable<any> {
-    return this.http.post<any>(this.endpoint('users/forgotten'), { userRef });
-  }
-
-  recoverPassword(
-    token: string,
-    password: string,
-    userId: number
-  ): Observable<any> {
-    return this.http.post<any>(this.endpoint('users/restore'), {
-      token,
-      password,
-      userId,
-    });
-  }
-
-  verifyToken(token: string, userId: number): Observable<any> {
-    return this.http.post<any>(this.endpoint('users/verifyToken'), {
-      token,
-      userId,
-    });
   }
 
   getPasswordRequirements(): Observable<PasswordRequirements> {
@@ -168,6 +130,48 @@ export class ApiService {
     else if (user.avatarFile) form.append('avatar', user.avatarFile);
 
     return this.http.put<User>(this.endpoint('users'), form);
+  }
+
+  /**
+   * Auth related calls
+   */
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(this.endpoint('auth'));
+  }
+
+  signIn(username: string, password: string): Observable<User> {
+    return this.http.post<User>(this.endpoint('auth/signin'), {
+      username,
+      password,
+    });
+  }
+
+  logOut(): Observable<any> {
+    return this.http.post<any>(this.endpoint('auth/logout'), null);
+  }
+
+  forgotPassword(userRef: string): Observable<any> {
+    return this.http.post<any>(this.endpoint('auth/forgotten'), { userRef });
+  }
+
+  recoverPassword(
+    token: string,
+    password: string,
+    userId: number
+  ): Observable<any> {
+    return this.http.post<any>(this.endpoint('auth/restore'), {
+      token,
+      password,
+      userId,
+    });
+  }
+
+  verifyToken(token: string, userId: number): Observable<any> {
+    return this.http.post<any>(this.endpoint('auth/verifyToken'), {
+      token,
+      userId,
+    });
   }
 
   /**
@@ -395,5 +399,9 @@ export class ApiService {
 
   getAdminSummary(): Observable<AdminSummary> {
     return this.http.get<AdminSummary>(this.endpoint('admin'));
+  }
+  
+  getAdminUserList(): Observable<User[]> {
+    return this.http.get<User[]>(this.endpoint('admin/user'));
   }
 }

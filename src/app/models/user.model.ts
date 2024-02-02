@@ -21,6 +21,11 @@ export interface User {
   locations?: Location[];
   plants?: Plant[];
   photos?: Photo[];
+  _count?: {
+    plants?: number;
+    locations?: number;
+    photos?: number;
+  }
 }
 
 export const Role: { [key: string]: string } = {

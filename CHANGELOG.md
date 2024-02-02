@@ -1,6 +1,10 @@
 # Changelog
 
-## [1.1.1] - 2024-01-31
+## [1.1.1] - next
+
+### Added
+
+- New administration features, including components, a guard and a service.
 
 ### Fixes
 

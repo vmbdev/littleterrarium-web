@@ -1,0 +1,28 @@
+@use 'src/styles/themify.scss' as t;
+
+.admin-users {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+
+  &__avatar {
+    width: 2rem;
+    height: auto;
+  }
+
+  thead,
+  tfoot {
+    @include t.themify {
+      background-color: t.theme(table-heads-bg);
+      color: t.theme(table-heads-color);
+    }
+  }
+
+  td,
+  th {
+    padding: 0.3rem 0.5rem;
+
+    @include t.themify {
+      border: 1px solid darken(t.theme(main_text), 25%);
+    }
+  }
+}
