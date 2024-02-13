@@ -1,10 +1,10 @@
-@if (themeService.theme$ | async; as theme) {
+@if (themeService.theme$ | async ; as theme) {
   <i
     (click)="handleClick($event)"
     [ngClass]="classList"
     [ngStyle]="{
       color: disabled
-        ? 'lightgrey'
+        ? theme + 'grey'
         : color
           ? color
           : theme === 'dark'
@@ -13,7 +13,7 @@
       visibility: hidden ? 'hidden' : 'visible'
     }"
   ></i>
-  <span [ngClass]="{ 'cbx--clickable': click.observed }">
+  <span [ngClass]="{ 'cbx--clickable': click.observed && !disabled }">
     <ng-content />
   </span>
 }

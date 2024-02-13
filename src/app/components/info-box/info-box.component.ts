@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
@@ -9,12 +8,10 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 @Component({
   standalone: true,
   selector: 'lt-info-box',
-  imports: [
-    CommonModule,
-    BoxIconComponent,
-  ],
+  imports: [BoxIconComponent],
   templateUrl: './info-box.component.html',
   styleUrls: ['./info-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfoBoxComponent {
   /**

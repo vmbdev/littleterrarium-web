@@ -1,4 +1,4 @@
-@if (pictureList) {
+@if (pictureList$ | async; as pictureList) {
   <lt-picture-list
     [createAddItem]="(plantId !== undefined) && (plantId !== null) && owned"
     [addItemLink]="['/photo','create', plantId]"

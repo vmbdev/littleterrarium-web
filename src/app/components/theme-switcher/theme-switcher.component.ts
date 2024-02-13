@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { ThemeService } from '@services/theme.service';
@@ -15,6 +15,7 @@ import { ThemeService } from '@services/theme.service';
   standalone: true,
   imports: [CommonModule, BoxIconComponent],
   templateUrl: './theme-switcher.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeSwitcherComponent {
   constructor(public readonly theme: ThemeService) {}

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -46,6 +46,8 @@ type LightOptionType = {
   ],
   templateUrl: './location-add-edit.component.html',
   styleUrls: ['./location-add-edit.component.scss'],
+  // FIXME: migrate to OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationAddEditComponent {
   protected locationForm: FormGroup = this.fb.group({
@@ -72,7 +74,7 @@ export class LocationAddEditComponent {
 
   ngOnInit(): void {
     const paramId = this.route.snapshot.params['locationId'];
-    this.createNew = !paramId;
+    this.createNew = !(!!paramId);
 
     // editing
     if (!this.createNew && +paramId) {

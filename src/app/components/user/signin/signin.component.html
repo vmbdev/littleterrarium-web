@@ -47,7 +47,13 @@
         />
       </div>
 
-      @if (authInvalid) {
+      @if (signedIn$ | async) {
+        <p i18n="@@signin.logged">
+          Going in...
+        </p>
+      }
+
+      @if (authInvalid$ | async) {
         <div class="text-center form__errormsg">
           <p i18n="@@signin.invalidCredentials">
             Sorry, the credentials are not valid.

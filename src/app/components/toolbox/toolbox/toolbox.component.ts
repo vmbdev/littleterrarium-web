@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -16,6 +17,7 @@ import { CapitalizePipe } from '@pipes/capitalize/capitalize.pipe';
   imports: [CommonModule, CapitalizePipe],
   templateUrl: './toolbox.component.html',
   styleUrls: ['./toolbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolboxComponent {
   @ContentChildren(ToolboxButtonComponent)

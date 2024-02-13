@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
@@ -10,13 +15,10 @@ import { ModalService } from '@services/modal.service';
 @Component({
   standalone: true,
   selector: 'lt-tasks',
-  imports: [
-    CommonModule,
-    RouterModule,
-    BoxIconComponent,
-  ],
+  imports: [CommonModule, RouterModule, BoxIconComponent],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent {
   @ViewChild('fertModal') fertModal!: TemplateRef<any>;
@@ -25,7 +27,7 @@ export class TasksComponent {
   constructor(
     public readonly taskService: TaskService,
     public readonly plantService: PlantService,
-    private readonly modal: ModalService
+    private readonly modal: ModalService,
   ) {}
 
   ngOnInit(): void {

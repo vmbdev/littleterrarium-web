@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -21,6 +21,7 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
   ],
   templateUrl: './userbox.component.html',
   styleUrls: ['./userbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserboxComponent {
   protected menuVisible: boolean = false;

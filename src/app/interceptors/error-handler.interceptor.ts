@@ -47,6 +47,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
         if (errorMsg) {
           this.errorHandler.push(errorMsg);
+
           return EMPTY;
         } else return throwError(() => res);
       })

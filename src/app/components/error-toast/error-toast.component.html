@@ -1,8 +1,8 @@
-<div class="error-toast">
-  @for (error of errorList; let i = $index; track error) {
-    <div class="error-toast__box">
-      <lt-close-button small="true" (close)="removeError(i)" />
-      <span>{{ error }}</span>
-    </div>
-  }
-</div>
+  <div class="error-toast">
+    @for (error of errorHandler.list$ | async; let i = $index; track error) {
+      <div class="error-toast__box">
+        <lt-close-button small="true" (close)="removeError(i)" />
+        <span>{{ error }}</span>
+      </div>
+    }
+  </div>

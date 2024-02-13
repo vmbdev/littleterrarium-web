@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { WidgetBoxComponent } from '@components/widget-box/widget-box.component';
 import { AdminService } from '@services/admin.service';
@@ -12,7 +12,8 @@ import { AdminService } from '@services/admin.service';
     WidgetBoxComponent,
   ],
   templateUrl: './admin-summary.component.html',
-  styleUrl: './admin-summary.component.scss'
+  styleUrl: './admin-summary.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminSummaryComponent {
   protected readonly summary$ = this.admin.getSummary();

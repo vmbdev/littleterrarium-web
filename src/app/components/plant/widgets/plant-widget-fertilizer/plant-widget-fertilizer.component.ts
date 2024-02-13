@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { Observable, switchMap, tap } from 'rxjs';
 import { DateTime } from 'luxon';
 
 import { WidgetBoxComponent } from '@components/widget-box/widget-box.component';
@@ -14,10 +20,12 @@ import { NextDateWidget } from '@models/next-date-widget.model';
   selector: 'lt-plant-widget-fertilizer',
   imports: [CommonModule, WidgetBoxComponent, BoxIconComponent],
   templateUrl: './plant-widget-fertilizer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantWidgetFertilizerComponent {
   @ViewChild('fertModal') fertModal!: TemplateRef<any>;
 
+  protected plant$?: Observable<Plant | null>;
   protected nextDate: NextDateWidget = {
     text: null,
     due: false,
@@ -29,16 +37,19 @@ export class PlantWidgetFertilizerComponent {
   ) {}
 
   ngOnInit(): void {
-    this.plantService.plant$.subscribe((plant: Plant | null) => {
-      if (plant?.fertNext) {
-        const date = DateTime.fromISO(plant.fertNext as string);
+    this.plant$ = this.plantService.plant$.pipe(
+      tap((plant: Plant | null) => {
+        if (plant?.fertNext) {
+          const date = DateTime.fromISO(plant.fertNext as string);
 
-        this.nextDate = {
-          text: date.toRelative(),
-          due: date.diffNow('days').days < 0,
-        };
-      }
-    });
+          this.nextDate = {
+            text: date.toRelative(),
+            due: date.diffNow('days').days < 0,
+          };
+        }
+      }),
+      switchMap(() => this.plantService.plant$),
+    );
   }
 
   openFertModal(): void {

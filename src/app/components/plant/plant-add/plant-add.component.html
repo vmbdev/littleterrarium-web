@@ -5,7 +5,7 @@
   enctype="multipart/form-data"
 >
   <lt-wizard [form]="plantForm" [disableNavigation]="disableNavigation">
-    @if (location) {
+    @if (location$ | async; as location) {
       <lt-wizard-header i18n="@@plant-add.header">
         Adding photos to <b>{{ location.name }}</b>
       </lt-wizard-header>
@@ -76,17 +76,19 @@
         </label>
       </div>
 
-      <div class="plant-add__progress">
-        @if (uploadProgress > 0) {
-          <lt-progress-bar [progress]="uploadProgress" />
-        }
+      @if (createPlantProgress$ | async; as uploadProgress) {
+        <div class="plant-add__progress">
+          @if (uploadProgress > 0) {
+            <lt-progress-bar [progress]="uploadProgress" />
+          }
 
-        @if (uploadProgress === 100) {
-          <div class="plant-add__finished" i18n="@@general.uploadFinished">
-            Upload finished. Processing your photos, please wait.
-          </div>
-        }
-      </div>
+          @if (uploadProgress === 100) {
+            <div class="plant-add__finished" i18n="@@general.uploadFinished">
+              Upload finished. Processing your photos, please wait.
+            </div>
+          }
+        </div>
+      }
     </lt-wizard-page>
   </lt-wizard>
 </form>

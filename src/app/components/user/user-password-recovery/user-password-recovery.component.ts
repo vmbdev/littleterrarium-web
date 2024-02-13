@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { catchError, EMPTY } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
@@ -28,13 +28,14 @@ import { PasswordService } from '@services/password.service';
   ],
   templateUrl: './user-password-recovery.component.html',
   styleUrl: './user-password-recovery.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPasswordRecoveryComponent {
   protected userForm: FormGroup = this.fb.group({
     userRef: ['', Validators.required],
   });
-  protected checkError: boolean = false;
-  protected recoveryStarted: boolean = false;
+  protected checkError$ = new BehaviorSubject<boolean>(false);
+  protected recoveryStarted$?: Observable<any>;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -42,26 +43,21 @@ export class UserPasswordRecoveryComponent {
   ) {}
 
   submit() {
-    this.checkError = false;
-    this.recoveryStarted = false;
+    this.checkError$.next(false);
+    this.recoveryStarted$ = undefined;
 
     if (!this.userForm.valid) return;
 
     const { userRef } = this.userForm.value;
 
     if (userRef) {
-      this.pws
-        .forgotPassword(userRef)
-        .pipe(
-          catchError((err: HttpErrorResponse) => {
-            this.checkError = true;
+      this.recoveryStarted$ = this.pws.forgotPassword(userRef).pipe(
+        catchError((err: HttpErrorResponse) => {
+          this.checkError$.next(true);
 
-            return EMPTY;
-          }),
-        )
-        .subscribe(() => {
-          this.recoveryStarted = true;
-        });
+          return EMPTY;
+        }),
+      );
     }
   }
 }

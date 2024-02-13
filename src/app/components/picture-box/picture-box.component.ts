@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, Input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -9,6 +14,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './picture-box.component.html',
   styleUrls: ['./picture-box.component.scss'],
   preserveWhitespaces: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PictureBoxComponent {
   @Input() image?: string | null;

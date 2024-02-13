@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { HttpEventType } from '@angular/common/http';
-import { catchError, EMPTY, finalize, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
+import { catchError, EMPTY, finalize, map, Observable, switchMap } from 'rxjs';
 import {
   FormBuilder,
   FormGroup,
@@ -23,11 +24,13 @@ import { PhotoService } from '@services/photo.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { LocationService } from '@services/location.service';
+import { BackendResponse } from '@models/backend-response.model';
 
 @Component({
   standalone: true,
   selector: 'lt-plant-add',
   imports: [
+    CommonModule,
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
@@ -39,6 +42,7 @@ import { LocationService } from '@services/location.service';
   ],
   templateUrl: './plant-add.component.html',
   styleUrls: ['./plant-add.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantAddComponent {
   protected plantForm: FormGroup = this.fb.group({
@@ -48,9 +52,9 @@ export class PlantAddComponent {
   });
   private locationId?: number;
   protected newPlantId?: number;
-  protected location?: Location;
+  protected location$?: Observable<Location>;
+  protected createPlantProgress$?: Observable<number>;
   private photos: File[] = [];
-  protected uploadProgress: number = 0;
   protected disableNavigation: boolean = false;
 
   constructor(
@@ -67,16 +71,15 @@ export class PlantAddComponent {
     this.locationId = +this.route.snapshot.params['locationId'];
 
     if (this.locationId) {
-      this.locationService.get(this.locationId).subscribe({
-        next: (location: Location) => {
-          this.location = location;
-        },
-        error: () => {
+      this.location$ = this.locationService.get(this.locationId).pipe(
+        catchError((err: HttpErrorResponse) => {
           this.errorHandler.push(
             $localize`:@@plant-add.location:Invalid location provided.`,
           );
-        },
-      });
+
+          return EMPTY;
+        }),
+      );
     }
   }
 
@@ -98,10 +101,8 @@ export class PlantAddComponent {
     plant.locationId = this.locationId;
     this.disableNavigation = true;
 
-    const obs = this.plantService.create(plant);
-
     if (this.photos.length > 0) {
-      obs
+      this.createPlantProgress$ = this.plantService.create(plant)
         .pipe(
           switchMap((plant: Plant) => {
             const photos = {
@@ -120,43 +121,51 @@ export class PlantAddComponent {
               }),
             );
           }),
+          map((event: HttpEvent<BackendResponse>) => {
+            let uploadProgress: number = 0;
+
+            switch (event.type) {
+              case HttpEventType.UploadProgress: {
+                const eventTotal = event.total ?? 0;
+                uploadProgress = Math.round(
+                  (event.loaded / eventTotal) * 100,
+                );
+                break;
+              }
+              case HttpEventType.Response: {
+                if (event.body?.data?.plantId) {
+                  uploadProgress = 0;
+                  this.router.navigate(['/plant', event.body.data.plantId]);
+                }
+                break;
+              }
+            }
+
+            return uploadProgress;
+          }),
           finalize(() => {
             this.disableNavigation = false;
           }),
         )
-        .subscribe((event) => {
-          switch (event.type) {
-            case HttpEventType.UploadProgress: {
-              const eventTotal = event.total ? event.total : 0;
-              this.uploadProgress = Math.round(
-                (event.loaded / eventTotal) * 100,
-              );
-              break;
-            }
-            case HttpEventType.Response: {
-              this.uploadProgress = 0;
-              this.router.navigate(['/plant', event.body?.data?.plantId]);
-              break;
-            }
-          }
-        });
     } else {
-      obs
+      this.createPlantProgress$ = this.plantService.create(plant)
         .pipe(
-          finalize(() => {
-            this.disableNavigation = false;
-          }),
-        )
-        .subscribe({
-          next: (plant: Plant) => {
-            this.router.navigate(['/plant', plant.id], { replaceUrl: true });
-          },
-          error: () => {
+          catchError((err: HttpErrorResponse) => {
             this.errorHandler.push(
               $localize`:@@plant-add.create:Error when creating the plant.`,
             );
-          },
-        });
+
+            return EMPTY;
+          }),
+          map((plant: Plant) => {
+            this.router.navigate(['/plant', plant.id], { replaceUrl: true });
+
+            return 100;
+          }),
+          finalize(() => {
+            this.disableNavigation = false;
+          }),
+        )
     }
   }
 }

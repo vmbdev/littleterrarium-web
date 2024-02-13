@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -18,6 +19,7 @@ export type BoxIconSize = 'xs' | 'sm' | 'md' | 'lg';
   imports: [CommonModule],
   templateUrl: './box-icon.component.html',
   styleUrl: './box-icon.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoxIconComponent {
   @Input() type: BoxIconType = 'regular';
@@ -68,7 +70,7 @@ export class BoxIconComponent {
     if (this.animation) {
       this.classList.push(`bx-${this.animation}${this.hover ? '-hover' : ''}`);
     }
-    if (this.click.observed) this.classList.push('cbx--clickable');
+    if (this.click.observed && !this.disabled) this.classList.push('cbx--clickable');
     if (this.infoProperty) {
       if (!this.size) this.classList.push('bx-lg');
       if (!this.fixedWidth) this.classList.push('bx-fw');

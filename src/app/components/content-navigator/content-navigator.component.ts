@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
@@ -9,6 +9,7 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
   imports: [RouterModule, BoxIconComponent],
   templateUrl: './content-navigator.component.html',
   styleUrls: ['./content-navigator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentNavigatorComponent {
   @Input() previousLink?: any[];

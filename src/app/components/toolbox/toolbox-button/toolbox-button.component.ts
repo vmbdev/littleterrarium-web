@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -16,6 +17,7 @@ import { BoxIconComponent, BoxIconType } from '@components/box-icon/box-icon.com
   ],
   templateUrl: './toolbox-button.component.html',
   styleUrls: ['./toolbox-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolboxButtonComponent {
   @Input({ required: true }) name!: string;

@@ -1,9 +1,10 @@
 import {
   booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -20,6 +21,7 @@ import { SortColumn, SortOrder } from '@models/sort-options.model';
   imports: [CommonModule, BoxIconComponent],
   templateUrl: './filter-bar.component.html',
   styleUrls: ['./filter-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterBarComponent {
   /**
@@ -50,7 +52,6 @@ export class FilterBarComponent {
    * Emitted when the search bar text has changed.
    */
   @Output() filterChanged = new EventEmitter<any>();
-
 
   constructor(public readonly themeService: ThemeService) {}
 

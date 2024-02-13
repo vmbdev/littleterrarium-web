@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import {
   Observable,
   of,
-  map,
   catchError,
   throwError,
   BehaviorSubject,
+  tap,
 } from 'rxjs';
 
 import { ApiService } from '@services/api.service';
@@ -42,27 +42,23 @@ export class AuthService {
 
   signIn(username: string, password: string): Observable<User> {
     return this.api.signIn(username, password).pipe(
-      map((user: User) => {
+      tap((user: User) => {
         this.user.next(user);
         this.signedIn.next(true);
-
-        return user;
       }),
       catchError((HttpError: HttpErrorResponse) => {
         this.signedIn.next(false);
         return throwError(() => HttpError.error);
-      })
+      }),
     );
   }
 
   register(user: User): Observable<User> {
     return this.api.createUser(user).pipe(
-      map((user: User) => {
+      tap((user: User) => {
         this.user.next(user);
         this.signedIn.next(true);
-
-        return user;
-      })
+      }),
     );
   }
 

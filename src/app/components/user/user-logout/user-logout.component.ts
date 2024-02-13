@@ -1,5 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 import { AuthService } from '@services/auth.service';
 import { BreadcrumbService } from '@services/breadcrumb.service';
@@ -12,9 +14,12 @@ import { TaskService } from '@services/task.service';
 @Component({
   standalone: true,
   selector: 'lt-user-logout',
+  imports: [CommonModule],
   templateUrl: './user-logout.component.html',
 })
 export class UserLogoutComponent {
+  logOut$?: Observable<void>;
+
   constructor(
     private readonly auth: AuthService,
     private readonly router: Router,
@@ -28,14 +33,16 @@ export class UserLogoutComponent {
 
   // For security, remove personal data stored in those services when out
   ngOnInit(): void {
-    this.auth.logOut().subscribe(() => {
-      this.taskService.empty();
-      this.plantService.empty();
-      this.photoService.empty();
-      this.locationService.empty();
-      this.errorHandlerService.empty();
-      this.breadcrumbService.empty();
-      this.router.navigate(['/']);
-    });
+    this.logOut$ = this.auth.logOut().pipe(
+      tap(() => {
+        this.taskService.empty();
+        this.plantService.empty();
+        this.photoService.empty();
+        this.locationService.empty();
+        this.errorHandlerService.empty();
+        this.breadcrumbService.empty();
+        this.router.navigate(['/']);
+      }),
+    );
   }
 }

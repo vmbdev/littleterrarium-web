@@ -1,4 +1,4 @@
-@if (photoService.photo$ | async; as photo) {
+@if (photo$ | async; as photo) {
   <form [formGroup]="photoForm" method="post" (submit)="submit()">
     <div class="form__textarea">
       <p i18n="@@photo-edit.description">

@@ -3,7 +3,10 @@
 .mainnav-item {
   font-size: 1.2rem;
   position: relative;
-  text-align: center;
+
+  &--center {
+    text-align: center;
+  }
 
   &__islink {
     cursor: pointer;

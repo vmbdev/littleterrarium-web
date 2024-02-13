@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import {
   LocationListComponent
@@ -25,6 +25,7 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
   ],
   templateUrl: './terrarium.component.html',
   styleUrls: ['./terrarium.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TerrariumComponent {
   protected user$?: Observable<User>;
@@ -38,10 +39,8 @@ export class TerrariumComponent {
         .getUserByName(username)
         .pipe(
           takeUntilDestroyed(),
-          map((user: User) => {
+          tap((user: User) => {
             this.fullName = this.getFullName(user);
-
-            return user;
           })
         );
     }

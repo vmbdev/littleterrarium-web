@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,8 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { User } from '@models/user.model';
 
 import { AuthService } from '@services/auth.service';
+import { BehaviorSubject, EMPTY, Observable, catchError, tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -16,6 +18,7 @@ import { AuthService } from '@services/auth.service';
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninComponent {
   protected form: FormGroup = this.fb.group({
@@ -23,7 +26,8 @@ export class SigninComponent {
     password: ['', Validators.required],
   });
 
-  protected authInvalid: boolean = false;
+  protected authInvalid$ = new BehaviorSubject<boolean>(false);
+  protected signedIn$?: Observable<User>;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -32,18 +36,18 @@ export class SigninComponent {
   ) {}
 
   submit() {
-    const signinForm = this.form.value;
-    this.authInvalid = false;
+    const { username, password } = this.form.value;
 
-    this.auth.signIn(signinForm.username, signinForm.password).subscribe({
-      next: () => {
-        this.router.navigate(['/']);
-      },
-      error: (err: any) => {
+    this.authInvalid$.next(false);
+    this.signedIn$ = this.auth.signIn(username, password).pipe(
+      tap(() => this.router.navigate(['/'])),
+      catchError((err: any) => {
         if (err.msg && err.msg === 'USER_DATA_INCORRECT') {
-          this.authInvalid = true;
+          this.authInvalid$.next(true);
         }
-      },
-    });
+
+        return EMPTY;
+      }),
+    );
   }
 }

@@ -2,7 +2,10 @@
   <div
     (click)="handleClick()"
     class="mainnav-item"
-    [ngClass]="{ 'mainnav-item__islink': !!routerLinkS || click.observed }"
+    [ngClass]="{
+      'mainnav-item__islink': !!routerLinkS || click.observed,
+      'mainnav-item--center': center,
+    }"
   >
     <a [routerLink]="routerLink">
       <ng-content />

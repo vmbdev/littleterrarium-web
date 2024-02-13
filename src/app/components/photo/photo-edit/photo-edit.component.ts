@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +7,7 @@ import {
   Validators
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { EMPTY, switchMap, withLatestFrom } from 'rxjs';
+import { EMPTY, Observable, map, switchMap, withLatestFrom } from 'rxjs';
 import { DateTime } from 'luxon';
 
 import { PhotoService } from '@services/photo.service';
@@ -21,6 +21,7 @@ import { Plant } from '@models/plant.model';
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './photo-edit.component.html',
   styleUrls: ['./photo-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoEditComponent {
   @Output() updated = new EventEmitter<null>();
@@ -30,7 +31,7 @@ export class PhotoEditComponent {
     coverId: [],
     public: [],
   });
-  private plantCoverId?: number;
+  protected photo$?: Observable<Photo | null>;
   protected today = DateTime.now().toFormat('yyyy-LL-dd');
 
   constructor(
@@ -42,15 +43,15 @@ export class PhotoEditComponent {
   ngOnInit(): void {
     const obs$ = this.photoService.photo$;
     
-    obs$.pipe(
+    this.photo$ = obs$.pipe(
       switchMap((photo: Photo | null) => {
         if (photo) return this.plantService.getCover(photo.plantId);
-
-        return EMPTY;
+        else return EMPTY;
       }),
-      withLatestFrom(obs$)
-    ).subscribe(([{ coverId }, photo]) => {
-      if (photo) {
+      withLatestFrom(obs$),
+      map(([{ coverId }, photo]) => {
+        if (!photo) return null;
+
         this.photoForm.setValue({
           description: photo.description,
           takenAt: DateTime.fromISO(photo.takenAt as string).toFormat(
@@ -59,10 +60,11 @@ export class PhotoEditComponent {
           coverId: coverId === photo.id,
           public: photo.public,
         });
-      }
-    });
-  }
 
+        return photo;
+      }),
+    )
+  }
 
   submit(): void {
     const currentPhoto = this.photoService.current();

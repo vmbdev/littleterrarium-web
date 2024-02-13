@@ -1,31 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, finalize, throwError } from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  finalize,
+  map,
+  Observable,
+  switchMap,
+  throwError,
+} from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import {
-  WizardHeaderComponent
-} from '@components/wizard/wizard-header/wizard-header.component';
-import {
-  WizardPageDescriptionComponent
-} from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import {
-  WizardPageComponent
-} from '@components/wizard/wizard-page/wizard-page.component';
-import {
-  FileUploaderComponent
-} from '@components/file-uploader/file-uploader.component';
-import {
-  ProgressBarComponent
-} from '@components/progress-bar/progress-bar.component';
+import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
+import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
+import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { PhotoService } from '@services/photo.service';
@@ -48,12 +46,13 @@ import { Plant } from '@models/plant.model';
   ],
   templateUrl: './photo-add.component.html',
   styleUrls: ['./photo-add.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoAddComponent {
   protected photoForm: FormGroup;
   private plantId?: number;
-  protected plant?: Plant;
-  protected uploadProgress: number = 0;
+  protected createPhotoProgress$?: Observable<number>;
+  protected plant$?: Observable<Plant | null>;
   protected disableNavigation: boolean = false;
 
   constructor(
@@ -66,7 +65,7 @@ export class PhotoAddComponent {
   ) {
     this.photoForm = this.fb.group({
       public: [true, Validators.required],
-      pictureFiles: [Validators.required],
+      pictureFiles: [[], Validators.required],
     });
   }
 
@@ -74,24 +73,20 @@ export class PhotoAddComponent {
     this.plantId = +this.route.snapshot.params['plantId'];
 
     if (this.plantId) {
-      this.plantService
-        .get(this.plantId)
-        .pipe(
-          catchError((err: HttpErrorResponse) => {
-            this.router.navigateByUrl('/');
+      this.plant$ = this.plantService.get(this.plantId).pipe(
+        catchError((err: HttpErrorResponse) => {
+          this.router.navigateByUrl('/');
 
-            if (err.error?.msg === 'PLANT_NOT_FOUND') {
-              this.errorHandler.push(
-                $localize`:@@plant.invalid:Plant not found.`
-              );
+          if (err.error?.msg === 'PLANT_NOT_FOUND') {
+            this.errorHandler.push(
+              $localize`:@@plant.invalid:Plant not found.`,
+            );
 
-              return EMPTY;
-            } else return throwError(() => err);
-          })
-        )
-        .subscribe((plant: Plant) => {
-          this.plant = plant;
-        });
+            return EMPTY;
+          } else return throwError(() => err);
+        }),
+        switchMap(() => this.plantService.plant$),
+      );
     } else {
       this.errorHandler.push($localize`:@@plant.invalid:Plant not found.`);
     }
@@ -104,35 +99,35 @@ export class PhotoAddComponent {
   }
 
   submit(): void {
-    if (this.plantId) {
-      const newPhoto: Photo = this.photoForm.value;
+    if (!this.plantId || !this.photoForm.valid) return;
 
-      newPhoto.plantId = this.plantId;
-      this.disableNavigation = true;
+    const newPhoto: Photo = this.photoForm.value;
 
-      this.photoService
-        .create(newPhoto)
-        .pipe(
-          finalize(() => {
-            this.disableNavigation = false;
-          })
-        )
-        .subscribe((event) => {
-          switch (event.type) {
-            case HttpEventType.UploadProgress: {
-              const eventTotal = event.total ? event.total : 0;
-              this.uploadProgress = Math.round(
-                (event.loaded / eventTotal) * 100
-              );
-              break;
-            }
-            case HttpEventType.Response: {
-              this.uploadProgress = 0;
-              this.router.navigate(['plant', this.plantId]);
-              break;
-            }
+    newPhoto.plantId = this.plantId;
+    this.disableNavigation = true;
+
+    this.createPhotoProgress$ = this.photoService.create(newPhoto).pipe(
+      map((event) => {
+        let uploadProgress: number = 0;
+
+        switch (event.type) {
+          case HttpEventType.UploadProgress: {
+            const eventTotal = event.total ? event.total : 0;
+            uploadProgress = Math.round((event.loaded / eventTotal) * 100);
+            break;
           }
-        });
-    }
+          case HttpEventType.Response: {
+            uploadProgress = 0;
+            this.router.navigate(['plant', this.plantId]);
+            break;
+          }
+        }
+
+        return uploadProgress;
+      }),
+      finalize(() => {
+        this.disableNavigation = false;
+      }),
+    );
   }
 }

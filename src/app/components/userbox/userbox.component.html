@@ -18,28 +18,59 @@
     </div>
 
     <lt-floating-list [visible]="menuVisible">
-      @if (user.role == 'ADMIN') {
-        <lt-mainnav-item routerLink="/admin" i18n="@@userbox.admin">
+      @if (user.role == "ADMIN") {
+        <lt-mainnav-item routerLink="/admin">
+          <box-icon
+            name="terminal"
+            size="sm"
+            fixedWidth="true"
+            i18n="@@userbox.admin"
+          />
           Administration
         </lt-mainnav-item>
       }
-        <lt-mainnav-item
-          [routerLink]="['/terrarium', user.username]"
+      <lt-mainnav-item [routerLink]="['/terrarium', user.username]">
+        <box-icon
+          name="user-pin"
+          type="solid"
+          size="sm"
+          fixedWidth="true"
           i18n="@@userbox.terrarium"
-        >
-          Your Terrarium
-        </lt-mainnav-item>
-        <lt-mainnav-item routerLink="/user/edit" i18n="@@userbox.profile">
-          Edit profile
-        </lt-mainnav-item>
-        <lt-mainnav-item routerLink="/user/reset" i18n="@@userbox.changePassword">
-          Change password
-        </lt-mainnav-item>
-        <lt-mainnav-item routerLink="/logout" i18n="@@general.logout">
-          Log out
-        </lt-mainnav-item>
+        />
+        Your Terrarium
+      </lt-mainnav-item>
+      <lt-mainnav-item routerLink="/user/edit">
+        <box-icon
+          name="user-circle"
+          type="solid"
+          size="sm"
+          fixedWidth="true"
+          i18n="@@userbox.profile"
+        />
+        Edit profile
+      </lt-mainnav-item>
+      <lt-mainnav-item routerLink="/user/reset">
+        <box-icon
+          name="key"
+          type="solid"
+          size="sm"
+          fixedWidth="true"
+          i18n="@@userbox.changePassword"
+        />
+        Change password
+      </lt-mainnav-item>
+      <lt-mainnav-item routerLink="/logout">
+        <box-icon
+          name="log-out"
+          type="solid"
+          size="sm"
+          fixedWidth="true"
+          i18n="@@general.logout"
+        />
+        Log out
+      </lt-mainnav-item>
     </lt-floating-list>
   </article>
 } @else {
-  <a routerLink="/signin" i18n="@@general.signin"> Sign in </a>
+  <a routerLink="/signin" i18n="@@general.signin">Sign in</a>
 }

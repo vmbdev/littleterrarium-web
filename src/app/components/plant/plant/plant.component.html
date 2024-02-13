@@ -1,4 +1,4 @@
-@if (plantService.plant$ | async; as plant) {
+@if (plant$ | async; as plant) {
   @if (enableWaterEditing) {
     <lt-quick-modal
       (close)="enableWaterEditing = false"

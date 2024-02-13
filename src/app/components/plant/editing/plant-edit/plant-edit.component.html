@@ -1,4 +1,4 @@
-@if (plantService.plant$ | async; as plant) {
+@if (plant$ | async; as plant) {
   <form
     method="post"
     [formGroup]="plantForm"
@@ -48,7 +48,6 @@
         </lt-wizard-page-description>
         <div class="form__select">
           <select formControlName="locationId">
-
             @for (location of locations$ | async; track location.id) {
               <option
                 [value]="location.id"
@@ -57,7 +56,6 @@
                 {{ location.name }}
               </option>
             }
-
           </select>
         </div>
       </lt-wizard-page>
@@ -90,13 +88,13 @@
             Let's keep track of its health, would you?
           </p>
         </lt-wizard-page-description>
-          <lt-group-selector
-            [group]="conditions"
-            [default]="defaultCondition"
-            assetType="icon"
-            columns="5"
-            (change)="handleChange($event)"
-          />
+        <lt-group-selector
+          [group]="conditions"
+          [default]="defaultCondition"
+          assetType="icon"
+          columns="5"
+          (change)="handleChange($event)"
+        />
       </lt-wizard-page>
 
       <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">

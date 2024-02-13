@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Input,
@@ -15,6 +16,7 @@ import { MainnavBaseContentComponent } from '@components/navigation/mainnav-base
   imports: [CommonModule],
   templateUrl: './floating-list.component.html',
   styleUrl: './floating-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FloatingListComponent {
   @ContentChildren(MainnavBaseContentComponent)

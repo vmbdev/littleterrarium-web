@@ -1,29 +1,31 @@
-<lt-filter-bar
-  showSearchBar="true"
-  showSortByDate="true"
-  showSortByName="true"
-  [nameOrder]="column === 'name' ? order : 'asc'"
-  [dateOrder]="column === 'date' ? order : 'asc'"
-  [activeColumn]="column"
-  (sortingChanged)="changeSorting($event)"
-  (filterChanged)="changeFilter($event)"
->
-</lt-filter-bar>
-<lt-picture-list
-  [createAddItem]="locationId && owned"
-  [addItemLink]="['/plant', 'create', locationId]"
-  contentBelow="true"
-  [list]="pictureList"
->
-  <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>
-</lt-picture-list>
+@if (pictureList$ | async; as pictureList) {
+  <lt-filter-bar
+    showSearchBar="true"
+    showSortByDate="true"
+    showSortByName="true"
+    [nameOrder]="column === 'name' ? order : 'asc'"
+    [dateOrder]="column === 'date' ? order : 'asc'"
+    [activeColumn]="column"
+    (sortingChanged)="changeSorting($event)"
+    (filterChanged)="changeFilter($event)"
+  >
+  </lt-filter-bar>
+  <lt-picture-list
+    [createAddItem]="locationId && owned"
+    [addItemLink]="['/plant', 'create', locationId]"
+    contentBelow="true"
+    [list]="pictureList"
+  >
+    <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>
+  </lt-picture-list>
 
-@if (locationPlantCount$ | async; as plants) {
-  @if (plants.count !== loadedPlants) {
-    <div class="plant-list__loadmore form__button">
-      <button type="button" (click)="loadMore()" i18n="@@general.loadMore">
-        Load more ({{ plants.count - loadedPlants }} left)
-      </button>
-    </div>
+  @if (count$ | async; as count) {
+    @if (count !== loadedPlants) {
+      <div class="plant-list__loadmore form__button">
+        <button type="button" (click)="loadMore()" i18n="@@general.loadMore">
+          Load more ({{ count - loadedPlants }} left)
+        </button>
+      </div>
+    }
   }
 }

@@ -4,14 +4,14 @@ import {
   BehaviorSubject,
   catchError,
   EMPTY,
-  map,
   Observable,
+  tap,
   throwError,
 } from 'rxjs';
 
 import { AuthService } from '@services/auth.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
-import { ApiService, PhotoGetConfig } from '@services/api.service';
+import { ApiService } from '@services/api.service';
 import { Photo } from '@models/photo.model';
 import { BackendResponse } from '@models/backend-response.model';
 
@@ -30,24 +30,34 @@ export class PhotoService {
     private readonly errorHandler: ErrorHandlerService,
   ) {}
 
-  get(id: number, options?: PhotoGetConfig): Observable<Photo> {
-    return this.api.getPhoto(id, options).pipe(
-      map((photo: Photo) => {
-        this.owned.next(this.auth.getUser()?.id === photo.ownerId);
-        this.photo.next(photo);
-
-        return photo;
-      }),
-      catchError((error: HttpErrorResponse) => {
+  get(id: number): Observable<Photo> {
+    return this.api.getPhoto(id).pipe(
+      catchError((err: HttpErrorResponse) => {
         this.photo.next(null);
 
-        return throwError(() => error);
+        if (err.error?.msg === 'PHOTO_NOT_FOUND') {
+          this.errorHandler.push($localize`:@@photo.invalid:Photo not found.`);
+        }
+
+        return throwError(() => err);
+      }),
+      tap((photo: Photo) => {
+        this.owned.next(this.auth.getUser()?.id === photo.ownerId);
+        this.photo.next(photo);
       }),
     );
   }
 
   getNavigation(id: number): Observable<any> {
-    return this.api.getPhotoNavigation(id);
+    return this.api.getPhotoNavigation(id).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.error?.msg === 'PHOTO_NOT_FOUND') {
+          this.errorHandler.push($localize`:@@photo.invalid:Photo not found.`);
+        }
+
+        return throwError(() => err);
+      }),
+    );
   }
 
   create(
@@ -70,10 +80,8 @@ export class PhotoService {
 
   update(photo: Photo): Observable<Photo> {
     return this.api.updatePhoto(photo).pipe(
-      map((updatedPhoto: Photo) => {
+      tap((updatedPhoto: Photo) => {
         this.photo.next(updatedPhoto);
-
-        return photo;
       }),
       catchError((HttpError: HttpErrorResponse) => {
         this.photo.next(null);

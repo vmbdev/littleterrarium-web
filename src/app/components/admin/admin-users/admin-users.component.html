@@ -1,65 +1,67 @@
-@if (users$ | async; as users) {
-
-  <table class="admin-users">
-    <thead>
+<table class="admin-users">
+  <thead>
+    <tr>
+      <th>Pic</th>
+      <th>ID</th>
+      <th>Username</th>
+      <th>E-mail</th>
+      <th>Role</th>
+      <th>Public?</th>
+      <th>Status</th>
+      <th>Locations</th>
+      <th>Plants</th>
+      <th>Photos</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (user of users$ | async; track user.id) {
       <tr>
-        <th>Pic</th>
-        <th>ID</th>
-        <th>Username</th>
-        <th>E-mail</th>
-        <th>Role</th>
-        <th>Public?</th>
-        <th>Status</th>
-        <th>Locations</th>
-        <th>Plants</th>
-        <th>Photos</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (user of users; track user.id) {
-        <tr>
-          <td>
-            @if (user.avatar) {
-              <img
-                class="admin-users__avatar"
-                [src]="user.avatar | imagePath:'thumb'"
-                alt="Avatar"
-              />
-            }
-          </td>
-          <td>{{ user.id }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role | lowercase }}</td>
-          <td>
-            @if (user.public) {
+        <td>
+          @if (user.avatar) {
+            <img
+              class="admin-users__avatar"
+              [src]="user.avatar | imagePath: 'thumb'"
+              alt="Avatar"
+            />
+          }
+        </td>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role | lowercase }}</td>
+        <td>
+          @if (user.public) {
+            <box-icon name="check" size="md" />
+          }
+        </td>
+        <td>
+          @switch (user.status) {
+            @case ("VERIFIED") {
               <box-icon name="check" size="md" />
             }
-          </td>
-          <td>
-            @switch (user.status) {
-              @case ('VERIFIED') {
-                <box-icon name="check" size="md" />
-              }
-              @case ('BANNED') {
-                <box-icon name="block" size="md" />
-              }
-              @case ('UNVERIFIED') {
-                <box-icon name="question-mark" size="md" />
-              }
+            @case ("BANNED") {
+              <box-icon name="block" size="md" />
             }
-          </td>
-          <td>{{ user._count?.locations }}</td>
-          <td>{{ user._count?.plants }}</td>
-          <td>{{ user._count?.photos }}</td>
-        </tr>
-      }
-    </tbody>
-    <tfoot>
-      <tr>
-        <th scope="row" colspan="9">Total</th>
-        <td>{{ users.length }}</td>
+            @case ("UNVERIFIED") {
+              <box-icon name="question-mark" size="md" />
+            }
+          }
+        </td>
+        <td>{{ user._count?.locations }}</td>
+        <td>{{ user._count?.plants }}</td>
+        <td>{{ user._count?.photos }}</td>
       </tr>
-    </tfoot>
-  </table>
-}
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="100">
+        @for (page of pages$ | async; track page) {
+          <span class="admin-users__page" (click)="load(page)">
+            {{ page }}
+          </span>
+        }
+      </td>
+    </tr>
+  </tfoot>
+</table>

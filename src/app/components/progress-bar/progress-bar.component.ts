@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressBarComponent {
   @Input() progress: number = 0;

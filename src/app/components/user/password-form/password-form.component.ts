@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -16,11 +16,13 @@ import { PasswordRequirements } from '@models/user.model';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './password-form.component.html',
   styleUrl: './password-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordFormComponent {
-  @Input({ required: true }) requirements?: PasswordRequirements | null;
+  @Input() requirements?: PasswordRequirements | null;
   @Input({ required: true }) passwordGroup!: FormGroup;
   protected nonAlphaNumChars: string = '!@#$%^&*()_+-=[]{};\':"|,.<>/?';
+  protected hasRequirements: boolean = false;
 
   ngOnInit(): void {
     this.passwordGroup.controls['password'].addValidators([
@@ -64,15 +66,6 @@ export class PasswordFormComponent {
     if (pwd1 !== pwd2) return { different: true };
 
     return null;
-  }
-
-  hasRequirements(): boolean {
-    return !!(
-      this.requirements &&
-      (this.requirements.requireNumber ||
-        this.requirements.requireUppercase ||
-        this.requirements.requireNonAlphanumeric)
-    );
   }
 
   hasError(error: string): boolean | undefined {

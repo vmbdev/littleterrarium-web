@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -17,6 +18,7 @@ import {
   imports: [CommonModule],
   templateUrl: './close-button.component.html',
   styleUrls: ['./close-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseButtonComponent {
   /**

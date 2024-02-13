@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   booleanAttribute,
   numberAttribute,
-  ChangeDetectorRef,
   Component,
   ContentChild,
   ContentChildren,
@@ -11,11 +10,14 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { BehaviorSubject } from 'rxjs';
 
 // TODO: focus input on page change
 
@@ -25,6 +27,7 @@ import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.
   imports: [CommonModule],
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WizardComponent {
   @ContentChildren(WizardPageComponent, { descendants: true })
@@ -35,11 +38,12 @@ export class WizardComponent {
 
   @Input() form?: FormGroup;
   @Input({ transform: numberAttribute }) start: number = 0;
-  @Input() moveTo?: number;
+  @Input({ transform: numberAttribute }) moveTo?: number;
   @Input({ transform: booleanAttribute }) singlePage: boolean = false;
-  @Input() disableNavigation: boolean = false;
+  @Input({ transform: booleanAttribute }) disableNavigation: boolean = false;
   @Output() indexChange = new EventEmitter();
-  protected currentIndex: number = 0;
+
+  protected currentIndex$ = new BehaviorSubject<number>(0);
 
   constructor(private readonly cdr: ChangeDetectorRef) {}
 
@@ -47,30 +51,36 @@ export class WizardComponent {
     if (this.start) this.setIndex(this.start);
   }
 
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
+  ngAfterViewInit() {
+      this.cdr.detectChanges();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['moveTo'] && changes['moveTo'].currentValue !== undefined) {
-      this.setIndex(changes['moveTo'].currentValue);
+    if (changes['moveTo']) {
+      const newVal = changes['moveTo'].currentValue;
+
+      if (newVal || newVal >= 0) {
+        this.setIndex(newVal);
+      }
     }
   }
 
   setIndex(value: number): void {
-    this.currentIndex = value;
+    this.currentIndex$.next(value);
     this.indexChange.emit();
   }
 
   navigateBack(): void {
-    if (this.currentIndex > 0) this.setIndex(this.currentIndex - 1);
+    const index = this.currentIndex$.getValue();
+    if (index > 0) this.setIndex(index - 1);
   }
 
   navigateNext(): void {
+    const index = this.currentIndex$.getValue();
     let validationErrors = false;
 
     if (this.form) {
-      const page = this.pageList.get(this.currentIndex);
+      const page = this.pageList.get(index);
 
       if (page?.control) {
         const control = this.form.controls[page.control];
@@ -85,9 +95,9 @@ export class WizardComponent {
 
     if (
       !validationErrors &&
-      this.currentIndex < this.pageList.toArray().length - 1
+      index < this.pageList.toArray().length - 1
     ) {
-      this.setIndex(this.currentIndex + 1);
+      this.setIndex(index + 1);
     }
   }
 }

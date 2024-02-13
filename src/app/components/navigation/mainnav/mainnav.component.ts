@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, booleanAttribute } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, booleanAttribute } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
@@ -14,6 +14,7 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
   ],
   templateUrl: './mainnav.component.html',
   styleUrls: ['./mainnav.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainnavComponent {
   /**

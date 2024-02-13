@@ -1,4 +1,9 @@
-import { Component, Input, booleanAttribute } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  booleanAttribute,
+} from '@angular/core';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
@@ -8,6 +13,7 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
   imports: [BoxIconComponent],
   templateUrl: './footernav.component.html',
   styleUrls: ['./footernav.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooternavComponent {
   @Input({ transform: booleanAttribute }) short: boolean = false;

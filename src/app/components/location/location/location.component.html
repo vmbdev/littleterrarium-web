@@ -1,4 +1,4 @@
-@if (locationService.location$ | async; as location) {
+@if (location$ | async; as location) {
   <div class="location">
     <lt-toolbox [title]="location.name">
       @if (locationService.owned$ | async) {
@@ -11,9 +11,8 @@
       title="Location information"
       i18n-title="@@location.locationInformation"
     >
-
       <ng-container properties>
-        @if (getLightAsset(location.light); as light) {
+        @if (lightData; as light) {
           <box-icon [name]="light.icon" [type]="light.type" infoProperty="true">
             {{ light.title }}
           </box-icon>
@@ -22,24 +21,35 @@
         <lt-property-public [public]="location.public" />
 
         @if (location._count?.plants; as count) {
-          <box-icon name="leaf" type="solid" infoProperty="true" i18n="@@location.plants">{{ count }} plants</box-icon>
+          <box-icon
+            name="leaf"
+            type="solid"
+            infoProperty="true"
+            i18n="@@location.plants"
+            >{{ count }} plants</box-icon
+          >
         } @else {
-          <box-icon name="leaf" infoProperty="true" i18n="@@location.noPlants">No plants yet!</box-icon>
+          <box-icon name="leaf" infoProperty="true" i18n="@@location.noPlants"
+            >No plants yet!</box-icon
+          >
         }
       </ng-container>
-
     </lt-info-box>
 
     <section class="section-header">
       <h2 i18n="@@location.plantList">Plants living in {{ location.name }}</h2>
-      <lt-plant-list [owned]="!!(locationService.owned$ | async)" [locationId]="location.id" />
+      <lt-plant-list
+        [owned]="!!(locationService.owned$ | async)"
+        [locationId]="location.id"
+      />
     </section>
   </div>
 }
 
 <ng-template #deleteModal>
   <p i18n="@@location.remove">
-    This will remove this location along with its plants and photos. Are you sure?
+    This will remove this location along with its plants and photos. Are you
+    sure?
   </p>
   <p>
     <strong i18n="@@general.irreversible">

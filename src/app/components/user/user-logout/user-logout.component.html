@@ -1,1 +1,3 @@
-<p i18n="@@user-logout.msg">Logging out, please wait...</p>
+@if (logOut$ | async) {
+  <p i18n="@@user-logout.msg">Logging out, please wait...</p>
+}

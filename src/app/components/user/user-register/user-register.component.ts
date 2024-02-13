@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable, switchMap, tap } from 'rxjs';
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
@@ -16,8 +16,8 @@ import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-d
 import { PasswordFormComponent } from '@components/user/password-form/password-form.component';
 import { AuthService } from '@services/auth.service';
 import { ApiService } from '@services/api.service';
-import { UserRegisterErrors, User } from '@models/user.model';
 import { PasswordService } from '@services/password.service';
+import { UserRegisterErrors, User } from '@models/user.model';
 
 @Component({
   standalone: true,
@@ -33,15 +33,29 @@ import { PasswordService } from '@services/password.service';
   ],
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserRegisterComponent {
-  protected userForm: FormGroup;
-  protected pwdForm: FormGroup;
+  protected userForm: FormGroup = this.fb.group({
+    username: ['', Validators.required],
+    email: [
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.pattern(/^\S+@\S+\.\S+$/i),
+      ]),
+    ],
+  });
+  protected pwdForm: FormGroup = this.fb.group({
+    password: [''],
+    password2: [''],
+  });
 
   protected pwdReq$ = this.pws.getPasswordRequirements();
   protected usernameReq$ = this.api.getUsernameRequirements();
 
-  protected wizardPage: number | undefined = undefined;
+  protected wizardPage$ = new BehaviorSubject<number | undefined>(0);
+  protected userCreated$?: Observable<User>;
   protected errors: UserRegisterErrors = this.resetErrors();
 
   constructor(
@@ -51,23 +65,7 @@ export class UserRegisterComponent {
     private readonly router: Router,
     private readonly cd: ChangeDetectorRef,
     private readonly auth: AuthService,
-  ) {
-    this.pwdForm = this.fb.group({
-      password: [''],
-      password2: [''],
-    });
-
-    this.userForm = this.fb.group({
-      username: ['', Validators.required],
-      email: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^\S+@\S+\.\S+$/i),
-        ]),
-      ],
-    });
-  }
+  ) {}
 
   ngAfterViewChecked(): void {
     this.cd.detectChanges();
@@ -93,11 +91,11 @@ export class UserRegisterComponent {
    * previously
    */
   indexChange(): void {
-    this.wizardPage = undefined;
+    this.wizardPage$.next(undefined);
   }
-
+  
   moveWizardPage(value: number | undefined): void {
-    this.wizardPage = value;
+    this.wizardPage$.next(value);
   }
 
   submit(): void {
@@ -107,7 +105,7 @@ export class UserRegisterComponent {
 
     const pwd = this.pwdForm.get('password')?.value;
 
-    this.pws
+    this.userCreated$ = this.pws
       .checkPassword(pwd)
       .pipe(
         switchMap(() => {
@@ -116,45 +114,53 @@ export class UserRegisterComponent {
 
           return this.auth.register(user);
         }),
+        tap(() => {
+          this.router.navigateByUrl('/');
+        }),
         catchError((err: HttpErrorResponse) => {
-          const error = err.error;
+          const { msg, errorData } = err.error;
 
-          if (error.msg === 'USER_FIELD_EXISTS') {
-            if (error.errorData.field === 'username') {
-              this.errors.usernameExists = true;
-              this.moveWizardPage(0);
-            } else if (error.errorData.field === 'email') {
-              this.errors.emailExists = true;
-              this.moveWizardPage(1);
-            }
-          } else if (error.msg === 'USER_FIELD_INVALID') {
-            if (error.errorData.field === 'username') {
-              this.errors.usernameInvalid = true;
-              this.moveWizardPage(0);
-            } else if (error.errorData.field === 'email') {
-              this.errors.emailInvalid = true;
-              this.moveWizardPage(1);
-            }
-          } else if (error.msg === 'USER_PASSWD_INVALID') {
-            this.moveWizardPage(2);
+          switch (msg) {
+            case 'USER_FIELD_EXISTS': {
+              if (errorData.field === 'username') {
+                this.errors.usernameExists = true;
+                this.moveWizardPage(0);
+              } else if (errorData.field === 'email') {
+                this.errors.emailExists = true;
+                this.moveWizardPage(1);
+              }
 
-            if (!error.errorData.comp.minLength) this.errors.pwd.length = true;
-            if (!error.errorData.comp.hasUppercase) {
-              this.errors.pwd.uppercase = true;
+              break;
             }
-            if (!error.errorData.comp.hasNumber) {
-              this.errors.pwd.numbers = true;
+            case 'USER_FIELD_INVALID': {
+              if (errorData.field === 'username') {
+                this.errors.usernameInvalid = true;
+                this.moveWizardPage(0);
+              } else if (errorData.field === 'email') {
+                this.errors.emailInvalid = true;
+                this.moveWizardPage(1);
+              }
+
+              break;
             }
-            if (!error.errorData.comp.hasNonAlphanumeric) {
-              this.errors.pwd.nonAlphanumeric = true;
+            case 'USER_PASSWD_INVALID': {
+              this.moveWizardPage(2);
+
+              if (!errorData.comp.minLength) this.errors.pwd.length = true;
+              if (!errorData.comp.hasUppercase) {
+                this.errors.pwd.uppercase = true;
+              }
+              if (!errorData.comp.hasNumber) {
+                this.errors.pwd.numbers = true;
+              }
+              if (!errorData.comp.hasNonAlphanumeric) {
+                this.errors.pwd.nonAlphanumeric = true;
+              }
             }
           }
 
           return EMPTY;
         }),
       )
-      .subscribe(() => {
-        this.router.navigateByUrl('/');
-      });
   }
 }

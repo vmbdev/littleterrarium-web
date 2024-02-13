@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -16,6 +17,7 @@ import {
   imports: [CloseButtonComponent],
   templateUrl: './quick-modal.component.html',
   styleUrls: ['./quick-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickModalComponent {
   @Input() title: string = '';

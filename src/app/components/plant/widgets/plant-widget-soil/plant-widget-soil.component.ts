@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { WidgetBoxComponent } from '@components/widget-box/widget-box.component';
 import { PlantService } from '@services/plant.service';
@@ -10,6 +10,7 @@ import { UnitPipe } from '@pipes/unit/unit.pipe';
   selector: 'lt-plant-widget-soil',
   imports: [CommonModule, UnitPipe, WidgetBoxComponent],
   templateUrl: './plant-widget-soil.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantWidgetSoilComponent {
   protected potName?: string;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
 
@@ -12,6 +12,7 @@ import { Plant } from '@models/plant.model';
   imports: [ReactiveFormsModule],
   templateUrl: './plant-edit-fertilizer.component.html',
   styleUrls: ['./plant-edit-fertilizer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantEditFertilizerComponent extends PlantEditActionComponent {
   constructor(fb: FormBuilder, plantService: PlantService) {

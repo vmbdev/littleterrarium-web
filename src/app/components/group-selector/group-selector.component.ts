@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, numberAttribute } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  numberAttribute,
+} from '@angular/core';
+
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
 export type GroupSelectorData<T> = {
@@ -7,17 +15,15 @@ export type GroupSelectorData<T> = {
   asset?: string;
   name?: string;
   color?: string;
-}
+};
 
 @Component({
   selector: 'lt-group-selector',
   standalone: true,
-  imports: [
-    CommonModule,
-    BoxIconComponent,
-  ],
+  imports: [CommonModule, BoxIconComponent],
   templateUrl: './group-selector.component.html',
-  styleUrl: './group-selector.component.scss'
+  styleUrl: './group-selector.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupSelectorComponent {
   @Input({ required: true }) group!: GroupSelectorData<any>[];

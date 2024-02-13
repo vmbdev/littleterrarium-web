@@ -6,10 +6,20 @@
 
 - New administration features, including components, a guard and a service.
 
+### Changes
+
+- Revamped ErrorHandlerService and ErrorToastComponent. It was quite a stupid
+design, don't know what was I thinking.
+- Code cleanup.
+- Some changes that give a little bit of a speed boost.
+
 ### Fixes
 
 - Logging out now clears the private date of the services.
 - Task count/list is now loaded correctly when signing in with another user.
+- A bug where disabled icons where still clickable.
+- Theme-related bugs.
+- Fixed missing translations.
 
 ## [1.1.0] - 2024-01-23
 

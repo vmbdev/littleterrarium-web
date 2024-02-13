@@ -3,12 +3,12 @@
     <input
       (focus)="showResults()"
       (keyup)="keyPress($event)"
-      [(ngModel)]="inputValue"
+      [ngModel]="specieName$ | async"
       type="text"
       placeholder="Try with something like 'basil'"
       class="sf__search"
       i18n-placeholder="@@specieFinder.inputPlaceholder"
-    >
+    />
     <button type="button" class="sf__clear" (click)="clearSearch()">
       &#10006;
     </button>
@@ -17,7 +17,9 @@
   @if (results$ | async; as results) {
     <div
       class="sf__results"
-      [ngClass]="{'sf__results-hidden': results.length === 0 || resultsHidden }"
+      [ngClass]="{
+        'sf__results-hidden': results.length === 0 || resultsHidden
+      }"
     >
       @for (specie of results; track specie.name) {
         <article
@@ -27,21 +29,20 @@
           <div class="sf__itemtext">
             <div
               class="sf__title"
-              [innerHtml]="(specie.commonName ?? specie.name) | highlight:currentSearch"
-            >
-            </div>
+              [innerHtml]="
+                specie.commonName ?? specie.name | highlight: currentSearch
+              "
+            ></div>
 
             @if (specie.commonName) {
               <div
                 class="sf__subtitle"
-                [innerHtml]="specie.name | highlight:currentSearch"
-              >
-              </div>
+                [innerHtml]="specie.name | highlight: currentSearch"
+              ></div>
             }
           </div>
         </article>
       }
     </div>
   }
-  
 </article>

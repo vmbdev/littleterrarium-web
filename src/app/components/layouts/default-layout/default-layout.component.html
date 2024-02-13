@@ -1,5 +1,4 @@
 <div class="body-wrapper">
-  <lt-error-toast />
   <header class="content__header">
     <lt-mainnav brand="assets/logo.svg">
       <ng-container right>
@@ -15,7 +14,7 @@
             </lt-mainnav-item>
           </li>
           <li>
-            <lt-mainnav-item routerLink="/tasks" i18n="@@mainnav.tasks">
+            <lt-mainnav-item routerLink="/tasks" i18n="@@general.tasks">
               <lt-badge [value]="taskService.count$ | async">
                 Tasks
               </lt-badge>
@@ -49,6 +48,7 @@
   </header>
 
   <main role="main" class="content__wrapper">
+    <lt-error-toast />
     <router-outlet />
   </main>
 

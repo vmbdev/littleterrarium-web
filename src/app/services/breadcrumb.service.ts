@@ -127,8 +127,8 @@ export class BreadcrumbService {
           this.getParentLocation(plant.locationId),
         ]);
       }),
-      map(([plantlink, locationLink]) => {
-        return [locationLink, plantlink];
+      map(([plantLink, locationLink]) => {
+        return [locationLink, plantLink];
       })
     );
   }

@@ -1,48 +1,53 @@
-@if (taskService.tasks$ | async; as tasks) {
-  <div class="tasks">
-    <section class="section-header">
-      <h1 i18n="@@general.tasks">Tasks</h1>
-      <p i18n="@@tasks.msg">
-        According to your plant settings, these are the tasks left to do. Glass
-        of water, plant needs to drink; bowl of soup, plants need to eat!
-      </p>
-    </section>
+<div class="tasks">
+  <section class="section-header">
+    <h1 i18n="@@general.tasks">Tasks</h1>
+    <p i18n="@@tasks.msg">
+      According to your plant settings, these are the tasks left to do. Glass of
+      water, plant needs to drink; bowl of soup, plants need to eat!
+    </p>
+  </section>
 
-    <ul class="tasks__list">
-      @for (task of tasks; track task) {
-        <li class="tasks__item">
+  <ul class="tasks__list">
+    @for (task of taskService.tasks$ | async; track task) {
+      <li class="tasks__item">
+        @if (task.picture) {
           <img
             class="tasks__plantpic"
             [src]="task.picture"
-            [routerLink]="['/plant', task.plantId]"
             [alt]="task.plantName"
+            [routerLink]="['/plant', task.plantId]"
           />
+        } @else {
+          <div
+            class="tasks__plantpic"
+            [routerLink]="['/plant', task.plantId]"
+          ></div>
+        }
 
-          <div class="tasks__plantname" [routerLink]="['/plant', task.plantId]">
-            {{ task.plantName }}
-          </div>
+        <div class="tasks__plantname" [routerLink]="['/plant', task.plantId]">
+          {{ task.plantName }}
+        </div>
 
-          <div class="tasks__actions">
-            <box-icon
-              name="drink"
-              size="md"
-              [disabled]="!task.waterNext"
-              (click)="openWaterModal(task.plantId)"
-            />
-            <box-icon
-              name="bowl-hot"
-              size="md"
-              [disabled]="!task.fertNext"
-              (click)="openFertModal(task.plantId)"
-            />
-          </div>
-        </li>
-      }
-    </ul>
-  </div>
-} @else {
-  <p i18n="@@tasks.noTasks">Hooray! Nothing left to do!</p>
-}
+        <div class="tasks__actions">
+          <box-icon
+            name="drink"
+            size="md"
+            [disabled]="!task.waterNext"
+            (click)="openWaterModal(task.plantId)"
+          />
+          <box-icon
+            name="bowl-hot"
+            size="md"
+            [disabled]="!task.fertNext"
+            (click)="openFertModal(task.plantId)"
+          />
+        </div>
+      </li>
+    } @empty {
+      <p i18n="@@tasks.noTasks">Hooray! Nothing left to do!</p>
+    }
+  </ul>
+</div>
 
 <ng-template #waterModal>
   <p i18n="@@plant-widget-water.confirm">

@@ -5,7 +5,7 @@
   enctype="multipart/form-data"
 >
   <lt-wizard [form]="photoForm" [disableNavigation]="disableNavigation">
-    @if (plant) {
+    @if (plant$ | async; as plant) {
       <lt-wizard-header>
         <span i18n="@@photo-add.header">
           Adding photos to <b>{{ plant.visibleName }}</b>
@@ -48,16 +48,18 @@
         </label>
       </div>
 
-      <div class="photo-add__progress">
-        @if (uploadProgress > 0) {
-          <lt-progress-bar [progress]="uploadProgress" />
-        }
-        @if (uploadProgress === 100) {
-          <div class="photo-add__finished" i18n="@@general.uploadFinished">
-            Upload finished. Processing your photos, please wait.
-          </div>
-        }
-      </div>
+      @if (createPhotoProgress$ | async; as uploadProgress) {
+        <div class="photo-add__progress">
+          @if (uploadProgress > 0) {
+            <lt-progress-bar [progress]="uploadProgress" />
+          }
+          @if (uploadProgress === 100) {
+            <div class="photo-add__finished" i18n="@@general.uploadFinished">
+              Upload finished. Processing your photos, please wait.
+            </div>
+          }
+        </div>
+      }
     </lt-wizard-page>
   </lt-wizard>
 </form>

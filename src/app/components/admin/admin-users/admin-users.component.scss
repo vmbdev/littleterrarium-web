@@ -9,6 +9,11 @@
     height: auto;
   }
 
+  &__page {
+    cursor: pointer;
+    padding: 0 1rem;
+  }
+
   thead,
   tfoot {
     @include t.themify {

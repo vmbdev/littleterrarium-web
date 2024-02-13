@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError, EMPTY, Observable, switchMap, tap } from 'rxjs';
 
 import { InfoBoxComponent } from '@components//info-box/info-box.component';
 import { PlantListComponent } from '@components/plant/plant-list/plant-list.component';
@@ -18,6 +18,12 @@ import { ErrorHandlerService } from '@services/error-handler.service';
 import { LocationService } from '@services/location.service';
 import { ModalService } from '@services/modal.service';
 import { Light, Location } from '@models/location.model';
+
+type LightAssetData = {
+  icon: string;
+  type: BoxIconType;
+  title: string;
+};
 
 /**
  * Component providing visualization for a Location model.
@@ -36,6 +42,7 @@ import { Light, Location } from '@models/location.model';
     PropertyPublicComponent,
     BoxIconComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationComponent {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
@@ -45,6 +52,8 @@ export class LocationComponent {
    * from the route.
    */
   private id?: number;
+  protected location$?: Observable<Location | null>;
+  protected lightData?: LightAssetData;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -64,7 +73,7 @@ export class LocationComponent {
     this.id = paramId ? +paramId : NaN;
 
     if (this.id) {
-      this.locationService
+      this.location$ = this.locationService
         .get(this.id, { plantCount: true })
         .pipe(
           catchError((err: HttpErrorResponse) => {
@@ -79,16 +88,19 @@ export class LocationComponent {
 
             return EMPTY;
           }),
-        )
-        .subscribe((location: Location) => {
-          this.breadcrumb.setNavigation([
-            {
-              selector: 'location',
-              name: location.name,
-              link: ['/location', this.id],
-            },
-          ]);
-        });
+          tap((location: Location) => {
+            this.breadcrumb.setNavigation([
+              {
+                selector: 'location',
+                name: location.name,
+                link: ['/location', this.id],
+              },
+            ]);
+
+            this.lightData = this.getLightAsset(location.light);
+          }),
+          switchMap(() => this.locationService.location$),
+        );
     }
   }
 
@@ -119,11 +131,7 @@ export class LocationComponent {
     }
   }
 
-  getLightAsset(light: Light): {
-    icon: string;
-    type: BoxIconType;
-    title: string;
-  } {
+  getLightAsset(light: Light): LightAssetData {
     let icon: string;
     let type: BoxIconType;
     let title = this.locationService.getLightName(light);

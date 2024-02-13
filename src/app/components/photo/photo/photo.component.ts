@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
-import { catchError, EMPTY, switchMap } from 'rxjs';
+import { forkJoin, Observable, of, switchMap, tap } from 'rxjs';
 
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
@@ -37,12 +41,13 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
     BoxIconComponent,
     ImagePathPipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoComponent {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
-  private id?: number;
   protected enablePhotoEditing: boolean = false;
   protected navigation: NavigationData = {};
+  protected photo$?: Observable<Photo | null>;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -54,52 +59,38 @@ export class PhotoComponent {
   ) {}
 
   ngOnInit(): void {
-    // Angular doesn't update a component when the route only changes its
-    // parameters
-    this.route.params.subscribe((param: Params) => {
-      this.id = param['photoId'];
-      this.loadPhoto();
-    });
+    this.photo$ = this.getCurrentPhoto();
   }
 
-  loadPhoto(): void {
-    if (this.id) {
-      this.photoService
-        .get(this.id, { navigation: true, cover: true })
-        .pipe(
-          catchError((err: HttpErrorResponse) => {
-            if (err.error?.msg === 'PHOTO_NOT_FOUND') {
-              this.errorHandler.push(
-                $localize`:@@photo.invalid:Photo not found.`,
-              );
-            } else {
-              this.errorHandler.push($localize`:@@errors.server:Server error`);
-            }
+  getCurrentPhoto(): Observable<Photo | null> {
+    // Angular doesn't update a component when the route only changes its
+    // parameters
+    return this.route.params.pipe(
+      switchMap((param: Params) => {
+        const id = +param['photoId'];
 
-            this.router.navigateByUrl('/');
+        return forkJoin([
+          this.photoService.getNavigation(id),
+          this.photoService.get(id),
+          of(id),
+        ]);
+      }),
+      tap(([navigation, photo, id]) => {
+        this.breadcrumb.setNavigation(
+          [
+            {
+              selector: 'photo',
+              name: $localize`:@@general.photo:Photo`,
+              link: ['/photo', id],
+            },
+          ],
+          { attachTo: 'plant', parent: photo.plantId },
+        );
 
-            return EMPTY;
-          }),
-          switchMap((photo: Photo) => {
-            this.breadcrumb.setNavigation(
-              [
-                {
-                  selector: 'photo',
-                  name: $localize`:@@general.photo:Photo`,
-                  link: ['/photo', this.id],
-                },
-              ],
-              { attachTo: 'plant', parent: photo.plantId },
-            );
-
-            return this.photoService.getNavigation(photo.id);
-          }),
-        )
-        .subscribe((navigation: NavigationData) => {
-          this.navigation = navigation;
-          // const photo = this.photoService.getValue();
-        });
-    }
+        this.navigation = navigation;
+      }),
+      switchMap(() => this.photoService.photo$),
+    );
   }
 
   openDeleteModal(): void {

@@ -1,5 +1,6 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   Inject,
   Renderer2,
@@ -16,6 +17,7 @@ import { ThemeService } from '@services/theme.service';
   selector: 'app-root',
   imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   @ViewChild('mainElement') mainElement!: TemplateRef<any>;

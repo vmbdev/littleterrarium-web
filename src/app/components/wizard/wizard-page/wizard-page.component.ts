@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   Input,
@@ -15,6 +16,7 @@ import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-d
   imports: [CommonModule],
   templateUrl: './wizard-page.component.html',
   styleUrls: ['./wizard-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WizardPageComponent {
   @Input() title?: string;

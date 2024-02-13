@@ -1,15 +1,24 @@
-import { Component, EventEmitter, Input, Output, numberAttribute } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  numberAttribute,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Plant } from '@models/plant.model';
-import { PlantService } from '@services/plant.service';
 import { DateTime } from 'luxon';
+
+import { PlantService } from '@services/plant.service';
+import { Plant } from '@models/plant.model';
 
 @Component({
   selector: 'lt-plant-edit-action',
   standalone: true,
   imports: [],
   templateUrl: './plant-edit-action.component.html',
-  styleUrl: './plant-edit-action.component.scss'
+  styleUrl: './plant-edit-action.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class PlantEditActionComponent {
   @Input({ transform: numberAttribute }) plantId?: number;

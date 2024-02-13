@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, skipWhile, switchMap } from 'rxjs';
+import { skipWhile, switchMap, tap } from 'rxjs';
+
 import { AuthService } from '@services/auth.service';
 
 export const SignedInGuard = () => {
@@ -10,10 +11,8 @@ export const SignedInGuard = () => {
   return auth.checked$.pipe(
     skipWhile((isChecked) => isChecked === false),
     switchMap(() => auth.signedIn$),
-    map((signedIn: boolean) => {
+    tap((signedIn: boolean) => {
       if (!signedIn) router.navigate(['/signin']);
-
-      return signedIn;
     })
   );
 };

@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   Output,
-  SimpleChanges
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { ApiService } from '@services/api.service';
@@ -20,24 +20,23 @@ import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
   imports: [CommonModule, BoxIconComponent, FormsModule, HighlightPipe],
   templateUrl: './specie-finder.component.html',
   styleUrls: ['./specie-finder.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecieFinderComponent {
   @Input() selected?: number;
   @Output() selectSpecieId = new EventEmitter<number | null>();
   protected results$: Observable<Specie[]> = of([]);
   protected currentSearch: string = '';
-  protected inputValue: string = '';
+  protected specieName$?: Observable<string>;
   protected resultsHidden: boolean = false;
 
   constructor(private readonly api: ApiService) {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    const specie = changes['selected'].currentValue;
-
-    if (specie) {
-      this.api.getSpecie(specie).subscribe((specie: Specie) => {
-        this.selectSpecie(specie.id, specie.name);
-      });
+  ngOnInit(): void {
+    if (this.selected) {
+      this.specieName$ = this.api
+        .getSpecie(this.selected)
+        .pipe(map((specie: Specie) => specie.name));
     }
   }
 
@@ -62,14 +61,14 @@ export class SpecieFinderComponent {
 
   clearSearch(): void {
     this.results$ = of([]);
-    this.inputValue = '';
+    this.specieName$ = of('');
     this.currentSearch = '';
     this.selectSpecieId.emit(null);
   }
 
   selectSpecie(id: number, name: string): void {
     this.selectSpecieId.emit(id);
-    this.inputValue = name;
+    this.specieName$ = of(name);
     this.hideResults();
   }
 }

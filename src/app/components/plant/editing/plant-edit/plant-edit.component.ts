@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Observable, tap } from 'rxjs';
 
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
 import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
@@ -19,8 +20,8 @@ import {
 } from '@components/group-selector/group-selector.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
-import { Plant, Condition } from '@models/plant.model';
 import { LocationService } from '@services/location.service';
+import { Plant, Condition } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -37,10 +38,10 @@ import { LocationService } from '@services/location.service';
   ],
   templateUrl: './plant-edit.component.html',
   styleUrls: ['./plant-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantEditComponent {
   private id?: number;
-  protected locations$ = this.locationService.getMany();
   protected plantForm: FormGroup = this.fb.group({
     customName: [],
     specieId: [],
@@ -49,6 +50,8 @@ export class PlantEditComponent {
     locationId: [Validators.required],
     public: [],
   });
+  protected locations$ = this.locationService.getMany();
+  protected plant$?: Observable<Plant>;
   protected removeSpecie: boolean = false;
   protected conditions = this.getConditions();
   protected defaultCondition: string | null = null;
@@ -66,8 +69,8 @@ export class PlantEditComponent {
     this.id = +this.route.snapshot.params['plantId'];
 
     if (this.id) {
-      this.plantService.get(this.id).subscribe({
-        next: (plant: Plant) => {
+      this.plant$ = this.plantService.get(this.id).pipe(
+        tap((plant: Plant) => {
           this.defaultCondition = plant.condition;
 
           this.plantForm.patchValue({
@@ -83,8 +86,8 @@ export class PlantEditComponent {
             [{ selector: 'plant-edit', name: 'Edit' }],
             { attachTo: 'plant' },
           );
-        },
-      });
+        })
+      )
     }
   }
 

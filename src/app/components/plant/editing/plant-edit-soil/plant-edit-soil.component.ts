@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
 import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
@@ -34,11 +35,12 @@ import { Plant, PotNames } from '@models/plant.model';
   ],
   templateUrl: './plant-edit-soil.component.html',
   styleUrls: ['./plant-edit-soil.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantEditSoilComponent {
   private id?: number;
   protected potForm: FormGroup;
-
+  protected plant$?: Observable<Plant>;
   protected defaultPot: string | null = null;
   protected pots: GroupSelectorData<string>[] = [];
 
@@ -63,8 +65,8 @@ export class PlantEditSoilComponent {
     this.id = +this.route.snapshot.params['plantId'];
 
     if (this.id) {
-      this.plantService.get(this.id).subscribe({
-        next: (plant: Plant) => {
+      this.plant$ = this.plantService.get(this.id).pipe(
+        tap((plant: Plant) => {
           this.defaultPot = plant.potType;
           this.potForm.patchValue({
             potSize: plant.potSize,
@@ -75,8 +77,8 @@ export class PlantEditSoilComponent {
             [{ selector: 'plant-edit-soil', name: 'Edit pot and soil' }],
             { attachTo: 'plant' },
           );
-        },
-      });
+        })
+      );
     }
   }
 

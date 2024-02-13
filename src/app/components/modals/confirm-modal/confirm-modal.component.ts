@@ -1,12 +1,17 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 
 @Component({
   standalone: true,
   selector: 'lt-confirm-modal',
-  imports: [CommonModule],
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmModalComponent {
   @Output() accept: EventEmitter<null> = new EventEmitter<null>();

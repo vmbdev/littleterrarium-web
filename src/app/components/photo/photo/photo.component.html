@@ -1,7 +1,11 @@
-@if (photoService.photo$ | async; as photo) {
+@if (photo$ | async; as photo) {
   <article class="photo">
     @if (enablePhotoEditing) {
-      <lt-quick-modal (close)="enablePhotoEditing = false" title="Edit photo">
+      <lt-quick-modal
+        (close)="enablePhotoEditing = false"
+        title="Edit photo"
+        i18n-title="@@photo.editPhoto"
+      >
         <lt-photo-edit (updated)="enablePhotoEditing = false" />
       </lt-quick-modal>
     }
@@ -9,11 +13,14 @@
     <lt-toolbox title="{{ photo.takenAt | date }}">
       @if (photoService.owned$ | async) {
         <lt-toolbox-button name="edit" (click)="enablePhotoEditing = true" />
-        <lt-toolbox-button name="trash" (click)="openDeleteModal()"/>
+        <lt-toolbox-button name="trash" (click)="openDeleteModal()" />
       }
     </lt-toolbox>
 
-    <lt-info-box title="Photo information" i18n-title="@@photo.photoInformation">
+    <lt-info-box
+      title="Photo information"
+      i18n-title="@@photo.photoInformation"
+    >
       @if (photo.description) {
         <div class="photo__description">
           {{ photo.description }}
@@ -24,10 +31,9 @@
         <box-icon name="calendar" infoProperty="true">
           {{ photo.takenAt | date }}
         </box-icon>
-        
+
         <lt-property-public [public]="photo.public" />
       </ng-container>
-
     </lt-info-box>
 
     <div class="photo__imagebox">
@@ -40,9 +46,9 @@
         "
       >
         <div class="photo__image">
-          <a [href]="photo.images | imagePath:'full'" target="_blank">
+          <a [href]="photo.images | imagePath: 'full'" target="_blank">
             <img
-              [src]="photo.images | imagePath:'mid'"
+              [src]="photo.images | imagePath: 'mid'"
               alt="Picture"
               i18n-alt="@@general.picture"
             />

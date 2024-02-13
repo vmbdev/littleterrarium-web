@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import {
   LocationListComponent
@@ -13,5 +13,6 @@ import {
   selector: 'lt-home',
   imports: [CommonModule, LocationListComponent],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {}

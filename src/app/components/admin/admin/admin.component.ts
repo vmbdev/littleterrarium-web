@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AdminSidenavComponent } from '@components/admin/admin-sidenav/admin-sidenav.component';
@@ -11,6 +11,7 @@ import { AdminSidenavComponent } from '@components/admin/admin-sidenav/admin-sid
     AdminSidenavComponent,
   ],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss'
+  styleUrl: './admin.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent {}

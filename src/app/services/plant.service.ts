@@ -35,12 +35,14 @@ export class PlantService {
 
     return this.api.getPlant(id, options).pipe(
       map((plant: Plant) => {
-        this.owned.next(this.auth.getUser()?.id === plant.ownerId);
-        plant.visibleName = this.getVisibleName(plant);
+        const newPlant = { ...plant };
 
-        this.plant.next(plant);
+        this.owned.next(this.auth.getUser()?.id === newPlant.ownerId);
+        newPlant.visibleName = this.getVisibleName(newPlant);
 
-        return plant;
+        this.plant.next(newPlant);
+
+        return newPlant;
       })
     );
   }
@@ -48,11 +50,16 @@ export class PlantService {
   getMany(options: PlantGetConfig): Observable<Plant[]> {
     return this.api.getPlants(options).pipe(
       map((plants: Plant[]) => {
+        const newPlants = [];
+
         for (const plant of plants) {
-          plant.visibleName = this.getVisibleName(plant);
+          const newPlant = { ...plant };
+
+          newPlant.visibleName = this.getVisibleName(newPlant);
+          newPlants.push(newPlant);
         }
 
-        return plants;
+        return newPlants;
       })
     );
   }
@@ -80,20 +87,25 @@ export class PlantService {
     return name;
   }
 
+  count(): Observable<number> {
+    return this.api.countPlants();
+  }
+
   update(plant: Plant, options: PlantUpdateConfig = {}): Observable<Plant> {
     if (plant.specieId === null) options.removeSpecie = true;
 
     return this.api.updatePlant(plant, options).pipe(
       map((plant: Plant) => {
+        const newPlant = { ...plant };
         const current = this.plant.getValue();
-        plant.visibleName = this.getVisibleName(plant);
+        newPlant.visibleName = this.getVisibleName(newPlant);
 
         if (current) {
-          plant.photos = current.photos;
-          this.plant.next(plant);
+          newPlant.photos = current.photos;
+          this.plant.next(newPlant);
         }
 
-        return plant;
+        return newPlant;
       })
     );
   }
@@ -107,7 +119,7 @@ export class PlantService {
     } else return EMPTY;
   }
 
-  fertilize(id?: number): Observable<any> {
+  fertilize(id?: number): Observable<Plant> {
     let plantId: number | undefined;
 
     if (id) plantId = id;
@@ -121,11 +133,11 @@ export class PlantService {
 
       return this.update(updatedPlant);
     }
-
-    return EMPTY;
+    
+    throw new Error('Missing Plant ID');
   }
 
-  water(id?: number): Observable<any> {
+  water(id?: number): Observable<Plant> {
     let plantId: number | undefined;
 
     if (id) plantId = id;
@@ -140,7 +152,7 @@ export class PlantService {
       return this.update(updatedPlant);
     }
 
-    return EMPTY;
+    throw new Error('Missing Plant ID');
   }
 
   current(): Plant | null {

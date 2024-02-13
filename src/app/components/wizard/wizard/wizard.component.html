@@ -1,51 +1,55 @@
-<div class="wizard">
-  <div class="wizard__container">
-    @if (wizardHeader) {
-      <ng-template [ngTemplateOutlet]="wizardHeader.wizardHeaderTemplate" />
-    }
-    <div class="wizard__content">
-      @for (page of pageList; let i = $index; track page.pageTemplate) {
-        <div [ngClass]="{
-          'wizard__visible': !singlePage && (currentIndex === i),
-          'wizard__hidden': !singlePage && (currentIndex != i)
-        }">
-          <ng-template [ngTemplateOutlet]="page.pageTemplate" />
-        </div>
+@if ({ value: currentIndex$ | async }; as currentIndex) {
+  <div class="wizard">
+    <div class="wizard__container">
+      @if (wizardHeader) {
+        <ng-template [ngTemplateOutlet]="wizardHeader.wizardHeaderTemplate" />
       }
-    </div>
-    <div class="wizard__navigation form__button">
-      @if (!singlePage) {
-        <button
-          type="button"
-          (click)="navigateBack()"
-          [ngClass]="{ 'wizard__preview-hidden': currentIndex == 0 }"
-          [disabled]="disableNavigation"
-          i18n="@@general.previous"
-        >
-          Previous
-        </button>
-
-        @if (currentIndex != (pageList.length - 1)) {
+      <div class="wizard__content">
+        @for (page of pageList; let i = $index; track page) {
+          <div
+            [ngClass]="{
+              wizard__visible: !singlePage && currentIndex.value === i,
+              wizard__hidden: !singlePage && currentIndex.value != i
+            }"
+          >
+            <ng-template [ngTemplateOutlet]="page.pageTemplate" />
+          </div>
+        }
+      </div>
+      <div class="wizard__navigation form__button">
+        @if (!singlePage) {
           <button
             type="button"
-            (click)="navigateNext()"
+            (click)="navigateBack()"
+            [ngClass]="{ 'wizard__preview-hidden': currentIndex.value == 0 }"
             [disabled]="disableNavigation"
-            i18n="@@general.next"
+            i18n="@@general.previous"
           >
-            Next
+            Previous
+          </button>
+
+          @if (currentIndex.value != pageList.length - 1) {
+            <button
+              type="button"
+              (click)="navigateNext()"
+              [disabled]="disableNavigation"
+              i18n="@@general.next"
+            >
+              Next
+            </button>
+          }
+        }
+
+        @if (singlePage || currentIndex.value === pageList.length - 1) {
+          <button
+            type="submit"
+            [disabled]="disableNavigation"
+            i18n="@@general.finish"
+          >
+            Finish
           </button>
         }
-      }
-
-      @if (singlePage || currentIndex === (pageList.length - 1)) {
-        <button
-          type="submit"
-          [disabled]="disableNavigation"
-          i18n="@@general.finish"
-        >
-          Finish
-        </button>
-      }
+      </div>
     </div>
   </div>
-</div>
+}

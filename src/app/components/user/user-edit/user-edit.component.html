@@ -1,4 +1,4 @@
-@if (auth.signedIn$ | async) {
+@if (user$ | async; as user) {
   <form
     [formGroup]="userForm"
     (ngSubmit)="submit()"
@@ -6,7 +6,6 @@
     enctype="multipart/form-data"
   >
     <lt-wizard [form]="userForm" singlePage="true">
-<!--       
       <lt-wizard-page title="Username" i18n-title="@@general.username">
         <lt-wizard-page-description>
           <p i18n="@@user-edit.usernameDesc">
@@ -54,7 +53,7 @@
             placeholder="john@lovingplants.com"
           >
         </div>
-      </lt-wizard-page> -->
+      </lt-wizard-page>
 
       <lt-wizard-page title="Avatar" i18n-title="@@general.avatar">
         <lt-wizard-page-description>
@@ -63,9 +62,9 @@
           </p>
         </lt-wizard-page-description>
 
-        @if (currentAvatar && !removeAvatar) {
+        @if (user.avatar && !removeAvatar) {
           <lt-current-pic
-            [pic]="currentAvatar"
+            [pic]="user.avatar | imagePath:'thumb'"
             (remove)="toggleRemoveAvatar(true)"
           />
         } @else {
@@ -104,7 +103,6 @@
           </label>
         </div>
       </lt-wizard-page>
-
 
     </lt-wizard>
   </form>

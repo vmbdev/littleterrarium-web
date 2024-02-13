@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, booleanAttribute } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, booleanAttribute } from '@angular/core';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
@@ -9,6 +9,7 @@ import { BoxIconComponent } from '@components/box-icon/box-icon.component';
   imports: [CommonModule, BoxIconComponent],
   templateUrl: './widget-box.component.html',
   styleUrls: ['./widget-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetBoxComponent {
   @Input() image?: string;

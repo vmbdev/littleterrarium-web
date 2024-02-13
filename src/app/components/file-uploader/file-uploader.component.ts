@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
   booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   numberAttribute,
   Output
 } from '@angular/core';
-import { ShortFilenamePipe } from '@pipes/short-filename/short-filename.pipe';
 
 /**
  * Provides drag and drop and manual selection for multiple files.
@@ -15,12 +15,10 @@ import { ShortFilenamePipe } from '@pipes/short-filename/short-filename.pipe';
 @Component({
   standalone: true,
   selector: 'lt-file-uploader',
-  imports: [
-    CommonModule,
-    ShortFilenamePipe,
-  ],
+  imports: [CommonModule],
   templateUrl: './file-uploader.component.html',
-  styleUrls: ['./file-uploader.component.scss']
+  styleUrls: ['./file-uploader.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileUploaderComponent {
   /**

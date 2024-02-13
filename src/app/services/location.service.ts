@@ -1,9 +1,8 @@
-import { BehaviorSubject, EMPTY, map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import {
   ApiService,
-  DataCount,
   LocationGetConfig,
   LocationUpsertConfig,
   PlantGetConfig,
@@ -32,25 +31,21 @@ export class LocationService {
     this.location.next(null);
 
     return this.api.createLocation(location).pipe(
-      map((location: Location) => {
+      tap((location: Location) => {
         this.location.next(location);
-
-        return location;
-      })
+      }),
     );
   }
 
   get(id: number, options?: LocationGetConfig): Observable<Location> {
     this.location.next(null);
-    
-    return this.api.getLocation(id, options).pipe(
-      map((location: Location) => {
-        this.owned.next(this.auth.getUser()?.id === location.ownerId);
-        
-        this.location.next(location);
 
-        return location;
-      })
+    return this.api.getLocation(id, options).pipe(
+      tap((location: Location) => {
+        this.owned.next(this.auth.getUser()?.id === location.ownerId);
+
+        this.location.next(location);
+      }),
     );
   }
 
@@ -60,40 +55,34 @@ export class LocationService {
 
   getPlants(id: number, options?: PlantGetConfig): Observable<Plant[]> {
     return this.api.getLocationPlants(id, options).pipe(
-      map((plants: Plant[]) => {
+      tap((plants: Plant[]) => {
         for (const plant of plants) {
           plant.visibleName = this.plantService.getVisibleName(plant);
         }
-
-        return plants;
-      })
+      }),
     );
   }
 
-  countPlants(id: number): Observable<DataCount> {
+  countPlants(id: number): Observable<number> {
     return this.api.countLocationPlants(id);
   }
 
   update(
     location: Location,
-    options?: LocationUpsertConfig
+    options?: LocationUpsertConfig,
   ): Observable<Location> {
     return this.api.updateLocation(location, options).pipe(
-      map((location: Location) => {
+      tap((location: Location) => {
         this.location.next(location);
-
-        return location;
-      })
+      }),
     );
   }
 
   delete(id: number): Observable<any> {
     return this.api.deleteLocation(id).pipe(
-      map(() => {
+      tap(() => {
         this.location.next(null);
-
-        return EMPTY;
-      })
+      }),
     );
   }
 

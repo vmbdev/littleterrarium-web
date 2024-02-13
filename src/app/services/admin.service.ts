@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ApiService } from '@services/api.service';
+import { AdminUserList, ApiService } from '@services/api.service';
 import { AdminSummary } from '@models/admin.model';
 import { User } from '@models/user.model';
 
@@ -15,7 +15,7 @@ export class AdminService {
     return this.api.getAdminSummary();
   }
 
-  getUsers(): Observable<User[]> {
-    return this.api.getAdminUserList();
+  getUsers(options?: AdminUserList): Observable<User[]> {
+    return this.api.getAdminUserList(options);
   }
 }

@@ -1,28 +1,21 @@
-import { Component } from '@angular/core';
-import {
-  CloseButtonComponent
-} from '@components/close-button/close-button.component';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+import { CloseButtonComponent } from '@components/close-button/close-button.component';
 import { ErrorHandlerService } from '@services/error-handler.service';
 
 @Component({
   selector: 'lt-error-toast',
   standalone: true,
-  imports: [CloseButtonComponent],
+  imports: [CommonModule, CloseButtonComponent],
   templateUrl: './error-toast.component.html',
   styleUrls: ['./error-toast.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorToastComponent {
-  protected errorList: string[] = [];
-
-  constructor(private readonly errorHandler: ErrorHandlerService) {}
-
-  ngOnInit(): void {
-    this.errorHandler.list$.subscribe((error: string | null) => {
-      if (error) this.errorList.unshift(error);
-    });
-  }
+  constructor(protected readonly errorHandler: ErrorHandlerService) {}
 
   removeError(index: number): void {
-    this.errorList.splice(index, 1);
+    this.errorHandler.remove(index);
   }
 }

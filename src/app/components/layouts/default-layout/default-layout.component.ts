@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { BreadcrumbNavigationComponent } from '@components/navigation/breadcrumb-navigation/breadcrumb-navigation.component';
@@ -37,6 +37,7 @@ import { TaskService } from '@services/task.service';
   ],
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DefaultLayoutComponent {
   constructor(public readonly taskService: TaskService) {}

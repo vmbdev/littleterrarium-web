@@ -1,13 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  finalize,
+  map,
+  of,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 
 import { PictureListComponent } from '@components/picture-list/picture-list.component';
 import { FilterBarComponent } from '@components/filter-bar/filter-bar.component';
 import { PlantService } from '@services/plant.service';
 import { LocationService } from '@services/location.service';
-import { DataCount, PlantGetConfig } from '@services/api.service';
+import { PlantGetConfig } from '@services/api.service';
 import { SortColumn, SortOption, SortOrder } from '@models/sort-options.model';
 import { PictureItem } from '@models/picture-item.model';
 import { Plant } from '@models/plant.model';
@@ -24,6 +33,7 @@ import { User } from '@models/user.model';
     PictureListComponent,
     FilterBarComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantListComponent {
   @Input() list?: Plant[];
@@ -32,15 +42,13 @@ export class PlantListComponent {
   @Input() owned: boolean = true;
   protected order: SortOrder;
   protected column: SortColumn;
-
   protected cursor?: number;
   protected lastCursor?: number;
   protected loadedPlants: number = 0;
-
   protected filter?: string;
-  protected pictureList: PictureItem[] = [];
 
-  protected locationPlantCount$?: Observable<DataCount>;
+  protected pictureList$ = new BehaviorSubject<PictureItem[]>([]);
+  protected count$?: Observable<number>;
 
   constructor(
     private readonly plantService: PlantService,
@@ -61,14 +69,12 @@ export class PlantListComponent {
 
   ngOnInit(): void {
     if (this.list) {
-      this.pictureList = this.createPictureListFromPlants(this.list);
+      this.pictureList$.next(this.createPictureListFromPlants(this.list));
     } else this.changeSorting({ column: this.column, order: this.order });
 
     if (this.locationId) {
-      this.locationPlantCount$ = this.locationService.countPlants(
-        this.locationId,
-      );
-    }
+      this.count$ = this.locationService.countPlants(this.locationId);
+    } else this.count$ = this.plantService.count();
   }
 
   fetchPlants(scroll: boolean = false): void {
@@ -97,19 +103,29 @@ export class PlantListComponent {
       obs$ = this.plantService.getMany(options);
     }
 
-    obs$.subscribe((plants: Plant[]) => {
-      if (plants.length > 0) {
-        this.cursor = plants[plants.length - 1].id;
-        this.loadedPlants += plants.length;
-      }
+    const sus = obs$
+      .pipe(
+        finalize(() => {
+          sus.unsubscribe();
+        }),
+      )
+      .subscribe((plants: Plant[]) => {
+        let pictures: PictureItem[];
 
-      if (scroll) {
-        this.pictureList = [
-          ...this.pictureList,
-          ...this.createPictureListFromPlants(plants),
-        ];
-      } else this.pictureList = this.createPictureListFromPlants(plants);
-    });
+        if (plants.length > 0) {
+          this.cursor = plants[plants.length - 1].id;
+          this.loadedPlants += plants.length;
+        }
+
+        if (scroll) {
+          pictures = [
+            ...this.pictureList$.getValue(),
+            ...this.createPictureListFromPlants(plants),
+          ];
+        } else pictures = this.createPictureListFromPlants(plants);
+
+        this.pictureList$.next(pictures);
+      });
   }
 
   createPictureListFromPlants(plants: Plant[]): PictureItem[] {

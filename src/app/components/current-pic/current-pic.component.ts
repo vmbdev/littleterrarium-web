@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { CloseButtonComponent } from '@components/close-button/close-button.component';
 
@@ -8,6 +14,7 @@ import { CloseButtonComponent } from '@components/close-button/close-button.comp
   imports: [CloseButtonComponent],
   templateUrl: './current-pic.component.html',
   styleUrl: './current-pic.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentPicComponent {
   @Input({ required: true }) pic: string | null = null;

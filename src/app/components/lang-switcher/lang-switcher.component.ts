@@ -1,19 +1,19 @@
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  LOCALE_ID,
+} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { CommonModule, Location } from '@angular/common';
-import { filter, map, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { Observable, filter, map, startWith, tap } from 'rxjs';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 import { FloatingListComponent } from '@components/navigation/floating-list/floating-list.component';
 import { MainnavItemComponent } from '@components/navigation/mainnav-item/mainnav-item.component';
-import { ApiService } from '@services/api.service';
+import { AngularLocales, ApiService } from '@services/api.service';
 import { CapitalizePipe } from '@pipes/capitalize/capitalize.pipe';
 import { IntlPipe } from '@pipes/intl/intl.pipe';
-
-type LocaleList = {
-  default: string;
-  locales: string[];
-};
 
 @Component({
   selector: 'lt-lang-switcher',
@@ -28,63 +28,53 @@ type LocaleList = {
   ],
   templateUrl: './lang-switcher.component.html',
   styleUrls: ['./lang-switcher.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LangSwitcherComponent {
   protected listVisible: boolean = false;
-  protected localeList?: LocaleList;
-  private currentUrl: string;
+  protected localeList$?: Observable<AngularLocales>;
+  protected currentRoute$?: Observable<string>;
 
   constructor(
-    @Inject(LOCALE_ID) public readonly currentLocale: string,
+    @Inject(LOCALE_ID) protected readonly currentLocale: string,
     private readonly router: Router,
     private readonly api: ApiService,
-    private readonly location: Location,
-  ) {
-    this.currentUrl = location.path();
-  }
+  ) {}
 
   ngOnInit(): void {
     // fetch available languages from the server
-    this.api
-      .getLocales()
-      .pipe(
-        map((localesData) => {
-          const storedLocale = localStorage.getItem('LT_locale');
-          this.localeList = localesData;
+    this.localeList$ = this.api.getLocales().pipe(
+      tap((localesData: AngularLocales) => {
+        const storedLocale = localStorage.getItem('LT_locale');
 
-          if (
-            storedLocale &&
-            storedLocale !== this.currentLocale &&
-            this.localeList.locales.includes(storedLocale)
-          ) {
-            this.changeLocale(storedLocale);
-          }
-        }),
-        // if there are languages available, then we observe the url changes
-        // for the switcher to send you to the current url
-        switchMap(() => this.router.events),
-        filter((event) => event instanceof NavigationStart),
-        map((event) => event as NavigationStart),
-      )
-      .subscribe((event: NavigationStart) => {
-        this.currentUrl = event.url;
-      });
+        if (
+          storedLocale &&
+          localesData.locales.includes(storedLocale)
+        ) {
+          this.changeLocale(storedLocale, localesData.default === storedLocale);
+        }
+      }),
+    );
+
+    this.currentRoute$ = this.router.events.pipe(
+      filter((event) => event instanceof NavigationStart),
+      startWith(this.router),
+      map((event) => event as NavigationStart),
+      map((event: NavigationStart) => event.url),
+    );
   }
 
   toggleList() {
     this.listVisible = !this.listVisible;
   }
 
-  changeLocale(locale: string) {
-    if (this.localeList?.locales.includes(locale)) {
-      localStorage.setItem('LT_locale', locale);
+  changeLocale(locale: string, baseUrl: boolean, url?: string) {
+    if (locale === this.currentLocale) return;
+    
+    const newUrl = (baseUrl ? '' : `/${locale}`) + (url ?? '');
 
-      const newUrl =
-        (this.localeList?.default !== locale ? `/${locale}` : '') +
-        this.currentUrl;
-
-      this.navigateTo(newUrl);
-    }
+    localStorage.setItem('LT_locale', locale);
+    this.navigateTo(newUrl);
   }
 
   navigateTo(url: string) {

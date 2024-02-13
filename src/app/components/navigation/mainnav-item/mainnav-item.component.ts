@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Host, Input, Optional, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Host,
+  Input,
+  Optional,
+  Output,
+  booleanAttribute,
+} from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
 
 import { MainnavBaseContentComponent } from '@components/navigation/mainnav-base-content/mainnav-base-content.component';
@@ -16,9 +25,11 @@ import { MainnavBaseContentComponent } from '@components/navigation/mainnav-base
       useExisting: MainnavItemComponent,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainnavItemComponent extends MainnavBaseContentComponent {
   @Input() routerLink: any;
+  @Input({ transform: booleanAttribute }) center: boolean = false;
   @Output() click: EventEmitter<void> = new EventEmitter();
 
   constructor(@Optional() @Host() public readonly routerLinkS: RouterLink) {

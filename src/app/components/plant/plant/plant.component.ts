@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 
 import { InfoBoxComponent } from '@components/info-box/info-box.component';
 import { QuickModalComponent } from '@components/modals/quick-modal/quick-modal.component';
@@ -42,12 +42,14 @@ import { Plant } from '@models/plant.model';
     BoxIconComponent,
     PropertyPublicComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantComponent {
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
   @ViewChild('editWaterModal') editWaterModal!: TemplateRef<any>;
 
   protected id?: number;
+  protected plant$?: Observable<Plant | null>;
 
   protected plantTitle?: string;
   protected plantSubtitle?: string;
@@ -80,24 +82,19 @@ export class PlantComponent {
   fetchPlantData(): void {
     if (!this.id) return;
 
-    this.plantService
-      .get(this.id, { photos: true })
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          if (err.error?.msg === 'PLANT_NOT_FOUND') {
-            this.errorHandler.push(
-              $localize`:@@plant.invalid:Plant not found.`,
-            );
-          } else {
-            this.errorHandler.push($localize`:@@errors.server:Server error`);
-          }
+    this.plant$ = this.plantService.get(this.id, { photos: true }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.error?.msg === 'PLANT_NOT_FOUND') {
+          this.errorHandler.push($localize`:@@plant.invalid:Plant not found.`);
+        } else {
+          this.errorHandler.push($localize`:@@errors.server:Server error`);
+        }
 
-          this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/');
 
-          return EMPTY;
-        }),
-      )
-      .subscribe((plant: Plant) => {
+        return of({} as Plant);
+      }),
+      tap((plant: Plant) => {
         this.plantVisibility = plant.public;
 
         if (plant.condition) {
@@ -127,7 +124,9 @@ export class PlantComponent {
           ],
           { attachTo: 'location', parent: plant.locationId },
         );
-      });
+      }),
+      switchMap(() => this.plantService.plant$),
+    );
   }
 
   openDeleteModal(): void {
