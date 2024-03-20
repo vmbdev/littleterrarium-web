@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 
 import {
   ApiService,
@@ -43,7 +43,6 @@ export class LocationService {
     return this.api.getLocation(id, options).pipe(
       tap((location: Location) => {
         this.owned.next(this.auth.getUser()?.id === location.ownerId);
-
         this.location.next(location);
       }),
     );
@@ -55,10 +54,17 @@ export class LocationService {
 
   getPlants(id: number, options?: PlantGetConfig): Observable<Plant[]> {
     return this.api.getLocationPlants(id, options).pipe(
-      tap((plants: Plant[]) => {
+      map((plants: Plant[]) => {
+        const newPlants = [];
+
         for (const plant of plants) {
-          plant.visibleName = this.plantService.getVisibleName(plant);
+          const newPlant = { ...plant };
+
+          newPlant.visibleName = this.plantService.getVisibleName(newPlant);
+          newPlants.push(newPlant);
         }
+
+        return newPlants;
       }),
     );
   }

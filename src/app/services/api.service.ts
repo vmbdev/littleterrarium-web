@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
@@ -63,10 +63,8 @@ export interface AdminUserList {
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(
-    private readonly http: HttpClient,
-    @Inject(BACKEND_URL) public readonly backendUrl: string,
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly backendUrl = inject<string>(BACKEND_URL);
 
   endpoint(path: string): string {
     return `${this.backendUrl}${endpoint}/${path}`;
@@ -111,19 +109,24 @@ export class ApiService {
     return this.http.post<User>(this.endpoint('users'), user);
   }
 
-  editUser(user: User, options: UserEditConfig = {}): Observable<User> {
+  updateUser(user: User, options: UserEditConfig = {}): Observable<User> {
     const form = new FormData();
 
     if (user.username) form.append('username', user.username);
     if (user.email) form.append('email', user.email);
-    if (user.public) form.append('public', user.public.toString());
-    if (user.firstname) form.append('firstname', user.firstname);
-    if (user.lastname) form.append('lastname', user.lastname);
-    if (user.bio) form.append('bio', user.bio);
+    if (user.firstname || user.firstname === '') {
+      form.append('firstname', user.firstname);
+    }
+    if (user.lastname || user.lastname === '') {
+      form.append('lastname', user.lastname);
+    }
+    if (user.bio || user.bio === '') form.append('bio', user.bio);
     if (user.password) form.append('password', user.password);
-
+    if (user.public) form.append('public', user.public.toString());
+    
     if (options.removeAvatar) form.append('removeAvatar', 'true');
     else if (user.avatarFile) form.append('avatar', user.avatarFile);
+
 
     return this.http.put<User>(this.endpoint('users'), form);
   }

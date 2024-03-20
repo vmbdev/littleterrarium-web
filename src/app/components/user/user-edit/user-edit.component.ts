@@ -97,7 +97,7 @@ export class UserEditComponent {
     const user: User = this.userForm.value;
 
     this.api
-      .editUser(user, { removeAvatar: this.removeAvatar })
+      .updateUser(user, { removeAvatar: this.removeAvatar })
       .pipe(
         catchError((err: HttpErrorResponse) => {
           const error = err.error;
