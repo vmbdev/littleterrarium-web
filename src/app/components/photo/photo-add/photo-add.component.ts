@@ -3,6 +3,7 @@ import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -24,6 +25,7 @@ import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-d
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
+import { FormPrivacyComponent } from '@components/form-privacy/form-privacy.component';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { PlantService } from '@services/plant.service';
 import { PhotoService } from '@services/photo.service';
@@ -43,6 +45,7 @@ import { Plant } from '@models/plant.model';
     WizardHeaderComponent,
     FileUploaderComponent,
     ProgressBarComponent,
+    FormPrivacyComponent,
   ],
   templateUrl: './photo-add.component.html',
   styleUrls: ['./photo-add.component.scss'],
@@ -65,7 +68,7 @@ export class PhotoAddComponent {
   ) {
     this.photoForm = this.fb.group({
       public: [true, Validators.required],
-      pictureFiles: [[], Validators.required],
+      pictureFiles: new FormControl<File[]>([], Validators.required),
     });
   }
 
@@ -90,12 +93,6 @@ export class PhotoAddComponent {
     } else {
       this.errorHandler.push($localize`:@@plant.invalid:Plant not found.`);
     }
-  }
-
-  fileChange(files: File[]) {
-    this.photoForm.patchValue({
-      pictureFiles: files,
-    });
   }
 
   submit(): void {

@@ -15,7 +15,7 @@ import { BreadcrumbService } from '@services/breadcrumb.service';
 })
 export class BreadcrumbNavigationComponent {
   constructor(
-    public readonly router: Router,
-    public readonly breadcrumb: BreadcrumbService,
+    protected readonly router: Router,
+    protected readonly breadcrumb: BreadcrumbService,
   ) {}
 }

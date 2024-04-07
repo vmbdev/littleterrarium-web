@@ -7,52 +7,25 @@
   >
     <lt-wizard [form]="userForm" singlePage="true">
       <lt-wizard-page title="Username" i18n-title="@@general.username">
-        <lt-wizard-page-description>
+        <lt-user-form-username [usernameReq]="usernameReq$ | async">
           <p i18n="@@user-edit.usernameDesc">
             This is how you'll be known around here, and how your profile will
             be accesed. Short, no spaces, no weird things.
           </p>
-        </lt-wizard-page-description>
-        <div class="form__textinput">
-          <input
-            type="text"
-            formControlName="username"
-            placeholder="PlantLover95"
-          >
-        </div>
+        </lt-user-form-username>
       </lt-wizard-page>
 
-      <lt-wizard-page
-        title="First and last name"
-        i18n-title="@@general.fullname"
-      >
-        <lt-wizard-page-description>
-          <p i18n="@@user-edit.fullnameDesc">
-            In case you want to present yourself more professionally.
-          </p>
-        </lt-wizard-page-description>
-        <div class="form__textinput">
-          <input type="text" formControlName="firstname" placeholder="Greta">
-        </div>
-        <div class="form__textinput">
-          <input type="text" formControlName="lastname" placeholder="Plantberg">
-        </div>
+      <lt-wizard-page title="First and last name" i18n-title="@@general.fullname">
+        <lt-user-form-name />
       </lt-wizard-page>
 
       <lt-wizard-page title="E-mail" i18n-title="@@general.email">
-        <lt-wizard-page-description>
+        <lt-user-form-email>
           <p i18n="@@user-edit.emailDesc">
             This is <strong>important</strong>! This is how you can recover
             your account in case you forget your password.
           </p>
-        </lt-wizard-page-description>
-        <div class="form__textinput">
-          <input
-            type="email"
-            formControlName="email"
-            placeholder="john@lovingplants.com"
-          >
-        </div>
+        </lt-user-form-email>
       </lt-wizard-page>
 
       <lt-wizard-page title="Avatar" i18n-title="@@general.avatar">
@@ -68,25 +41,16 @@
             (remove)="toggleRemoveAvatar(true)"
           />
         } @else {
-          <lt-file-uploader maxAmount="1" (fileChange)="fileChange($event)" />
+          <lt-file-uploader maxAmount="1" formControlName="avatarFile" />
         }
       </lt-wizard-page>
 
       <lt-wizard-page title="Bio" i18n-title="@@general.bio">
-        <lt-wizard-page-description>
-          <p i18n="@@user-edit.bioDesc">
-            Tell us something about yourself! How did you get in the green world,
-            what kind of plants do you like, where are you based, etc.
-          </p>
-        </lt-wizard-page-description>
-        <div class="form__textarea">
-          <textarea formControlName="bio" rows="4"></textarea>
-        </div>
+        <lt-user-form-bio />
       </lt-wizard-page>
 
-      
       <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
-        <lt-wizard-page-description>
+        <lt-form-privacy>
           <p i18n="@@user-edit.publicProfile">
             If your profile is public, you will be able to share it to whomever
             you want to, and brag about your plants.
@@ -95,13 +59,7 @@
             If your profile is private, you won't be able to share it, but you'll
             still enjoy of all of the features of Little Terrarium.
           </p>
-        </lt-wizard-page-description>
-        <div class="form__checkbox">
-          <input type="checkbox" formControlName="public" id="public-checkbox">
-          <label for="public-checkbox" i18n="@@general.visibilityPublic">
-            Publicly visible
-          </label>
-        </div>
+        </lt-form-privacy>
       </lt-wizard-page>
 
     </lt-wizard>

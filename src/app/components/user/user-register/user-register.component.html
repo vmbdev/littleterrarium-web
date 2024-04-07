@@ -1,6 +1,6 @@
-<form [formGroup]="userForm" (ngSubmit)="submit()" method="post">
+<form [formGroup]="form" (ngSubmit)="submit()" method="post">
   <lt-wizard
-    [form]="userForm"
+    [form]="form"
     [moveTo]="wizardPage$ | async"
     (indexChange)="indexChange()"
   >
@@ -9,7 +9,7 @@
       control="username"
       i18n-title="@@general.username"
     >
-      <lt-wizard-page-description>
+      <lt-user-form-username [usernameReq]="usernameReq$ | async">
         <p i18n="@@user-register.lookingForward">
           We are looking forward to welcoming you to our family!
         </p>
@@ -18,58 +18,16 @@
           moniker you've been using for the last 20 years or something like your
           Instagram username.
         </p>
-
-        @if (usernameReq$ | async; as usernameReq) {
-          <p i18n="@@user-register.usernameReq">
-            It must be {{ usernameReq.minLength }} to
-            {{ usernameReq.maxLength }}
-            characters long, and contain only alphanumeric characters, dot (.),
-            dash (-) and underscore (_).
-          </p>
-        }
-      </lt-wizard-page-description>
-
-      <div class="form__textinput">
-        <input type="textinput" formControlName="username" />
-
-        @if (errors.usernameExists) {
-          <p class="form__errormsg" i18n="@@user-register.usernameTaken">
-            Sorry, your username already exists. Please choose another.
-          </p>
-        }
-
-        @if (errors.usernameInvalid) {
-          <p class="form__errormsg" i18n="@@user-register.usernameInvalid">
-            Sorry, your username is not valid. Please, check the formatting.
-          </p>
-        }
-      </div>
+      </lt-user-form-username>
     </lt-wizard-page>
 
     <lt-wizard-page title="E-mail" control="email" i18n-title="@@general.email">
-      <lt-wizard-page-description>
+      <lt-user-form-email>
         <p i18n="@@user-register.emailDesc">
           This is how we identify you uniquely, and it's needed to receive
           notifications and to reset your password in case you forget it.
         </p>
-      </lt-wizard-page-description>
-
-      <div class="form__textinput">
-        <input type="email" formControlName="email" />
-
-        @if (errors.emailExists) {
-          <p class="form__errormsg" i18n="@@user-register.emailTaken">
-            Sorry, your e-mail already exists in our system. Are you sure you
-            don't have an account already?
-          </p>
-        }
-
-        @if (errors.emailInvalid) {
-          <p class="form__errormsg" i18n="@@user-register.emailInvalid">
-            Sorry, your e-mail is not formatted correctly.
-          </p>
-        }
-      </div>
+      </lt-user-form-email>
     </lt-wizard-page>
 
     <lt-wizard-page
@@ -77,17 +35,21 @@
       control="password"
       i18n-title="@@general.password"
     >
-      <lt-wizard-page-description>
+      <lt-user-form-password
+        [requirements]="pwdReq$ | async"
+        formControlName="password"
+      >
         <p i18n="@@user-register.passwordDesc">
           <b>We're almost there</b>. Last but not least, a <b>password</b> to
           protect your access
         </p>
-      </lt-wizard-page-description>
+      </lt-user-form-password>
 
-      <lt-password-form
-        [requirements]="pwdReq$ | async"
-        [passwordGroup]="pwdForm"
-      />
+      @if (errorInvalidPassword$ | async) {
+        <p class="pwd-reset__warning" i18n="@@user-password.invalidPassword">
+          Password is invalid. Please follow the rules above.
+        </p>
+      }
 
       @if (userCreated$ | async) {
         <p i18n="@@signin.logged">Going in...</p>

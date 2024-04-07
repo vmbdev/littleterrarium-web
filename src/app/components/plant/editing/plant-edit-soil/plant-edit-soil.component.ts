@@ -48,7 +48,7 @@ export class PlantEditSoilComponent {
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    public readonly plantService: PlantService,
+    private readonly plantService: PlantService,
     private readonly breadcrumb: BreadcrumbService,
   ) {
     this.potForm = this.fb.group({

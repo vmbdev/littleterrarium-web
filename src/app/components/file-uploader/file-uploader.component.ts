@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import {
-  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  forwardRef,
   Input,
   numberAttribute,
-  Output
 } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
  * Provides drag and drop and manual selection for multiple files.
@@ -18,6 +17,13 @@ import {
   imports: [CommonModule],
   templateUrl: './file-uploader.component.html',
   styleUrls: ['./file-uploader.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FileUploaderComponent),
+      multi: true,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileUploaderComponent {
@@ -25,16 +31,6 @@ export class FileUploaderComponent {
    * Max amount of files the user can select. By default, 1.
    */
   @Input({ transform: numberAttribute }) maxAmount: number = 1;
-
-  /**
-   * When disabled, user can't select or drop any file.
-   */
-  @Input({ transform: booleanAttribute }) disabled: boolean = false;
-
-  /**
-   * Emitted when the files selected in the component have changed.
-   */
-  @Output() fileChange: EventEmitter<File[]> = new EventEmitter<File[]>();
 
   /**
    * Files currently selected in the component.
@@ -50,6 +46,23 @@ export class FileUploaderComponent {
    * Mouse is over the component containing a file.
    */
   protected dragOver: boolean = false;
+
+  protected disabled: boolean = false;
+  private onChange = (val: File[] | File | null) => {};
+
+  writeValue(val: File[]): void {
+    if (val) this.onChange(val);
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {}
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 
   /**
    * Mouse is dragging a file over the component.
@@ -133,7 +146,9 @@ export class FileUploaderComponent {
         this.previews[i] = URL.createObjectURL(this.files[i]);
       }
 
-      this.fileChange.emit(this.files);
+      if (this.maxAmount === 1) {
+        this.onChange(this.files[0]);
+      } else this.onChange(this.files);
     }
   }
 
@@ -145,6 +160,7 @@ export class FileUploaderComponent {
   removeFile(index: number): void {
     this.files.splice(index, 1);
     this.previews.splice(index, 1);
+    this.onChange(this.files);
   }
 
   /**

@@ -31,7 +31,7 @@ export class SigninComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    public readonly auth: AuthService,
+    private readonly auth: AuthService,
     private readonly router: Router,
   ) {}
 

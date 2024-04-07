@@ -67,7 +67,7 @@ export class PlantComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly breadcrumb: BreadcrumbService,
-    public readonly plantService: PlantService,
+    protected readonly plantService: PlantService,
     private readonly errorHandler: ErrorHandlerService,
     private readonly modal: ModalService,
   ) {}

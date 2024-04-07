@@ -25,8 +25,8 @@ export class TasksComponent {
   @ViewChild('waterModal') waterModal!: TemplateRef<any>;
 
   constructor(
-    public readonly taskService: TaskService,
-    public readonly plantService: PlantService,
+    protected readonly taskService: TaskService,
+    private readonly plantService: PlantService,
     private readonly modal: ModalService,
   ) {}
 

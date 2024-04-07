@@ -26,7 +26,7 @@ export class AppComponent {
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly renderer: Renderer2,
-    public readonly theme: ThemeService,
+    private readonly theme: ThemeService,
   ) {
     this.theme.theme$
       .pipe(takeUntilDestroyed())

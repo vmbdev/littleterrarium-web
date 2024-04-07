@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  forwardRef,
   numberAttribute,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
 
@@ -23,25 +23,47 @@ export type GroupSelectorData<T> = {
   imports: [CommonModule, BoxIconComponent],
   templateUrl: './group-selector.component.html',
   styleUrl: './group-selector.component.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => GroupSelectorComponent),
+      multi: true,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupSelectorComponent {
+export class GroupSelectorComponent implements ControlValueAccessor {
   @Input({ required: true }) group!: GroupSelectorData<any>[];
-  @Input() default: any;
   @Input() assetType: 'image' | 'icon' = 'image';
   @Input({ transform: numberAttribute }) columns: number = 4;
-  @Output() change: EventEmitter<any> = new EventEmitter<any>();
-  protected selectedOption: any | null = null;
 
-  ngOnInit(): void {
-    this.selectedOption = this.default;
+  protected selectedOption: any | null = null;
+  protected disabled: boolean = false;
+
+  private onChange = (val: any) => {};
+  private onTouched = () => {};
+
+  writeValue(val: any): void {
+    this.change(val);
   }
 
-  selectPot<T>(id: T): void {
-    // deselect
-    if (id === this.selectedOption) this.selectedOption = null;
-    else this.selectedOption = id;
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
 
-    this.change.emit(this.selectedOption);
+  change(val: any) {
+    // deselect
+    if (val === this.selectedOption) this.selectedOption = null;
+    else this.selectedOption = val;
+
+    this.onChange(this.selectedOption);
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 }

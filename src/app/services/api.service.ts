@@ -122,7 +122,9 @@ export class ApiService {
     }
     if (user.bio || user.bio === '') form.append('bio', user.bio);
     if (user.password) form.append('password', user.password);
-    if (user.public) form.append('public', user.public.toString());
+    if (user.public || user.public === false) {
+      form.append('public', user.public.toString());
+    }
     
     if (options.removeAvatar) form.append('removeAvatar', 'true');
     else if (user.avatarFile) form.append('avatar', user.avatarFile);
@@ -226,7 +228,10 @@ export class ApiService {
 
     form.append('name', location.name);
     form.append('light', location.light);
-    form.append('public', location.public.toString());
+
+    if (location.public || location.public === false) {
+      form.append('public', location.public.toString());
+    }
 
     if (options.removePicture) form.append('removePicture', 'true');
     else if (location.pictureFile) {
@@ -348,7 +353,11 @@ export class ApiService {
     const form = new FormData();
 
     form.append('plantId', photo.plantId.toString());
-    form.append('public', photo.public.toString());
+
+    if (photo.public || photo.public === false) {
+      form.append('public', photo.public.toString());
+    }
+
     photo.pictureFiles.forEach((photo) => {
       form.append('photo', photo);
     });

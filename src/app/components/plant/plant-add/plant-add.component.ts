@@ -4,6 +4,7 @@ import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/htt
 import { catchError, EMPTY, finalize, map, Observable, switchMap } from 'rxjs';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -17,6 +18,8 @@ import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { ProgressBarComponent } from '@components/progress-bar/progress-bar.component';
 import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
+import { FormPrivacyComponent } from '@components/form-privacy/form-privacy.component';
+import { PlantFormNameComponent } from '@components/plant/forms/plant-form-name/plant-form-name.component';
 import { Plant } from '@models/plant.model';
 import { Location } from '@models/location.model';
 import { Photo } from '@models/photo.model';
@@ -31,14 +34,16 @@ import { BackendResponse } from '@models/backend-response.model';
   selector: 'lt-plant-add',
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
     FileUploaderComponent,
-    ReactiveFormsModule,
     ProgressBarComponent,
     SpecieFinderComponent,
+    FormPrivacyComponent,
+    PlantFormNameComponent,
   ],
   templateUrl: './plant-add.component.html',
   styleUrls: ['./plant-add.component.scss'],
@@ -50,11 +55,13 @@ export class PlantAddComponent {
     customName: [],
     public: [true, Validators.required],
   });
+  protected photosForm: FormGroup = this.fb.group({
+    pictureFiles: new FormControl<File[] | null>(null),
+  });
   private locationId?: number;
   protected newPlantId?: number;
   protected location$?: Observable<Location>;
   protected createPlantProgress$?: Observable<number>;
-  private photos: File[] = [];
   protected disableNavigation: boolean = false;
 
   constructor(
@@ -83,32 +90,23 @@ export class PlantAddComponent {
     }
   }
 
-  fileChange(files: File[]) {
-    this.photos = files;
-  }
-
-  selectSpecieId(id: any): void {
-    this.plantForm.patchValue({
-      specieId: id,
-    });
-  }
-
   submit() {
     if (!this.locationId) return;
 
     const plant: Plant = this.plantForm.value;
+    const { pictureFiles } = this.photosForm.value;
 
     plant.locationId = this.locationId;
     this.disableNavigation = true;
 
-    if (this.photos.length > 0) {
+    if (pictureFiles && pictureFiles.length > 0) {
       this.createPlantProgress$ = this.plantService.create(plant)
         .pipe(
           switchMap((plant: Plant) => {
             const photos = {
               plantId: plant.id,
               public: plant.public,
-              pictureFiles: this.photos,
+              pictureFiles,
             } as Photo;
 
             return this.photoService.create(photos, true).pipe(

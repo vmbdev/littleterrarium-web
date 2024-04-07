@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -9,10 +9,10 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { UserFormPasswordComponent } from '@components/user/forms/user-form-password/user-form-password.component';
 import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import { PasswordFormComponent } from '@components/user/password-form/password-form.component';
 import { PasswordService } from '@services/password.service';
 import { AuthService } from '@services/auth.service';
 import { User } from '@models/user.model';
@@ -26,36 +26,33 @@ import { User } from '@models/user.model';
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
-    PasswordFormComponent,
+    UserFormPasswordComponent,
   ],
   templateUrl: './user-password-change.component.html',
   styleUrl: './user-password-change.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPasswordChangeComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly auth = inject(AuthService);
+  private readonly pws = inject(PasswordService);
+
   protected form: FormGroup = this.fb.group({
     password: [''],
-    password2: [''],
   });
   protected pwdReq$ = this.pws.getPasswordRequirements();
   protected errorInvalidPassword$ = new BehaviorSubject<boolean>(false);
   protected passwordChanged$?: Observable<User>;
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly auth: AuthService,
-    private readonly pws: PasswordService,
-  ) {}
-
   submit() {
     if (!this.form.valid) return;
 
-    const pwd = this.form.get('password')?.value;
+    const { password } = this.form.value;
 
     this.errorInvalidPassword$.next(false);
     this.passwordChanged$ = this.auth.user$.pipe(
       switchMap((user: User | null) =>
-        user ? this.pws.changePassword(pwd, user.id) : EMPTY,
+        user ? this.pws.changePassword(password, user.id) : EMPTY,
       ),
       catchError((err) => {
         if (err.error?.msg === 'USER_PASSWD_INVALID') {

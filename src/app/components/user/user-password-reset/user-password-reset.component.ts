@@ -4,10 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, catchError, EMPTY, Observable } from 'rxjs';
 
-import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import { PasswordFormComponent } from '@components/user/password-form/password-form.component';
+import { UserFormPasswordComponent } from '@components/user/forms/user-form-password/user-form-password.component';
 import { PasswordService } from '@services/password.service';
 
 @Component({
@@ -18,8 +17,7 @@ import { PasswordService } from '@services/password.service';
     ReactiveFormsModule,
     WizardComponent,
     WizardPageComponent,
-    WizardPageDescriptionComponent,
-    PasswordFormComponent,
+    UserFormPasswordComponent,
   ],
   templateUrl: './user-password-reset.component.html',
   styleUrl: './user-password-reset.component.scss',
@@ -28,7 +26,6 @@ import { PasswordService } from '@services/password.service';
 export class UserPasswordResetComponent {
   protected form: FormGroup = this.fb.group({
     password: [''],
-    password2: [''],
   });
   protected token?: string | null;
   protected userId?: number | null;
@@ -56,11 +53,11 @@ export class UserPasswordResetComponent {
   submit() {
     if (!this.form.valid || !(this.token && this.userId)) return;
 
-    const pwd = this.form.get('password')?.value;
+    const { password } = this.form.value;
 
     this.errorInvalidPassword$.next(false);
     this.passwordChanged$ = this.pws
-      .recoverPassword(this.token, pwd, this.userId)
+      .recoverPassword(this.token, password, this.userId)
       .pipe(
         catchError((err) => {
           const msg = err.error?.msg;

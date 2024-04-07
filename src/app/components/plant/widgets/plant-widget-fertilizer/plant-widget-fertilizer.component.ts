@@ -32,7 +32,7 @@ export class PlantWidgetFertilizerComponent {
   };
 
   constructor(
-    public readonly plantService: PlantService,
+    protected readonly plantService: PlantService,
     private readonly modal: ModalService,
   ) {}
 

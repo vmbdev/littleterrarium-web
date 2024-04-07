@@ -40,7 +40,7 @@ import { TaskService } from '@services/task.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DefaultLayoutComponent {
-  constructor(public readonly taskService: TaskService) {}
+  constructor(protected readonly taskService: TaskService) {}
 
   ngOnInit(): void {
     this.taskService.loadTasks();

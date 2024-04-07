@@ -2,7 +2,7 @@
   @for (option of group; track option.id) {
     <li
       class="gs__option"
-      (click)="selectPot(option.id)"
+      (click)="change(option.id)"
       [ngClass]="{ 'gs__option--selected': selectedOption === option.id }"
     >
     @if (assetType === 'image') {

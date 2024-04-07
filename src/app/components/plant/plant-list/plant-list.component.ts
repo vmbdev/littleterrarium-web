@@ -5,11 +5,6 @@ import {
   BehaviorSubject,
   Observable,
   finalize,
-  map,
-  of,
-  switchMap,
-  tap,
-  withLatestFrom,
 } from 'rxjs';
 
 import { PictureListComponent } from '@components/picture-list/picture-list.component';
@@ -52,7 +47,7 @@ export class PlantListComponent {
 
   constructor(
     private readonly plantService: PlantService,
-    public readonly locationService: LocationService,
+    private readonly locationService: LocationService,
   ) {
     const storedOrder = localStorage.getItem('LT_plantListOrder');
 

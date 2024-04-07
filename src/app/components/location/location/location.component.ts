@@ -58,7 +58,7 @@ export class LocationComponent {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    public readonly locationService: LocationService,
+    protected readonly locationService: LocationService,
     private readonly breadcrumb: BreadcrumbService,
     private readonly errorHandler: ErrorHandlerService,
     private readonly modal: ModalService,

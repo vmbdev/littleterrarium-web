@@ -47,7 +47,7 @@ export class BoxIconComponent {
   protected classList: string[] = [];
   protected clickHasHandler: boolean = false;
 
-  constructor(public readonly themeService: ThemeService) {}
+  constructor(protected readonly themeService: ThemeService) {}
 
   ngOnChanges(): void {
     this.generateClassNames();

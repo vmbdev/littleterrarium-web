@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   ReactiveFormsModule,
+  FormControl,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
@@ -15,6 +16,11 @@ import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.
 import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { CurrentPicComponent } from '@components/current-pic/current-pic.component';
+import { FormPrivacyComponent } from '@components/form-privacy/form-privacy.component';
+import { UserFormBioComponent } from '@components/user/forms/user-form-bio/user-form-bio.component';
+import { UserFormEmailComponent } from '@components/user/forms/user-form-email/user-form-email.component';
+import { UserFormNameComponent } from '@components/user/forms/user-form-name/user-form-name.component';
+import { UserFormUsernameComponent } from '@components/user/forms/user-form-username/user-form-username.component';
 import { AuthService } from '@services/auth.service';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { ApiService } from '@services/api.service';
@@ -34,6 +40,11 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
     RouterModule,
     FileUploaderComponent,
     CurrentPicComponent,
+    FormPrivacyComponent,
+    UserFormBioComponent,
+    UserFormEmailComponent,
+    UserFormNameComponent,
+    UserFormUsernameComponent,
     ImagePathPipe,
   ],
   templateUrl: './user-edit.component.html',
@@ -41,28 +52,25 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditComponent {
-  protected userForm: FormGroup;
-  protected removeAvatar: boolean = false;
-  protected user$?: Observable<User | null>;
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly api = inject(ApiService);
+  protected readonly auth = inject(AuthService);
+  private readonly errorHandler = inject(ErrorHandlerService);
+  protected readonly imagePath = inject(ImagePathService);
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly router: Router,
-    private readonly api: ApiService,
-    public readonly auth: AuthService,
-    private readonly errorHandler: ErrorHandlerService,
-    public readonly imagePath: ImagePathService,
-  ) {
-    this.userForm = this.fb.group({
-      username: ['', Validators.required],
-      firstname: [''],
-      lastname: [''],
-      email: ['', [Validators.required, Validators.email]],
-      bio: [''],
-      avatarFile: [''],
-      public: [''],
-    });
-  }
+  protected userForm: FormGroup = this.fb.group({
+    username: ['', Validators.required],
+    firstname: [''],
+    lastname: [''],
+    email: ['', [Validators.required, Validators.email]],
+    bio: [''],
+    avatarFile: new FormControl<File | null>(null),
+    public: [true],
+  });
+  protected removeAvatar: boolean = false;
+  protected usernameReq$ = this.api.getUsernameRequirements();
+  protected user$?: Observable<User | null>;
 
   ngOnInit(): void {
     this.user$ = this.auth.user$.pipe(
@@ -81,18 +89,11 @@ export class UserEditComponent {
     );
   }
 
-  fileChange(files: File[]) {
-    this.userForm.patchValue({
-      avatarFile: files[0],
-    });
-  }
-
   toggleRemoveAvatar(val: boolean) {
     this.removeAvatar = val;
   }
 
-  // TODO: detect errors in editing
-  // TODO: merge a class for this and register
+  // TODO: create userService for this
   submit(): void {
     const user: User = this.userForm.value;
 
@@ -100,16 +101,32 @@ export class UserEditComponent {
       .updateUser(user, { removeAvatar: this.removeAvatar })
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          const error = err.error;
+          const { msg, errorData } = err.error;
 
-          if (error.msg === 'USER_FIELD_EXISTS') {
-            if (error.errorData.field === 'username') {
+          switch (msg) {
+            case 'USER_FIELD_EXISTS': {
+              if (errorData.field === 'username') {
+                this.userForm.get('username')?.setErrors({ taken: true });
+              } else if (errorData.field === 'email') {
+                this.userForm.get('email')?.setErrors({ taken: true });
+              }
+
+              break;
             }
-          }
-          if (error.msg === 'IMG_NOT_VALID') {
-            this.errorHandler.push(
-              $localize`:@@errors.invalidImg:Invalid image.`,
-            );
+            case 'USER_FIELD_INVALID': {
+              if (errorData.field === 'username') {
+                this.userForm.get('username')?.setErrors({ invalid: true });
+              } else if (errorData.field === 'email') {
+                this.userForm.get('email')?.setErrors({ invalid: true });
+              }
+
+              break;
+            }
+            case 'IMG_NOT_VALID': {
+              this.errorHandler.push(
+                $localize`:@@errors.invalidImg:Invalid image.`,
+              );
+            }
           }
 
           return EMPTY;

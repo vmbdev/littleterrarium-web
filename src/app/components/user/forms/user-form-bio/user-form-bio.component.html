@@ -1,0 +1,14 @@
+<article>
+  <header>
+    <p i18n="@@user-edit.bioDesc">
+      Tell us something about yourself! How did you get in the green world,
+      what kind of plants do you like, where are you based, etc.
+    </p>
+  </header>
+  <div class="form__textarea">
+    <lt-form-base-action>
+      <textarea #bio formControlName="bio" rows="4" maxlength="300"></textarea>
+    </lt-form-base-action>
+    {{ bio.textLength }} / 300
+  </div>
+</article>

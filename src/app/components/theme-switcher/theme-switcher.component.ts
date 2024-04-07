@@ -18,7 +18,7 @@ import { ThemeService } from '@services/theme.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeSwitcherComponent {
-  constructor(public readonly theme: ThemeService) {}
+  constructor(protected readonly theme: ThemeService) {}
 
   switchTheme(): void {
     if (this.theme.getTheme() === 'light') this.theme.switchTheme('dark');

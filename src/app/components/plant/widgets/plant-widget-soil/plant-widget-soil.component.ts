@@ -15,7 +15,7 @@ import { UnitPipe } from '@pipes/unit/unit.pipe';
 export class PlantWidgetSoilComponent {
   protected potName?: string;
 
-  constructor(public readonly plantService: PlantService) {}
+  constructor(protected readonly plantService: PlantService) {}
 
   ngOnInit(): void {
     this.potName = this.getPotName();

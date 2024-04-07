@@ -26,7 +26,7 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
 export class UserboxComponent {
   protected menuVisible: boolean = false;
 
-  constructor(public readonly auth: AuthService) {}
+  constructor(protected readonly auth: AuthService) {}
 
   toggleMenu(): void {
     this.menuVisible = !this.menuVisible;

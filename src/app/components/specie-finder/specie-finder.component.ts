@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  forwardRef,
+  inject,
 } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 
@@ -15,40 +14,58 @@ import { Specie } from '@models/specie.model';
 import { HighlightPipe } from '@pipes/highlight/highlight.pipe';
 
 @Component({
-  standalone: true,
   selector: 'lt-specie-finder',
-  imports: [CommonModule, BoxIconComponent, FormsModule, HighlightPipe],
+  standalone: true,
+  imports: [CommonModule, BoxIconComponent, HighlightPipe],
   templateUrl: './specie-finder.component.html',
   styleUrls: ['./specie-finder.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SpecieFinderComponent),
+      multi: true,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpecieFinderComponent {
-  @Input() selected?: number;
-  @Output() selectSpecieId = new EventEmitter<number | null>();
-  protected results$: Observable<Specie[]> = of([]);
-  protected currentSearch: string = '';
+export class SpecieFinderComponent  {
+  private readonly api = inject(ApiService);
+
   protected specieName$?: Observable<string>;
+  protected results$?: Observable<Specie[]>;
+  protected currentSearch: string = '';
   protected resultsHidden: boolean = false;
+  protected disabled: boolean = false;
 
-  constructor(private readonly api: ApiService) {}
+  private onChange = (val: number | null) => {};
 
-  ngOnInit(): void {
-    if (this.selected) {
-      this.specieName$ = this.api
-        .getSpecie(this.selected)
-        .pipe(map((specie: Specie) => specie.name));
+  writeValue(val: number | null): void {
+    if (val) {
+      this.specieName$ = this.api.getSpecie(val).pipe(
+        map((specie: Specie) => specie.name),
+      );
     }
   }
 
-  keyPress(event: KeyboardEvent): void {
-    const input = event.target as HTMLInputElement;
-    this.currentSearch = input.value;
+  registerOnChange(fn: any) {
+    this.onChange = fn;
+  }
 
-    if (this.currentSearch.length >= 3) {
-      this.results$ = this.api.findSpecie(this.currentSearch);
-    } else if (this.currentSearch.length === 0) {
-      this.results$ = of([]);
+  change(val: string) {
+    this.currentSearch = val;
+
+    if (val.length >= 3) {
+      this.results$ = this.api.findSpecie(val);
+    } else if (val.length === 0) {
+      this.onChange(null);
+      this.results$ = undefined;
     }
+  }
+
+  registerOnTouched(fn: any): void {}
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   hideResults(): void {
@@ -59,15 +76,15 @@ export class SpecieFinderComponent {
     this.resultsHidden = false;
   }
 
-  clearSearch(): void {
-    this.results$ = of([]);
+  clear(): void {
+    this.onChange(null);
     this.specieName$ = of('');
+    this.results$ = undefined;
     this.currentSearch = '';
-    this.selectSpecieId.emit(null);
   }
 
   selectSpecie(id: number, name: string): void {
-    this.selectSpecieId.emit(id);
+    this.onChange(id);
     this.specieName$ = of(name);
     this.hideResults();
   }

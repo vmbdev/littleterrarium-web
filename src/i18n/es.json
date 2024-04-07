@@ -120,7 +120,7 @@
     "photo.remove": "Se eliminará esta foto. ¿Estás seguro?",
     "photo.takenAt": "Tomada:",
     "plant-add.create": "Error al crear la planta.",
-    "plant-add.header": "Añadiendo fotos a {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}",
+    "plant-add.header": "Añadiendo una planta a {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}",
     "plant-add.location": "Lugar no válido.",
     "plant-add.nameDesc": "Este es el momento feliz en el que añadimos nuestras queridas plantas. Lo primero es lo primero: ¡identifícala! ¿Quieres darle un {$START_BOLD_TEXT}nombre{$CLOSE_BOLD_TEXT}?",
     "plant-add.namePlaceholder": "Geranio grande y oloroso",

@@ -32,7 +32,7 @@ export class MainnavItemComponent extends MainnavBaseContentComponent {
   @Input({ transform: booleanAttribute }) center: boolean = false;
   @Output() click: EventEmitter<void> = new EventEmitter();
 
-  constructor(@Optional() @Host() public readonly routerLinkS: RouterLink) {
+  constructor(@Optional() @Host() protected readonly routerLinkS: RouterLink) {
     super();
   }
 

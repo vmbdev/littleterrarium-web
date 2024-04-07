@@ -53,7 +53,7 @@ export class PhotoComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly breadcrumb: BreadcrumbService,
-    public readonly photoService: PhotoService,
+    protected readonly photoService: PhotoService,
     private readonly errorHandler: ErrorHandlerService,
     private readonly modal: ModalService,
   ) {}

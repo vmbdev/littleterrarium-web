@@ -66,12 +66,17 @@ $inputWidth: 22rem;
 }
 
 .form {
-  &__textinput, &__number, &__select, &__textarea {
+  &__textinput,
+  &__number,
+  &__select,
+  &__textarea {
     width: 100%;
     text-align: center;
     margin-bottom: 0.7rem;
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       @include input-common();
       outline: none;
 
@@ -174,8 +179,13 @@ $inputWidth: 22rem;
 
 @include m.media('mobile') {
   .form {
-    &__textinput, &__number, &__select, &__textarea {
-      input, select, textarea {
+    &__textinput,
+    &__number,
+    &__select,
+    &__textarea {
+      input,
+      select,
+      textarea {
         width: 15em;
       }
     }

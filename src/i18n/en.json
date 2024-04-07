@@ -120,7 +120,7 @@
     "photo.remove": "This will remove this photo. Are you sure?",
     "photo.takenAt": "Taken at:",
     "plant-add.create": "Error when creating the plant.",
-    "plant-add.header": "Adding photos to {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}",
+    "plant-add.header": "Adding a plant to {$START_BOLD_TEXT}{$INTERPOLATION}{$CLOSE_BOLD_TEXT}",
     "plant-add.location": "Invalid location provided.",
     "plant-add.nameDesc": "This is the happy moment when we add our beloved plants. First things first, identify! Want to give it a {$START_BOLD_TEXT} name{$CLOSE_BOLD_TEXT}?",
     "plant-add.namePlaceholder": "Big Fluffy Smelly Geranium",

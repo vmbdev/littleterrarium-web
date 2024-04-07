@@ -1,27 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
-  FormGroup,
+  FormControl,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
 
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
-import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { SpecieFinderComponent } from '@components/specie-finder/specie-finder.component';
-import {
-  GroupSelectorData,
-  GroupSelectorComponent,
-} from '@components/group-selector/group-selector.component';
+import { FormPrivacyComponent } from '@components/form-privacy/form-privacy.component';
+import { PlantFormNameComponent } from '@components/plant/forms/plant-form-name/plant-form-name.component';
+import { PlantFormConditionComponent } from '@components/plant/forms/plant-form-condition/plant-form-condition.component';
+import { PlantFormDescriptionComponent } from '@components/plant/forms/plant-form-description/plant-form-description.component';
+import { PlantFormLocationComponent } from '@components/plant/forms/plant-form-location/plant-form-location.component';
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
-import { LocationService } from '@services/location.service';
-import { Plant, Condition } from '@models/plant.model';
+import { Plant } from '@models/plant.model';
 
 @Component({
   standalone: true,
@@ -31,54 +30,49 @@ import { Plant, Condition } from '@models/plant.model';
     ReactiveFormsModule,
     WizardComponent,
     WizardPageComponent,
-    WizardPageDescriptionComponent,
     WizardHeaderComponent,
     SpecieFinderComponent,
-    GroupSelectorComponent,
+    FormPrivacyComponent,
+    PlantFormNameComponent,
+    PlantFormConditionComponent,
+    PlantFormDescriptionComponent,
+    PlantFormLocationComponent,
   ],
   templateUrl: './plant-edit.component.html',
   styleUrls: ['./plant-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantEditComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  protected readonly plantService = inject(PlantService);
+  private readonly breadcrumb = inject(BreadcrumbService);
+
   private id?: number;
-  protected plantForm: FormGroup = this.fb.group({
-    customName: [],
-    specieId: [],
-    description: [],
-    condition: [],
-    locationId: [Validators.required],
-    public: [],
+  protected plantForm = this.fb.group({
+    customName: new FormControl<string>(''),
+    specieId: new FormControl<number | null>(null),
+    description: new FormControl<string>(''),
+    condition: new FormControl<string>('GOOD'),
+    locationId: new FormControl<number | null>(null, Validators.required),
+    public: new FormControl<boolean>(true, Validators.required),
   });
-  protected locations$ = this.locationService.getMany();
   protected plant$?: Observable<Plant>;
   protected removeSpecie: boolean = false;
-  protected conditions = this.getConditions();
-  protected defaultCondition: string | null = null;
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    public readonly plantService: PlantService,
-    private readonly locationService: LocationService,
-    private readonly breadcrumb: BreadcrumbService,
-  ) {}
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.id = +this.route.snapshot.params['plantId'];
 
     if (this.id) {
       this.plant$ = this.plantService.get(this.id).pipe(
         tap((plant: Plant) => {
-          this.defaultCondition = plant.condition;
-
           this.plantForm.patchValue({
             customName: plant.customName,
-            specieId: plant.specieId,
             description: plant.description,
-            condition: plant.condition,
             locationId: plant.locationId,
+            specieId: plant.specieId,
+            condition: plant.condition,
             public: plant.public,
           });
 
@@ -86,56 +80,23 @@ export class PlantEditComponent {
             [{ selector: 'plant-edit', name: 'Edit' }],
             { attachTo: 'plant' },
           );
-        })
-      )
+        }),
+      );
     }
   }
 
-  selectSpecieId(id: any): void {
-    this.removeSpecie = id === null;
+  submit() {
+    if (!this.id || !this.plantForm.valid) return;
 
-    this.plantForm.patchValue({
-      specieId: id,
-    });
-  }
-
-  handleChange(id: string): void {
-    this.plantForm.patchValue({
-      condition: id,
-    });
-  }
-
-  getConditions(): GroupSelectorData<string>[] {
-    return Object.keys(Condition).map((key) => ({
-      id: key,
-      asset: 'heart-circle',
-      color: this.plantService.getConditionColor(key),
-      name: this.plantService.getConditionDesc(key),
-    }));
-  }
-
-  submit(): void {
-    if (!this.id) return;
-
-    this.plantForm.patchValue({
-      locationId: +this.plantForm.get('locationId')?.value,
-    });
-
-    const plant: Plant = this.plantForm.value;
-    plant.id = this.id;
+    const plant = {
+      ...this.plantForm.value,
+      id: this.id,
+    } as Plant;
 
     this.plantService
       .update(plant, { removeSpecie: this.removeSpecie })
       .subscribe(() => {
         this.router.navigate(['/plant', this.id]);
       });
-  }
-
-  /**
-   * Just to pass to the keyvalue, we don't want it to sort the conditions
-   * @returns 0
-   */
-  noSort() {
-    return 0;
   }
 }

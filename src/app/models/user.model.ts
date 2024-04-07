@@ -53,11 +53,17 @@ export interface PasswordRequirements {
   requireNonAlphanumeric: boolean;
 }
 
-export interface UserRegisterErrors {
+export interface UsernameErrors {
   usernameExists: boolean;
   usernameInvalid: boolean;
+}
+
+export interface EmailErrors {
   emailExists: boolean;
   emailInvalid: boolean;
+}
+
+export interface UserRegisterErrors extends UsernameErrors, EmailErrors {
   pwd: {
     length: boolean;
     uppercase: boolean;

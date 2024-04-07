@@ -53,7 +53,7 @@ export class FilterBarComponent {
    */
   @Output() filterChanged = new EventEmitter<any>();
 
-  constructor(public readonly themeService: ThemeService) {}
+  constructor(private readonly themeService: ThemeService) {}
 
   /**
    * Given a column (name, date), toggle the order between ascending and

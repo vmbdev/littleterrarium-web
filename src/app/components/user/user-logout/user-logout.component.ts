@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
@@ -16,20 +16,19 @@ import { TaskService } from '@services/task.service';
   selector: 'lt-user-logout',
   imports: [CommonModule],
   templateUrl: './user-logout.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserLogoutComponent {
-  logOut$?: Observable<void>;
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly taskService = inject(TaskService);
+  private readonly plantService = inject(PlantService);
+  private readonly photoService = inject(PhotoService);
+  private readonly locationService = inject(LocationService);
+  private readonly errorHandlerService = inject(ErrorHandlerService);
+  private readonly breadcrumbService = inject(BreadcrumbService);
 
-  constructor(
-    private readonly auth: AuthService,
-    private readonly router: Router,
-    private readonly taskService: TaskService,
-    private readonly plantService: PlantService,
-    private readonly photoService: PhotoService,
-    private readonly locationService: LocationService,
-    private readonly errorHandlerService: ErrorHandlerService,
-    private readonly breadcrumbService: BreadcrumbService,
-  ) {}
+  logOut$?: Observable<void>;
 
   // For security, remove personal data stored in those services when out
   ngOnInit(): void {

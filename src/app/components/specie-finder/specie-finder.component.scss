@@ -6,6 +6,7 @@ $width: 30vw;
 
 .sf {
   &__searchbox {
+    position: relative;
     border: 1px solid rgb(118, 118, 118);
     width: $width;
     display: flex;
@@ -37,18 +38,19 @@ $width: 30vw;
   }
 
   &__results {
-    @include t.themify {
-      background-color: t.theme(search_results_background);
-      color: t.theme(search_results_text);
-    }
+    position: absolute;
     border: 1px solid black;
     width: $width;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
-
     text-align: left;
+
+    @include t.themify {
+      background-color: t.theme(search_results_background);
+      color: t.theme(search_results_text);
+    }
 
     &-hidden {
       visibility: hidden;

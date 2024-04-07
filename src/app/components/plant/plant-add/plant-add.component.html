@@ -1,43 +1,18 @@
-<form
-  [formGroup]="plantForm"
-  (ngSubmit)="submit()"
-  method="post"
-  enctype="multipart/form-data"
->
+<form [formGroup]="plantForm" (ngSubmit)="submit()">
   <lt-wizard [form]="plantForm" [disableNavigation]="disableNavigation">
+
     @if (location$ | async; as location) {
       <lt-wizard-header i18n="@@plant-add.header">
-        Adding photos to <b>{{ location.name }}</b>
+        Adding a plant to <b>{{ location.name }}</b>
       </lt-wizard-header>
     }
 
     <lt-wizard-page title="Name" i18n-title="@@general.name">
-      <lt-wizard-page-description>
-        <p i18n="@@plant-add.nameDesc">
-          This is the happy moment when we add our beloved plants. First things
-          first, identify! Want to give it a <b> name</b>?
-        </p>
-      </lt-wizard-page-description>
-      <div class="form__textinput">
-        <input
-          type="text"
-          formControlName="customName"
-          placeholder="Big Fluffy Smelly Geranium"
-          i18n-placeholder="@@plant-add.namePlaceholder"
-        >
-      </div>
+      <lt-plant-form-name />
     </lt-wizard-page>
 
     <lt-wizard-page title="Specie" i18n-title="@@general.specie">
-      <lt-wizard-page-description>
-        <p i18n="@@plant-add.specieDesc">
-          Have you identified its specie? Search and select it from the list.
-          You can use
-          <a href="https://identify.plantnet.org/" target="_blank">Pl&#64;ntNet</a>
-          to identify it.
-        </p>
-      </lt-wizard-page-description>
-      <lt-specie-finder (selectSpecieId)="selectSpecieId($event)" />
+      <lt-specie-finder formControlName="specieId" />
     </lt-wizard-page>
 
     <lt-wizard-page title="Pictures" i18n-title="@@general.pictures">
@@ -51,11 +26,13 @@
           when they were taken.
         </p>
       </lt-wizard-page-description>
-      <lt-file-uploader [maxAmount]="10" (fileChange)="fileChange($event)" />
+      <ng-container [formGroup]="photosForm">
+        <lt-file-uploader [maxAmount]="10" formControlName="pictureFiles" />
+      </ng-container>
     </lt-wizard-page>
 
     <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
-      <lt-wizard-page-description>
+      <lt-form-privacy>
         <p i18n="@@plant-add.privacy">
           When your plant is <b>publicly visible</b>, other users will be able
           to see it when visiting your user profile (given that it's
@@ -67,14 +44,7 @@
           location is private users won't be able to see the location plant
           list, but you can share a direct link to this plant.
         </p>
-      </lt-wizard-page-description>
-
-      <div class="form__checkbox">
-        <input type="checkbox" formControlName="public" id="public-checkbox">
-        <label for="public-checkbox" i18n="@@general.visibilityPublic">
-          Publicly visible
-        </label>
-      </div>
+      </lt-form-privacy>
 
       @if (createPlantProgress$ | async; as uploadProgress) {
         <div class="plant-add__progress">
