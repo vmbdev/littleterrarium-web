@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
+  inject,
   LOCALE_ID,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
@@ -14,6 +14,7 @@ import { MainnavItemComponent } from '@components/navigation/mainnav-item/mainna
 import { AngularLocales, ApiService } from '@services/api.service';
 import { CapitalizePipe } from '@pipes/capitalize/capitalize.pipe';
 import { IntlPipe } from '@pipes/intl/intl.pipe';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'lt-lang-switcher',
@@ -31,21 +32,20 @@ import { IntlPipe } from '@pipes/intl/intl.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LangSwitcherComponent {
+  protected readonly currentLocale = inject(LOCALE_ID);
+  private readonly router = inject(Router);
+  private readonly api = inject(ApiService);
+  private readonly auth = inject(AuthService);
+
   protected listVisible: boolean = false;
   protected localeList$?: Observable<AngularLocales>;
   protected currentRoute$?: Observable<string>;
-
-  constructor(
-    @Inject(LOCALE_ID) protected readonly currentLocale: string,
-    private readonly router: Router,
-    private readonly api: ApiService,
-  ) {}
 
   ngOnInit(): void {
     // fetch available languages from the server
     this.localeList$ = this.api.getLocales().pipe(
       tap((localesData: AngularLocales) => {
-        const storedLocale = localStorage.getItem('LT_locale');
+        const storedLocale = this.auth.getPref('locale');
 
         if (
           storedLocale &&
@@ -73,8 +73,9 @@ export class LangSwitcherComponent {
     
     const newUrl = (baseUrl ? '' : `/${locale}`) + (url ?? '');
 
-    localStorage.setItem('LT_locale', locale);
-    this.navigateTo(newUrl);
+    this.auth.setPref({ locale }).subscribe(() => {
+      this.navigateTo(newUrl);
+    });
   }
 
   navigateTo(url: string) {

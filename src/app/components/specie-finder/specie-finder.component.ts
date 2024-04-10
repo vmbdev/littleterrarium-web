@@ -37,7 +37,7 @@ export class SpecieFinderComponent  {
   protected resultsHidden: boolean = false;
   protected disabled: boolean = false;
 
-  private onChange = (val: number | null) => {};
+  private onChange = (_val: number | null) => {};
 
   writeValue(val: number | null): void {
     if (val) {
@@ -62,7 +62,7 @@ export class SpecieFinderComponent  {
     }
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(_fn: any): void {}
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;

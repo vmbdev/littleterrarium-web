@@ -49,6 +49,14 @@ export interface UserEditConfig {
   removeAvatar?: boolean;
 }
 
+export interface UserPreferences {
+  [index: string]: any;
+  theme?: string;
+  locale?: string;
+  plantListSort?: SortColumn;
+  plantListOrder?: SortOrder;
+}
+
 export interface AngularLocales {
   locales: string[];
   default: string;
@@ -130,6 +138,14 @@ export class ApiService {
     else if (user.avatarFile) form.append('avatar', user.avatarFile);
 
 
+    return this.http.put<User>(this.endpoint('users'), form);
+  }
+  
+  updatePreferences(prefs: UserPreferences): Observable<User> {
+    const form = new FormData();
+
+    form.append('preferences', JSON.stringify(prefs));
+    
     return this.http.put<User>(this.endpoint('users'), form);
   }
 

@@ -48,7 +48,7 @@ export class FileUploaderComponent {
   protected dragOver: boolean = false;
 
   protected disabled: boolean = false;
-  private onChange = (val: File[] | File | null) => {};
+  private onChange = (_val: File[] | File | null) => {};
 
   writeValue(val: File[]): void {
     if (val) this.onChange(val);
@@ -58,7 +58,7 @@ export class FileUploaderComponent {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(_fn: any): void {}
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;

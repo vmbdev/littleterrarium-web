@@ -2,15 +2,18 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
+  DestroyRef,
+  inject,
   Renderer2,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '@services/auth.service';
 
 import { ThemeService } from '@services/theme.service';
+import { skipWhile, switchMap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -20,27 +23,39 @@ import { ThemeService } from '@services/theme.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  private readonly document = inject(DOCUMENT);
+  private readonly renderer = inject(Renderer2);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly theme = inject(ThemeService);
+  private readonly auth = inject(AuthService);
+
   @ViewChild('mainElement') mainElement!: TemplateRef<any>;
   private currentTheme?: string;
 
-  constructor(
-    @Inject(DOCUMENT) private readonly document: Document,
-    private readonly renderer: Renderer2,
-    private readonly theme: ThemeService,
-  ) {
-    this.theme.theme$
-      .pipe(takeUntilDestroyed())
-      .subscribe((newTheme: string) => {
-        if (this.currentTheme) {
-          this.renderer.removeClass(
-            this.document.body,
-            `theme-${this.currentTheme}`,
-          );
+  ngOnInit() {
+    this.auth.checked$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        skipWhile((checked) => !checked),
+        switchMap(() => {
+          this.theme.init();
+
+          return this.theme.theme$;
+        }),
+        skipWhile((newTheme: string | null) => !newTheme),
+      )
+      .subscribe((newTheme: string | null) => {
+        if (newTheme) {
+          if (this.currentTheme) {
+            this.renderer.removeClass(
+              this.document.body,
+              `theme-${this.currentTheme}`,
+            );
+          }
+
+          this.renderer.addClass(this.document.body, `theme-${newTheme}`);
+          this.currentTheme = newTheme;
         }
-
-        this.renderer.addClass(this.document.body, `theme-${newTheme}`);
-
-        this.currentTheme = newTheme;
       });
   }
 }

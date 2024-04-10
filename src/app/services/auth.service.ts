@@ -9,7 +9,7 @@ import {
   tap,
 } from 'rxjs';
 
-import { ApiService } from '@services/api.service';
+import { ApiService, UserPreferences } from '@services/api.service';
 import { User } from '@models/user.model';
 
 @Injectable({
@@ -82,4 +82,29 @@ export class AuthService {
 
     return !!(user && user[param] === val);
   }
+
+  getPref(key: string): any {
+    const user = this.user.getValue();
+
+    if (user?.preferences[key]) return user.preferences[key];
+    else return null;
+  }
+
+  setPref(prefs: UserPreferences): Observable<User | null> {
+    const user = this.user.getValue();
+
+    if (user) {
+      const newPrefs = {
+        ...user.preferences,
+        ...prefs,
+      };
+
+      return this.api.updatePreferences(newPrefs).pipe(
+        tap((user: User) => {
+          this.user.next(user);
+        }),
+      );
+    } else return of(null);
+  }
+
 }

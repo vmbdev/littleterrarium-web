@@ -84,7 +84,7 @@ export class LocationEditComponent {
             { attachTo: 'location' },
           );
         }),
-        catchError((err: HttpErrorResponse) => {
+        catchError(() => {
           this.errorHandler.push(
             $localize`:@@location.invalid:Location invalid or not found`,
           );

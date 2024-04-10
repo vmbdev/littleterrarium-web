@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { catchError, EMPTY, finalize, map, Observable, switchMap } from 'rxjs';
 import {
   FormBuilder,
@@ -79,7 +79,7 @@ export class PlantAddComponent {
 
     if (this.locationId) {
       this.location$ = this.locationService.get(this.locationId).pipe(
-        catchError((err: HttpErrorResponse) => {
+        catchError(() => {
           this.errorHandler.push(
             $localize`:@@plant-add.location:Invalid location provided.`,
           );
@@ -148,7 +148,7 @@ export class PlantAddComponent {
     } else {
       this.createPlantProgress$ = this.plantService.create(plant)
         .pipe(
-          catchError((err: HttpErrorResponse) => {
+          catchError(() => {
             this.errorHandler.push(
               $localize`:@@plant-add.create:Error when creating the plant.`,
             );

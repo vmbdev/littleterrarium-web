@@ -1,23 +1,49 @@
 @if (pictureList$ | async; as pictureList) {
-  <lt-filter-bar
-    showSearchBar="true"
-    showSortByDate="true"
-    showSortByName="true"
-    [nameOrder]="column === 'name' ? order : 'asc'"
-    [dateOrder]="column === 'date' ? order : 'asc'"
-    [activeColumn]="column"
-    (sortingChanged)="changeSorting($event)"
-    (filterChanged)="changeFilter($event)"
-  >
-  </lt-filter-bar>
-  <lt-picture-list
-    [createAddItem]="locationId && owned"
-    [addItemLink]="['/plant', 'create', locationId]"
-    contentBelow="true"
-    [list]="pictureList"
-  >
-    <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>
-  </lt-picture-list>
+  <div class="plant-list__toolbars">
+    <lt-filter-bar
+      showSearchBar="true"
+      showSortByDate="true"
+      showSortByName="true"
+      showMultipleSelect="true"
+      [nameOrder]="column === 'name' ? order : 'asc'"
+      [dateOrder]="column === 'date' ? order : 'asc'"
+      [activeColumn]="column"
+      (sortingChanged)="changeSorting($event)"
+      (filterChanged)="changeFilter($event)"
+      (multipleSelectChanged)="enableMultipleSelect($event)"
+    >
+    </lt-filter-bar>
+
+    @if (multipleSelect) {
+      <div class="plant-list__actions">
+        <box-icon
+          name="trash-alt"
+          size="md"
+          type="solid"
+          (click)="massDelete()"
+        />
+        <box-icon
+          name="folder"
+          size="md"
+          type="solid"
+          (click)="massMove()"
+        />
+      </div>
+    }
+  </div>
+
+  <ng-container [formGroup]="form">
+    <lt-picture-list
+      [createAddItem]="locationId && owned"
+      [addItemLink]="['/plant', 'create', locationId]"
+      contentBelow="true"
+      [list]="pictureList"
+      [editMode]="multipleSelect"
+      formControlName="selection"
+    >
+      <ng-container addItem i18n="@@plant-list.new">New plant</ng-container>
+    </lt-picture-list>
+  </ng-container>
 
   @if (count$ | async; as count) {
     @if (count !== loadedPlants) {
@@ -29,3 +55,22 @@
     }
   }
 }
+
+<ng-template #deleteModal>
+  <p i18n="@@location.remove">
+    This will remove this location along with its plants and photos. Are you
+    sure?
+  </p>
+  <p>
+    <strong i18n="@@general.irreversible">
+      This action is irreversible.
+    </strong>
+  </p>
+</ng-template>
+
+<ng-template #moveModal>
+  <p i18n="@@location.remove">
+    This will remove this location along with its plants and photos. Are you
+    sure?
+  </p>
+</ng-template>

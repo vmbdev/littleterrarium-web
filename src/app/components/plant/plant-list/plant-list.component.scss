@@ -1,6 +1,18 @@
 @use 'form.scss';
+@use 'media.scss' as m;
 
 .plant-list {
+  &__toolbars {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__actions {
+    & > * {
+      margin: 0 0.8rem;
+    }
+  }
+
   &__loadmore {
     display: flex;
     justify-content: center;
@@ -9,6 +21,18 @@
     & > button {
       width: 12rem;
       height: 2.6rem;
+    }
+  }
+}
+
+@include m.media(mobile) {
+  .plant-list {
+    &__toolbars {
+      flex-direction: column;
+    }
+
+    &__actions {
+      margin: 0.3rem 0;
     }
   }
 }

@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
+import { AuthService } from '@services/auth.service';
 import {
   theme as configTheme,
   availableThemes as configAvailableThemes,
@@ -9,18 +11,20 @@ import {
   providedIn: 'root',
 })
 export class ThemeService {
-  theme$: BehaviorSubject<string>;
+  private readonly auth = inject(AuthService);
+
+  theme$ = new BehaviorSubject<string | null>(null);
   availableThemes: string[] = configAvailableThemes;
 
   /**
    * Defines the theme to use.
-   * First it checks in localStorage, then in the config file, and if it all
+   * First it checks in preferences, then in the config file, and if it all
    * fails then it tries to get the first one in availableThemes.
    * If everything fails, it sets an empty theme.
    */
-  constructor() {
+  init() {
     let newTheme: string;
-    const storedTheme = localStorage.getItem('LT_theme');
+    const storedTheme = this.auth.getPref('theme');
 
     if (storedTheme && this.availableThemes.includes(storedTheme)) {
       newTheme = storedTheme;
@@ -30,19 +34,19 @@ export class ThemeService {
       newTheme = this.availableThemes[0];
     } else newTheme = '';
 
-    this.theme$ = new BehaviorSubject<string>(newTheme);
+    this.theme$.next(newTheme);
   }
 
-  getTheme(): string {
+  getTheme(): string | null {
     return this.theme$.getValue();
   }
 
-  switchTheme(newTheme: string): void {
+  switchTheme(newTheme: string): Observable<any> {
     if (this.availableThemes.includes(newTheme)) {
       this.theme$.next(newTheme);
 
-      localStorage.setItem('LT_theme', newTheme);
-    }
+      return this.auth.setPref({ theme: newTheme });
+    } else return of(null);
   }
 
   getAvailableThemes(): string[] {

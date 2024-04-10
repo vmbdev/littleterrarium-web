@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import {
   FormBuilder,
   FormGroup,
@@ -52,7 +51,7 @@ export class UserPasswordRecoveryComponent {
 
     if (userRef) {
       this.recoveryStarted$ = this.pws.forgotPassword(userRef).pipe(
-        catchError((err: HttpErrorResponse) => {
+        catchError(() => {
           this.checkError$.next(true);
 
           return EMPTY;

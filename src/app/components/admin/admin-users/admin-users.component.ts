@@ -39,7 +39,7 @@ export class AdminUsersComponent {
 
         return Array(pages)
           .fill(0)
-          .map((x, i) => i + 1);
+          .map((_, i) => i + 1);
       })
     );
   }

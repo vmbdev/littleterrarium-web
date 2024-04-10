@@ -1,6 +1,7 @@
+import { UserPreferences } from '@services/api.service';
 import { Photo } from '@models/photo.model';
 import { Plant } from '@models/plant.model';
-import { ImagePath } from './image-path.model';
+import { ImagePath } from '@models/image-path.model';
 
 export interface User {
   id: number;
@@ -10,7 +11,7 @@ export interface User {
   password: string;
   avatar: ImagePath;
   avatarFile: File;
-  preferences: any;
+  preferences: UserPreferences;
   email: string;
   bio: string | null;
   role: Role;

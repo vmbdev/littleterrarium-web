@@ -9,7 +9,6 @@ import {
 import { CommonModule } from '@angular/common';
 
 import { BoxIconComponent } from '@components/box-icon/box-icon.component';
-import { ThemeService } from '@services/theme.service';
 import { SortColumn, SortOrder } from '@models/sort-options.model';
 
 /**
@@ -39,6 +38,11 @@ export class FilterBarComponent {
    */
   @Input({ transform: booleanAttribute }) showSortByDate: boolean = false;
 
+  /**
+   * Show multiple selection option.
+   */
+  @Input({ transform: booleanAttribute }) showMultipleSelect: boolean = false;
+
   @Input() nameOrder: SortOrder = 'asc';
   @Input() dateOrder: SortOrder = 'asc';
   @Input() activeColumn: SortColumn = 'name';
@@ -53,7 +57,12 @@ export class FilterBarComponent {
    */
   @Output() filterChanged = new EventEmitter<any>();
 
-  constructor(private readonly themeService: ThemeService) {}
+  /**
+   * Emitted when the search bar text has changed.
+   */
+  @Output() multipleSelectChanged = new EventEmitter<boolean>();
+
+  protected multipleSelect: boolean = false;
 
   /**
    * Given a column (name, date), toggle the order between ascending and
@@ -63,7 +72,7 @@ export class FilterBarComponent {
    */
   toggleSort(column: SortColumn) {
     let order;
-
+// FIXME: immutable!!!!
     if (column === 'name') {
       if (this.nameOrder === 'asc') this.nameOrder = 'desc';
       else this.nameOrder = 'asc';
@@ -77,6 +86,12 @@ export class FilterBarComponent {
     } else return;
 
     this.sortingChanged.emit({ column, order });
+  }
+
+  toggleMultipleSelect() {
+    this.multipleSelect = !this.multipleSelect;
+
+    this.multipleSelectChanged.emit(this.multipleSelect);
   }
 
   /**

@@ -8,7 +8,7 @@ export class ErrorHandlerService implements ErrorHandler {
   private list = new BehaviorSubject<string[]>([]);
   public readonly list$ = this.list.asObservable();
 
-  handleError(error: any) {}
+  handleError(_error: any) {}
 
   push(error: string) {
     const current = this.list.getValue();

@@ -1,7 +1,7 @@
 /**
  * The component works as if only light/dark themes are available,
  * even though ThemeService may have more themes.
- * For LittleTerrarium as it's now, we don't care.
+ * For LittleTerrarium as it is now, we don't care.
  */
 
 import { CommonModule } from '@angular/common';
@@ -21,7 +21,11 @@ export class ThemeSwitcherComponent {
   constructor(protected readonly theme: ThemeService) {}
 
   switchTheme(): void {
-    if (this.theme.getTheme() === 'light') this.theme.switchTheme('dark');
-    else this.theme.switchTheme('light');
+    let newTheme;
+
+    if (this.theme.getTheme() === 'light') newTheme = 'dark';
+    else newTheme = 'light';
+
+    this.theme.switchTheme(newTheme).subscribe();
   }
 }

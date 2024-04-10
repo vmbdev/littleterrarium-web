@@ -63,7 +63,7 @@ export class UserFormPasswordComponent implements ControlValueAccessor {
   protected disabled: boolean = false;
   protected pwdValue = '';
 
-  private onChange = (val: string) => {};
+  private onChange = (_val: string) => {};
 
   writeValue(val: string): void {
     this.pwdValue = val;
@@ -82,7 +82,7 @@ export class UserFormPasswordComponent implements ControlValueAccessor {
     this.onChange(pwdInput.value);
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(_fn: any): void {}
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
@@ -132,11 +132,6 @@ export class UserFormPasswordComponent implements ControlValueAccessor {
     if (pwd1 !== pwd2) return { different: true };
 
     return null;
-  }
-
-  hasPasswordError(control: string): boolean | undefined {
-    // FIXME: do it by state
-    return this.form.hasError(control);
   }
 
   toggleHidePassword(field: number = 1): void {

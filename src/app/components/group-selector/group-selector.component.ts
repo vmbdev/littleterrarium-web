@@ -40,7 +40,7 @@ export class GroupSelectorComponent implements ControlValueAccessor {
   protected selectedOption: any | null = null;
   protected disabled: boolean = false;
 
-  private onChange = (val: any) => {};
+  private onChange = (_val: any) => {};
   private onTouched = () => {};
 
   writeValue(val: any): void {

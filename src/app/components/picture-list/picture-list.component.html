@@ -8,23 +8,48 @@
   }
 
   @if (list) {
-    @for (item of list; track item.link) {
+    @for (control of checkboxes.controls; track control) {
       <li>
-        <lt-picture-box
-          [contentBelow]="contentBelow"
-          [image]="item.image"
-          [link]="item.link"
-        >
-          @if (item.name) {
-            <div>{{ item.name }}</div>
-          }
-
-          @for (text of item.description; track text) {
-            <div>{{ text }}</div>
-          }
-        </lt-picture-box>
+        @if (editMode) {
+          <ng-container [formGroup]="form">
+            <input
+              class="picture-list__select"
+              type="checkbox"
+              [id]="list[$index].id"
+              [formControl]="control"
+              (change)="change()"
+            >
+            <label [for]="list[$index].id">
+              <ng-container
+                [ngTemplateOutlet]="picctx"
+                [ngTemplateOutletContext]="{ item: list[$index] }"
+              />
+            </label>
+          </ng-container>
+        } @else {
+          <ng-container
+            [ngTemplateOutlet]="picctx"
+            [ngTemplateOutletContext]="{ item: list[$index] }"
+          />
+        }
       </li>
     }
   }
 
 </ul>
+
+<ng-template #picctx let-item="item">
+  <lt-picture-box
+    [contentBelow]="contentBelow"
+    [image]="item.image"
+    [link]="editMode ? undefined : item.link"
+  >
+    @if (item.name) {
+      <div>{{ item.name }}</div>
+    }
+
+    @for (text of item.description; track text) {
+      <div>{{ text }}</div>
+    }
+  </lt-picture-box>
+</ng-template>

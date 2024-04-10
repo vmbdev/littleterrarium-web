@@ -37,4 +37,17 @@
       />
     </div>
   }
+
+  @if (showMultipleSelect) {
+    <div
+      class="filter-bar__sortbutton"
+      [ngClass]="{ 'filter-bar__sortbutton--active': multipleSelect }"
+    >
+      <box-icon
+        name="select-multiple"
+        size="md"
+        (click)="toggleMultipleSelect()"
+      />
+    </div>
+  }
 </div>

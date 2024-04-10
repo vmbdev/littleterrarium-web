@@ -1,5 +1,13 @@
 @use 'variables.scss' as var;
 @use 'media.scss' as m;
+@use 'form.scss';
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  margin: 2px 0;
+}
 
 .picture-list {
   display: grid;
@@ -9,6 +17,12 @@
 
   padding: 0;
   list-style-type: none;
+
+  &__select {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+  }
 }
 
 @mixin small-devices {
