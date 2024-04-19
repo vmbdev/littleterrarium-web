@@ -1,6 +1,14 @@
 @if (photo$ | async; as photo) {
   <form [formGroup]="photoForm" method="post" (submit)="submit()">
+    <p i18n="@@photo-edit.description">
+      Tell us a little bit about this photo. Does it represent a special
+      moment in the growth of your plant?
+    </p>
     <lt-photo-form-description />
+    <p i18n="@@photo-edit.takenAt">
+      When was the photo taken? The gallery will be displayed in
+      chronological order.
+    </p>
     <lt-photo-form-date />
     <lt-photo-form-cover />
     <lt-form-privacy />

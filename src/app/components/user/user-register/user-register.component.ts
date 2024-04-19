@@ -23,6 +23,7 @@ import {
 
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { UserFormEmailComponent } from '@components/user/forms/user-form-email/user-form-email.component';
 import { UserFormUsernameComponent } from '@components/user/forms/user-form-username/user-form-username.component';
 import { UserFormPasswordComponent } from '@components/user/forms/user-form-password/user-form-password.component';
@@ -40,6 +41,7 @@ import { User } from '@models/user.model';
     RouterModule,
     WizardComponent,
     WizardPageComponent,
+    WizardPageDescriptionComponent,
     UserFormUsernameComponent,
     UserFormEmailComponent,
     UserFormPasswordComponent,

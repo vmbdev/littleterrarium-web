@@ -161,6 +161,7 @@
     "plant-widget-water.warning": "If you haven't watered it yet, please check your soil. Never water your plants on a schedule!",
     "plant.condition": "Condition:",
     "plant.invalid": "Plant not found.",
+    "plant.move": "Do you want to move these plants?",
     "plant.photoList": "Photos taken for {$INTERPOLATION}",
     "plant.plantInformation": "Plant information",
     "plant.remove": "This will remove this plant and all of its photos. Are you sure?",

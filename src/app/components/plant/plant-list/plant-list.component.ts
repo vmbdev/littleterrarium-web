@@ -9,7 +9,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject, Observable, finalize } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  finalize,
+  skipWhile,
+  switchMap,
+  take,
+} from 'rxjs';
 
 import { PictureListComponent } from '@components/picture-list/picture-list.component';
 import { FilterBarComponent } from '@components/filter-bar/filter-bar.component';
@@ -23,6 +31,7 @@ import { PictureItem } from '@models/picture-item.model';
 import { Plant } from '@models/plant.model';
 import { User } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
+import { PlantFormLocationComponent } from '../forms/plant-form-location/plant-form-location.component';
 
 @Component({
   standalone: true,
@@ -35,6 +44,7 @@ import { AuthService } from '@services/auth.service';
     ReactiveFormsModule,
     PictureListComponent,
     FilterBarComponent,
+    PlantFormLocationComponent,
     BoxIconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,6 +76,7 @@ export class PlantListComponent {
 
   protected form = this.fb.group({
     selection: new FormControl<number[]>([]),
+    locationId: new FormControl<number | null>(null),
   });
 
   ngOnInit(): void {
@@ -87,6 +98,10 @@ export class PlantListComponent {
     if (this.locationId) {
       this.count$ = this.locationService.countPlants(this.locationId);
     } else this.count$ = this.plantService.count();
+
+    this.form.patchValue({
+      locationId: this.locationId,
+    });
   }
 
   fetchPlants(scroll: boolean = false): void {
@@ -98,7 +113,12 @@ export class PlantListComponent {
       order: this.order,
     };
 
-    if (!scroll) this.loadedPlants = 0;
+    if (!scroll) {
+      this.form.patchValue({
+        selection: [],
+      });
+      this.loadedPlants = 0;
+    }
 
     // in case of multiple bottom reached signals, we avoid asking twice
     if (this.cursor) this.lastCursor = this.cursor;
@@ -191,14 +211,43 @@ export class PlantListComponent {
   }
 
   massMove() {
-    this.modal.open(this.moveModal, 'confirm').subscribe((res) => {
-      if (res === 'accept') console.log('move');
-    });
+    const { selection, locationId } = this.form.value;
+
+    if (selection && selection.length > 0) {
+      this.modal
+        .open(this.moveModal, 'confirm')
+        .pipe(
+          take(1),
+          skipWhile((res) => res !== 'accept'),
+          switchMap(() => {
+            if (locationId) {
+              return this.plantService.movePlantsToLocation(
+                selection,
+                locationId,
+              );
+            } else return EMPTY;
+          }),
+        )
+        .subscribe(() => {
+          this.fetchPlants();
+        });
+    }
   }
 
   massDelete() {
-    this.modal.open(this.deleteModal, 'confirm').subscribe((res) => {
-      if (res === 'accept') console.log('del');
-    });
+    const { selection } = this.form.value;
+
+    if (selection && selection.length > 0) {
+      this.modal
+        .open(this.deleteModal, 'confirm')
+        .pipe(
+          take(1),
+          skipWhile((res) => res !== 'accept'),
+          switchMap(() => this.plantService.deleteMany(selection)),
+        )
+        .subscribe(() => {
+          this.fetchPlants();
+        });
+    }
   }
 }

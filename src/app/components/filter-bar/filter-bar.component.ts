@@ -72,17 +72,11 @@ export class FilterBarComponent {
    */
   toggleSort(column: SortColumn) {
     let order;
-// FIXME: immutable!!!!
+
     if (column === 'name') {
-      if (this.nameOrder === 'asc') this.nameOrder = 'desc';
-      else this.nameOrder = 'asc';
-
-      order = this.nameOrder;
+      order = this.nameOrder === 'asc' ? 'desc' : 'asc';
     } else if (column === 'date') {
-      if (this.dateOrder === 'asc') this.dateOrder = 'desc';
-      else this.dateOrder = 'asc';
-
-      order = this.dateOrder;
+      order = this.dateOrder === 'asc' ? 'desc' : 'asc';
     } else return;
 
     this.sortingChanged.emit({ column, order });

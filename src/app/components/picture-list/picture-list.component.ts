@@ -51,7 +51,7 @@ export class PictureListComponent implements ControlValueAccessor {
   @Input({ transform: booleanAttribute }) contentBelow: boolean = false;
   @Input({ transform: booleanAttribute }) editMode: boolean = false;
 
-  protected checkboxes = this.fb.array<number>([]);
+  protected checkboxes = this.fb.array([]);
   protected readonly form = this.fb.group({
     pics: this.checkboxes,
   });
@@ -66,17 +66,28 @@ export class PictureListComponent implements ControlValueAccessor {
 
       // new filtered list
       if (prev > list.length) {
-        this.checkboxes = this.fb.array<number>([]);
+        this.checkboxes = this.fb.array([]);
         base = 0;
       } else base = prev > 0 ? prev : 0;
 
       for (let i = base; i < list.length; i++) {
         this.checkboxes.push(new FormControl());
+        
       }
     }
   }
 
-  writeValue(_val: string): void {}
+  writeValue(val: number[]): void {
+    for (const control of this.checkboxes.controls) {
+      control.patchValue(null);
+    }
+    
+    for (const v of val) {
+      this.checkboxes.at(v).patchValue(true);
+    }
+    
+    this.onChange(this.getSelectedOptions());
+  }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -91,9 +102,10 @@ export class PictureListComponent implements ControlValueAccessor {
   setDisabledState(_isDisabled: boolean): void {}
 
   getSelectedOptions(): number[] {
-    if (this.form.value.pics) {
-      return this.form.value.pics.reduce((res: number[], v, i) => {
-        if (v) res.push(i);
+    if (this.checkboxes.value) {
+      return this.checkboxes.value.reduce((res: number[], v, i) => {
+        const item = this.list[i].id;
+        if (v && item) res.push(item);
         return res;
       }, []);
     } else return [];

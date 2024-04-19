@@ -1,64 +1,78 @@
-<form [formGroup]="plantForm" (ngSubmit)="submit()">
-  <lt-wizard [form]="plantForm" [disableNavigation]="disableNavigation">
+<lt-wizard [formGroup]="plantForm" (ngSubmit)="submit()" [disableNavigation]="disableNavigation">
 
-    @if (location$ | async; as location) {
-      <lt-wizard-header i18n="@@plant-add.header">
-        Adding a plant to <b>{{ location.name }}</b>
-      </lt-wizard-header>
+  @if (location$ | async; as location) {
+    <lt-wizard-header i18n="@@plant-add.header">
+      Adding a plant to <b>{{ location.name }}</b>
+    </lt-wizard-header>
+  }
+
+  <lt-wizard-page title="Name" i18n-title="@@general.name" [formControl]="customNameControl">
+    <lt-wizard-page-description>
+      <p i18n="@@plant-add.nameDesc">
+        This is the happy moment when we add our beloved plants. First
+        things first, identify! Want to give it a <b> name</b>?
+      </p>
+    </lt-wizard-page-description>
+    <lt-plant-form-name />
+  </lt-wizard-page>
+
+  <lt-wizard-page title="Specie" i18n-title="@@general.specie">
+    <lt-wizard-page-description>
+      <p i18n="@@plant-add.specieDesc">
+        Have you identified its specie? Search and select it from the list.
+        You can use
+        <a href="https://identify.plantnet.org/" target="_blank">Pl&#64;ntNet</a>
+        to identify it.
+      </p>
+    </lt-wizard-page-description>
+    <lt-specie-finder formControlName="specieId" />
+  </lt-wizard-page>
+
+  <lt-wizard-page title="Pictures" i18n-title="@@general.pictures">
+    <lt-wizard-page-description>
+      <p i18n="@@photo-add.addMsg">
+        Time to brag about our well-cared, personal jungle.
+      </p>
+      <p i18n="@@photo-add.addMsgLimit">
+        Up to <b>10 pictures</b> at once! Once they're up, you can edit their
+        description and if you need them in a specific order you can define
+        when they were taken.
+      </p>
+    </lt-wizard-page-description>
+    <ng-container [formGroup]="photosForm">
+      <lt-file-uploader [maxAmount]="10" formControlName="pictureFiles" />
+    </ng-container>
+  </lt-wizard-page>
+
+  <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
+    <lt-wizard-page-description>
+      <p i18n="@@plant-add.privacy">
+        When your plant is <b>publicly visible</b>, other users will be able
+        to see it when visiting your user profile (given that it's
+        <b>public</b>).
+      </p>
+      <p i18n="@@plant-add.privacyTip">
+        <strong>Note</strong> that your locations has its own privacy
+        settings, and it supersedes the plant's privacy setting, so if the
+        location is private users won't be able to see the location plant
+        list, but you can share a direct link to this plant.
+      </p>
+    </lt-wizard-page-description>
+    <lt-form-privacy>
+    </lt-form-privacy>
+
+    @if (createPlantProgress$ | async; as uploadProgress) {
+      <div class="plant-add__progress">
+        @if (uploadProgress > 0) {
+          <lt-progress-bar [progress]="uploadProgress" />
+        }
+
+        @if (uploadProgress === 100) {
+          <div class="plant-add__finished" i18n="@@general.uploadFinished">
+            Upload finished. Processing your photos, please wait.
+          </div>
+        }
+      </div>
     }
-
-    <lt-wizard-page title="Name" i18n-title="@@general.name">
-      <lt-plant-form-name />
-    </lt-wizard-page>
-
-    <lt-wizard-page title="Specie" i18n-title="@@general.specie">
-      <lt-specie-finder formControlName="specieId" />
-    </lt-wizard-page>
-
-    <lt-wizard-page title="Pictures" i18n-title="@@general.pictures">
-      <lt-wizard-page-description>
-        <p i18n="@@photo-add.addMsg">
-          Time to brag about our well-cared, personal jungle.
-        </p>
-        <p i18n="@@photo-add.addMsgLimit">
-          Up to <b>10 pictures</b> at once! Once they're up, you can edit their
-          description and if you need them in a specific order you can define
-          when they were taken.
-        </p>
-      </lt-wizard-page-description>
-      <ng-container [formGroup]="photosForm">
-        <lt-file-uploader [maxAmount]="10" formControlName="pictureFiles" />
-      </ng-container>
-    </lt-wizard-page>
-
-    <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
-      <lt-form-privacy>
-        <p i18n="@@plant-add.privacy">
-          When your plant is <b>publicly visible</b>, other users will be able
-          to see it when visiting your user profile (given that it's
-          <b>public</b>).
-        </p>
-        <p i18n="@@plant-add.privacyTip">
-          <strong>Note</strong> that your locations has its own privacy
-          settings, and it supersedes the plant's privacy setting, so if the
-          location is private users won't be able to see the location plant
-          list, but you can share a direct link to this plant.
-        </p>
-      </lt-form-privacy>
-
-      @if (createPlantProgress$ | async; as uploadProgress) {
-        <div class="plant-add__progress">
-          @if (uploadProgress > 0) {
-            <lt-progress-bar [progress]="uploadProgress" />
-          }
-
-          @if (uploadProgress === 100) {
-            <div class="plant-add__finished" i18n="@@general.uploadFinished">
-              Upload finished. Processing your photos, please wait.
-            </div>
-          }
-        </div>
-      }
-    </lt-wizard-page>
-  </lt-wizard>
-</form>
+  </lt-wizard-page>
+</lt-wizard>

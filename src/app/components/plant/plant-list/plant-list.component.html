@@ -28,6 +28,9 @@
           type="solid"
           (click)="massMove()"
         />
+        <ng-container [formGroup]="form">
+          <lt-plant-form-location />
+        </ng-container>
       </div>
     }
   </div>
@@ -57,9 +60,8 @@
 }
 
 <ng-template #deleteModal>
-  <p i18n="@@location.remove">
-    This will remove this location along with its plants and photos. Are you
-    sure?
+  <p i18n="@@plant.remove">
+    This will remove this plant and all of its photos. Are you sure?
   </p>
   <p>
     <strong i18n="@@general.irreversible">
@@ -69,8 +71,7 @@
 </ng-template>
 
 <ng-template #moveModal>
-  <p i18n="@@location.remove">
-    This will remove this location along with its plants and photos. Are you
-    sure?
+  <p i18n="@@plant.move">
+    Do you want to move these plants?
   </p>
 </ng-template>

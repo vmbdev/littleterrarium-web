@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { catchError, EMPTY, finalize, map, Observable, switchMap } from 'rxjs';
 import {
@@ -50,9 +50,18 @@ import { BackendResponse } from '@models/backend-response.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantAddComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly locationService = inject(LocationService);
+  private readonly plantService = inject(PlantService);
+  private readonly photoService = inject(PhotoService);
+  private readonly errorHandler = inject(ErrorHandlerService);
+
+  protected customNameControl = new FormControl<string | null>(null);
   protected plantForm: FormGroup = this.fb.group({
     specieId: [],
-    customName: [],
+    customName: this.customNameControl,
     public: [true, Validators.required],
   });
   protected photosForm: FormGroup = this.fb.group({
@@ -63,16 +72,6 @@ export class PlantAddComponent {
   protected location$?: Observable<Location>;
   protected createPlantProgress$?: Observable<number>;
   protected disableNavigation: boolean = false;
-
-  constructor(
-    private readonly locationService: LocationService,
-    private readonly plantService: PlantService,
-    private readonly photoService: PhotoService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly fb: FormBuilder,
-    private readonly errorHandler: ErrorHandlerService,
-  ) {}
 
   ngOnInit(): void {
     this.locationId = +this.route.snapshot.params['locationId'];

@@ -119,6 +119,16 @@ export class PlantService {
     } else return EMPTY;
   }
 
+  deleteMany(ids: number[]): Observable<any> {
+    if (ids.length > 0) return this.api.deletePlants(ids);
+    else return EMPTY;
+  }
+
+  movePlantsToLocation(ids: number[], locationId: number): Observable<any> {
+    if (ids.length > 0) return this.api.movePlantsToLocation(ids, locationId);
+    else return EMPTY;
+  }
+
   fertilize(id?: number): Observable<Plant> {
     let plantId: number | undefined;
 

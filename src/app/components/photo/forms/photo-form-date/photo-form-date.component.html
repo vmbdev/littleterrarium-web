@@ -1,11 +1,5 @@
-<article>
-  <div class="form__date">
-    <p i18n="@@photo-edit.takenAt">
-      When was the photo taken? The gallery will be displayed in
-      chronological order.
-    </p>
-    <lt-form-base-action>
-      <input type="date" [max]="today" formControlName="takenAt">
-    </lt-form-base-action>
-  </div>
-</article>
+<div class="form__date">
+  <lt-form-base-action>
+    <input type="date" [max]="today" formControlName="takenAt">
+  </lt-form-base-action>
+</div>

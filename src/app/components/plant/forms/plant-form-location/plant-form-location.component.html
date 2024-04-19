@@ -1,16 +1,11 @@
-<article>
-  <header>
-    <p i18n="@@plant-edit.moved">Did you move your plant?</p>
-  </header>
-  <div class="form__select">
-    <lt-form-base-action>
-      <select formControlName="locationId">
-        @for (location of locations$ | async; track location.id) {
-          <option [value]="location.id">
-            {{ location.name }}
-          </option>
-        }
-      </select>
-    </lt-form-base-action>
-  </div>
-</article>
+<div class="form__select">
+  <lt-form-base-action>
+    <select formControlName="locationId">
+      @for (location of locations$ | async; track location.id) {
+        <option [value]="location.id">
+          {{ location.name }}
+        </option>
+      }
+    </select>
+  </lt-form-base-action>
+</div>

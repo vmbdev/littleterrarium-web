@@ -15,15 +15,27 @@
       </lt-wizard-header>
 
       <lt-wizard-page title="Name" control="name" i18n-title="@@general.name">
+        <lt-wizard-page-description>
+          <p i18n="@@location-add-edit.name">
+            The name of a new location where your plants will live. Choose a
+            <b>recognisable name</b>: <i>window, balcony, coffee table</i>...
+          </p>
+          <p i18n="@@location-add-edit.nameTip">
+            <b>Think</b>: when talking to your friends about the plants here, how do
+            you usually call it?
+          </p>
+        </lt-wizard-page-description>
         <lt-location-form-name />
       </lt-wizard-page>
 
       <lt-wizard-page title="Picture" i18n-title="@@general.picture">
+        <lt-wizard-page-description>
           <p i18n="@@location-add-edit.choose">
             Choose a nice, beautiful picture to showcase your nice, beautiful
             window/balcony/kitchen drawer/whatever!
           </p>
           <p i18n="@@location-add-edit.ornot">Or, well, don't. Up to you.</p>
+        </lt-wizard-page-description>
 
         <div>
           @if (location.pictures && !removePicture) {
@@ -38,11 +50,18 @@
       </lt-wizard-page>
 
       <lt-wizard-page title="Light" control="light" i18n-title="@@general.light">
+        <lt-wizard-page-description>
+          <p i18n="@@location-add-edit.lightInfo">
+            There's problably nothing as important for a plant than the sunlight
+            (or the lack of).
+          </p>
+          <p i18n="@@location-add-edit.lightAmount">How's the light over here?</p>
+        </lt-wizard-page-description>
         <lt-location-form-light />
       </lt-wizard-page>
 
       <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
-        <lt-form-privacy>
+        <lt-wizard-page-description>
           <p i18n="@@location-add-edit.visibility">
             When your location is <b>publicly visible</b>, other users will be
             able to see it when visiting your user profile (given that it's
@@ -54,7 +73,8 @@
             plants or blurry photos you can hide them individually even though
             your location is public.
           </p>
-        </lt-form-privacy>
+        </lt-wizard-page-description>
+        <lt-form-privacy />
       </lt-wizard-page>
 
     </lt-wizard>

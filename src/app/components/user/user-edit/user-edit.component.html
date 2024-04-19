@@ -7,25 +7,32 @@
   >
     <lt-wizard [form]="userForm" singlePage="true">
       <lt-wizard-page title="Username" i18n-title="@@general.username">
-        <lt-user-form-username [usernameReq]="usernameReq$ | async">
+        <lt-wizard-page-description>
           <p i18n="@@user-edit.usernameDesc">
             This is how you'll be known around here, and how your profile will
             be accesed. Short, no spaces, no weird things.
           </p>
-        </lt-user-form-username>
+        </lt-wizard-page-description>
+        <lt-user-form-username [usernameReq]="usernameReq$ | async" />
       </lt-wizard-page>
 
       <lt-wizard-page title="First and last name" i18n-title="@@general.fullname">
+        <lt-wizard-page-description>
+          <p i18n="@@user-edit.fullnameDesc">
+            In case you want to present yourself more professionally.
+          </p>
+        </lt-wizard-page-description>
         <lt-user-form-name />
       </lt-wizard-page>
 
       <lt-wizard-page title="E-mail" i18n-title="@@general.email">
-        <lt-user-form-email>
+        <lt-wizard-page-description>
           <p i18n="@@user-edit.emailDesc">
             This is <strong>important</strong>! This is how you can recover
             your account in case you forget your password.
           </p>
-        </lt-user-form-email>
+        </lt-wizard-page-description>
+        <lt-user-form-email />
       </lt-wizard-page>
 
       <lt-wizard-page title="Avatar" i18n-title="@@general.avatar">
@@ -34,6 +41,7 @@
             Also known as profile picture. Just an image to present yourself.
           </p>
         </lt-wizard-page-description>
+        <lt-wizard-page-description />
 
         @if (user.avatar && !removeAvatar) {
           <lt-current-pic
@@ -46,11 +54,17 @@
       </lt-wizard-page>
 
       <lt-wizard-page title="Bio" i18n-title="@@general.bio">
+        <lt-wizard-page-description>
+          <p i18n="@@user-edit.bioDesc">
+            Tell us something about yourself! How did you get in the green world,
+            what kind of plants do you like, where are you based, etc.
+          </p>
+        </lt-wizard-page-description>
         <lt-user-form-bio />
       </lt-wizard-page>
 
       <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
-        <lt-form-privacy>
+        <lt-wizard-page-description>
           <p i18n="@@user-edit.publicProfile">
             If your profile is public, you will be able to share it to whomever
             you want to, and brag about your plants.
@@ -59,7 +73,8 @@
             If your profile is private, you won't be able to share it, but you'll
             still enjoy of all of the features of Little Terrarium.
           </p>
-        </lt-form-privacy>
+        </lt-wizard-page-description>
+        <lt-form-privacy />
       </lt-wizard-page>
 
     </lt-wizard>

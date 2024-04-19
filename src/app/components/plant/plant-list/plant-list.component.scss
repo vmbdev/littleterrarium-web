@@ -8,6 +8,9 @@
   }
 
   &__actions {
+    display: flex;
+    flex-direction: row;
+
     & > * {
       margin: 0 0.8rem;
     }

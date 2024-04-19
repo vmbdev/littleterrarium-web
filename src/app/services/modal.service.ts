@@ -16,7 +16,8 @@ import {
 
 type ModalType = 'quick' | 'confirm';
 type ModalOptions = {
-  title: string;
+  title?: string;
+  context?: any;
 };
 
 @Injectable({
@@ -31,7 +32,7 @@ export class ModalService {
   ) {}
 
   open(content: TemplateRef<any>, type: ModalType, options?: ModalOptions) {
-    const contentViewRef = content.createEmbeddedView(null);
+    const contentViewRef = content.createEmbeddedView(options?.context);
     const componentOptions = {
       environmentInjector: this.injector,
       projectableNodes: [contentViewRef.rootNodes],
@@ -40,13 +41,15 @@ export class ModalService {
     const mainElement = this.app.components[0].instance.mainElement;
     let component;
 
+    contentViewRef.detectChanges();
+    
     if (type === 'quick') {
       component = createComponent<QuickModalComponent>(
         QuickModalComponent,
         componentOptions
       );
 
-      component.instance.title = options?.title ? options.title : '';
+      component.instance.title = options?.title ?? '';
       component.instance.close.subscribe(() => this.close());
     } else {
       component = createComponent<ConfirmModalComponent>(

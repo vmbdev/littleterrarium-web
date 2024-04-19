@@ -1,37 +1,31 @@
-<article>
-  <header>
-    <ng-content />
-  </header>
+@if (usernameReq) {
+  <p i18n="@@user-register.usernameReq">
+    It must be {{ usernameReq.minLength }} to
+    {{ usernameReq.maxLength }}
+    characters long, and contain only alphanumeric characters, dot (.),
+    dash (-) and underscore (_).
+  </p>
+}
 
-  @if (usernameReq) {
-    <p i18n="@@user-register.usernameReq">
-      It must be {{ usernameReq.minLength }} to
-      {{ usernameReq.maxLength }}
-      characters long, and contain only alphanumeric characters, dot (.),
-      dash (-) and underscore (_).
+<div class="form__textinput">
+  <lt-form-base-action>
+    <input
+      #username
+      type="textinput"
+      formControlName="username"
+      placeholder="PlantLover95"
+    />
+  </lt-form-base-action>
+
+  @if (errorTaken$ | async) {
+    <p class="form__errormsg" i18n="@@user-register.usernameTaken">
+      Sorry, your username already exists. Please choose another.
     </p>
   }
 
-  <div class="form__textinput">
-    <lt-form-base-action>
-      <input
-        #username
-        type="textinput"
-        formControlName="username"
-        placeholder="PlantLover95"
-      />
-    </lt-form-base-action>
-
-    @if (errorTaken$ | async) {
-      <p class="form__errormsg" i18n="@@user-register.usernameTaken">
-        Sorry, your username already exists. Please choose another.
-      </p>
-    }
-
-    @if (errorInvalid$ | async) {
-      <p class="form__errormsg" i18n="@@user-register.usernameInvalid">
-        Sorry, your username is not valid. Please, check the formatting.
-      </p>
-    }
-  </div>
-</article>
+  @if (errorInvalid$ | async) {
+    <p class="form__errormsg" i18n="@@user-register.usernameInvalid">
+      Sorry, your username is not valid. Please, check the formatting.
+    </p>
+  }
+</div>

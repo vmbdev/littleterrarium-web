@@ -138,7 +138,7 @@ export class ApiService {
     else if (user.avatarFile) form.append('avatar', user.avatarFile);
 
 
-    return this.http.put<User>(this.endpoint('users'), form);
+    return this.http.patch<User>(this.endpoint('users'), form);
   }
   
   updatePreferences(prefs: UserPreferences): Observable<User> {
@@ -146,7 +146,7 @@ export class ApiService {
 
     form.append('preferences', JSON.stringify(prefs));
     
-    return this.http.put<User>(this.endpoint('users'), form);
+    return this.http.patch<User>(this.endpoint('users'), form);
   }
 
   /**
@@ -259,7 +259,7 @@ export class ApiService {
     }
 
     if (options.update) {
-      observable = this.http.put<Location>(this.endpoint('locations'), form);
+      observable = this.http.patch<Location>(this.endpoint('locations'), form);
     } else {
       observable = this.http.post<Location>(this.endpoint('locations'), form);
     }
@@ -344,11 +344,26 @@ export class ApiService {
     if (options?.removeSpecie) data.removeSpecie = true;
     if (options?.removeCover) data.removeCover = true;
 
-    return this.http.put<Plant>(this.endpoint('plants'), data);
+    return this.http.patch<Plant>(this.endpoint('plants'), data);
+  }
+
+  movePlantsToLocation(ids: number[], locationId: number): Observable<any> {
+    const idstr = ids.join(';');
+
+    return this.http.patch(
+      this.endpoint(`plants/${idstr}/location/${locationId}`),
+      null,
+    );
   }
 
   deletePlant(id: number): Observable<any> {
-    return this.http.delete<any>(this.endpoint(`plants/${id}`));
+    return this.http.delete(this.endpoint(`plants/${id}`));
+  }
+
+  deletePlants(ids: number[]): Observable<any> {
+    const idstr = ids.join(';');
+
+    return this.http.delete(this.endpoint(`plants/${idstr}`));
   }
 
   /**
@@ -385,7 +400,7 @@ export class ApiService {
   }
 
   updatePhoto(photo: Photo): Observable<Photo> {
-    return this.http.put<Photo>(this.endpoint('photos'), photo);
+    return this.http.patch<Photo>(this.endpoint('photos'), photo);
   }
 
   deletePhoto(id: number): Observable<any> {

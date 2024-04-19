@@ -161,6 +161,7 @@
     "plant-widget-water.warning": "Si aún no la has regado, por favor, revisa el sustrato. Nunca riegues tus plantas basándote en una frecuencia fija.",
     "plant.condition": "Condición:",
     "plant.invalid": "Planta no encontrada.",
+    "plant.move": "¿Quieres mover estas plantas de lugar?",
     "plant.photoList": "Fotos de {$INTERPOLATION}",
     "plant.plantInformation": "Datos de la planta",
     "plant.remove": "Vas a borrar esta planta y todas tus fotos. ¿Estás seguro?",

@@ -177,6 +177,21 @@ $inputWidth: 22rem;
   }
 }
 
+@include m.media('mobile-s') {
+  .form {
+    &__textinput,
+    &__number,
+    &__select,
+    &__textarea {
+      input,
+      select,
+      textarea {
+        width: 9em !important;
+      }
+    }
+  }
+}
+
 @include m.media('mobile') {
   .form {
     &__textinput,
@@ -186,7 +201,7 @@ $inputWidth: 22rem;
       input,
       select,
       textarea {
-        width: 15em;
+        width: 12em;
       }
     }
   }

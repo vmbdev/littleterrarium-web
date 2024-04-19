@@ -12,8 +12,9 @@ import {
   SimpleChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormGroupDirective } from '@angular/forms';
 
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
@@ -30,6 +31,8 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WizardComponent {
+  protected readonly formGroup = inject(FormGroupDirective);
+
   @ContentChildren(WizardPageComponent, { descendants: true })
   pageList!: QueryList<WizardPageComponent>;
 
@@ -42,6 +45,7 @@ export class WizardComponent {
   @Input({ transform: booleanAttribute }) singlePage: boolean = false;
   @Input({ transform: booleanAttribute }) disableNavigation: boolean = false;
   @Output() indexChange = new EventEmitter();
+  @Output() submit = new EventEmitter();
 
   protected currentIndex$ = new BehaviorSubject<number>(0);
 
@@ -79,12 +83,12 @@ export class WizardComponent {
     const index = this.currentIndex$.getValue();
     let validationErrors = false;
 
-    if (this.form) {
+    if (this.formGroup.control) {
       const page = this.pageList.get(index);
 
       if (page?.control) {
-        const control = this.form.controls[page.control];
-        this.form.updateValueAndValidity();
+        const control = this.formGroup.control.controls[page.control];
+        this.formGroup.control.updateValueAndValidity();
 
         if (control.errors) {
           control.markAsDirty();

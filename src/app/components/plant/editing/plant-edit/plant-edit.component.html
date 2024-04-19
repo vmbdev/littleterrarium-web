@@ -6,18 +6,42 @@
       </lt-wizard-header>
 
       <lt-wizard-page title="Name" i18n-title="@@general.name">
+        <lt-wizard-page-description>
+          <p i18n="@@plant-add.nameDesc">
+            This is the happy moment when we add our beloved plants. First
+            things first, identify! Want to give it a <b> name</b>?
+          </p>
+        </lt-wizard-page-description>
         <lt-plant-form-name />
       </lt-wizard-page>
 
       <lt-wizard-page title="Specie" i18n-title="@@general.specie">
+        <lt-wizard-page-description>
+          <p i18n="@@plant-add.specieDesc">
+            Have you identified its specie? Search and select it from the list.
+            You can use
+            <a href="https://identify.plantnet.org/" target="_blank">Pl&#64;ntNet</a>
+            to identify it.
+          </p>
+        </lt-wizard-page-description>
         <lt-specie-finder formControlName="specieId" />
       </lt-wizard-page>
 
       <lt-wizard-page title="Location" i18n-title="@@general.location">
+        <lt-wizard-page-description>
+          <p i18n="@@plant-edit.moved">Did you move your plant?</p>
+        </lt-wizard-page-description>
         <lt-plant-form-location />
       </lt-wizard-page>
 
       <lt-wizard-page title="Description" i18n-title="@@general.description">
+        <lt-wizard-page-description>
+          <p i18n="@@plant-edit.description">
+            Tell us something about your green friend: Where did you get it?
+            When? How? Is it a variation of the common species? Is there an
+            interesting story behind it?
+          </p>
+        </lt-wizard-page-description>
         <lt-plant-form-description />
       </lt-wizard-page>
 
@@ -25,11 +49,16 @@
         title="Plant condition"
         i18n-title="@@plant-edit.condition"
       >
+        <lt-wizard-page-description>  
+          <p i18n="@@plant-edit.health">
+            Let's keep track of its health, would you?
+          </p>
+        </lt-wizard-page-description>
         <lt-plant-form-condition />
       </lt-wizard-page>
 
       <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
-        <lt-form-privacy>
+        <lt-wizard-page-description>
           <p i18n="@@plant-add.privacy">
             When your plant is <b>publicly visible</b>, other users will be
             able to see it when visiting your user profile (given that it's
@@ -41,7 +70,8 @@
             location is private users won't be able to see the location plant
             list, but you can share a direct link to this plant.
           </p>
-        </lt-form-privacy>
+        </lt-wizard-page-description>
+        <lt-form-privacy />
       </lt-wizard-page>
     </lt-wizard>
   </form>

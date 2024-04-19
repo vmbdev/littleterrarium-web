@@ -1,4 +1,5 @@
 $breakpoints: (
+  'mobile-s': ( 'min': 0, 'max': 320px ),
   'mobile': ( 'min': 0, 'max': 576px ),
   'tablet': ( 'min': 577px, 'max': 1024px ),
   'desktop': ( 'min': 1025px, 'max': 1280px),

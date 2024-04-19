@@ -45,6 +45,7 @@
             type="submit"
             [disabled]="disableNavigation"
             i18n="@@general.finish"
+            (click)="submit.emit()"
           >
             Finish
           </button>

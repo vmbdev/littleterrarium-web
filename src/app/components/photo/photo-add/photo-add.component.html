@@ -28,7 +28,7 @@
     </lt-wizard-page>
 
     <lt-wizard-page title="Privacy" i18n-title="@@general.privacy">
-      <lt-form-privacy>
+      <lt-wizard-page-description>
         <p i18n="@@photo-add.visibility">
           When your picture is <b>publicly visible</b>, other users will be able
           to see it when visiting your user profile (given that it's
@@ -39,7 +39,8 @@
           privacy settings, and they supersedes the picture's privacy setting
           (i.e. you can't share this picture if the plant is private).
         </p>
-      </lt-form-privacy>
+      </lt-wizard-page-description>
+      <lt-form-privacy />
 
       @if (createPhotoProgress$ | async; as uploadProgress) {
         <div class="photo-add__progress">

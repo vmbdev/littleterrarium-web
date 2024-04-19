@@ -1,26 +1,16 @@
-<article>
-  <header>
-    <p i18n="@@location-add-edit.lightInfo">
-      There's problably nothing as important for a plant than the sunlight
-      (or the lack of).
-    </p>
-    <p i18n="@@location-add-edit.lightAmount">How's the light over here?</p>
-  </header>
-
-  <lt-form-base-action>
-    <ul class="location-add-edit__lightoptions">
-      @for (option of (lightOptions$ | async); track option.value) {
-        <li class="form__radio">
-          <input
-            type="radio"
-            formControlName="light" [id]="'light' + $index"
-            [value]="option.value"
-          >
-          <label [for]="'light' + $index">
-            <b>{{ option.name }}</b>: {{ option.desc }}
-          </label>
-        </li>
-      }
-    </ul>
-  </lt-form-base-action>
-</article>
+<lt-form-base-action>
+  <ul class="location-add-edit__lightoptions">
+    @for (option of (lightOptions$ | async); track option.value) {
+      <li class="form__radio">
+        <input
+          type="radio"
+          formControlName="light" [id]="'light' + $index"
+          [value]="option.value"
+        >
+        <label [for]="'light' + $index">
+          <b>{{ option.name }}</b>: {{ option.desc }}
+        </label>
+      </li>
+    }
+  </ul>
+</lt-form-base-action>

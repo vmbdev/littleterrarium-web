@@ -21,6 +21,7 @@ import { PlantFormLocationComponent } from '@components/plant/forms/plant-form-l
 import { BreadcrumbService } from '@services/breadcrumb.service';
 import { PlantService } from '@services/plant.service';
 import { Plant } from '@models/plant.model';
+import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 
 @Component({
   standalone: true,
@@ -31,6 +32,7 @@ import { Plant } from '@models/plant.model';
     WizardComponent,
     WizardPageComponent,
     WizardHeaderComponent,
+    WizardPageDescriptionComponent,
     SpecieFinderComponent,
     FormPrivacyComponent,
     PlantFormNameComponent,
@@ -46,7 +48,7 @@ export class PlantEditComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  protected readonly plantService = inject(PlantService);
+  private readonly plantService = inject(PlantService);
   private readonly breadcrumb = inject(BreadcrumbService);
 
   private id?: number;

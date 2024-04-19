@@ -1,27 +1,22 @@
-<article>
-  <header>
-    <ng-content />
-  </header>
-  <lt-form-base-action>
-    <div class="form__textinput">
-      <input
-        type="email"
-        formControlName="email"
-        placeholder="john@lovingplants.com"
-      >
+<lt-form-base-action>
+  <div class="form__textinput">
+    <input
+      type="email"
+      formControlName="email"
+      placeholder="john@lovingplants.com"
+    >
 
-      @if (errorTaken$ | async) {
-        <p class="form__errormsg" i18n="@@user-register.emailTaken">
-          Sorry, your e-mail already exists in our system. Are you sure you
-          don't have an account already?
-        </p>
-      }
+    @if (errorTaken$ | async) {
+      <p class="form__errormsg" i18n="@@user-register.emailTaken">
+        Sorry, your e-mail already exists in our system. Are you sure you
+        don't have an account already?
+      </p>
+    }
 
-      @if (errorInvalid$ | async) {
-        <p class="form__errormsg" i18n="@@user-register.emailInvalid">
-          Sorry, your e-mail is not formatted correctly.
-        </p>
-      }
-    </div>
-  </lt-form-base-action>
-</article>
+    @if (errorInvalid$ | async) {
+      <p class="form__errormsg" i18n="@@user-register.emailInvalid">
+        Sorry, your e-mail is not formatted correctly.
+      </p>
+    }
+  </div>
+</lt-form-base-action>

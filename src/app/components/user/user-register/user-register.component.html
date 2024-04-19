@@ -9,25 +9,23 @@
       control="username"
       i18n-title="@@general.username"
     >
-      <lt-user-form-username [usernameReq]="usernameReq$ | async">
-        <p i18n="@@user-register.lookingForward">
-          We are looking forward to welcoming you to our family!
+      <lt-wizard-page-description>
+        <p i18n="@@user-edit.usernameDesc">
+          This is how you'll be known around here, and how your profile will
+          be accesed. Short, no spaces, no weird things.
         </p>
-        <p i18n="@@user-register.usernameDesc">
-          First of all, let's decide on your <b>username</b>. It may be the
-          moniker you've been using for the last 20 years or something like your
-          Instagram username.
-        </p>
-      </lt-user-form-username>
+      </lt-wizard-page-description>
+      <lt-user-form-username [usernameReq]="usernameReq$ | async" />
     </lt-wizard-page>
 
     <lt-wizard-page title="E-mail" control="email" i18n-title="@@general.email">
-      <lt-user-form-email>
-        <p i18n="@@user-register.emailDesc">
-          This is how we identify you uniquely, and it's needed to receive
-          notifications and to reset your password in case you forget it.
+      <lt-wizard-page-description>
+        <p i18n="@@user-edit.emailDesc">
+          This is <strong>important</strong>! This is how you can recover
+          your account in case you forget your password.
         </p>
-      </lt-user-form-email>
+      </lt-wizard-page-description>
+      <lt-user-form-email />
     </lt-wizard-page>
 
     <lt-wizard-page
@@ -35,14 +33,16 @@
       control="password"
       i18n-title="@@general.password"
     >
-      <lt-user-form-password
-        [requirements]="pwdReq$ | async"
-        formControlName="password"
-      >
+      <lt-wizard-page-description>
         <p i18n="@@user-register.passwordDesc">
           <b>We're almost there</b>. Last but not least, a <b>password</b> to
           protect your access
         </p>
+      </lt-wizard-page-description>
+      <lt-user-form-password
+        [requirements]="pwdReq$ | async"
+        formControlName="password"
+      >
       </lt-user-form-password>
 
       @if (errorInvalidPassword$ | async) {
