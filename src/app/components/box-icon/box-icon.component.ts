@@ -59,7 +59,7 @@ export class BoxIconComponent {
 
     if (this.border) {
       this.classList.push(
-        `bx-border${this.border == 'circle' ? '-circle' : ''}`
+        `bx-border${this.border === 'circle' ? '-circle' : ''}`
       );
     }
     if (this.rotate) this.classList.push(`bx-rotate-${this.rotate}`);

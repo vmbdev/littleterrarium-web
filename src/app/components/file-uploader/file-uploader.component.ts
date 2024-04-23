@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   forwardRef,
   Input,
   numberAttribute,
+  Output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -31,6 +34,19 @@ export class FileUploaderComponent {
    * Max amount of files the user can select. By default, 1.
    */
   @Input({ transform: numberAttribute }) maxAmount: number = 1;
+  
+  /**
+   * Special mode in which the file uploader design changes to fill a circular
+   * container.
+  */
+  @Input({ transform: booleanAttribute }) embedded = false;
+  @Input({ transform: numberAttribute }) embeddedSize?: number;
+
+  /**
+   * Emitted when the files selected in the component have changed.
+   * In case we don't want to use this component as a FormControl.
+   */
+  @Output() fileChange = new EventEmitter<File[] | File>();
 
   /**
    * Files currently selected in the component.
@@ -148,7 +164,11 @@ export class FileUploaderComponent {
 
       if (this.maxAmount === 1) {
         this.onChange(this.files[0]);
-      } else this.onChange(this.files);
+        this.fileChange.emit(this.files[0]);
+      } else {
+        this.onChange(this.files);
+        this.fileChange.emit(this.files);
+      }
     }
   }
 

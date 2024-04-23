@@ -2,16 +2,17 @@
   <i
     (click)="handleClick($event)"
     [ngClass]="classList"
-    [ngStyle]="{
-      color: disabled
+    [style.color]="
+      disabled
         ? theme + 'grey'
         : color
           ? color
           : theme === 'dark'
             ? 'white'
-            : 'black',
-      visibility: hidden ? 'hidden' : 'visible'
-    }"
+            : 'black'
+      "
+    [style.visibility]="hidden ? 'hidden' : 'visible'"
+    [style.borderColor]="border && theme === 'dark' ? '#ffffff1a' : undefined"
   ></i>
   <span [ngClass]="{ 'cbx--clickable': click.observed && !disabled }">
     <ng-content />

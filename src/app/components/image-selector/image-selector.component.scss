@@ -1,0 +1,24 @@
+.image-selector {
+  border-radius: 100%;
+  border: 1px solid black;
+  position: relative;
+
+  &__source {
+    border-radius: inherit;
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+  }
+
+  &__buttons {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+  }
+
+  &--expanded {
+    border-radius: inherit;
+    overflow: hidden;
+  }
+}

@@ -11,15 +11,14 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { catchError, EMPTY, finalize } from 'rxjs';
 
-import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
 import { WizardHeaderComponent } from '@components/wizard/wizard-header/wizard-header.component';
 import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
-import { CurrentPicComponent } from '@components/current-pic/current-pic.component';
 import { LocationFormNameComponent } from '@components/location/forms/location-form-name/location-form-name.component';
 import { LocationFormLightComponent } from '@components/location/forms/location-form-light/location-form-light.component';
 import { FormPrivacyComponent } from '@components/form-privacy/form-privacy.component';
+import { ImageSelectorComponent } from '@components/image-selector/image-selector.component';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LocationService } from '@services/location.service';
 import { Location } from '@models/location.model';
@@ -32,12 +31,11 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    FileUploaderComponent,
+    ImageSelectorComponent,
     WizardComponent,
     WizardPageComponent,
     WizardPageDescriptionComponent,
     WizardHeaderComponent,
-    CurrentPicComponent,
     LocationFormNameComponent,
     LocationFormLightComponent,
     FormPrivacyComponent,
@@ -60,6 +58,26 @@ export class LocationAddComponent {
     pictureFile: new FormControl<File | null>(null),
   });
   protected disableNavigation: boolean = false;
+  protected newPicture?: string;
+
+  selectImage(file: File | null) {
+    if (file) {
+      this.locationForm.patchValue({
+        pictureFile: file,
+      });
+
+      this.newPicture = URL.createObjectURL(file);
+    } else {
+      this.locationForm.patchValue({
+        pictureFile: null,
+      });
+
+      if (this.newPicture) {
+        URL.revokeObjectURL(this.newPicture);
+        this.newPicture = undefined;
+      }
+    }
+  }
 
   submit(): void {
     if (!this.locationForm.valid) return;

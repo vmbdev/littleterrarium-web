@@ -33,16 +33,15 @@ export class AppComponent {
   private currentTheme?: string;
 
   ngOnInit() {
-    this.auth.checked$
+    this.auth.signedIn$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        skipWhile((checked) => !checked),
         switchMap(() => {
           this.theme.init();
 
           return this.theme.theme$;
         }),
-        skipWhile((newTheme: string | null) => !newTheme),
+        skipWhile((newTheme) => !newTheme),
       )
       .subscribe((newTheme: string | null) => {
         if (newTheme) {

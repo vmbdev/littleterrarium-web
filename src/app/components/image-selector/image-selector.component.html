@@ -1,0 +1,57 @@
+<div class="image-selector"
+  [style.width.px]="editMode ? expandedSize : smallSize"
+  [style.height.px]="editMode ? expandedSize : smallSize"
+>
+  <nav class="image-selector__buttons">
+    @if (!editMode) {
+      <box-icon
+        name="edit"
+        type="solid"
+        size="sm"
+        border="circle"
+        (click)="edit()"
+      />
+    }
+    @else if (editMode && newSource) {
+      <box-icon
+        name="x-square"
+        type="solid"
+        size="sm"
+        border="circle"
+        (click)="removeNewSource()"
+      />
+
+      <box-icon
+        name="check-circle"
+        type="solid"
+        size="sm"
+        border="circle"
+        (click)="acceptNewSource()"
+      />
+    }
+  </nav>
+
+  @if (source && !editMode) {
+    <img class="image-selector__source" [src]="source">
+  } @else {
+
+    @if (newSource) {
+      <div
+        class="image-selector--expanded"
+      >
+        <lt-image-crop
+          [size]="expandedSize"
+          [imageSource]="newSource"
+          (imageFile)="fetchNewSource($event)"
+        />
+      </div>
+    } @else {
+      <lt-file-uploader
+        maxAmount="1"
+        embedded="true"
+        [embeddedSize]="expandedSize"
+        (fileChange)="getNewFile($event)"
+      />
+    }
+  }
+</div>

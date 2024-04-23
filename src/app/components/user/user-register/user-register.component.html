@@ -1,59 +1,58 @@
-<form [formGroup]="form" (ngSubmit)="submit()" method="post">
-  <lt-wizard
-    [form]="form"
-    [moveTo]="wizardPage$ | async"
-    (indexChange)="indexChange()"
+<lt-wizard
+  [formGroup]="form"
+  [moveTo]="wizardPage$ | async"
+  (ngSubmit)="submit()"
+  (indexChange)="indexChange()"
+>
+  <lt-wizard-page
+    title="Username"
+    control="username"
+    i18n-title="@@general.username"
   >
-    <lt-wizard-page
-      title="Username"
-      control="username"
-      i18n-title="@@general.username"
+    <lt-wizard-page-description>
+      <p i18n="@@user-edit.usernameDesc">
+        This is how you'll be known around here, and how your profile will
+        be accesed. Short, no spaces, no weird things.
+      </p>
+    </lt-wizard-page-description>
+    <lt-user-form-username [usernameReq]="usernameReq$ | async" />
+  </lt-wizard-page>
+
+  <lt-wizard-page title="E-mail" control="email" i18n-title="@@general.email">
+    <lt-wizard-page-description>
+      <p i18n="@@user-edit.emailDesc">
+        This is <strong>important</strong>! This is how you can recover
+        your account in case you forget your password.
+      </p>
+    </lt-wizard-page-description>
+    <lt-user-form-email />
+  </lt-wizard-page>
+
+  <lt-wizard-page
+    title="Password"
+    control="password"
+    i18n-title="@@general.password"
+  >
+    <lt-wizard-page-description>
+      <p i18n="@@user-register.passwordDesc">
+        <b>We're almost there</b>. Last but not least, a <b>password</b> to
+        protect your access
+      </p>
+    </lt-wizard-page-description>
+    <lt-user-form-password
+      [requirements]="pwdReq$ | async"
+      formControlName="password"
     >
-      <lt-wizard-page-description>
-        <p i18n="@@user-edit.usernameDesc">
-          This is how you'll be known around here, and how your profile will
-          be accesed. Short, no spaces, no weird things.
-        </p>
-      </lt-wizard-page-description>
-      <lt-user-form-username [usernameReq]="usernameReq$ | async" />
-    </lt-wizard-page>
+    </lt-user-form-password>
 
-    <lt-wizard-page title="E-mail" control="email" i18n-title="@@general.email">
-      <lt-wizard-page-description>
-        <p i18n="@@user-edit.emailDesc">
-          This is <strong>important</strong>! This is how you can recover
-          your account in case you forget your password.
-        </p>
-      </lt-wizard-page-description>
-      <lt-user-form-email />
-    </lt-wizard-page>
+    @if (errorInvalidPassword$ | async) {
+      <p class="pwd-reset__warning" i18n="@@user-password.invalidPassword">
+        Password is invalid. Please follow the rules above.
+      </p>
+    }
 
-    <lt-wizard-page
-      title="Password"
-      control="password"
-      i18n-title="@@general.password"
-    >
-      <lt-wizard-page-description>
-        <p i18n="@@user-register.passwordDesc">
-          <b>We're almost there</b>. Last but not least, a <b>password</b> to
-          protect your access
-        </p>
-      </lt-wizard-page-description>
-      <lt-user-form-password
-        [requirements]="pwdReq$ | async"
-        formControlName="password"
-      >
-      </lt-user-form-password>
-
-      @if (errorInvalidPassword$ | async) {
-        <p class="pwd-reset__warning" i18n="@@user-password.invalidPassword">
-          Password is invalid. Please follow the rules above.
-        </p>
-      }
-
-      @if (userCreated$ | async) {
-        <p i18n="@@signin.logged">Going in...</p>
-      }
-    </lt-wizard-page>
-  </lt-wizard>
-</form>
+    @if (userCreated$ | async) {
+      <p i18n="@@signin.logged">Going in...</p>
+    }
+  </lt-wizard-page>
+</lt-wizard>

@@ -6,7 +6,7 @@
     </lt-wizard-header>
   }
 
-  <lt-wizard-page title="Name" i18n-title="@@general.name" [formControl]="customNameControl">
+  <lt-wizard-page title="Name" i18n-title="@@general.name">
     <lt-wizard-page-description>
       <p i18n="@@plant-add.nameDesc">
         This is the happy moment when we add our beloved plants. First
@@ -58,8 +58,7 @@
         list, but you can share a direct link to this plant.
       </p>
     </lt-wizard-page-description>
-    <lt-form-privacy>
-    </lt-form-privacy>
+    <lt-form-privacy />
 
     @if (createPlantProgress$ | async; as uploadProgress) {
       <div class="plant-add__progress">

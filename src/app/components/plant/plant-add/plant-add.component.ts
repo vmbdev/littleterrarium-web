@@ -58,10 +58,9 @@ export class PlantAddComponent {
   private readonly photoService = inject(PhotoService);
   private readonly errorHandler = inject(ErrorHandlerService);
 
-  protected customNameControl = new FormControl<string | null>(null);
   protected plantForm: FormGroup = this.fb.group({
     specieId: [],
-    customName: this.customNameControl,
+    customName: new FormControl<string | null>(null),
     public: [true, Validators.required],
   });
   protected photosForm: FormGroup = this.fb.group({

@@ -30,8 +30,8 @@ export class AuthService {
   constructor(private readonly api: ApiService) {
     this.api.getCurrentUser().subscribe({
       next: (user: User) => {
-        this.signedIn.next(true);
         this.user.next(user);
+        this.signedIn.next(true);
         this.checked.next(true);
       },
       error: () => {

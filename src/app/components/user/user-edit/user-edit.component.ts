@@ -14,9 +14,8 @@ import { catchError, EMPTY, Observable, tap } from 'rxjs';
 import { WizardComponent } from '@components/wizard/wizard/wizard.component';
 import { WizardPageComponent } from '@components/wizard/wizard-page/wizard-page.component';
 import { WizardPageDescriptionComponent } from '@components/wizard/wizard-page-description/wizard-page-description.component';
-import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
-import { CurrentPicComponent } from '@components/current-pic/current-pic.component';
 import { FormPrivacyComponent } from '@components/form-privacy/form-privacy.component';
+import { ImageSelectorComponent } from '@components/image-selector/image-selector.component';
 import { UserFormBioComponent } from '@components/user/forms/user-form-bio/user-form-bio.component';
 import { UserFormEmailComponent } from '@components/user/forms/user-form-email/user-form-email.component';
 import { UserFormNameComponent } from '@components/user/forms/user-form-name/user-form-name.component';
@@ -38,13 +37,12 @@ import { ImagePathPipe } from '@pipes/image-path/image-path.pipe';
     WizardPageDescriptionComponent,
     ReactiveFormsModule,
     RouterModule,
-    FileUploaderComponent,
-    CurrentPicComponent,
     FormPrivacyComponent,
     UserFormBioComponent,
     UserFormEmailComponent,
     UserFormNameComponent,
     UserFormUsernameComponent,
+    ImageSelectorComponent,
     ImagePathPipe,
   ],
   templateUrl: './user-edit.component.html',
@@ -69,6 +67,7 @@ export class UserEditComponent {
     public: [true],
   });
   protected removeAvatar: boolean = false;
+  protected newAvatar?: string;
   protected usernameReq$ = this.api.getUsernameRequirements();
   protected user$?: Observable<User | null>;
 
@@ -89,8 +88,26 @@ export class UserEditComponent {
     );
   }
 
-  toggleRemoveAvatar(val: boolean) {
-    this.removeAvatar = val;
+  selectImage(file: File | null) {
+    if (file) {
+      this.userForm.patchValue({
+        avatarFile: file,
+      });
+
+      this.newAvatar = URL.createObjectURL(file);
+      this.removeAvatar = false;
+    } else {
+      this.userForm.patchValue({
+        avatarFile: null,
+      });
+
+      if (this.newAvatar) {
+        URL.revokeObjectURL(this.newAvatar);
+        this.newAvatar = undefined;
+      }
+
+      this.removeAvatar = true;
+    }
   }
 
   // TODO: create userService for this
@@ -105,19 +122,15 @@ export class UserEditComponent {
 
           switch (msg) {
             case 'USER_FIELD_EXISTS': {
-              if (errorData.field === 'username') {
-                this.userForm.get('username')?.setErrors({ taken: true });
-              } else if (errorData.field === 'email') {
-                this.userForm.get('email')?.setErrors({ taken: true });
+              if (errorData.field === 'username' || errorData.field === 'email') {
+                this.userForm.get(errorData.field)?.setErrors({ taken: true });
               }
 
               break;
             }
             case 'USER_FIELD_INVALID': {
-              if (errorData.field === 'username') {
-                this.userForm.get('username')?.setErrors({ invalid: true });
-              } else if (errorData.field === 'email') {
-                this.userForm.get('email')?.setErrors({ invalid: true });
+              if (errorData.field === 'username' || errorData.field === 'email') {
+                this.userForm.get(errorData.field)?.setErrors({ invalid: true });
               }
 
               break;

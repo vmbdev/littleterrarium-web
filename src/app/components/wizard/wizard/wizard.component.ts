@@ -32,6 +32,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class WizardComponent {
   protected readonly formGroup = inject(FormGroupDirective);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @ContentChildren(WizardPageComponent, { descendants: true })
   pageList!: QueryList<WizardPageComponent>;
@@ -49,14 +50,12 @@ export class WizardComponent {
 
   protected currentIndex$ = new BehaviorSubject<number>(0);
 
-  constructor(private readonly cdr: ChangeDetectorRef) {}
-
   ngAfterContentInit(): void {
     if (this.start) this.setIndex(this.start);
   }
 
   ngAfterViewInit() {
-      this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -92,15 +91,13 @@ export class WizardComponent {
 
         if (control.errors) {
           control.markAsDirty();
+          control.markAsTouched();
           validationErrors = true;
         }
       }
     }
 
-    if (
-      !validationErrors &&
-      index < this.pageList.toArray().length - 1
-    ) {
+    if (!validationErrors && index < this.pageList.toArray().length - 1) {
       this.setIndex(index + 1);
     }
   }

@@ -18,7 +18,6 @@ You can access the live app on
   - [Deployment](#deployment)
   - [Built with](#built-with)
   - [License](#license)
-  - [Credits](#credits)
 
 ## Getting Started
 
@@ -87,19 +86,14 @@ detected).
 - [Angular](https://angular.io/) - Web Framework
 - [TypeScript](https://www.typescriptlang.org/) - JavaScript with syntax for
 types
+- [RxJS](https://rxjs.dev/) - Reactive Extensions Library for JavaScript
+- [interact.js](https://interactjs.io/) - Gestures
 - [Luxon](https://moment.github.io/luxon/) - Date management library
 - [BoxIcons](https://boxicons.com/) - High Quality Web Icons
 - [Compodoc](https://compodoc.app/) - Documentation tool for Angular
-- [RxJS](https://rxjs.dev/) - Reactive Extensions Library for JavaScript
 
 ## License
 
 Little Terrarium Web is licensed under the MIT License - see the
 [LICENSE](https://github.com/vmbdev/littleterrarium-web/blob/main/LICENSE)
 file for more details.
-
-## Credits
-
-Clock, Delete, Edit, Fertilizer, Info, Sun, Partial sun, Moon, Light bulb,
-Plant, Pot, Speaker, Water, Sort and User icons by
-[Flaticon](https://www.flaticon.com).

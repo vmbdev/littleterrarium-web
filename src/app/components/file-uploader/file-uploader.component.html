@@ -8,7 +8,10 @@
   [ngClass]="{
     'file-uploader__over': dragOver,
     'file-uploader--disabled': disabled,
+    'file-uploader--embedded': embedded,
   }"
+  [style.width.px]="embedded ? embeddedSize : undefined"
+  [style.height.px]="embedded ? embeddedSize : undefined"
 >
   @if (files.length === 0) {
     <div class="file-uploader__msg">

@@ -86,6 +86,13 @@
     filter: grayscale(1);
     pointer-events: none;
   }
+
+  &--embedded {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-height: none !important;
+    border-radius: 100%;
+  }
 }
 
 @include m.media(mobile) {

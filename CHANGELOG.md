@@ -5,13 +5,15 @@
 ### Added
 
 - New administration features, including components, a guard and a service.
-- Massive actions (delete and move) for plants and photos are now available.
+- Massive actions (delete and move) for plants are now available.
+- New avatar/location picture selector.
 
 ### Changes
 
 - User preferences are now saved server-side rather than in Local Storage.
 - Revamped ErrorHandlerService and ErrorToastComponent. It was quite a stupid
 design, don't know what was I thinking.
+- Simplified Wizard form integration.
 - Code cleanup.
 - Some changes that give a little bit of a speed boost.
 
@@ -20,6 +22,9 @@ design, don't know what was I thinking.
 - Logging out now clears the private date of the services.
 - Task count/list is now loaded correctly when signing in with another user.
 - A bug where disabled icons where still clickable.
+- Icons with border now show properly in dark theme.
+- Bug in Auth service where the user won't be available after signaling being
+signed in.
 - Theme-related bugs.
 - Fixed missing translations.
 
