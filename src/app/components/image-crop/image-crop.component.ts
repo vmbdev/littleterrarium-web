@@ -8,17 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-
-// import '@interactjs/auto-start';
-// import '@interactjs/actions';
-// import '@interactjs/inertia';
-// import '@interactjs/reflow';
-// import '@interactjs/actions/drag';
-// import '@interactjs/actions/gesture';
-// import '@interactjs/modifiers';
-// import interact from '@interactjs/interact';
-
-import interact from 'interactjs'
+import interact from 'interactjs';
 
 type Coords = {
   x: number;
@@ -36,6 +26,8 @@ type Coords = {
 export class ImageCropComponent {
   @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
   @Input({ transform: numberAttribute }) size: number = 300;
+  @Input({ transform: numberAttribute }) minZoom: number = 0.125;
+  @Input({ transform: numberAttribute }) maxZoom: number = 2.5;
   @Input() imageSource!: File;
   @Output() imageFile = new EventEmitter<File>();
 
@@ -84,7 +76,7 @@ export class ImageCropComponent {
   setupCanvasInteraction() {
     interact(this.canvas.nativeElement)
     .draggable({
-      onmove: (event: any) => {
+      onmove: (event) => {
         this.dragImage(event.dx, event.dy);
       },
       onend: () => {
@@ -92,16 +84,55 @@ export class ImageCropComponent {
       },
     })
     .gesturable({
-      onmove: (event: any) => {
-        // console.log(event);
+      onmove: (event) => {
+        this.zoom(
+          event.ds,
+          event.clientX,
+          event.clientY,
+          true
+        );
+      },
+      onend: () => {
+        this.snapshot();
       }
     })
-    .on('doubletap', (event) => {
+    .on('mousewheel', (event) => {
+      event.stopPropagation();
       event.preventDefault();
-
+    })
+    .on('doubletap', (event) => {
       this.zoom(-400, event.clientX, event.clientY);
       this.snapshot();
+
+      event.preventDefault();
     })
+  }
+
+  zoom(delta: number, pointerX: number, pointerY: number, scale: boolean = false) {
+    const factor = scale ? 1 : -0.001;
+    const newScale = Math.min(
+      Math.max(this.minZoom, this.scale + delta * factor),
+      this.maxZoom,
+    );
+
+    const newImageDimX = newScale * this.image.naturalWidth;
+    const newImageDimY = newScale * this.image.naturalHeight;
+
+    if (newImageDimX >= this.size && newImageDimY >= this.size) {
+      const newX =
+        pointerX -
+        (pointerX - this.position.x) * (newScale / this.scale);
+      const newY =
+        pointerY -
+        (pointerY - this.position.y) * (newScale / this.scale);
+
+      this.imageDim = {
+        x: newImageDimX,
+        y: newImageDimY,
+      };
+      this.scale = newScale;
+      this.move(newX, newY, true);
+    }
   }
 
   /**
@@ -181,39 +212,6 @@ export class ImageCropComponent {
 
     // if image is taller than the canvas
     if (dy !== 0 && this.imageDim.y > canvasH) this.move(0, dy);
-  }
-
-  onWheel(event: WheelEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    this.zoom(event.deltaY, event.clientX, event.clientY);
-  }
-
-  zoom(delta: number, pointerX: number, pointerY: number) {
-    const newScale = Math.min(
-      Math.max(0.125, this.scale + delta * -0.001),
-      2.5,
-    );
-
-    const newImageDimX = newScale * this.image.naturalWidth;
-    const newImageDimY = newScale * this.image.naturalHeight;
-
-    if (newImageDimX >= this.size && newImageDimY >= this.size) {
-      const newX =
-        pointerX -
-        (pointerX - this.position.x) * (newScale / this.scale);
-      const newY =
-        pointerY -
-        (pointerY - this.position.y) * (newScale / this.scale);
-
-      this.imageDim = {
-        x: newImageDimX,
-        y: newImageDimY,
-      };
-      this.scale = newScale;
-      this.move(newX, newY, true);
-    }
   }
 
   snapshot() {

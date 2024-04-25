@@ -5,8 +5,7 @@
   <nav class="image-selector__buttons">
     @if (!editMode) {
       <box-icon
-        name="edit"
-        type="solid"
+        name="x"
         size="sm"
         border="circle"
         (click)="edit()"
@@ -14,16 +13,14 @@
     }
     @else if (editMode && newSource) {
       <box-icon
-        name="x-square"
-        type="solid"
+        name="x"
         size="sm"
         border="circle"
         (click)="removeNewSource()"
       />
 
       <box-icon
-        name="check-circle"
-        type="solid"
+        name="check"
         size="sm"
         border="circle"
         (click)="acceptNewSource()"
