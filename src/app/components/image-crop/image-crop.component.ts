@@ -9,9 +9,16 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import '@interactjs/auto-start';
-import '@interactjs/actions/drag';
-import interact from '@interactjs/interact';
+// import '@interactjs/auto-start';
+// import '@interactjs/actions';
+// import '@interactjs/inertia';
+// import '@interactjs/reflow';
+// import '@interactjs/actions/drag';
+// import '@interactjs/actions/gesture';
+// import '@interactjs/modifiers';
+// import interact from '@interactjs/interact';
+
+import interact from 'interactjs'
 
 type Coords = {
   x: number;
@@ -29,12 +36,14 @@ type Coords = {
 export class ImageCropComponent {
   @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
   @Input({ transform: numberAttribute }) size: number = 300;
-  @Input({ required: true }) imageSource!: File;
+  @Input() imageSource!: File;
   @Output() imageFile = new EventEmitter<File>();
 
   private ctx: CanvasRenderingContext2D | null = null;
   private image = new Image();
+  private scale = 1;
   private position: Coords = { x: 0, y: 0 };
+  private imageDim: Coords = { x: 0, y: 0 };
 
   ngAfterViewInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -44,8 +53,27 @@ export class ImageCropComponent {
     this.canvas.nativeElement.height = this.size;
 
     this.image.onload = () => {
-      this.position.x = (this.size - this.image.naturalWidth) / 2;
-      this.position.y = (this.size - this.image.naturalHeight) / 2;
+      let imageBaseDim: Coords;
+
+      if (this.image.naturalWidth >= this.size && this.image.naturalHeight >= this.size) {
+        imageBaseDim = {
+          x: this.image.naturalWidth,
+          y: this.image.naturalHeight,
+        };
+      } else {
+        const mindim = Math.min(this.image.naturalHeight, this.image.naturalWidth);
+        const ratio = this.size / mindim;
+        
+        imageBaseDim = {
+          x: this.image.naturalWidth * ratio,
+          y: this.image.naturalHeight * ratio,
+        };
+      }
+
+      this.imageDim.x = imageBaseDim.x;
+      this.imageDim.y = imageBaseDim.y;
+      this.position.x = (this.size - imageBaseDim.x) / 2;
+      this.position.y = (this.size - imageBaseDim.y) / 2;
       this.draw();
       this.setupCanvasInteraction();
       this.snapshot();
@@ -54,37 +82,26 @@ export class ImageCropComponent {
   }
 
   setupCanvasInteraction() {
-    interact(this.canvas.nativeElement).draggable({
+    interact(this.canvas.nativeElement)
+    .draggable({
       onmove: (event: any) => {
-        const imgW = this.image.naturalWidth;
-        const imgH = this.image.naturalHeight;
-        const canvasW = this.canvas.nativeElement.width;
-        const canvasH = this.canvas.nativeElement.height;
-
-        // if image is wider than the canvas
-        if (event.dx !== 0 && imgW > canvasW) {
-          const destX = this.position.x + event.dx;
-
-          // test the horizontal limits to not move the photo out of screen
-          if (destX >= canvasW - imgW && destX <= 0) {
-            this.move(event.dx, 0);
-          }
-        }
-
-        // if image is taller than the canvas
-        if (event.dy !== 0 && imgH > canvasH) {
-          const destY = this.position.y + event.dy;
-
-          // test the vertical limits to not move the photo out of screen
-          if (destY >= canvasH - imgH && destY <= 0) {
-            this.move(0, event.dy);
-          }
-        }
+        this.dragImage(event.dx, event.dy);
       },
       onend: () => {
         this.snapshot();
       },
-    });
+    })
+    .gesturable({
+      onmove: (event: any) => {
+        // console.log(event);
+      }
+    })
+    .on('doubletap', (event) => {
+      event.preventDefault();
+
+      this.zoom(-400, event.clientX, event.clientY);
+      this.snapshot();
+    })
   }
 
   /**
@@ -96,8 +113,8 @@ export class ImageCropComponent {
       this.image,
       this.position.x,
       this.position.y,
-      this.image.naturalWidth,
-      this.image.naturalHeight,
+      this.imageDim.x,
+      this.imageDim.y,
     );
 
     if (grid) this.drawGrid();
@@ -134,25 +151,87 @@ export class ImageCropComponent {
    * @param x In pixels, the horizontal distance
    * @param y In pixels, the vertical distance
    */
-  move(x: number = 0, y: number = 0) {
-    this.position.x += x;
-    this.position.y += y;
+  move(x: number = 0, y: number = 0, full: boolean = false) {
+    const borderX = this.canvas.nativeElement.width - this.imageDim.x;
+    const borderY = this.canvas.nativeElement.height - this.imageDim.y;
+    const newX = full ? x : this.position.x + x;
+    const newY = full ? y : this.position.y + y;
+
+    // test the horizontal limits to not move the photo out of screen
+    if (newX <= 0 && newX >= borderX) this.position.x = newX;
+    else if (newX < borderX) {
+      this.position.x = Math.min(0, this.size - this.imageDim.x);
+    }
+
+    // test the vertical limits to not move the photo out of screen
+    if (newY <= 0 && newY >= borderY) this.position.y = newY;
+    else if (newY < borderY) {
+      this.position.y = Math.min(0, this.size - this.imageDim.y);
+    }
 
     this.draw();
+  }
+
+  dragImage(dx: number, dy: number) {
+    const canvasW = this.canvas.nativeElement.width;
+    const canvasH = this.canvas.nativeElement.height;
+
+    // if image is wider than the canvas
+    if (dx !== 0 && this.imageDim.x > canvasW) this.move(dx, 0);
+
+    // if image is taller than the canvas
+    if (dy !== 0 && this.imageDim.y > canvasH) this.move(0, dy);
+  }
+
+  onWheel(event: WheelEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.zoom(event.deltaY, event.clientX, event.clientY);
+  }
+
+  zoom(delta: number, pointerX: number, pointerY: number) {
+    const newScale = Math.min(
+      Math.max(0.125, this.scale + delta * -0.001),
+      2.5,
+    );
+
+    const newImageDimX = newScale * this.image.naturalWidth;
+    const newImageDimY = newScale * this.image.naturalHeight;
+
+    if (newImageDimX >= this.size && newImageDimY >= this.size) {
+      const newX =
+        pointerX -
+        (pointerX - this.position.x) * (newScale / this.scale);
+      const newY =
+        pointerY -
+        (pointerY - this.position.y) * (newScale / this.scale);
+
+      this.imageDim = {
+        x: newImageDimX,
+        y: newImageDimY,
+      };
+      this.scale = newScale;
+      this.move(newX, newY, true);
+    }
   }
 
   snapshot() {
     this.draw(false);
 
-    this.canvas.nativeElement.toBlob((blob: Blob | null) => {
-      if (blob) {
-        const file = new File([blob], `snap-${Date.now()}.jpeg`, {
-          type: 'image/jpeg',
-        });
+    this.canvas.nativeElement.toBlob(
+      (blob: Blob | null) => {
+        if (blob) {
+          const file = new File([blob], `snap-${Date.now()}.jpeg`, {
+            type: 'image/jpeg',
+          });
 
-        this.imageFile.emit(file);
-      }
-    }, 'image/jpeg', 80);
+          this.imageFile.emit(file);
+        }
+      },
+      'image/jpeg',
+      80,
+    );
 
     this.draw();
   }
