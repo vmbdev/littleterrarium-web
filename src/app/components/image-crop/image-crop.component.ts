@@ -97,6 +97,7 @@ export class ImageCropComponent {
       }
     })
     .on('mousewheel', (event) => {
+      this.zoom(event.deltaY, event.clientX, event.clientY);
       event.stopPropagation();
       event.preventDefault();
     })
