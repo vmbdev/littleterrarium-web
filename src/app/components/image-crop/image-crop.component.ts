@@ -47,15 +47,21 @@ export class ImageCropComponent {
     this.image.onload = () => {
       let imageBaseDim: Coords;
 
-      if (this.image.naturalWidth >= this.size && this.image.naturalHeight >= this.size) {
+      if (
+        this.image.naturalWidth >= this.size &&
+        this.image.naturalHeight >= this.size
+      ) {
         imageBaseDim = {
           x: this.image.naturalWidth,
           y: this.image.naturalHeight,
         };
       } else {
-        const mindim = Math.min(this.image.naturalHeight, this.image.naturalWidth);
+        const mindim = Math.min(
+          this.image.naturalHeight,
+          this.image.naturalWidth,
+        );
         const ratio = this.size / mindim;
-        
+
         imageBaseDim = {
           x: this.image.naturalWidth * ratio,
           y: this.image.naturalHeight * ratio,
@@ -75,41 +81,41 @@ export class ImageCropComponent {
 
   setupCanvasInteraction() {
     interact(this.canvas.nativeElement)
-    .draggable({
-      onmove: (event) => {
-        this.dragImage(event.dx, event.dy);
-      },
-      onend: () => {
-        this.snapshot();
-      },
-    })
-    .gesturable({
-      onmove: (event) => {
-        this.zoom(
-          event.ds,
-          event.clientX,
-          event.clientY,
-          true
-        );
-      },
-      onend: () => {
-        this.snapshot();
-      }
-    })
-    .on('mousewheel', (event) => {
-      this.zoom(event.deltaY, event.clientX, event.clientY);
-      event.stopPropagation();
-      event.preventDefault();
-    })
-    .on('doubletap', (event) => {
-      this.zoom(-400, event.clientX, event.clientY);
-      this.snapshot();
+      .draggable({
+        onmove: (event) => {
+          this.dragImage(event.dx, event.dy);
+        },
+        onend: () => {
+          this.snapshot();
+        },
+      })
+      .gesturable({
+        onmove: (event) => {
+          this.zoom(event.ds, event.clientX, event.clientY, true);
+        },
+        onend: () => {
+          this.snapshot();
+        },
+      })
+      .on('mousewheel', (event) => {
+        this.zoom(event.deltaY, event.clientX, event.clientY);
 
-      event.preventDefault();
-    })
+        event.preventDefault();
+      })
+      .on('doubletap', (event) => {
+        this.zoom(-400, event.clientX, event.clientY);
+        this.snapshot();
+
+        event.preventDefault();
+      });
   }
 
-  zoom(delta: number, pointerX: number, pointerY: number, scale: boolean = false) {
+  zoom(
+    delta: number,
+    pointerX: number,
+    pointerY: number,
+    scale: boolean = false,
+  ) {
     const factor = scale ? 1 : -0.001;
     const newScale = Math.min(
       Math.max(this.minZoom, this.scale + delta * factor),
@@ -121,11 +127,9 @@ export class ImageCropComponent {
 
     if (newImageDimX >= this.size && newImageDimY >= this.size) {
       const newX =
-        pointerX -
-        (pointerX - this.position.x) * (newScale / this.scale);
+        pointerX - (pointerX - this.position.x) * (newScale / this.scale);
       const newY =
-        pointerY -
-        (pointerY - this.position.y) * (newScale / this.scale);
+        pointerY - (pointerY - this.position.y) * (newScale / this.scale);
 
       this.imageDim = {
         x: newImageDimX,

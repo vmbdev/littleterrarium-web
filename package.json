@@ -2,7 +2,6 @@
   "name": "littleterrarium-web",
   "version": "1.1.1",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "build": "ng build --localize",
     "watch": "ng build --localize --watch --configuration development",

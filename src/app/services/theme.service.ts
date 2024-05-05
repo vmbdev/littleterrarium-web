@@ -18,7 +18,7 @@ export class ThemeService {
 
   /**
    * Defines the theme to use.
-   * First it checks in preferences, then in the config file, and if it all
+   * First it checks in user prefs, then in the config file, and if it all
    * fails then it tries to get the first one in availableThemes.
    * If everything fails, it sets an empty theme.
    */

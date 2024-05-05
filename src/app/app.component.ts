@@ -10,10 +10,10 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '@services/auth.service';
+import { Observable, skipWhile, switchMap, tap } from 'rxjs';
 
+import { AuthService } from '@services/auth.service';
 import { ThemeService } from '@services/theme.service';
-import { skipWhile, switchMap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -30,31 +30,35 @@ export class AppComponent {
   private readonly auth = inject(AuthService);
 
   @ViewChild('mainElement') mainElement!: TemplateRef<any>;
+
   private currentTheme?: string;
+  protected settings$?: Observable<any>
 
   ngOnInit() {
-    this.auth.signedIn$
+    this.settings$ = this.auth
+      .check()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
+        switchMap(() => this.auth.signedIn$),
         switchMap(() => {
           this.theme.init();
 
           return this.theme.theme$;
         }),
         skipWhile((newTheme) => !newTheme),
-      )
-      .subscribe((newTheme: string | null) => {
-        if (newTheme) {
-          if (this.currentTheme) {
-            this.renderer.removeClass(
-              this.document.body,
-              `theme-${this.currentTheme}`,
-            );
+        tap((newTheme: string | null) => {
+          if (newTheme) {
+            if (this.currentTheme) {
+              this.renderer.removeClass(
+                this.document.body,
+                `theme-${this.currentTheme}`,
+              );
+            }
+  
+            this.renderer.addClass(this.document.body, `theme-${newTheme}`);
+            this.currentTheme = newTheme;
           }
-
-          this.renderer.addClass(this.document.body, `theme-${newTheme}`);
-          this.currentTheme = newTheme;
-        }
-      });
+        })
+      )
   }
 }

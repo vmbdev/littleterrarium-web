@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Observable,
   of,
+  map,
   catchError,
   throwError,
   BehaviorSubject,
@@ -16,6 +17,8 @@ import { User } from '@models/user.model';
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly api = inject(ApiService);
+
   // signedIn$ exists just for convenience.
   // We can achieve the same checking if user$ is null
   private signedIn = new BehaviorSubject<boolean>(false);
@@ -27,38 +30,46 @@ export class AuthService {
   private user = new BehaviorSubject<User | null>(null);
   public readonly user$ = this.user.asObservable();
 
-  constructor(private readonly api: ApiService) {
-    this.api.getCurrentUser().subscribe({
-      next: (user: User) => {
-        this.user.next(user);
+  check(): Observable<boolean> {
+    return this.api.getCurrentUser().pipe(
+      map((user: User) => {
         this.signedIn.next(true);
+        this.user.next(user);
         this.checked.next(true);
-      },
-      error: () => {
+
+        return true;
+      }),
+      catchError(() => {
         this.checked.next(true);
-      },
-    });
+
+        return of(false);
+      }),
+    )
   }
 
   signIn(username: string, password: string): Observable<User> {
     return this.api.signIn(username, password).pipe(
-      tap((user: User) => {
+      map((user: User) => {
         this.user.next(user);
         this.signedIn.next(true);
+
+        return user;
       }),
       catchError((HttpError: HttpErrorResponse) => {
         this.signedIn.next(false);
         return throwError(() => HttpError.error);
-      }),
+      })
     );
   }
 
   register(user: User): Observable<User> {
     return this.api.createUser(user).pipe(
-      tap((user: User) => {
+      map((user: User) => {
         this.user.next(user);
         this.signedIn.next(true);
-      }),
+
+        return user;
+      })
     );
   }
 
@@ -86,8 +97,11 @@ export class AuthService {
   getPref(key: string): any {
     const user = this.user.getValue();
 
-    if (user?.preferences[key]) return user.preferences[key];
-    else return null;
+    if (user) {
+      if (user.preferences && user.preferences[key]) {
+        return user.preferences[key];
+      } else return null;
+    } else return localStorage.getItem(`LT_${key}`);
   }
 
   setPref(prefs: UserPreferences): Observable<User | null> {
@@ -104,7 +118,12 @@ export class AuthService {
           this.user.next(user);
         }),
       );
-    } else return of(null);
-  }
+    } else {
+      for (const [key, value] of Object.entries(prefs)) {
+        localStorage.setItem(`LT_${key}`, value);
+      }
 
+      return of(null);
+    }
+  }
 }

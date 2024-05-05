@@ -65,8 +65,6 @@ export class PlantListComponent {
   @Input() owned: boolean = true;
   protected order: SortOrder = 'asc';
   protected column: SortColumn = 'name';
-  protected cursor?: number;
-  protected lastCursor?: number;
   protected loadedPlants: number = 0;
   protected filter?: string;
   protected multipleSelect: boolean = false;
@@ -107,7 +105,7 @@ export class PlantListComponent {
   fetchPlants(scroll: boolean = false): void {
     let obs$: Observable<Plant[]>;
     let options: PlantGetConfig = {
-      cursor: scroll && this.cursor ? this.cursor : undefined,
+      offset: scroll && this.loadedPlants ? this.loadedPlants : undefined,
       filter: this.filter ?? '',
       sort: this.column,
       order: this.order,
@@ -119,9 +117,6 @@ export class PlantListComponent {
       });
       this.loadedPlants = 0;
     }
-
-    // in case of multiple bottom reached signals, we avoid asking twice
-    if (this.cursor) this.lastCursor = this.cursor;
 
     if (this.locationId) {
       obs$ = this.locationService.getPlants(this.locationId, options);
@@ -144,10 +139,7 @@ export class PlantListComponent {
       .subscribe((plants: Plant[]) => {
         let pictures: PictureItem[];
 
-        if (plants.length > 0) {
-          this.cursor = plants[plants.length - 1].id;
-          this.loadedPlants += plants.length;
-        }
+        if (plants.length > 0) this.loadedPlants += plants.length;
 
         if (scroll) {
           pictures = [
@@ -207,7 +199,7 @@ export class PlantListComponent {
   }
 
   loadMore(): void {
-    if (this.cursor !== this.lastCursor) this.fetchPlants(true);
+    this.fetchPlants(true);
   }
 
   massMove() {

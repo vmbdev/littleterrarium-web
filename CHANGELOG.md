@@ -25,6 +25,7 @@ design, don't know what was I thinking.
 - Icons with border now show properly in dark theme.
 - Bug in Auth service where the user won't be available after signaling being
 signed in.
+- Fixed sorting by name incorrectly skipping plants.
 - Theme-related bugs.
 - Fixed missing translations.
 
