@@ -16,7 +16,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((res: HttpErrorResponse) => {
@@ -27,22 +27,22 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
           switch (res.error.msg) {
             case 'INCORRECT_FIELD': {
-              errorMsg = $localize`:@@errors.field:Incorrect field (${errorData.field}:field:).`;
+              errorMsg = $localize `:@@errors.field:Incorrect field (${errorData.field}:field:).`;
 
               if (errorData.values) {
-                errorMsg += $localize`:@@errors.fieldValues:Possible values are ${errorData.values.join(
-                  ','
+                errorMsg += $localize `:@@errors.fieldValues:Possible values are ${errorData.values.join(
+                  ',',
                 )}:values:`;
               }
               break;
             }
             case 'MISSING_FIELD': {
-              errorMsg = $localize`:@@errors.missingField:Missing field (${errorData.field}:field:)`;
+              errorMsg = $localize `:@@errors.missingField:Missing field (${errorData.field}:field:)`;
               break;
             }
           }
         } else if (res.status === 500) {
-          errorMsg = $localize`:@@errors.server:Server error`;
+          errorMsg = $localize `:@@errors.server:Server error`;
         }
 
         if (errorMsg) {
@@ -50,7 +50,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
           return EMPTY;
         } else return throwError(() => res);
-      })
+      }),
     );
   }
 }

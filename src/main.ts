@@ -1,9 +1,16 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+/// <reference types="@angular/localize" />
+
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import {
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
   isDevMode,
+  provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -41,7 +48,8 @@ bootstrapApplication(AppComponent, {
         onSameUrlNavigation: 'reload',
       })
     ),
-    importProvidersFrom(HttpClientModule),
+    provideExperimentalZonelessChangeDetection(),
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 }).catch((err) => {
   console.error(err);

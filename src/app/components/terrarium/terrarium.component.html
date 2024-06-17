@@ -1,12 +1,14 @@
 @if (user$ | async; as user) {
   <article class="terrarium">
     <article class="terrarium__userbox">
-      <img
-        class="terrarium__avatar"
-        [src]="user.avatar | imagePath:'thumb'"
-        alt="Avatar"
-        i18n-alt="@@general.avatar"
-      />
+      @if (user.avatar | imagePath:'thumb'; as avatar) {
+        <img
+          class="terrarium__avatar"
+          [src]="avatar"
+          alt="Avatar"
+          i18n-alt="@@general.avatar"
+        />
+      }
 
       <h1 class="terrarium__username">
         {{ user.username }}

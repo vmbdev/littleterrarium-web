@@ -10,6 +10,7 @@
 
 ### Changes
 
+- Updated to Angular 18.
 - User preferences are now saved server-side rather than in Local Storage.
 - Revamped ErrorHandlerService and ErrorToastComponent. It was quite a stupid
 design, don't know what was I thinking.
